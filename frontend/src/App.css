@@ -14,6 +14,45 @@ html, body, #root {
   line-height: 1.7;
 }
 
+.accessibility-toolbar {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0.5rem auto 0;
+  padding: 0.5rem 1.5rem;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.toolbar-label {
+  font-weight: 600;
+}
+
+.text-size-button {
+  background: white;
+  border: 1px solid #b0c4de;
+  border-radius: 999px;
+  padding: 0.1rem 0.6rem;
+  cursor: pointer;
+  color: #222;
+  min-width: 2rem;
+}
+
+.text-size-button:hover,
+.text-size-button:focus-visible {
+  outline: 2px solid #0056b3;
+  outline-offset: 1px;
+}
+
+.text-size-button.active {
+  background: #0056b3;
+  color: white;
+  border-color: #0056b3;
+}
+
 /* Main Container Wrapper */
 /* Main Container Wrapper */
 .container {

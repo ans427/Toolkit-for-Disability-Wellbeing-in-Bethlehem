@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react'
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom'
 import ImmediateResources from './ImmediateResources'
 import './App.css'
@@ -64,9 +65,56 @@ function HomePage() {
   )
 }
 
+function AccessibilityToolbar({ textSize, setTextSize }) {
+  const sizes = [
+    { id: 'normal', label: 'A', description: 'Normal text size' },
+    { id: 'large', label: 'A', description: 'Large text size' },
+    { id: 'xlarge', label: 'A', description: 'Extra large text size' },
+    { id: 'xxlarge', label: 'A', description: 'Largest text size' },
+  ]
+
+  return (
+    <div
+      className="accessibility-toolbar"
+      aria-label="Accessibility options"
+      role="region"
+    >
+      <span className="toolbar-label">Text size:</span>
+      {sizes.map((size, index) => (
+        <button
+          key={size.id}
+          type="button"
+          onClick={() => setTextSize(size.id)}
+          className={`text-size-button ${
+            textSize === size.id ? 'active' : ''
+          }`}
+          aria-pressed={textSize === size.id}
+          aria-label={size.description}
+          style={{ fontSize: `${1 + index * 0.15}rem` }}
+        >
+          {size.label}
+        </button>
+      ))}
+    </div>
+  )
+}
+
 function App() {
+  const [textSize, setTextSize] = useState('normal')
+
+  useEffect(() => {
+    const sizeMap = {
+      normal: '16px',
+      large: '18px',
+      xlarge: '20px',
+      xxlarge: '22px',
+    }
+    document.documentElement.style.fontSize = sizeMap[textSize] || '16px'
+  }, [textSize])
+
   return (
     <BrowserRouter>
+      <AccessibilityToolbar textSize={textSize} setTextSize={setTextSize} />
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/resources" element={<ImmediateResources />} />
