@@ -1,86 +1,57 @@
-import { useEffect, useState } from 'react'
+import { BrowserRouter, Routes, Route, Link } from 'react-router-dom'
+import ImmediateResources from './ImmediateResources'
 import './App.css'
-import { sanity } from './sanityClient'
 
-function App() {
-  const [resources, setResources] = useState([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState(null)
-
-  useEffect(() => {
-    sanity
-      .fetch(
-        `*[_type == "resource"] | order(title asc){
-          _id,
-          title,
-          category,
-          url,
-          description
-        }`
-      )
-      .then((data) => {
-        setResources(data || [])
-        setLoading(false)
-      })
-      .catch((err) => {
-        console.error(err)
-        setError('Failed to load resources')
-        setLoading(false)
-      })
-  }, [])
-
+function HomePage() {
   return (
     <main className="container">
       <header>
         <h1>Toolkit for Disability Wellbeing</h1>
-        <p className="subtitle">Bethlehem, Pennsylvania</p>
       </header>
 
-      <section>
-        <h2>About the Toolkit</h2>
-        <p>
-          This toolkit shares lived experiences of disability in Bethlehem and
-          provides resources for individuals, policymakers, and local
-          organizations to better understand accessibility challenges and
-          opportunities.
-        </p>
-      </section>
+      <section className="homepage-grid">
+        {/* THIS CARD LINKS TO THE NEW PAGE */}
+        <Link to="/resources" style={{ textDecoration: 'none', color: 'inherit' }}>
+          <div className="nav-card">
+            <h2>Immediate Resources</h2>
+            <p>Find healthcare, legal, housing, and community support.</p>
+          </div>
+        </Link>
 
-      <section>
-        <h2>What You’ll Find Here</h2>
-        <ul>
-          <li>Stories from community members</li>
-          <li>Information about accessible and inaccessible spaces</li>
-          <li>Local resources and organizations</li>
-        </ul>
-      </section>
+        <div className="nav-card">
+          <h2>Community Stories</h2>
+          <p>Read lived experiences from disabled residents.</p>
+        </div>
 
-      <section>
-        <h2>Community Resources</h2>
+        <div className="nav-card">
+          <h2>Accessibility Map</h2>
+          <p>Explore accessible and inaccessible spaces in Bethlehem.</p>
+        </div>
 
-        {loading && <p>Loading resources…</p>}
-        {error && <p style={{ color: 'crimson' }}>{error}</p>}
+        <div className="nav-card">
+          <h2>Policy & Service Gaps</h2>
+          <p>Learn about local accessibility challenges and recommendations.</p>
+        </div>
 
-        {!loading && !error && (
-          <ul>
-            {resources.map((resource) => (
-              <li key={resource._id}>
-                <strong>{resource.title}</strong>
-                {resource.category && <em> ({resource.category})</em>}
-                {resource.url && (
-                  <>
-                    {' '}
-                    —{' '}
-                    <a href={resource.url} target="_blank" rel="noreferrer">
-                      visit
-                    </a>
-                  </>
-                )}
-                {resource.description && <p>{resource.description}</p>}
-              </li>
-            ))}
-          </ul>
-        )}
+        <div className="nav-card">
+          <h2>Disability Activism</h2>
+          <p>Explore movements and discussions around disability justice.</p>
+        </div>
+
+        <div className="nav-card">
+          <h2>Report an Issue</h2>
+          <p>Share an accessibility barrier in the community.</p>
+        </div>
+
+        <div className="nav-card">
+          <h2>Submit a Resource</h2>
+          <p>Suggest a helpful organization or support service.</p>
+        </div>
+
+        <div className="nav-card">
+          <h2>About the Toolkit</h2>
+          <p>Learn about the project and collaborators.</p>
+        </div>
       </section>
 
       <footer>
@@ -90,6 +61,17 @@ function App() {
         </p>
       </footer>
     </main>
+  )
+}
+
+function App() {
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/resources" element={<ImmediateResources />} />
+      </Routes>
+    </BrowserRouter>
   )
 }
 
