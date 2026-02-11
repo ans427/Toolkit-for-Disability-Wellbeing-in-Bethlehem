@@ -1,0 +1,52 @@
+.stories-header {
+  margin-bottom: 3rem;
+  text-align: center;
+}
+
+.stories-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding-bottom: 4rem;
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.story-card {
+  background: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  padding: 1.75rem 1.5rem;
+  text-align: left;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.03);
+}
+
+.story-card-header {
+  margin-bottom: 0.75rem;
+}
+
+.story-title {
+  margin: 0 0 0.25rem 0;
+  font-size: 1.5rem;
+}
+
+.story-meta {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.story-summary {
+  font-size: 1rem;
+  color: #333;
+  font-weight: 500;
+  margin: 0.75rem 0 1rem 0;
+}
+
+.story-body {
+  font-size: 1rem;
+  color: #333;
+  white-space: pre-wrap;
+}
+

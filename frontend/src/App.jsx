@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom'
 import ImmediateResources from './ImmediateResources'
+import CommunityStories from './CommunityStories'
 import './App.css'
 
 function HomePage() {
@@ -11,18 +12,27 @@ function HomePage() {
       </header>
 
       <section className="homepage-grid">
-        {/* THIS CARD LINKS TO THE NEW PAGE */}
-        <Link to="/resources" style={{ textDecoration: 'none', color: 'inherit' }}>
+        {/* Immediate Resources */}
+        <Link
+          to="/resources"
+          style={{ textDecoration: 'none', color: 'inherit' }}
+        >
           <div className="nav-card">
             <h2>Immediate Resources</h2>
             <p>Find healthcare, legal, housing, and community support.</p>
           </div>
         </Link>
 
-        <div className="nav-card">
-          <h2>Community Stories</h2>
-          <p>Read lived experiences from disabled residents.</p>
-        </div>
+        {/* Community Stories */}
+        <Link
+          to="/community-stories"
+          style={{ textDecoration: 'none', color: 'inherit' }}
+        >
+          <div className="nav-card">
+            <h2>Community Stories</h2>
+            <p>Read lived experiences from disabled residents.</p>
+          </div>
+        </Link>
 
         <div className="nav-card">
           <h2>Accessibility Map</h2>
@@ -118,6 +128,7 @@ function App() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/resources" element={<ImmediateResources />} />
+        <Route path="/community-stories" element={<CommunityStories />} />
       </Routes>
     </BrowserRouter>
   )
