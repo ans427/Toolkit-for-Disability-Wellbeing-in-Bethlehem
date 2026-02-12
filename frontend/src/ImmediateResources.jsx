@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { sanity } from './sanityClient'
+import Breadcrumb from './Breadcrumb'
 import './ImmediateResources.css'
 
 function ImmediateResources() {
@@ -36,6 +37,7 @@ function ImmediateResources() {
 
   return (
     <main className="container">
+      <Breadcrumb />
       <header className="resource-header">
         <Link to="/" className="back-link">← Back to Home</Link>
         <h1>Immediate Resources</h1>

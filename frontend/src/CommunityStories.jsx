@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { sanity } from './sanityClient'
+import Breadcrumb from './Breadcrumb'
 import './CommunityStories.css'
 
 function CommunityStories() {
@@ -34,6 +35,7 @@ function CommunityStories() {
 
   return (
     <main className="container">
+      <Breadcrumb />
       <header className="stories-header">
         <Link to="/" className="back-link">
           ← Back to Home

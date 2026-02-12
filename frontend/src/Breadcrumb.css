@@ -1,0 +1,19 @@
+.breadcrumb {
+  display: flex;
+  gap: 0.5rem;
+  padding: 1rem 0;
+  font-size: 0.9rem;
+}
+
+.breadcrumb a {
+  color: #0066cc;
+  text-decoration: none;
+}
+
+.breadcrumb a:hover {
+  text-decoration: underline;
+}
+
+.breadcrumb span {
+  color: #666;
+}
