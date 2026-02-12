@@ -53,32 +53,45 @@ function CommunityStories() {
       ) : (
         <section className="stories-list" aria-label="Community stories">
           {stories.map((story) => (
-            <article key={story._id} className="story-card">
-              <header className="story-card-header">
-                <h2 className="story-title">{story.title}</h2>
-                <p className="story-meta">
-                  {story.personName && <span>{story.personName}</span>}
-                  {story.location && (
-                    <>
-                      {story.personName && ' · '}
-                      <span>{story.location}</span>
-                    </>
-                  )}
-                </p>
-              </header>
+            <Link
+              key={story._id}
+              to={`/community-stories/${story._id}`}
+              className="story-card-link"
+              style={{ textDecoration: 'none', color: 'inherit' }}
+            >
+              <article className="story-card">
+                <header className="story-card-header">
+                  <h2 className="story-title">{story.title}</h2>
+                  <p className="story-meta">
+                    {story.personName && <span>{story.personName}</span>}
+                    {story.location && (
+                      <>
+                        {story.personName && ' · '}
+                        <span>{story.location}</span>
+                      </>
+                    )}
+                  </p>
+                </header>
 
-              {story.summary && (
-                <p className="story-summary">
-                  {story.summary}
-                </p>
-              )}
+                {story.summary && (
+                  <p className="story-summary">
+                    {story.summary}
+                  </p>
+                )}
 
-              {story.story && (
-                <p className="story-body">
-                  {story.story}
-                </p>
-              )}
-            </article>
+                {story.story && (
+                  <p className="story-body">
+                    {story.story.substring(0, 150)}...
+                  </p>
+                )}
+
+                <div className="story-card-footer">
+                  <button className="read-more-button">
+                    Read Full Story →
+                  </button>
+                </div>
+              </article>
+            </Link>
           ))}
         </section>
       )}

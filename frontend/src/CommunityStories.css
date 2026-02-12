@@ -13,6 +13,16 @@
   margin: 0 auto;
 }
 
+.story-card-link {
+  transition: all 0.2s ease;
+}
+
+.story-card-link:hover .story-card {
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.1);
+  border-color: #0066cc;
+  transform: translateY(-2px);
+}
+
 .story-card {
   background: white;
   border: 1px solid #e0e0e0;
@@ -20,6 +30,9 @@
   padding: 1.75rem 1.5rem;
   text-align: left;
   box-shadow: 0 8px 18px rgba(0, 0, 0, 0.03);
+  transition: all 0.2s ease;
+  display: flex;
+  flex-direction: column;
 }
 
 .story-card-header {
@@ -48,5 +61,45 @@
   font-size: 1rem;
   color: #333;
   white-space: pre-wrap;
+  flex-grow: 1;
+  margin-bottom: 1rem;
 }
+
+.story-card-footer {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.read-more-button {
+  background-color: #0066cc;
+  color: white;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.story-card-link:hover .read-more-button {
+  background-color: #0052a3;
+  transform: translateX(2px);
+}
+
+@media (max-width: 768px) {
+  .story-card {
+    padding: 1.25rem;
+  }
+
+  .story-title {
+    font-size: 1.25rem;
+  }
+
+  .read-more-button {
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+  }
+}
+
 

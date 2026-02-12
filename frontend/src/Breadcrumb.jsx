@@ -8,8 +8,8 @@ function Breadcrumb() {
   if (pathnames.length === 0) return null // Don't show on home page
 
   const breadcrumbMap = {
-    'resources': ' Immediate Resources',
-    'community-stories': ' Community Stories'
+    'resources': 'Immediate Resources',
+    'community-stories': 'Community Stories'
   }
 
   return (
@@ -22,7 +22,7 @@ function Breadcrumb() {
 
         return (
           <span key={routeTo}>
-            <span>/</span>
+            <span>/ </span>
             {isLast ? <span>{label}</span> : <Link to={routeTo}>{label}</Link>}
           </span>
         )

@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom'
 import ImmediateResources from './ImmediateResources'
 import CommunityStories from './CommunityStories'
+import StoryDetail from './StoryDetail'
 import './App.css'
 
 function HomePage() {
@@ -129,6 +130,7 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/resources" element={<ImmediateResources />} />
         <Route path="/community-stories" element={<CommunityStories />} />
+        <Route path="/community-stories/:storyId" element={<StoryDetail />} />
       </Routes>
     </BrowserRouter>
   )
