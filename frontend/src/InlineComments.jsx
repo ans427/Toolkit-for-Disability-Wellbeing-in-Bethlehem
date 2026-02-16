@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { sanity } from './sanityClient'
 import {
   canSubmitComment,
@@ -12,19 +12,35 @@ import {
 import './InlineComments.css'
 
 function InlineComments({ storyId, paragraphIndex, paragraphText }) {
-  const [showComments, setShowComments] = useState(false)
+  const [panelOpen, setPanelOpen] = useState(false)
   const [comments, setComments] = useState([])
+  const [commentsCount, setCommentsCount] = useState(0)
   const [newComment, setNewComment] = useState('')
   const [selectedText, setSelectedText] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
+  const wrapperRef = useRef(null)
 
-  // Fetch inline comments for this paragraph
+  // Fetch only counts initially to decide whether to show badge
   useEffect(() => {
-    if (showComments) {
-      fetchInlineComments()
+    let mounted = true
+    const fetchCount = async () => {
+      try {
+        const data = await sanity.fetch(
+          `*[_type == "comment" && storyId._ref == $storyId && isFlagged == false && defined(inlineMarker) && inlineMarker.paragraphIndex == $paragraphIndex]{_id}`,
+          { storyId, paragraphIndex }
+        )
+        if (mounted) setCommentsCount((data && data.length) || 0)
+      } catch (err) {
+        console.error('Error fetching inline comment count:', err)
+      }
     }
-  }, [showComments, storyId, paragraphIndex])
+
+    fetchCount()
+    return () => {
+      mounted = false
+    }
+  }, [storyId, paragraphIndex])
 
   const fetchInlineComments = async () => {
     setLoading(true)
@@ -44,6 +60,7 @@ function InlineComments({ storyId, paragraphIndex, paragraphText }) {
         { storyId, paragraphIndex }
       )
       setComments(data || [])
+      setCommentsCount((data && data.length) || 0)
     } catch (err) {
       console.error('Error fetching inline comments:', err)
     } finally {
@@ -53,7 +70,24 @@ function InlineComments({ storyId, paragraphIndex, paragraphText }) {
 
   const handleTextSelect = () => {
     const selection = window.getSelection()
-    setSelectedText(selection.toString())
+    const text = selection.toString()
+    setSelectedText(text)
+  }
+
+  const openPanel = async () => {
+    // Open panel and pre-fill selectedText with the paragraph text
+    setPanelOpen(true)
+    if (!selectedText && paragraphText) {
+      setSelectedText(paragraphText)
+    }
+    await fetchInlineComments()
+  }
+
+  const closePanel = () => {
+    setPanelOpen(false)
+    setSelectedText('')
+    setNewComment('')
+    setError('')
   }
 
   const handleSubmitInlineComment = async (e) => {
@@ -64,12 +98,7 @@ function InlineComments({ storyId, paragraphIndex, paragraphText }) {
       return
     }
 
-    if (!selectedText.trim()) {
-      setError('Please select text to comment on')
-      return
-    }
 
-    // Check rate limit
     const limitCheck = canSubmitComment()
     if (!limitCheck.allowed) {
       setError(limitCheck.message)
@@ -85,12 +114,14 @@ function InlineComments({ storyId, paragraphIndex, paragraphText }) {
         },
         sessionId: getSessionId(),
         text: newComment.trim(),
-        inlineMarker: {
-          paragraphIndex,
-          selectedText: selectedText.trim(),
-          startChar: 0,
-          endChar: selectedText.length
-        },
+        inlineMarker: selectedText
+          ? {
+              paragraphIndex,
+              selectedText: selectedText.trim(),
+              startChar: 0,
+              endChar: selectedText.length,
+            }
+          : undefined,
         flagCount: 0,
         isFlagged: false
       }
@@ -100,7 +131,6 @@ function InlineComments({ storyId, paragraphIndex, paragraphText }) {
       setNewComment('')
       setSelectedText('')
       setError('')
-      
       await fetchInlineComments()
     } catch (err) {
       console.error('Error submitting inline comment:', err)
@@ -132,7 +162,6 @@ function InlineComments({ storyId, paragraphIndex, paragraphText }) {
 
       recordCommentFlag(commentId)
       recordFlagSubmission()
-      
       await fetchInlineComments()
     } catch (err) {
       console.error('Error flagging comment:', err)
@@ -158,42 +187,40 @@ function InlineComments({ storyId, paragraphIndex, paragraphText }) {
   }
 
   return (
-    <div className="inline-comment-wrapper">
-      <div className="inline-comment-toggle">
-        <button
-          onClick={() => setShowComments(!showComments)}
-          className="inline-comment-button"
-          aria-expanded={showComments}
-        >
-          💬 {comments.length > 0 ? `(${comments.length})` : 'Add comment'}
-        </button>
-      </div>
+    <div ref={wrapperRef} className="inline-comment-wrapper">
+      {/* Floating bubble/button */}
+      <button
+        className={`inline-bubble ${commentsCount > 0 ? 'has-comments' : ''}`}
+        onClick={() => (panelOpen ? closePanel() : openPanel())}
+        aria-label={commentsCount > 0 ? `${commentsCount} inline comments` : 'Add inline comment'}
+      >
+        <span className="bubble-icon">💬</span>
+        {commentsCount > 0 && <span className="bubble-count">{commentsCount}</span>}
+      </button>
 
-      {showComments && (
+      {/* Panel */}
+      {panelOpen && (
         <div className="inline-comment-panel">
           <div className="inline-comment-header">
             <h4>Comments on this passage</h4>
-            <button
-              onClick={() => setShowComments(false)}
-              className="close-button"
-              aria-label="Close comments"
-            >
-              ×
-            </button>
+            <button onClick={closePanel} className="close-button" aria-label="Close comments">×</button>
           </div>
 
-          {/* Comment Form */}
           <form onSubmit={handleSubmitInlineComment} className="inline-comment-form">
             {paragraphText && (
               <div className="selected-text-context">
                 <small>Paragraph:</small>
-                <p>{paragraphText.substring(0, 100)}...</p>
+                <p>{paragraphText.substring(0, 200)}...</p>
               </div>
             )}
 
+            <div className="select-instruction">
+              <small>Comment on this paragraph. (You can highlight a phrase to attach the comment to it.)</small>
+            </div>
+
             {selectedText && (
               <div className="selected-highlight">
-                <small>Your selection:</small>
+                <small>Target text:</small>
                 <p className="highlight">{selectedText}</p>
               </div>
             )}
@@ -201,23 +228,18 @@ function InlineComments({ storyId, paragraphIndex, paragraphText }) {
             <textarea
               value={newComment}
               onChange={(e) => setNewComment(e.target.value)}
-              placeholder={selectedText ? 'Your comment...' : 'Select text first, then type your comment'}
+              placeholder={'Your comment...'}
               rows="2"
               maxLength="500"
-              disabled={!selectedText}
-              onMouseUp={handleTextSelect}
             />
             <div className="inline-form-footer">
               <span className="char-count">{newComment.length}/500</span>
-              <button type="submit" disabled={!selectedText || !newComment.trim()}>
-                Post
-              </button>
+              <button type="submit" disabled={!selectedText || !newComment.trim()}>Post</button>
             </div>
           </form>
 
           {error && <div className="error-message">{error}</div>}
 
-          {/* Comments List */}
           <div className="inline-comments-list">
             {loading ? (
               <p>Loading comments...</p>
@@ -230,11 +252,9 @@ function InlineComments({ storyId, paragraphIndex, paragraphText }) {
                     <span className="inline-comment-author">Anonymous</span>
                     <span className="inline-comment-date">{formatDate(comment._createdAt)}</span>
                   </div>
-                  
+
                   {comment.inlineMarker?.selectedText && (
-                    <div className="inline-comment-quote">
-                      <em>"{comment.inlineMarker.selectedText}"</em>
-                    </div>
+                    <div className="inline-comment-quote"><em>"{comment.inlineMarker.selectedText}"</em></div>
                   )}
 
                   <p className="inline-comment-text">{comment.text}</p>

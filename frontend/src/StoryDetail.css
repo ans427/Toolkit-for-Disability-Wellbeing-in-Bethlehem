@@ -73,6 +73,7 @@
 .story-paragraph-wrapper {
   margin: 1.5rem 0;
   position: relative;
+  padding-right: 3.2rem;
 }
 
 .story-paragraph {
@@ -80,8 +81,8 @@
   font-size: 1rem;
   line-height: 1.8;
   margin: 1rem 0;
-  text-align: justify;
-  hyphens: auto;
+  text-align: left;
+  hyphens: none;
 }
 
 .story-paragraph::selection {

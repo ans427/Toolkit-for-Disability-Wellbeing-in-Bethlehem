@@ -1,40 +1,51 @@
 .inline-comment-wrapper {
-  position: relative;
-  display: inline-block;
-  width: 100%;
-  margin: 0.5rem 0;
+  position: absolute;
+  right: 0.5rem;
+  top: 0.5rem;
+  display: inline-flex;
+  align-items: center;
+  z-index: 5;
 }
 
-.inline-comment-toggle {
-  display: flex;
-  justify-content: center;
-  margin: 0.5rem 0;
-}
-
-.inline-comment-button {
-  background-color: #f0f8ff;
+/* Floating bubble - hidden by default; shown on hover of the paragraph wrapper */
+.inline-bubble {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: #f0f8ff;
   color: #0066cc;
-  border: 1px solid #0066cc;
-  padding: 0.4rem 0.8rem;
-  border-radius: 20px;
+  border: 1px solid #cfe8ff;
+  padding: 0.35rem 0.45rem;
+  border-radius: 999px;
   font-size: 0.85rem;
   cursor: pointer;
-  transition: all 0.2s;
-  font-weight: 500;
+  transition: opacity 0.15s ease, transform 0.12s ease;
+  opacity: 0;
+  visibility: hidden;
 }
 
-.inline-comment-button:hover {
-  background-color: #e6f3ff;
+/* When there are comments, show the bubble always */
+.inline-bubble.has-comments {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Show bubble when hovering the paragraph wrapper */
+.story-paragraph-wrapper:hover .inline-bubble {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
 }
 
 .inline-comment-panel {
-  background-color: #f9f9f9;
-  border: 1px solid #ddd;
-  border-radius: 6px;
-  padding: 1rem;
-  margin: 0.75rem 0;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  animation: slideDown 0.2s ease;
+  background-color: #ffffff;
+  border: 1px solid #e6e6e6;
+  border-radius: 8px;
+  padding: 0.9rem;
+  margin: 0.75rem 0 0 0;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+  animation: slideDown 0.12s ease;
+  max-width: 420px;
 }
 
 @keyframes slideDown {
@@ -66,16 +77,10 @@
 .close-button {
   background: none;
   border: none;
-  font-size: 1.5rem;
+  font-size: 1.25rem;
   cursor: pointer;
   color: #666;
-  padding: 0;
-  width: 24px;
-  height: 24px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: color 0.2s;
+  padding: 0 0.25rem;
 }
 
 .close-button:hover {
@@ -83,20 +88,20 @@
 }
 
 .inline-comment-form {
-  background-color: white;
-  border: 1px solid #e0e0e0;
-  border-radius: 4px;
-  padding: 0.75rem;
-  margin-bottom: 1rem;
+  background-color: #fafafa;
+  border: 1px solid #eee;
+  border-radius: 6px;
+  padding: 0.6rem;
+  margin-bottom: 0.75rem;
 }
 
 .selected-text-context,
 .selected-highlight {
-  background-color: #f5f5f5;
-  padding: 0.5rem;
-  border-left: 3px solid #0066cc;
-  margin-bottom: 0.75rem;
-  border-radius: 2px;
+  background-color: #f7f9fb;
+  padding: 0.45rem;
+  border-left: 3px solid #d9efff;
+  margin-bottom: 0.6rem;
+  border-radius: 4px;
 }
 
 .selected-text-context small,
@@ -126,7 +131,7 @@
   font-family: inherit;
   font-size: 0.9rem;
   border: 1px solid #ddd;
-  border-radius: 3px;
+  border-radius: 4px;
   resize: vertical;
   min-height: 60px;
 }
@@ -179,7 +184,7 @@
 .inline-comments-list {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: 0.6rem;
 }
 
 .no-comments {
@@ -191,10 +196,10 @@
 }
 
 .inline-comment-item {
-  background-color: white;
-  border: 1px solid #e8e8e8;
-  border-radius: 4px;
-  padding: 0.75rem;
+  background-color: #ffffff;
+  border: 1px solid #eef2f4;
+  border-radius: 6px;
+  padding: 0.6rem;
   overflow: hidden;
 }
 
@@ -236,12 +241,12 @@
 .inline-flag-button {
   background-color: transparent;
   color: #e74c3c;
-  border: 1px solid #e74c3c;
-  padding: 0.3rem 0.6rem;
-  border-radius: 3px;
-  font-size: 0.8rem;
+  border: 1px solid #f6c2c2;
+  padding: 0.28rem 0.6rem;
+  border-radius: 4px;
+  font-size: 0.82rem;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: all 0.15s;
   margin-top: 0.4rem;
 }
 
@@ -265,12 +270,23 @@
 }
 
 @media (max-width: 768px) {
-  .inline-comment-panel {
-    padding: 0.75rem;
+  .inline-comment-wrapper {
+    position: static;
+    margin-top: 0.5rem;
   }
 
-  .inline-comment-button {
-    font-size: 0.8rem;
-    padding: 0.35rem 0.7rem;
+  .inline-bubble {
+    opacity: 1;
+    visibility: visible;
+    background: transparent;
+    color: #0066cc;
+    border: none;
+    padding: 0.15rem 0.25rem;
+  }
+
+  .inline-comment-panel {
+    position: static;
+    box-shadow: none;
+    margin-top: 0.5rem;
   }
 }
