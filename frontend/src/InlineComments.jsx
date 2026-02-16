@@ -103,6 +103,7 @@ function InlineComments({ storyId, paragraphIndex, paragraphText }) {
     }
 
     try {
+      const trimmed = newComment.trim()
       const comment = {
         _type: 'comment',
         storyId: {
@@ -110,15 +111,13 @@ function InlineComments({ storyId, paragraphIndex, paragraphText }) {
           _ref: storyId
         },
         sessionId: getSessionId(),
-        text: newComment.trim(),
-        inlineMarker: selectedText
-          ? {
-              paragraphIndex,
-              selectedText: selectedText.trim(),
-              startChar: 0,
-              endChar: selectedText.length,
-            }
-          : undefined,
+        text: trimmed,
+        inlineMarker: {
+          paragraphIndex,
+          selectedText: selectedText ? selectedText.trim() : '',
+          startChar: 0,
+          endChar: selectedText ? selectedText.length : 0,
+        },
         flagCount: 0,
         isFlagged: false
       }
