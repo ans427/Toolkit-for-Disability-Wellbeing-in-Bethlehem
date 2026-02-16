@@ -75,11 +75,8 @@ function InlineComments({ storyId, paragraphIndex, paragraphText }) {
   }
 
   const openPanel = async () => {
-    // Open panel and pre-fill selectedText with the paragraph text
+    // Open panel; show passage at top but do not auto-quote it.
     setPanelOpen(true)
-    if (!selectedText && paragraphText) {
-      setSelectedText(paragraphText)
-    }
     await fetchInlineComments()
   }
 
@@ -210,31 +207,25 @@ function InlineComments({ storyId, paragraphIndex, paragraphText }) {
             {paragraphText && (
               <div className="selected-text-context">
                 <small>Paragraph:</small>
-                <p>{paragraphText.substring(0, 200)}...</p>
+                  <p>{paragraphText.substring(0, 400)}{paragraphText.length > 400 ? '...' : ''}</p>
               </div>
             )}
 
             <div className="select-instruction">
-              <small>Comment on this paragraph. (You can highlight a phrase to attach the comment to it.)</small>
+                <small>Comment on this paragraph</small>
             </div>
-
-            {selectedText && (
-              <div className="selected-highlight">
-                <small>Target text:</small>
-                <p className="highlight">{selectedText}</p>
-              </div>
-            )}
 
             <textarea
               value={newComment}
               onChange={(e) => setNewComment(e.target.value)}
-              placeholder={'Your comment...'}
-              rows="2"
+              placeholder={'Add a comment...'}
+                rows="3"
               maxLength="500"
+              onMouseUp={handleTextSelect}
             />
             <div className="inline-form-footer">
               <span className="char-count">{newComment.length}/500</span>
-              <button type="submit" disabled={!selectedText || !newComment.trim()}>Post</button>
+              <button type="submit" disabled={!newComment.trim()}>Post</button>
             </div>
           </form>
 
@@ -244,7 +235,7 @@ function InlineComments({ storyId, paragraphIndex, paragraphText }) {
             {loading ? (
               <p>Loading comments...</p>
             ) : comments.length === 0 ? (
-              <p className="no-comments">No inline comments on this passage yet</p>
+                <p className="no-comments">Be the first to comment</p>
             ) : (
               comments.map((comment) => (
                 <div key={comment._id} className="inline-comment-item">
@@ -252,10 +243,6 @@ function InlineComments({ storyId, paragraphIndex, paragraphText }) {
                     <span className="inline-comment-author">Anonymous</span>
                     <span className="inline-comment-date">{formatDate(comment._createdAt)}</span>
                   </div>
-
-                  {comment.inlineMarker?.selectedText && (
-                    <div className="inline-comment-quote"><em>"{comment.inlineMarker.selectedText}"</em></div>
-                  )}
 
                   <p className="inline-comment-text">{comment.text}</p>
 
