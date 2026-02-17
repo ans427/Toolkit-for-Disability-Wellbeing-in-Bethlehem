@@ -4,6 +4,7 @@ import './SubmitForm.css'
 
 function SubmitForm() {
   const [type, setType] = useState('resource')
+
   const [formData, setFormData] = useState({
     submitterName: '',
     submitterEmail: '',
@@ -23,7 +24,8 @@ function SubmitForm() {
     storySummary: '',
     storyBody: '',
   })
-  const [status, setStatus] = useState('idle') // idle | submitting | success | error
+
+  const [status, setStatus] = useState('idle')
 
   const handleChange = (e) => {
     const { name, value } = e.target
@@ -41,11 +43,10 @@ function SubmitForm() {
         body: JSON.stringify({ type, ...formData }),
       })
 
-      if (!response.ok) {
-        throw new Error('Request failed')
-      }
+      if (!response.ok) throw new Error('Request failed')
 
       setStatus('success')
+
       setFormData({
         submitterName: '',
         submitterEmail: '',
@@ -85,32 +86,64 @@ function SubmitForm() {
 
       <section className="submit-section">
         <form onSubmit={handleSubmit} className="submit-form">
+
+          {/* ================= TYPE SELECTION ================= */}
+
           <fieldset className="submit-fieldset">
-            <legend>What would you like to share?</legend>
-            <label className="radio-option">
-              <input
-                type="radio"
-                name="type"
-                value="resource"
-                checked={type === 'resource'}
-                onChange={() => setType('resource')}
-              />
-              <span>Submit a resource (organization, service, or program)</span>
-            </label>
-            <label className="radio-option">
-              <input
-                type="radio"
-                name="type"
-                value="communityStory"
-                checked={type === 'communityStory'}
-                onChange={() => setType('communityStory')}
-              />
-              <span>Submit a community story</span>
-            </label>
+            <legend className="type-legend">
+              What would you like to share?
+            </legend>
+
+            <div
+              className="type-grid"
+              role="radiogroup"
+              aria-label="Submission type"
+            >
+
+              {/* RESOURCE CARD */}
+              <div
+                role="radio"
+                aria-checked={type === 'resource'}
+                tabIndex={type === 'resource' ? 0 : -1}
+                className={`type-card ${type === 'resource' ? 'selected' : ''}`}
+                onClick={() => setType('resource')}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault()
+                    setType('resource')
+                  }
+                }}
+              >
+                <h3>Submit a Resource</h3>
+                <p>Organization, service, or program</p>
+              </div>
+
+              {/* STORY CARD */}
+              <div
+                role="radio"
+                aria-checked={type === 'communityStory'}
+                tabIndex={type === 'communityStory' ? 0 : -1}
+                className={`type-card ${type === 'communityStory' ? 'selected' : ''}`}
+                onClick={() => setType('communityStory')}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault()
+                    setType('communityStory')
+                  }
+                }}
+              >
+                <h3>Submit a Community Story</h3>
+                <p>Share a lived experience or reflection</p>
+              </div>
+
+            </div>
           </fieldset>
+
+          {/* ================= CONTACT ================= */}
 
           <fieldset className="submit-fieldset">
             <legend>Your contact (optional)</legend>
+
             <label className="submit-label">
               Your name
               <input
@@ -120,6 +153,7 @@ function SubmitForm() {
                 onChange={handleChange}
               />
             </label>
+
             <label className="submit-label">
               Email address
               <input
@@ -131,9 +165,12 @@ function SubmitForm() {
             </label>
           </fieldset>
 
+          {/* ================= RESOURCE DETAILS ================= */}
+
           {type === 'resource' && (
             <fieldset className="submit-fieldset">
               <legend>Resource details</legend>
+
               <label className="submit-label">
                 Resource name
                 <input
@@ -144,6 +181,7 @@ function SubmitForm() {
                   onChange={handleChange}
                 />
               </label>
+
               <label className="submit-label">
                 Website link
                 <input
@@ -153,6 +191,7 @@ function SubmitForm() {
                   onChange={handleChange}
                 />
               </label>
+
               <label className="submit-label">
                 Category
                 <select
@@ -168,6 +207,7 @@ function SubmitForm() {
                   <option value="mental-health-support">Mental Health Support</option>
                 </select>
               </label>
+
               <label className="submit-label">
                 Description
                 <textarea
@@ -178,6 +218,7 @@ function SubmitForm() {
                   onChange={handleChange}
                 />
               </label>
+
               <label className="submit-label">
                 Contact email
                 <input
@@ -187,6 +228,7 @@ function SubmitForm() {
                   onChange={handleChange}
                 />
               </label>
+
               <label className="submit-label">
                 Contact phone
                 <input
@@ -196,8 +238,10 @@ function SubmitForm() {
                   onChange={handleChange}
                 />
               </label>
-              <fieldset className="submit-fieldset" style={{ border: 'none', padding: 0, margin: '0 0 1rem 0' }}>
-                <legend style={{ fontWeight: 600, marginBottom: '0.5rem' }}>Address (optional)</legend>
+
+              <fieldset className="submit-fieldset address-fieldset">
+                <legend>Address (optional)</legend>
+
                 <label className="submit-label">
                   Street address
                   <input
@@ -207,7 +251,8 @@ function SubmitForm() {
                     onChange={handleChange}
                   />
                 </label>
-                <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '1rem' }}>
+
+                <div className="address-grid">
                   <label className="submit-label">
                     City
                     <input
@@ -217,17 +262,19 @@ function SubmitForm() {
                       onChange={handleChange}
                     />
                   </label>
+
                   <label className="submit-label">
                     State
                     <input
                       type="text"
                       name="resourceAddressState"
+                      placeholder="PA"
                       value={formData.resourceAddressState}
                       onChange={handleChange}
-                      placeholder="PA"
                     />
                   </label>
                 </div>
+
                 <label className="submit-label">
                   ZIP code
                   <input
@@ -237,13 +284,17 @@ function SubmitForm() {
                     onChange={handleChange}
                   />
                 </label>
+
               </fieldset>
             </fieldset>
           )}
 
+          {/* ================= STORY DETAILS ================= */}
+
           {type === 'communityStory' && (
             <fieldset className="submit-fieldset">
               <legend>Story details</legend>
+
               <label className="submit-label">
                 Story title
                 <input
@@ -254,6 +305,7 @@ function SubmitForm() {
                   onChange={handleChange}
                 />
               </label>
+
               <label className="submit-label">
                 Name or pseudonym
                 <input
@@ -263,6 +315,7 @@ function SubmitForm() {
                   onChange={handleChange}
                 />
               </label>
+
               <label className="submit-label">
                 Location
                 <input
@@ -272,6 +325,7 @@ function SubmitForm() {
                   onChange={handleChange}
                 />
               </label>
+
               <label className="submit-label">
                 Short summary (1–2 sentences)
                 <textarea
@@ -281,6 +335,7 @@ function SubmitForm() {
                   onChange={handleChange}
                 />
               </label>
+
               <label className="submit-label">
                 Full story
                 <textarea
@@ -291,8 +346,11 @@ function SubmitForm() {
                   onChange={handleChange}
                 />
               </label>
+
             </fieldset>
           )}
+
+          {/* ================= SUBMIT ================= */}
 
           <button
             type="submit"
@@ -304,15 +362,16 @@ function SubmitForm() {
 
           {status === 'success' && (
             <p className="submit-message success">
-              Thank you. Your submission has been received and will be reviewed
-              by the Toolkit team.
+              Thank you. Your submission has been received and will be reviewed by the Toolkit team.
             </p>
           )}
+
           {status === 'error' && (
             <p className="submit-message error">
               Something went wrong. Please try again later.
             </p>
           )}
+
         </form>
       </section>
     </main>
@@ -320,4 +379,3 @@ function SubmitForm() {
 }
 
 export default SubmitForm
-
