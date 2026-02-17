@@ -20,6 +20,14 @@ function ImmediateResources() {
             category,
             url,
             description,
+            contactEmail,
+            contactPhone,
+            address{
+              street,
+              city,
+              state,
+              zipCode
+            },
             image{
               asset->{ url },
               alt
@@ -57,18 +65,18 @@ function ImmediateResources() {
         <div className="resource-grid">
           {resources.map((resource) => (
             <article key={resource._id} className="resource-card">
-              
+
               {/* 1. IMAGE AREA */}
               {resource.image?.asset?.url && (
                 <div className="card-image-wrapper">
-                  <img 
-                    src={resource.image.asset.url} 
-                    alt={resource.image.alt || resource.title} 
-                    className="card-image" 
+                  <img
+                    src={resource.image.asset.url}
+                    alt={resource.image.alt || resource.title}
+                    className="card-image"
                   />
                 </div>
               )}
-              
+
               {/* 2. CONTENT AREA */}
               <div className="card-content">
                 <span className="card-category">
@@ -78,16 +86,47 @@ function ImmediateResources() {
                 <h3 className="card-title">
                   {resource.title}
                 </h3>
-                
+
                 <p className="card-description">
                   {resource.description}
                 </p>
-                
+
+                {/* Contact Info */}
+                {(resource.contactEmail || resource.contactPhone || resource.address) && (
+                  <div className="card-contact">
+
+                    {resource.contactPhone && (
+                      <p>
+                        📞 <a href={`tel:${resource.contactPhone}`}>
+                          {resource.contactPhone}
+                        </a>
+                      </p>
+                    )}
+
+                    {resource.contactEmail && (
+                      <p>
+                        ✉️ <a href={`mailto:${resource.contactEmail}`}>
+                          {resource.contactEmail}
+                        </a>
+                      </p>
+                    )}
+
+                    {resource.address?.street && (
+                      <p className="card-address">
+                        📍 {resource.address.street}<br />
+                        {resource.address.city}, {resource.address.state} {resource.address.zipCode}
+                      </p>
+                    )}
+
+                  </div>
+                )}
+
+
                 {/* The Button */}
-                <a 
-                  href={resource.url} 
-                  target="_blank" 
-                  rel="noopener noreferrer" 
+                <a
+                  href={resource.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="card-button"
                 >
                   Visit Website ↗

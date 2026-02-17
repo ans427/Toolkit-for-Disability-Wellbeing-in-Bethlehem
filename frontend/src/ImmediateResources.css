@@ -108,3 +108,28 @@
   background-color: #444;
   text-decoration: none;
 }
+
+/* Contact Section */
+.card-contact {
+  font-size: 0.85rem;
+  color: #444;
+  margin-bottom: 1.25rem;
+  line-height: 1.4;
+}
+
+.card-contact p {
+  margin: 0.25rem 0;
+}
+
+.card-contact a {
+  color: #0056b3;
+  text-decoration: none;
+}
+
+.card-contact a:hover {
+  text-decoration: underline;
+}
+
+.card-address {
+  margin-top: 0.5rem;
+}
