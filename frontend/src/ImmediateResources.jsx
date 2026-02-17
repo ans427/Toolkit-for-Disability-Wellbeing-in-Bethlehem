@@ -7,10 +7,12 @@ import './ImmediateResources.css'
 function ImmediateResources() {
   const [resources, setResources] = useState([])
   const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
 
   useEffect(() => {
     const fetchResources = async () => {
       try {
+        setError(null)
         const data = await sanity.fetch(
           `*[_type == "resource"] | order(title asc){
             _id,
@@ -27,6 +29,7 @@ function ImmediateResources() {
         setResources(data || [])
       } catch (err) {
         console.error(err)
+        setError(err?.message || 'Failed to load resources. Check your connection and try again.')
       } finally {
         setLoading(false)
       }
@@ -46,6 +49,10 @@ function ImmediateResources() {
 
       {loading ? (
         <p>Loading resources...</p>
+      ) : error ? (
+        <p className="resource-error">
+          {error}
+        </p>
       ) : (
         <div className="resource-grid">
           {resources.map((resource) => (

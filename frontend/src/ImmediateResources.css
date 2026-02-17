@@ -7,6 +7,11 @@
   text-align: center;
 }
 
+.resource-error {
+  color: #a94442;
+  margin-top: 1rem;
+}
+
 /* The Grid Container */
 .resource-grid {
   display: grid;
