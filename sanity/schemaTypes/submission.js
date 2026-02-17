@@ -52,6 +52,43 @@ export default {
       title: 'Resource category',
       type: 'string',
     },
+    {
+      name: 'resourceContactEmail',
+      title: 'Resource contact email',
+      type: 'string',
+    },
+    {
+      name: 'resourceContactPhone',
+      title: 'Resource contact phone',
+      type: 'string',
+    },
+    {
+      name: 'resourceAddress',
+      title: 'Resource address',
+      type: 'object',
+      fields: [
+        {
+          name: 'street',
+          title: 'Street address',
+          type: 'string',
+        },
+        {
+          name: 'city',
+          title: 'City',
+          type: 'string',
+        },
+        {
+          name: 'state',
+          title: 'State',
+          type: 'string',
+        },
+        {
+          name: 'zipCode',
+          title: 'ZIP code',
+          type: 'string',
+        },
+      ],
+    },
     // Story-specific fields
     {
       name: 'storyTitle',

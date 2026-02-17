@@ -40,6 +40,43 @@ export default {
       type: 'url'
     },
     {
+      name: 'contactEmail',
+      title: 'Contact email',
+      type: 'string'
+    },
+    {
+      name: 'contactPhone',
+      title: 'Contact phone',
+      type: 'string'
+    },
+    {
+      name: 'address',
+      title: 'Address',
+      type: 'object',
+      fields: [
+        {
+          name: 'street',
+          title: 'Street address',
+          type: 'string'
+        },
+        {
+          name: 'city',
+          title: 'City',
+          type: 'string'
+        },
+        {
+          name: 'state',
+          title: 'State',
+          type: 'string'
+        },
+        {
+          name: 'zipCode',
+          title: 'ZIP code',
+          type: 'string'
+        }
+      ]
+    },
+    {
       name: 'image',
       type: 'image',
       options: { hotspot: true },

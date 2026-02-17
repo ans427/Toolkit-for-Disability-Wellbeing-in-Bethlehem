@@ -11,6 +11,12 @@ function SubmitForm() {
     resourceUrl: '',
     resourceDescription: '',
     resourceCategory: '',
+    resourceContactEmail: '',
+    resourceContactPhone: '',
+    resourceAddressStreet: '',
+    resourceAddressCity: '',
+    resourceAddressState: '',
+    resourceAddressZipCode: '',
     storyTitle: '',
     storyPersonName: '',
     storyLocation: '',
@@ -47,6 +53,12 @@ function SubmitForm() {
         resourceUrl: '',
         resourceDescription: '',
         resourceCategory: '',
+        resourceContactEmail: '',
+        resourceContactPhone: '',
+        resourceAddressStreet: '',
+        resourceAddressCity: '',
+        resourceAddressState: '',
+        resourceAddressZipCode: '',
         storyTitle: '',
         storyPersonName: '',
         storyLocation: '',
@@ -166,6 +178,66 @@ function SubmitForm() {
                   onChange={handleChange}
                 />
               </label>
+              <label className="submit-label">
+                Contact email
+                <input
+                  type="email"
+                  name="resourceContactEmail"
+                  value={formData.resourceContactEmail}
+                  onChange={handleChange}
+                />
+              </label>
+              <label className="submit-label">
+                Contact phone
+                <input
+                  type="tel"
+                  name="resourceContactPhone"
+                  value={formData.resourceContactPhone}
+                  onChange={handleChange}
+                />
+              </label>
+              <fieldset className="submit-fieldset" style={{ border: 'none', padding: 0, margin: '0 0 1rem 0' }}>
+                <legend style={{ fontWeight: 600, marginBottom: '0.5rem' }}>Address (optional)</legend>
+                <label className="submit-label">
+                  Street address
+                  <input
+                    type="text"
+                    name="resourceAddressStreet"
+                    value={formData.resourceAddressStreet}
+                    onChange={handleChange}
+                  />
+                </label>
+                <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '1rem' }}>
+                  <label className="submit-label">
+                    City
+                    <input
+                      type="text"
+                      name="resourceAddressCity"
+                      value={formData.resourceAddressCity}
+                      onChange={handleChange}
+                    />
+                  </label>
+                  <label className="submit-label">
+                    State
+                    <input
+                      type="text"
+                      name="resourceAddressState"
+                      value={formData.resourceAddressState}
+                      onChange={handleChange}
+                      placeholder="PA"
+                    />
+                  </label>
+                </div>
+                <label className="submit-label">
+                  ZIP code
+                  <input
+                    type="text"
+                    name="resourceAddressZipCode"
+                    value={formData.resourceAddressZipCode}
+                    onChange={handleChange}
+                  />
+                </label>
+              </fieldset>
             </fieldset>
           )}
 
