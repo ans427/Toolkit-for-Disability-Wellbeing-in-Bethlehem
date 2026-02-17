@@ -1,0 +1,95 @@
+.submit-header {
+  margin-bottom: 2.5rem;
+  text-align: center;
+}
+
+.submit-section {
+  max-width: 720px;
+  margin: 0 auto 3rem;
+  text-align: left;
+}
+
+.submit-form {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 1.75rem 1.5rem 2rem;
+  border: 1px solid #e0e0e0;
+}
+
+.submit-fieldset {
+  border: none;
+  padding: 0;
+  margin: 0 0 1.75rem 0;
+}
+
+.submit-fieldset legend {
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+}
+
+.submit-label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  margin-bottom: 1rem;
+  font-size: 0.95rem;
+}
+
+.submit-label input,
+.submit-label textarea,
+.submit-label select {
+  padding: 0.5rem 0.6rem;
+  border-radius: 6px;
+  border: 1px solid #c5cedb;
+  font: inherit;
+  color: #222;
+  background-color: #ffffff;
+}
+
+.submit-label input::placeholder,
+.submit-label textarea::placeholder {
+  color: #777;
+}
+
+.submit-label textarea {
+  resize: vertical;
+}
+
+.radio-option {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+  font-size: 0.95rem;
+}
+
+.submit-button {
+  display: inline-block;
+  background-color: #222;
+  color: #fff;
+  border-radius: 6px;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.submit-button:disabled {
+  opacity: 0.7;
+  cursor: default;
+}
+
+.submit-message {
+  margin-top: 1rem;
+  font-size: 0.95rem;
+}
+
+.submit-message.success {
+  color: #155724;
+}
+
+.submit-message.error {
+  color: #a94442;
+}
+

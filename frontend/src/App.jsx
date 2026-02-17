@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route, Link } from 'react-router-dom'
 import ImmediateResources from './ImmediateResources'
 import CommunityStories from './CommunityStories'
 import StoryDetail from './StoryDetail'
+import SubmitForm from './SubmitForm'
 import './App.css'
 
 function HomePage() {
@@ -55,10 +56,15 @@ function HomePage() {
           <p>Share an accessibility barrier in the community.</p>
         </div>
 
-        <div className="nav-card">
-          <h2>Submit a Resource</h2>
-          <p>Suggest a helpful organization or support service.</p>
-        </div>
+        <Link
+          to="/submit"
+          style={{ textDecoration: 'none', color: 'inherit' }}
+        >
+          <div className="nav-card">
+            <h2>Submit a Resource or Story</h2>
+            <p>Share a resource or community story for review.</p>
+          </div>
+        </Link>
 
         <div className="nav-card">
           <h2>About the Toolkit</h2>
@@ -131,6 +137,7 @@ function App() {
         <Route path="/resources" element={<ImmediateResources />} />
         <Route path="/community-stories" element={<CommunityStories />} />
         <Route path="/community-stories/:storyId" element={<StoryDetail />} />
+        <Route path="/submit" element={<SubmitForm />} />
       </Routes>
     </BrowserRouter>
   )

@@ -13,13 +13,11 @@ export default {
       type: 'string',
       options: {
         list: [
-          { title: 'Healthcare', value: 'healthcare' },
-          { title: 'Community Organization', value: 'community' },
-          { title: 'Legal Support', value: 'legal' },
-          { title: 'Mental Health', value: 'mental-health' },
-          { title: 'Mutual Aid', value: 'mutual-aid' },
-          { title: 'Housing', value: 'housing' },
-          { title: 'Transportation', value: 'transportation' }
+          { title: 'Legal Aid', value: 'legal-aid' },
+          { title: 'Community Organizations', value: 'community-organizations' },
+          { title: 'Mutual Aid Support', value: 'mutual-aid-support' },
+          { title: 'Interdependency Support', value: 'interdependency-support' },
+          { title: 'Mental Health Support', value: 'mental-health-support' }
         ]
       }
     },
