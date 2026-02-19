@@ -1,0 +1,277 @@
+/* =========================================
+   POLICY GAPS PAGE - Matches ImmediateResources layout
+   ========================================= */
+
+/* Header - aligned with resource-header */
+.policy-header {
+  margin-bottom: 3rem;
+  text-align: center;
+}
+
+/* Table of contents / jump links */
+.policy-toc {
+  background: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  padding: 1.5rem 2rem;
+  margin-bottom: 3rem;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.policy-toc h2 {
+  font-size: 1rem;
+  font-weight: 700;
+  margin: 0 0 1rem 0;
+  color: #222;
+  border-bottom: none;
+}
+
+.toc-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.5rem;
+}
+
+.toc-list li {
+  margin: 0;
+}
+
+.toc-list a {
+  color: #0056b3;
+  text-decoration: none;
+  font-size: 1rem;
+  padding: 0.25rem 0;
+  border-radius: 4px;
+}
+
+.toc-list a:hover,
+.toc-list a:focus-visible {
+  text-decoration: underline;
+  outline: 2px solid #0056b3;
+  outline-offset: 2px;
+}
+
+/* Policy content grid - card layout like ImmediateResources */
+.policy-content {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding-bottom: 4rem;
+  text-align: left;
+}
+
+/* Each policy area = one card (like resource-card) */
+.policy-section {
+  background: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  overflow: hidden;
+  padding: 1.5rem 2rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.policy-section:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
+}
+
+.policy-section h2 {
+  font-size: 1.25rem;
+  margin: 0 0 1.25rem 0;
+  padding: 0;
+  border-bottom: none;
+  color: #222;
+}
+
+/* Section content - readable layout */
+.policy-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.25rem;
+}
+
+@media (min-width: 600px) {
+  .policy-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.policy-block {
+  padding: 1rem 0;
+  border-bottom: 1px solid #eee;
+}
+
+.policy-block:last-of-type {
+  border-bottom: none;
+}
+
+@media (min-width: 600px) {
+  .policy-block {
+    padding: 1rem 1.25rem 1rem 0;
+  }
+  .policy-block:nth-child(odd) {
+    border-right: 1px solid #eee;
+    padding-right: 1.25rem;
+  }
+}
+
+.policy-block h3 {
+  font-size: 0.875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #0056b3;
+  margin: 0 0 0.5rem 0;
+}
+
+.policy-block p {
+  margin: 0;
+  font-size: 1rem;
+  color: #555;
+  line-height: 1.7;
+}
+
+/* Implications block - full width, highlighted */
+.highlight-block {
+  grid-column: 1 / -1;
+  background: #eef4ff;
+  padding: 1.25rem;
+  border-radius: 8px;
+  border-left: 4px solid #0056b3;
+}
+
+.highlight-block h3 {
+  color: #0056b3;
+  margin-bottom: 0.75rem;
+}
+
+.highlight-block ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.highlight-block ul li {
+  font-size: 1rem;
+  color: #333;
+  line-height: 1.6;
+  padding: 0.4rem 0 0.4rem 1.5rem;
+  position: relative;
+}
+
+.highlight-block ul li::before {
+  content: '✓';
+  position: absolute;
+  left: 0;
+  color: #0056b3;
+  font-weight: 700;
+}
+
+/* "Moving Forward" action section */
+#action.policy-section {
+  padding: 2rem;
+}
+
+#action h2 {
+  margin-bottom: 1.5rem;
+}
+
+#action h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #0056b3;
+  margin: 1.5rem 0 0.75rem 0;
+  text-transform: none;
+  letter-spacing: normal;
+}
+
+#action h3:first-of-type {
+  margin-top: 0;
+}
+
+#action ul {
+  padding-left: 1.5rem;
+  margin: 0 0 1rem 0;
+}
+
+#action ul li {
+  margin-bottom: 0.5rem;
+  font-size: 1rem;
+  color: #555;
+  line-height: 1.7;
+}
+
+#action ul li strong {
+  color: #222;
+}
+
+#action p {
+  font-size: 1rem;
+  color: #555;
+  line-height: 1.7;
+  margin: 0 0 1rem 0;
+}
+
+#action p:last-child {
+  margin-bottom: 0;
+}
+
+/* Return to top */
+.return-top {
+  text-align: center;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+
+.return-top a {
+  color: #0056b3;
+  text-decoration: none;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.return-top a:hover,
+.return-top a:focus-visible {
+  text-decoration: underline;
+  outline: 2px solid #0056b3;
+  outline-offset: 2px;
+}
+
+/* Accessibility: reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .policy-section,
+  .toc-list a {
+    transition: none;
+  }
+  .policy-section:hover {
+    transform: none;
+  }
+}
+
+/* Accessibility: high contrast */
+@media (prefers-contrast: more) {
+  .policy-section,
+  .policy-toc {
+    border-width: 2px;
+    border-color: #222;
+  }
+  .toc-list a {
+    text-decoration: underline;
+  }
+}
+
+/* Print */
+@media print {
+  .policy-section:hover {
+    transform: none;
+    box-shadow: none;
+  }
+  .policy-toc {
+    break-after: avoid;
+  }
+}
