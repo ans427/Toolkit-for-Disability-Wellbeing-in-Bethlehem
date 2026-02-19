@@ -17,3 +17,11 @@
 .breadcrumb span {
   color: #666;
 }
+
+@media (max-width: 600px) {
+  .breadcrumb {
+    flex-wrap: wrap;
+    padding: 0.75rem 0;
+    font-size: 0.85rem;
+  }
+}

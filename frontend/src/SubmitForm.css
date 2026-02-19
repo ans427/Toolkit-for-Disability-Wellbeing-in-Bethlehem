@@ -203,3 +203,31 @@
 .submit-message.error {
   color: #a94442;
 }
+
+/* Mobile */
+@media (max-width: 600px) {
+  .submit-header {
+    margin-bottom: 1.5rem;
+  }
+
+  .submit-section {
+    margin: 0 auto 2rem;
+  }
+
+  .submit-form {
+    padding: 1.25rem 1rem 1.5rem;
+  }
+
+  .submit-fieldset {
+    margin-bottom: 1.25rem;
+  }
+
+  .radio-option-card {
+    padding: 1rem 1.25rem;
+    min-height: 76px;
+  }
+
+  .submit-button {
+    width: 100%;
+  }
+}

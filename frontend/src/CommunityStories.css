@@ -102,4 +102,23 @@
   }
 }
 
+@media (max-width: 600px) {
+  .stories-header {
+    margin-bottom: 2rem;
+  }
+
+  .stories-list {
+    padding-bottom: 2rem;
+    gap: 1.25rem;
+  }
+
+  .story-card {
+    padding: 1rem 1.25rem;
+  }
+
+  .story-title {
+    font-size: 1.15rem;
+  }
+}
+
 

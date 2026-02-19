@@ -133,3 +133,28 @@
 .card-address {
   margin-top: 0.5rem;
 }
+
+/* Mobile */
+@media (max-width: 600px) {
+  .resource-header {
+    margin-bottom: 2rem;
+  }
+
+  .resource-grid {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+    padding-bottom: 2rem;
+  }
+
+  .card-content {
+    padding: 1.25rem;
+  }
+
+  .card-title {
+    font-size: 1.1rem;
+  }
+
+  .card-image-wrapper {
+    height: 180px;
+  }
+}
