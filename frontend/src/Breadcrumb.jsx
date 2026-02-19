@@ -10,7 +10,8 @@ function Breadcrumb() {
   const breadcrumbMap = {
     'resources': 'Immediate Resources',
     'community-stories': 'Community Stories',
-    'policy-gaps': 'Policy & Service Gaps'
+    'policy-gaps': 'Policy & Service Gaps',
+    'submit': 'Submit a Resource or Story'
   }
 
   return (

@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { sanity } from './sanityClient'
+import Breadcrumb from './Breadcrumb'
 import './SubmitForm.css'
 
 function SubmitForm() {
@@ -80,6 +81,7 @@ function SubmitForm() {
 
   return (
     <main className="container">
+      <Breadcrumb />
       <header className="submit-header">
         <Link to="/" className="back-link">
           ← Back to Home
