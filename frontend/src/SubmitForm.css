@@ -30,20 +30,32 @@
 .submit-label {
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
-  margin-bottom: 1rem;
-  font-size: 0.95rem;
+  gap: 0.4rem;
+  margin-bottom: 1.25rem;
+  font-size: 1rem;
+  font-weight: 500;
 }
 
 .submit-label input,
 .submit-label textarea,
 .submit-label select {
-  padding: 0.5rem 0.6rem;
-  border-radius: 6px;
-  border: 1px solid #c5cedb;
+  padding: 0.75rem 1rem;
+  min-height: 44px;
+  border-radius: 8px;
+  border: 2px solid #c5cedb;
   font: inherit;
+  font-size: 1rem;
   color: #222;
   background-color: #ffffff;
+  transition: border-color 0.2s;
+}
+
+.submit-label input:focus,
+.submit-label textarea:focus,
+.submit-label select:focus {
+  outline: none;
+  border-color: #0056b3;
+  box-shadow: 0 0 0 3px rgba(0, 86, 179, 0.2);
 }
 
 .submit-label input::placeholder,
@@ -53,31 +65,130 @@
 
 .submit-label textarea {
   resize: vertical;
+  min-height: 100px;
 }
 
-.radio-option {
+/* Larger select for easier tapping */
+.submit-label select {
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23555' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  padding-right: 2.5rem;
+}
+
+/* Visually hide native radio but keep accessible for screen readers & keyboard */
+.radio-input-visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Large, accessible radio options - card style */
+.radio-fieldset {
+  margin-bottom: 2rem;
+}
+
+.radio-options {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+@media (min-width: 500px) {
+  .radio-options {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.radio-option-card {
+  position: relative;
   display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  margin-bottom: 0.5rem;
-  font-size: 0.95rem;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding: 1.25rem 1.5rem;
+  min-height: 88px;
+  border: 2px solid #c5cedb;
+  border-radius: 12px;
+  background: #fff;
+  cursor: pointer;
+  transition: border-color 0.2s, background-color 0.2s, box-shadow 0.2s;
+}
+
+/* Minimum 44x44px touch target - cards are much larger */
+.radio-option-card:hover {
+  border-color: #0056b3;
+  background: #f8fafc;
+}
+
+.radio-option-selected {
+  border-color: #0056b3;
+  background: #eef4ff;
+  box-shadow: 0 0 0 1px #0056b3;
+}
+
+.radio-option-card:focus-within {
+  outline: 3px solid #0056b3;
+  outline-offset: 2px;
+}
+
+.radio-option-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #222;
+}
+
+.radio-option-description {
+  font-size: 0.9rem;
+  color: #555;
+  line-height: 1.4;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .radio-option-card,
+  .submit-label input,
+  .submit-label textarea,
+  .submit-label select,
+  .submit-button {
+    transition: none;
+  }
 }
 
 .submit-button {
   display: inline-block;
   background-color: #222;
   color: #fff;
-  border-radius: 6px;
-  border: none;
-  padding: 0.75rem 1.5rem;
-  font-size: 0.95rem;
+  border-radius: 8px;
+  border: 2px solid #222;
+  padding: 1rem 2rem;
+  min-height: 48px;
+  font-size: 1.1rem;
   font-weight: 600;
   cursor: pointer;
+  transition: background-color 0.2s, box-shadow 0.2s;
+}
+
+.submit-button:hover:not(:disabled) {
+  background-color: #444;
+}
+
+.submit-button:focus-visible {
+  outline: 3px solid #0056b3;
+  outline-offset: 2px;
 }
 
 .submit-button:disabled {
   opacity: 0.7;
-  cursor: default;
+  cursor: not-allowed;
 }
 
 .submit-message {

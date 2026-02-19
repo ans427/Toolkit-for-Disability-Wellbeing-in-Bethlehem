@@ -92,34 +92,47 @@ function SubmitForm() {
 
       <section className="submit-section">
         <form onSubmit={handleSubmit} className="submit-form">
-          <fieldset className="submit-fieldset">
+          <fieldset className="submit-fieldset radio-fieldset">
             <legend>What would you like to share?</legend>
 
-            <label className="radio-option">
-              <input
-                type="radio"
-                checked={type === 'resource'}
-                onChange={() => setType('resource')}
-              />
-              <span>Submit a resource</span>
-            </label>
+            <div className="radio-options">
+              <label className={`radio-option-card ${type === 'resource' ? 'radio-option-selected' : ''}`}>
+                <input
+                  type="radio"
+                  name="submissionType"
+                  value="resource"
+                  checked={type === 'resource'}
+                  onChange={() => setType('resource')}
+                  className="radio-input-visually-hidden"
+                  aria-describedby="resource-description"
+                />
+                <span className="radio-option-title">Submit a resource</span>
+                <span id="resource-description" className="radio-option-description">Share a service, organization, or support (healthcare, legal aid, housing, etc.)</span>
+              </label>
 
-            <label className="radio-option">
-              <input
-                type="radio"
-                checked={type === 'communityStory'}
-                onChange={() => setType('communityStory')}
-              />
-              <span>Submit a community story</span>
-            </label>
+              <label className={`radio-option-card ${type === 'communityStory' ? 'radio-option-selected' : ''}`}>
+                <input
+                  type="radio"
+                  name="submissionType"
+                  value="communityStory"
+                  checked={type === 'communityStory'}
+                  onChange={() => setType('communityStory')}
+                  className="radio-input-visually-hidden"
+                  aria-describedby="story-description"
+                />
+                <span className="radio-option-title">Submit a community story</span>
+                <span id="story-description" className="radio-option-description">Share a lived experience from the Bethlehem disability community</span>
+              </label>
+            </div>
           </fieldset>
 
           <fieldset className="submit-fieldset">
             <legend>Your contact (optional)</legend>
 
-            <label className="submit-label">
+            <label className="submit-label" htmlFor="submitterName">
               Your name
               <input
+                id="submitterName"
                 type="text"
                 name="submitterName"
                 value={formData.submitterName}
@@ -127,9 +140,10 @@ function SubmitForm() {
               />
             </label>
 
-            <label className="submit-label">
+            <label className="submit-label" htmlFor="submitterEmail">
               Email address
               <input
+                id="submitterEmail"
                 type="email"
                 name="submitterEmail"
                 value={formData.submitterEmail}
@@ -142,9 +156,10 @@ function SubmitForm() {
             <fieldset className="submit-fieldset">
               <legend>Resource details</legend>
 
-              <label className="submit-label">
+              <label className="submit-label" htmlFor="resourceTitle">
                 Resource name
                 <input
+                  id="resourceTitle"
                   type="text"
                   name="resourceTitle"
                   required
@@ -153,9 +168,10 @@ function SubmitForm() {
                 />
               </label>
 
-              <label className="submit-label">
+              <label className="submit-label" htmlFor="resourceUrl">
                 Website link
                 <input
+                  id="resourceUrl"
                   type="url"
                   name="resourceUrl"
                   value={formData.resourceUrl}
@@ -163,9 +179,10 @@ function SubmitForm() {
                 />
               </label>
 
-              <label className="submit-label">
+              <label className="submit-label" htmlFor="resourceCategory">
                 Category
                 <select
+                  id="resourceCategory"
                   name="resourceCategory"
                   value={formData.resourceCategory}
                   onChange={handleChange}
@@ -179,9 +196,10 @@ function SubmitForm() {
                 </select>
               </label>
 
-              <label className="submit-label">
+              <label className="submit-label" htmlFor="resourceDescription">
                 Description
                 <textarea
+                  id="resourceDescription"
                   name="resourceDescription"
                   rows={4}
                   required
@@ -190,9 +208,10 @@ function SubmitForm() {
                 />
               </label>
 
-              <label className="submit-label">
+              <label className="submit-label" htmlFor="resourceContactEmail">
                 Contact email
                 <input
+                  id="resourceContactEmail"
                   type="email"
                   name="resourceContactEmail"
                   value={formData.resourceContactEmail}
@@ -200,9 +219,10 @@ function SubmitForm() {
                 />
               </label>
 
-              <label className="submit-label">
+              <label className="submit-label" htmlFor="resourceContactPhone">
                 Contact phone
                 <input
+                  id="resourceContactPhone"
                   type="tel"
                   name="resourceContactPhone"
                   value={formData.resourceContactPhone}
@@ -210,9 +230,10 @@ function SubmitForm() {
                 />
               </label>
 
-              <label className="submit-label">
+              <label className="submit-label" htmlFor="resourceAddressStreet">
                 Street address
                 <input
+                  id="resourceAddressStreet"
                   type="text"
                   name="resourceAddressStreet"
                   value={formData.resourceAddressStreet}
@@ -220,9 +241,10 @@ function SubmitForm() {
                 />
               </label>
 
-              <label className="submit-label">
+              <label className="submit-label" htmlFor="resourceAddressCity">
                 City
                 <input
+                  id="resourceAddressCity"
                   type="text"
                   name="resourceAddressCity"
                   value={formData.resourceAddressCity}
@@ -230,9 +252,10 @@ function SubmitForm() {
                 />
               </label>
 
-              <label className="submit-label">
+              <label className="submit-label" htmlFor="resourceAddressState">
                 State
                 <input
+                  id="resourceAddressState"
                   type="text"
                   name="resourceAddressState"
                   value={formData.resourceAddressState}
@@ -240,9 +263,10 @@ function SubmitForm() {
                 />
               </label>
 
-              <label className="submit-label">
+              <label className="submit-label" htmlFor="resourceAddressZipCode">
                 ZIP code
                 <input
+                  id="resourceAddressZipCode"
                   type="text"
                   name="resourceAddressZipCode"
                   value={formData.resourceAddressZipCode}
@@ -256,9 +280,10 @@ function SubmitForm() {
             <fieldset className="submit-fieldset">
               <legend>Story details</legend>
 
-              <label className="submit-label">
+              <label className="submit-label" htmlFor="storyTitle">
                 Story title
                 <input
+                  id="storyTitle"
                   type="text"
                   name="storyTitle"
                   required
@@ -267,9 +292,10 @@ function SubmitForm() {
                 />
               </label>
 
-              <label className="submit-label">
+              <label className="submit-label" htmlFor="storyPersonName">
                 Name or pseudonym
                 <input
+                  id="storyPersonName"
                   type="text"
                   name="storyPersonName"
                   value={formData.storyPersonName}
@@ -277,9 +303,10 @@ function SubmitForm() {
                 />
               </label>
 
-              <label className="submit-label">
+              <label className="submit-label" htmlFor="storyLocation">
                 Location
                 <input
+                  id="storyLocation"
                   type="text"
                   name="storyLocation"
                   value={formData.storyLocation}
@@ -287,9 +314,10 @@ function SubmitForm() {
                 />
               </label>
 
-              <label className="submit-label">
+              <label className="submit-label" htmlFor="storySummary">
                 Short summary
                 <textarea
+                  id="storySummary"
                   name="storySummary"
                   rows={3}
                   value={formData.storySummary}
@@ -297,9 +325,10 @@ function SubmitForm() {
                 />
               </label>
 
-              <label className="submit-label">
+              <label className="submit-label" htmlFor="storyBody">
                 Full story
                 <textarea
+                  id="storyBody"
                   name="storyBody"
                   rows={6}
                   required
@@ -310,18 +339,18 @@ function SubmitForm() {
             </fieldset>
           )}
 
-          <button type="submit" disabled={status === 'submitting'}>
+          <button type="submit" className="submit-button" disabled={status === 'submitting'} aria-busy={status === 'submitting'}>
             {status === 'submitting' ? 'Sending...' : 'Send submission'}
           </button>
 
           {status === 'success' && (
-            <p className="submit-message success">
+            <p className="submit-message success" role="status" aria-live="polite">
               Thank you. Your submission has been received.
             </p>
           )}
 
           {status === 'error' && (
-            <p className="submit-message error">
+            <p className="submit-message error" role="alert" aria-live="assertive">
               Something went wrong. Please try again later.
             </p>
           )}
