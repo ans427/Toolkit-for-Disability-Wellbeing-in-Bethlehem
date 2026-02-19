@@ -4,6 +4,7 @@ import ImmediateResources from './ImmediateResources'
 import CommunityStories from './CommunityStories'
 import StoryDetail from './StoryDetail'
 import SubmitForm from './SubmitForm'
+import PolicyGaps from './PolicyGaps'
 import './App.css'
 
 function HomePage() {
@@ -41,10 +42,15 @@ function HomePage() {
           <p>Explore accessible and inaccessible spaces in Bethlehem.</p>
         </div>
 
-        <div className="nav-card">
-          <h2>Policy & Service Gaps</h2>
-          <p>Learn about local accessibility challenges and recommendations.</p>
-        </div>
+        <Link
+          to="/policy-gaps"
+          style={{ textDecoration: 'none', color: 'inherit' }}
+        >
+          <div className="nav-card">
+            <h2>Policy & Service Gaps</h2>
+            <p>Learn about local accessibility challenges and recommendations.</p>
+          </div>
+        </Link>
 
         <div className="nav-card">
           <h2>Disability Activism</h2>
@@ -137,6 +143,7 @@ function App() {
         <Route path="/resources" element={<ImmediateResources />} />
         <Route path="/community-stories" element={<CommunityStories />} />
         <Route path="/community-stories/:storyId" element={<StoryDetail />} />
+        <Route path="/policy-gaps" element={<PolicyGaps />} />
         <Route path="/submit" element={<SubmitForm />} />
       </Routes>
     </BrowserRouter>
