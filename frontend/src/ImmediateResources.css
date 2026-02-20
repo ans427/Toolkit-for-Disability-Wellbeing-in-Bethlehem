@@ -2,6 +2,115 @@
    RESOURCE PAGE STYLES
    ========================================= */
 
+/* Accessible filter and search */
+.resource-filter {
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.resource-filter-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.resource-search-wrap {
+  min-width: 280px;
+  flex: 1;
+  max-width: 560px;
+}
+
+.resource-search-label {
+  display: block;
+  font-weight: 600;
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+  color: #222;
+  text-align: left;
+}
+
+.resource-search-input {
+  display: block;
+  width: 100%;
+  max-width: 560px;
+  padding: 0.75rem 1rem;
+  min-height: 44px;
+  font-size: 1rem;
+  font-family: inherit;
+  color: #222;
+  background-color: #fff;
+  border: 2px solid #c5cedb;
+  border-radius: 8px;
+  box-sizing: border-box;
+}
+
+.resource-search-input::placeholder {
+  color: #777;
+}
+
+.resource-search-input:hover {
+  border-color: #0056b3;
+}
+
+.resource-search-input:focus {
+  outline: none;
+  border-color: #0056b3;
+  box-shadow: 0 0 0 3px rgba(0, 86, 179, 0.2);
+}
+
+.resource-filter-fieldset {
+  border: none;
+  padding: 0;
+  margin: 0;
+  max-width: 320px;
+}
+
+.resource-filter-legend {
+  font-weight: 600;
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+  padding: 0;
+  color: #222;
+  text-align: left;
+}
+
+.resource-filter-select {
+  display: block;
+  width: 100%;
+  max-width: 280px;
+  padding: 0.75rem 2.5rem 0.75rem 1rem;
+  min-height: 44px;
+  font-size: 1rem;
+  font-family: inherit;
+  color: #222;
+  background-color: #fff;
+  border: 2px solid #c5cedb;
+  border-radius: 8px;
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23555' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+}
+
+.resource-filter-select:hover {
+  border-color: #0056b3;
+}
+
+.resource-filter-select:focus {
+  outline: none;
+  border-color: #0056b3;
+  box-shadow: 0 0 0 3px rgba(0, 86, 179, 0.2);
+}
+
+.resource-filter-count {
+  margin: 0.5rem 0 0;
+  font-size: 0.9rem;
+  color: #555;
+}
+
 .resource-header {
   margin-bottom: 3rem;
   text-align: center;
@@ -136,6 +245,32 @@
 
 /* Mobile */
 @media (max-width: 600px) {
+  .resource-filter {
+    margin-bottom: 1.5rem;
+  }
+
+  .resource-filter-controls {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1.25rem;
+  }
+
+  .resource-search-wrap {
+    min-width: 0;
+  }
+
+  .resource-search-input {
+    max-width: none;
+  }
+
+  .resource-filter-fieldset {
+    max-width: none;
+  }
+
+  .resource-filter-select {
+    max-width: none;
+  }
+
   .resource-header {
     margin-bottom: 2rem;
   }
