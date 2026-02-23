@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom'
 import ImmediateResources from './ImmediateResources'
+import ResourceDetail from './ResourceDetail'
 import CommunityStories from './CommunityStories'
 import StoryDetail from './StoryDetail'
 import SubmitForm from './SubmitForm'
@@ -140,6 +141,7 @@ function App() {
       <AccessibilityToolbar textSize={textSize} setTextSize={setTextSize} />
       <Routes>
         <Route path="/" element={<HomePage />} />
+        <Route path="/resources/:resourceId" element={<ResourceDetail />} />
         <Route path="/resources" element={<ImmediateResources />} />
         <Route path="/community-stories" element={<CommunityStories />} />
         <Route path="/community-stories/:storyId" element={<StoryDetail />} />

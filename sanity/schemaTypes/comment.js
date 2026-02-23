@@ -8,7 +8,14 @@ export default {
       title: 'Story ID',
       type: 'reference',
       to: [{ type: 'communityStory' }],
-      validation: Rule => Rule.required()
+      description: 'For comments on community stories'
+    },
+    {
+      name: 'resourceId',
+      title: 'Resource ID',
+      type: 'reference',
+      to: [{ type: 'resource' }],
+      description: 'For comments on resources'
     },
     {
       name: 'sessionId',

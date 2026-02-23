@@ -79,12 +79,51 @@ export default {
     {
       name: 'image',
       type: 'image',
+      title: 'Image (legacy – used for cards)',
       options: { hotspot: true },
       fields: [
         {
           name: 'alt',
           type: 'string',
           title: 'Alt Text'
+        }
+      ]
+    },
+    {
+      name: 'coverImage',
+      type: 'image',
+      title: 'Cover Photo',
+      description: 'Large hero image for the resource detail page. Falls back to the main image if empty.',
+      options: { hotspot: true },
+      fields: [
+        {
+          name: 'alt',
+          type: 'string',
+          title: 'Alt Text'
+        }
+      ]
+    },
+    {
+      name: 'gallery',
+      type: 'array',
+      title: 'Additional Photos',
+      description: 'Extra photos to display on the resource page (e.g. facility, staff, services).',
+      of: [
+        {
+          type: 'image',
+          options: { hotspot: true },
+          fields: [
+            {
+              name: 'alt',
+              type: 'string',
+              title: 'Alt Text'
+            },
+            {
+              name: 'caption',
+              type: 'string',
+              title: 'Caption'
+            }
+          ]
         }
       ]
     }
