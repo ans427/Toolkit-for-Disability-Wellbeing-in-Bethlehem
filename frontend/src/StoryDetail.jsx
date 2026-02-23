@@ -74,7 +74,7 @@ function StoryDetail() {
 
   return (
     <main className="container">
-      <Breadcrumb />
+      <Breadcrumb storyTitle={story.title} />
       
       <article className="story-detail">
         <header className="story-detail-header">
@@ -124,7 +124,9 @@ function StoryDetail() {
       </article>
 
       {/* Bottom Comments Section */}
-      <Comments storyId={storyId} />
+      <section className="comments-wrapper" style={{ textAlign: 'left' }}>
+        <Comments storyId={storyId} />
+      </section>
     </main>
   )
 }
