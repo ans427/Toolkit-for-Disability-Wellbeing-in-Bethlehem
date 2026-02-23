@@ -14,6 +14,13 @@ function Breadcrumb({ storyTitle }) {
     'submit': 'Submit a Resource or Story'
   }
 
+  // Resource/story IDs: show friendly label for detail pages
+  const getLabel = (value, index) => {
+    if (index > 0 && pathnames[index - 1] === 'resources') return 'Resource'
+    if (index > 0 && pathnames[index - 1] === 'community-stories') return 'Story'
+    return breadcrumbMap[value] || value
+  }
+
   return (
     <nav className="breadcrumb" aria-label="Breadcrumb">
       <Link to="/">Home</Link>

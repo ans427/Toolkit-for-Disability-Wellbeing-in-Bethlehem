@@ -161,9 +161,11 @@ function ImmediateResources() {
 
           <div className="resource-grid">
             {filteredResources.map((resource) => (
-            <article key={resource._id} className="resource-card">
-
-              {/* 1. IMAGE AREA */}
+            <Link
+              key={resource._id}
+              to={`/resources/${resource._id}`}
+              className="resource-card"
+            >
               {resource.image?.asset?.url && (
                 <div className="card-image-wrapper">
                   <img
@@ -174,7 +176,6 @@ function ImmediateResources() {
                 </div>
               )}
 
-              {/* 2. CONTENT AREA */}
               <div className="card-content">
                 <span className="card-category">
                   {getCategoryLabel(resource.category || 'general')}
@@ -188,23 +189,18 @@ function ImmediateResources() {
                   {resource.description}
                 </p>
 
-                {/* Contact Info */}
                 {(resource.contactEmail || resource.contactPhone || resource.address) && (
                   <div className="card-contact">
 
                     {resource.contactPhone && (
                       <p>
-                        📞 <a href={`tel:${resource.contactPhone}`}>
-                          {resource.contactPhone}
-                        </a>
+                        📞 <span>{resource.contactPhone}</span>
                       </p>
                     )}
 
                     {resource.contactEmail && (
                       <p>
-                        ✉️ <a href={`mailto:${resource.contactEmail}`}>
-                          {resource.contactEmail}
-                        </a>
+                        ✉️ <span>{resource.contactEmail}</span>
                       </p>
                     )}
 
@@ -218,18 +214,9 @@ function ImmediateResources() {
                   </div>
                 )}
 
-
-                {/* The Button */}
-                <a
-                  href={resource.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="card-button"
-                >
-                  Visit Website ↗
-                </a>
+                <span className="card-link-hint">View details →</span>
               </div>
-            </article>
+            </Link>
           ))}
           </div>
         </>

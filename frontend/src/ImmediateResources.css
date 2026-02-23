@@ -130,7 +130,7 @@
   width: 100%;
 }
 
-/* Individual Card */
+/* Individual Card - whole card is a link to the detail page */
 .resource-card {
   background: white;
   border: 1px solid #e0e0e0;
@@ -140,11 +140,19 @@
   display: flex;
   flex-direction: column;
   text-align: left;
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
 }
 
 .resource-card:hover {
   transform: translateY(-4px);
   box-shadow: 0 12px 24px rgba(0,0,0,0.08);
+}
+
+.resource-card:focus-visible {
+  outline: 3px solid #0056b3;
+  outline-offset: 2px;
 }
 
 /* Image Wrapper */
@@ -203,24 +211,15 @@
   line-height: 1.4;
 }
 
-/* The Button - margin-top: auto pushes it to bottom for aligned buttons across cards */
-.card-button {
+/* Visual cue to view details */
+.card-link-hint {
   display: inline-block;
-  text-align: center;
-  background-color: #222;
-  color: white;
-  text-decoration: none;
-  padding: 0.5rem 0.9rem;
-  border-radius: 6px;
-  font-size: 0.85rem;
-  font-weight: 600;
-  transition: background 0.2s;
   margin-top: auto;
-}
-
-.card-button:hover {
-  background-color: #444;
-  text-decoration: none;
+  padding: 0.5rem 0;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #0056b3;
+  width: fit-content;
 }
 
 /* Contact Section */
@@ -235,13 +234,8 @@
   margin: 0.25rem 0;
 }
 
-.card-contact a {
-  color: #0056b3;
-  text-decoration: none;
-}
-
-.card-contact a:hover {
-  text-decoration: underline;
+.card-contact span {
+  color: #444;
 }
 
 .card-address {
