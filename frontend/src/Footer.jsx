@@ -23,8 +23,8 @@ function Footer() {
           <ul>
             <li><Link to="/sitemap">Site Map</Link></li>
             <li><Link to="/disclaimers">Disclaimers</Link></li>
-            <li><a href="#accessibility">Accessibility Statement</a></li>
-            <li><a href="#privacy">Privacy Policy</a></li>
+            <li><Link to="/accessibility-statement">Accessibility Statement</Link></li>
+            <li><Link to="/privacy-policy">Privacy Policy</Link></li>
           </ul>
         </div>
 

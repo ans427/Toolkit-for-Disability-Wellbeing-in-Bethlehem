@@ -12,6 +12,7 @@
 
 .sitemap-section {
   margin-bottom: 3rem;
+  text-align: left;
 }
 
 .sitemap-section h2 {
@@ -20,6 +21,7 @@
   border-bottom: 2px solid #eee;
   padding-bottom: 0.5rem;
   color: #222;
+  text-align: left;
 }
 
 .sitemap-section ul {

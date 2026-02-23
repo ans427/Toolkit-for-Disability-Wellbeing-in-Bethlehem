@@ -1,9 +1,12 @@
 import { Link } from 'react-router-dom'
+import Breadcrumb from './Breadcrumb'
 import './Disclaimers.css'
 
 function Disclaimers() {
   return (
-    <main className="container">
+    <>
+      <Breadcrumb />
+      <main className="container">
       <div className="disclaimers">
         <header className="disclaimers-header">
           <Link to="/" className="back-link">← Back Home</Link>
@@ -11,50 +14,49 @@ function Disclaimers() {
         </header>
 
         <section className="disclaimer-section">
-          <h2>General Disclaimer</h2>
-          <p>The Toolkit for Disability Wellbeing is provided as an informational resource for the disability community in Bethlehem, PA. While we strive to ensure the accuracy and completeness of all information provided, we make no warranties or representations regarding the content on this website.</p>
+          <h2>Section One</h2>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
         </section>
 
         <section className="disclaimer-section">
-          <h2>Resource Information</h2>
-          <p>All resources, services, and organizations listed on this website are provided for informational purposes only. The inclusion of any resource does not constitute an endorsement or recommendation. We encourage users to conduct their own research and verify information before utilizing any listed services.</p>
-          <p>Resource information is current as of the date of publication but may change without notice. Please contact each organization directly for the most up-to-date information regarding their services, hours, and availability.</p>
+          <h2>Section Two</h2>
+          <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+          <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis.</p>
         </section>
 
         <section className="disclaimer-section">
-          <h2>Community Stories</h2>
-          <p>Community stories and personal accounts shared on this website reflect the experiences and perspectives of the individuals who submitted them. These stories do not necessarily represent the views or policies of the Toolkit for Disability Wellbeing project or its partners.</p>
-          <p>Stories are provided as-is and have been moderated for community guidelines. We do not verify the factual accuracy of individual accounts.</p>
+          <h2>Section Three</h2>
+          <p>Et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.</p>
+          <p>Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.</p>
         </section>
 
         <section className="disclaimer-section">
-          <h2>Medical and Legal Advice</h2>
-          <p>Information provided on this website should not be considered medical, legal, or professional advice. If you require professional assistance, please consult with qualified healthcare providers, attorneys, or other appropriate professionals.</p>
+          <h2>Section Four</h2>
+          <p>Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut quid ex ea commodi consequatur quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur.</p>
         </section>
 
         <section className="disclaimer-section">
-          <h2>Accessibility</h2>
-          <p>We are committed to ensuring this website is accessible to all users, including people with disabilities. Our accessibility toolbar allows customization of text size, contrast, and other display options. If you experience accessibility barriers, please contact us at info@toolkit-disability-bethlehem.org.</p>
+          <h2>Section Five</h2>
+          <p>Vel illum qui dolorem eum fugiat quo voluptas nulla pariatur at vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident.</p>
         </section>
 
         <section className="disclaimer-section">
-          <h2>Limitation of Liability</h2>
-          <p>In no event shall the Toolkit for Disability Wellbeing, its creators, or contributors be liable for any indirect, incidental, special, or consequential damages arising out of or relating to the use of this website or its content.</p>
+          <h2>Section Six</h2>
+          <p>Similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae itaque earum rerum hic tenetur.</p>
         </section>
 
         <section className="disclaimer-section">
-          <h2>Updates and Changes</h2>
-          <p>We reserve the right to update, modify, or remove content from this website at any time without notice. Your continued use of the website following such modifications constitutes your acceptance of these changes.</p>
+          <h2>Section Seven</h2>
+          <p>A sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat sequi nesciunt neque porro quisquam est, qui dolorem ipsum quia dolor sit amet consectetur.</p>
         </section>
 
         <section className="disclaimer-section">
-          <h2>Contact</h2>
-          <p>If you have questions about these disclaimers or this website, please contact us:</p>
-          <p>Email: <a href="mailto:example@example.org">example@example.org</a></p>
-          <p>Phone: (123) 456-7890</p>
+          <h2>Section Eight</h2>
+          <p>Adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem ut enim ad minima veniam quis nostrum exercitationem ullam corporis suscipit laboriosam.</p>
         </section>
       </div>
-    </main>
+      </main>
+    </>
   )
 }
 

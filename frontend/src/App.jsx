@@ -8,6 +8,8 @@ import SubmitForm from './SubmitForm'
 import PolicyGaps from './PolicyGaps'
 import Sitemap from './Sitemap'
 import Disclaimers from './Disclaimers'
+import AccessibilityStatement from './AccessibilityStatement'
+import PrivacyPolicy from './PrivacyPolicy'
 import Footer from './Footer'
 import './App.css'
 import './AccessibilityToolbar.css'
@@ -221,6 +223,8 @@ function App() {
         <Route path="/submit" element={<SubmitForm />} />
         <Route path="/sitemap" element={<Sitemap />} />
         <Route path="/disclaimers" element={<Disclaimers />} />
+        <Route path="/accessibility-statement" element={<AccessibilityStatement />} />
+        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
         </Routes>
       </div>
       <Footer />

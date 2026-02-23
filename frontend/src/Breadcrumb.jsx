@@ -11,14 +11,26 @@ function Breadcrumb({ storyTitle }) {
     'resources': 'Immediate Resources',
     'community-stories': 'Community Stories',
     'policy-gaps': 'Policy & Service Gaps',
-    'submit': 'Submit a Resource or Story'
+    'submit': 'Submit a Resource or Story',
+    'accessibility-statement': 'Accessibility Statement',
+    'privacy-policy': 'Privacy Policy',
+    'sitemap': 'Site Map',
+    'disclaimers': 'Disclaimers'
+  }
+
+  // Format kebab-case slug to Title Case
+  const formatSlug = (slug) => {
+    return slug
+      .split('-')
+      .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(' ')
   }
 
   // Resource/story IDs: show friendly label for detail pages
   const getLabel = (value, index) => {
     if (index > 0 && pathnames[index - 1] === 'resources') return 'Resource'
     if (index > 0 && pathnames[index - 1] === 'community-stories') return 'Story'
-    return breadcrumbMap[value] || value
+    return breadcrumbMap[value] || formatSlug(value)
   }
 
   return (
@@ -29,7 +41,7 @@ function Breadcrumb({ storyTitle }) {
         // Use storyTitle if this is a story detail page (UUID format with dashes)
         const isUUID = /^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/.test(value)
         const isStoryId = isUUID && pathnames[index - 1] === 'community-stories'
-        let label = breadcrumbMap[value] || value
+        let label = getLabel(value, index)
         
         if (storyTitle && isStoryId) {
           label = storyTitle

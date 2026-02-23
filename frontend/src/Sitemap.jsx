@@ -1,9 +1,12 @@
 import { Link } from 'react-router-dom'
+import Breadcrumb from './Breadcrumb'
 import './Sitemap.css'
 
 function Sitemap() {
   return (
-    <main className="container">
+    <>
+      <Breadcrumb />
+      <main className="container">
       <div className="sitemap">
         <header className="sitemap-header">
           <Link to="/" className="back-link">← Back Home</Link>
@@ -26,12 +29,12 @@ function Sitemap() {
           <ul>
             <li><Link to="/sitemap">Site Map</Link></li>
             <li><Link to="/disclaimers">Disclaimers</Link></li>
-            <li><a href="#accessibility">Accessibility Statement</a></li>
-            <li><a href="#privacy">Privacy Policy</a></li>
+            <li><Link to="/accessibility-statement">Accessibility Statement</Link></li>
+            <li><Link to="/privacy-policy">Privacy Policy</Link></li>
           </ul>
         </section>
 
-        <section className="sitemap-section">
+        {/* <section className="sitemap-section">
           <h2>Resources by Category</h2>
           <ul>
             <li>Healthcare Resources</li>
@@ -40,15 +43,16 @@ function Sitemap() {
             <li>Community Support</li>
             <li>Employment Services</li>
           </ul>
-        </section>
+        </section> */}
 
-        <section className="sitemap-section">
+        {/* <section className="sitemap-section">
           <h2>Community Content</h2>
           <p>Browse individual community stories and lived experiences shared by disabled residents of Bethlehem.</p>
           <Link to="/community-stories" className="inline-link">View All Stories</Link>
-        </section>
+        </section> */}
       </div>
-    </main>
+      </main>
+    </>
   )
 }
 
