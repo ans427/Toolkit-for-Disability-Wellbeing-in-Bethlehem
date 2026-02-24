@@ -22,7 +22,7 @@ function ImmediateResources() {
   const [resources, setResources] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
-  const [categoryFilter, setCategoryFilter] = useState('')
+  const [selectedCategories, setSelectedCategories] = useState(new Set())
   const [searchQuery, setSearchQuery] = useState('')
 
   useEffect(() => {
@@ -70,14 +70,47 @@ function ImmediateResources() {
       const cat = r.category || 'general'
       seen.add(cat)
     })
-    return ['', ...Array.from(seen).sort()]
+    return Array.from(seen).sort()
   }, [resources])
+
+  const toggleCategory = (cat) => {
+    setSelectedCategories((prev) => {
+      const next = new Set(prev)
+      if (next.has(cat)) next.delete(cat)
+      else next.add(cat)
+      return next
+    })
+  }
+
+  const allChipIds = ['filter-all', ...categories.map((c) => `filter-${c}`)]
+
+  const handleChipKeyDown = (e, index) => {
+    let nextIndex = index
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+      e.preventDefault()
+      nextIndex = Math.min(index + 1, allChipIds.length - 1)
+    } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+      e.preventDefault()
+      nextIndex = Math.max(index - 1, 0)
+    } else if (e.key === 'Home') {
+      e.preventDefault()
+      nextIndex = 0
+    } else if (e.key === 'End') {
+      e.preventDefault()
+      nextIndex = allChipIds.length - 1
+    }
+    if (nextIndex !== index) {
+      document.getElementById(allChipIds[nextIndex])?.focus()
+    }
+  }
+
+  const showAll = selectedCategories.size === 0
 
   const filteredResources = useMemo(() => {
     const query = searchQuery.trim().toLowerCase()
-    const byCategory = !categoryFilter
+    const byCategory = showAll
       ? resources
-      : resources.filter((r) => (r.category || 'general') === categoryFilter)
+      : resources.filter((r) => selectedCategories.has(r.category || 'general'))
     if (!query) return byCategory
     return byCategory.filter((r) => {
       const title = (r.title || '').toLowerCase()
@@ -85,7 +118,7 @@ function ImmediateResources() {
       const category = getCategoryLabel(r.category || 'general').toLowerCase()
       return title.includes(query) || description.includes(query) || category.includes(query)
     })
-  }, [resources, categoryFilter, searchQuery])
+  }, [resources, showAll, selectedCategories, searchQuery])
 
   return (
     <main className="container">
@@ -126,26 +159,41 @@ function ImmediateResources() {
                 />
               </div>
 
-              <fieldset className="resource-filter-fieldset">
-                <legend className="resource-filter-legend">
-                  Filter by category
-                </legend>
-                <select
-                  id="resource-category-filter"
-                  className="resource-filter-select"
-                  value={categoryFilter}
-                  onChange={(e) => setCategoryFilter(e.target.value)}
-                  aria-label="Filter resources by category"
-                  aria-describedby="filter-results-count"
-                >
-                  <option value="">All categories</option>
-                  {categories.filter(Boolean).map((cat) => (
-                    <option key={cat} value={cat}>
-                      {getCategoryLabel(cat)}
-                    </option>
+              <div
+                className="resource-filter-chips"
+                role="group"
+                aria-label="Filter by category"
+                aria-describedby="filter-results-count"
+              >
+                <span className="resource-filter-legend">Filter by category</span>
+                <div className="resource-filter-chip-list">
+                  <button
+                      id="filter-all"
+                      type="button"
+                      className={`resource-filter-chip ${showAll ? 'resource-filter-chip--selected' : ''}`}
+                      onClick={() => setSelectedCategories(new Set())}
+                      onKeyDown={(e) => handleChipKeyDown(e, 0)}
+                      aria-pressed={showAll}
+                      aria-label="Show all categories"
+                    >
+                      All
+                    </button>
+                  {categories.map((cat, i) => (
+                    <button
+                        key={cat}
+                        id={`filter-${cat}`}
+                        type="button"
+                        className={`resource-filter-chip ${selectedCategories.has(cat) ? 'resource-filter-chip--selected' : ''}`}
+                        onClick={() => toggleCategory(cat)}
+                        onKeyDown={(e) => handleChipKeyDown(e, i + 1)}
+                        aria-pressed={selectedCategories.has(cat)}
+                        aria-label={`Filter by ${getCategoryLabel(cat)}`}
+                      >
+                        {getCategoryLabel(cat)}
+                      </button>
                   ))}
-                </select>
-              </fieldset>
+                </div>
+              </div>
             </div>
 
             <p

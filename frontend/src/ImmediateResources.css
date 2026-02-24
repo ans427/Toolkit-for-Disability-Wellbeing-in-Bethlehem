@@ -28,7 +28,7 @@
   font-size: 1rem;
   margin-bottom: 0.5rem;
   color: #222;
-  text-align: left;
+  text-align: center;
 }
 
 .resource-search-input {
@@ -60,49 +60,73 @@
   box-shadow: 0 0 0 3px rgba(0, 86, 179, 0.2);
 }
 
-.resource-filter-fieldset {
-  border: none;
-  padding: 0;
-  margin: 0;
-  max-width: 320px;
-}
-
+/* Category filter chips (multi-select, keyboard accessible) */
 .resource-filter-legend {
   font-weight: 600;
   font-size: 1rem;
-  margin-bottom: 0.5rem;
-  padding: 0;
+  display: block;
+  margin-bottom: 0.25rem;
   color: #222;
-  text-align: left;
+  text-align: center;
 }
 
-.resource-filter-select {
-  display: block;
-  width: 100%;
-  max-width: 280px;
-  padding: 0.75rem 2.5rem 0.75rem 1rem;
+.resource-filter-chips {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.resource-filter-chip-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: center;
+}
+
+.resource-filter-chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   min-height: 44px;
+  min-width: 44px;
+  padding: 0.5rem 1rem;
   font-size: 1rem;
   font-family: inherit;
+  font-weight: 500;
   color: #222;
   background-color: #fff;
   border: 2px solid #c5cedb;
-  border-radius: 8px;
+  border-radius: 50px;
   cursor: pointer;
-  appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23555' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: right 1rem center;
+  transition: border-color 0.15s ease, background-color 0.15s ease, color 0.15s ease;
 }
 
-.resource-filter-select:hover {
+.resource-filter-chip:hover {
   border-color: #0056b3;
+  background-color: #f0f7ff;
 }
 
-.resource-filter-select:focus {
+.resource-filter-chip:focus {
   outline: none;
   border-color: #0056b3;
   box-shadow: 0 0 0 3px rgba(0, 86, 179, 0.2);
+}
+
+.resource-filter-chip--selected {
+  background-color: #0056b3;
+  border-color: #0056b3;
+  color: #fff;
+}
+
+.resource-filter-chip--selected:hover {
+  background-color: #004494;
+  border-color: #004494;
+  color: #fff;
+}
+
+.resource-filter-chip--selected:focus {
+  box-shadow: 0 0 0 3px rgba(0, 86, 179, 0.3);
 }
 
 .resource-filter-count {
@@ -269,12 +293,12 @@
     max-width: none;
   }
 
-  .resource-filter-fieldset {
-    max-width: none;
+  .resource-filter-chips {
+    width: 100%;
   }
 
-  .resource-filter-select {
-    max-width: none;
+  .resource-filter-chip-list {
+    width: 100%;
   }
 
   .resource-header {
