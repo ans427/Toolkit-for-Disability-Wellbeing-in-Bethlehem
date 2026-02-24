@@ -1,0 +1,73 @@
+/* Accessibility Statement Styles */
+.accessibility-statement-header {
+  margin-bottom: 2rem;
+  text-align: left;
+}
+
+.accessibility-statement-header h1 {
+  margin-top: 1rem;
+  font-size: 2.5rem;
+  color: #222;
+}
+
+.statement-section {
+  margin-bottom: 2.5rem;
+  text-align: left;
+}
+
+.statement-section h2 {
+  font-size: 1.3rem;
+  margin-top: 0;
+  margin-bottom: 1rem;
+  color: #0056b3;
+  text-align: left;
+}
+
+.statement-section p {
+  margin-bottom: 1rem;
+  line-height: 1.7;
+  color: #555;
+  text-align: left;
+}
+
+.statement-section p:last-child {
+  margin-bottom: 0;
+}
+
+.statement-section a {
+  color: #0056b3;
+  text-decoration: none;
+}
+
+.statement-section a:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 600px) {
+  .accessibility-statement-header h1 {
+    font-size: 1.75rem;
+  }
+
+  .statement-section {
+    margin-bottom: 1.5rem;
+  }
+
+  .statement-section h2 {
+    font-size: 1.1rem;
+  }
+}
+
+/* High contrast mode */
+html.a11y-high-contrast .accessibility-statement-header h1,
+html.a11y-high-contrast .statement-section h2 {
+  color: #ff0 !important;
+}
+
+html.a11y-high-contrast .statement-section p {
+  color: #fff !important;
+}
+
+html.a11y-high-contrast .statement-section a {
+  color: #ff0 !important;
+  text-decoration: underline !important;
+}

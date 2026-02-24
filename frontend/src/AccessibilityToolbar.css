@@ -1,0 +1,420 @@
+/* Accessibility toolbar styles */
+.accessibility-toggle-button {
+  position: fixed;
+  top: 20px;
+  /* align with container's right padding (container uses max-width 1200px and padding-right 5rem)
+     this keeps the button lined up with the end of content for wide layouts */
+  right: calc((100% - 1200px) / 2 + 5rem);
+  z-index: 1200;
+  background: #005fcc;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  font-size: 15px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px;
+  cursor: pointer;
+}
+
+.accessibility-toggle-button:focus-visible {
+  outline: 2px dashed #ff8c00;
+  outline-offset: 2px;
+}
+
+.accessibility-panel {
+  position: fixed;
+  top: 64px;
+  right: 10px;
+  z-index: 1200;
+  width: 360px; /* increased so buttons don't overflow */
+  background: #fff;
+  color: #111;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 12px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+}
+
+.accessibility-panel .panel-row {
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.accessibility-panel .size-buttons {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap; /* allow buttons to wrap instead of overflowing */
+}
+
+.text-size-button {
+  padding: 6px 8px;
+  border: 1px solid #ccc;
+  background: #f7f7f7;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.text-size-button.active {
+  background: #005fcc;
+  color: #fff;
+  border-color: #005fcc;
+}
+
+.panel-actions { text-align: right; }
+.panel-actions button { padding: 6px 10px; }
+
+/* High contrast mode */
+.a11y-high-contrast, .a11y-high-contrast body, .a11y-high-contrast :root {
+  background: #000 !important;
+  color: #fff !important;
+}
+.a11y-high-contrast a { color: #ffff00 !important; }
+.a11y-high-contrast .nav-card { background: #000 !important; border-color: #444 !important }
+.a11y-high-contrast .accessibility-toggle-button { background: #222 !important; color: #fff !important }
+.a11y-high-contrast .accessibility-panel { background: #111 !important; color: #fff !important; border-color: #333 !important }
+
+/* Underline links */
+.a11y-underline-links a { text-decoration: underline !important }
+
+/* Universal focus styles for all interactive elements */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible,
+[role="button"]:focus-visible {
+  outline: 2px dashed #ff8c00;
+  outline-offset: 2px;
+}
+
+/* Skip link (visually hidden until focused) */
+/* Removed - skip link button not working as intended */
+
+/* Global focus-visible improvements for keyboard navigation in high-contrast and normal mode */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+.text-size-button:focus-visible,
+.accessibility-toggle-button:focus-visible,
+.story-card-link:focus-visible {
+  outline: 2px dashed #ff8c00;
+  outline-offset: 2px;
+}
+
+/* Ensure links show a clear focus ring (non-high-contrast) */
+a:focus-visible {
+  outline: 2px dashed #ff8c00;
+  outline-offset: 2px;
+}
+
+/* Links should be tabbable and visible when focused */
+a {
+  /* Ensure all links are keyboard accessible */
+}
+
+/* Story card link focus - the Link component itself */
+a.story-card-link:focus-visible,
+.story-card-link:focus-visible {
+  outline: 2px dashed #ff8c00;
+  outline-offset: 2px;
+}
+
+.story-card-link:focus-visible .story-card {
+  border: 2px dashed #ff8c00;
+  box-shadow: none;
+}
+
+/* Ensure all form fieldsets and labels are keyboard navigable */
+label:focus-within {
+  outline: 3px dashed #ff8c00;
+  outline-offset: 2px;
+}
+
+/* Dropdown select should show focus */
+select:focus {
+  outline: 2px dashed #ff8c00 !important;
+  outline-offset: 2px;
+}
+
+/* Ensure radio/checkbox inputs are focusable */
+input[type="radio"]:focus-visible,
+input[type="checkbox"]:focus-visible {
+  outline: 2px dashed #ff8c00;
+  outline-offset: 2px;
+}
+
+/* Improve nav card focus ring in high-contrast */
+html.a11y-high-contrast a:focus-visible .nav-card,
+html.a11y-high-contrast .nav-card-link:focus-visible .nav-card {
+  border: 2px dashed #ff8c00 !important;
+  box-shadow: none !important;
+}
+
+/* High-contrast mode nav cards and homepage links focus */
+html.a11y-high-contrast .homepage-grid a:focus-visible .nav-card {
+  border: 2px dashed #ff8c00 !important;
+  outline-offset: 2px;
+}
+
+/* small-screen adjustment */
+@media (max-width: 1200px) {
+  .accessibility-toggle-button { right: 5rem; }
+}
+
+@media (max-width: 600px) {
+  .accessibility-panel { right: 8px; left: 8px; width: auto; }
+  .accessibility-toggle-button { right: 1rem; top: 18px; }
+}
+
+/* High contrast detailed styling */
+
+/* Apply high contrast to the html element (we toggle the class on documentElement) */
+html.a11y-high-contrast,
+html.a11y-high-contrast body,
+html.a11y-high-contrast #root,
+html.a11y-high-contrast .container {
+  background: #000 !important;
+  color: #ff0 !important; /* main text = yellow */
+}
+
+html.a11y-high-contrast h1,
+html.a11y-high-contrast h2,
+html.a11y-high-contrast h3,
+html.a11y-high-contrast h4,
+html.a11y-high-contrast p,
+html.a11y-high-contrast a,
+html.a11y-high-contrast label,
+html.a11y-high-contrast li {
+  color: #ff0 !important;
+}
+
+html.a11y-high-contrast .subtitle,
+html.a11y-high-contrast footer,
+html.a11y-high-contrast small,
+html.a11y-high-contrast .muted,
+html.a11y-high-contrast .card-contact,
+html.a11y-high-contrast .card-description {
+  color: #fff !important; /* smaller/secondary text = white */
+}
+
+/* Ensure cards, inputs, and buttons have yellow borders and black background */
+/* Outer containers (cards/sections) get the prominent yellow border */
+html.a11y-high-contrast .resource-card,
+html.a11y-high-contrast .nav-card,
+html.a11y-high-contrast .story-card,
+html.a11y-high-contrast .policy-section,
+html.a11y-high-contrast .submit-form {
+  background: #000 !important;
+  color: #ff0 !important;
+  border: 2px solid #ff0 !important;
+}
+
+/* Form controls and buttons keep a subtler 1px border to avoid double outlines */
+html.a11y-high-contrast input,
+html.a11y-high-contrast textarea,
+html.a11y-high-contrast select {
+  background: #000 !important;
+  color: #ff0 !important;
+  border: 1px solid #ff0 !important;
+}
+
+html.a11y-high-contrast button,
+html.a11y-high-contrast .card-button,
+html.a11y-high-contrast .submit-button {
+  background: #000 !important;
+  color: #ff0 !important;
+  border: 1px solid #ff0 !important;
+}
+
+html.a11y-high-contrast .resource-card { box-shadow: none; }
+html.a11y-high-contrast a { color: #ff0 !important; text-decoration: underline !important }
+
+/* Additional high-contrast overrides for other pages/components */
+/* Community Stories */
+html.a11y-high-contrast .story-card,
+html.a11y-high-contrast .story-card-link .story-card {
+  background: #000 !important;
+  color: #ff0 !important;
+  border: 2px solid #ff0 !important;
+  box-shadow: none !important;
+}
+html.a11y-high-contrast .story-title,
+html.a11y-high-contrast .story-summary,
+html.a11y-high-contrast .story-meta,
+html.a11y-high-contrast .story-body,
+html.a11y-high-contrast .story-paragraph,
+html.a11y-high-contrast .story-card-header,
+html.a11y-high-contrast .story-card-footer {
+  color: #ff0 !important;
+}
+html.a11y-high-contrast .story-summary { background: #000 !important; border-left: 4px solid #ff0 !important }
+
+/* Inline comments & comment panels */
+/* Inline comment panel should be high-contrast, but individual comment items should NOT have a border */
+html.a11y-high-contrast .inline-bubble,
+html.a11y-high-contrast .inline-comment-panel,
+html.a11y-high-contrast .inline-comment-form,
+html.a11y-high-contrast .selected-text-context {
+  background: #000 !important;
+  color: #ff0 !important;
+  border: 2px solid #ff0 !important;
+}
+
+/* Individual inline comments: no border, black background, yellow text */
+html.a11y-high-contrast .inline-comment-item,
+html.a11y-high-contrast .comment-item,
+html.a11y-high-contrast .inline-comment-quote,
+html.a11y-high-contrast .inline-comment-text {
+  background: #000 !important;
+  color: #ff0 !important;
+  border: none !important;
+}
+html.a11y-high-contrast .inline-comment-header h4,
+html.a11y-high-contrast .inline-comment-text,
+html.a11y-high-contrast .inline-comment-quote {
+  color: #ff0 !important;
+}
+html.a11y-high-contrast .inline-comment-date,
+html.a11y-high-contrast .inline-comment-author,
+html.a11y-high-contrast .inline-comment-meta small,
+html.a11y-high-contrast .no-comments {
+  color: #fff !important; /* secondary/smaller text in white */
+}
+
+/* Comments section */
+/* Comments section: keep the comment form outlined, but individual comment items without border */
+html.a11y-high-contrast .comment-form {
+  background: #000 !important;
+  color: #ff0 !important;
+  border: 2px solid #ff0 !important;
+}
+html.a11y-high-contrast .comment-item {
+  background: #000 !important;
+  color: #ff0 !important;
+  border: none !important;
+}
+html.a11y-high-contrast .comment-text,
+html.a11y-high-contrast .comment-author {
+  color: #ff0 !important;
+}
+html.a11y-high-contrast .comment-date,
+html.a11y-high-contrast .flag-count,
+html.a11y-high-contrast .comment-footer,
+html.a11y-high-contrast .char-count {
+  color: #fff !important;
+}
+
+/* Policy Gaps */
+/* Policy: only the outer policy-section should have the yellow outline; inner blocks no border */
+html.a11y-high-contrast .policy-section,
+html.a11y-high-contrast .policy-toc,
+html.a11y-high-contrast .highlight-block {
+  background: #000 !important;
+  color: #ff0 !important;
+  border: 2px solid #ff0 !important;
+}
+html.a11y-high-contrast .policy-block,
+html.a11y-high-contrast .policy-block p {
+  background: transparent !important;
+  border: none !important;
+  color: #ff0 !important;
+}
+html.a11y-high-contrast .policy-section h2,
+html.a11y-high-contrast .toc-list a {
+  color: #ff0 !important;
+}
+
+/* Submit form and inputs */
+/* Submit form: card gets outline, inputs/buttons use 1px to reduce heaviness */
+/* The submit form card should have the yellow outline, but avoid outlining the inner radio-options container
+   to prevent a second surrounding yellow border. Radio option cards are individually outlined. */
+html.a11y-high-contrast .submit-form,
+html.a11y-high-contrast .radio-option-card {
+  background: #000 !important;
+  color: #ff0 !important;
+  border: 2px solid #ff0 !important;
+}
+
+  /* Ensure radio option titles and descriptions are visible (title = yellow, description = white) */
+  html.a11y-high-contrast .radio-option-title {
+    color: #ff0 !important;
+  }
+  html.a11y-high-contrast .radio-option-description {
+    color: #fff !important;
+  }
+html.a11y-high-contrast .submit-label input,
+html.a11y-high-contrast .submit-label textarea,
+html.a11y-high-contrast .submit-label select {
+  background: #000 !important;
+  color: #ff0 !important;
+  border: 1px solid #ff0 !important;
+}
+html.a11y-high-contrast .submit-button,
+html.a11y-high-contrast .card-button {
+  background: #000 !important;
+  color: #ff0 !important;
+  border: 1px solid #ff0 !important;
+}
+html.a11y-high-contrast ::placeholder { color: #fff !important }
+
+/* Radio option selected state: bright yellow background with dark text for clear selected affordance */
+/* Selected radio option: orange dashed border for clear selected affordance */
+html.a11y-high-contrast .radio-option-selected {
+  background: #000 !important;
+  color: #ff0 !important;
+  border: 2px dashed #ff8c00 !important; /* orange dashed */
+}
+
+/* When not selected, radio option cards should be black with a yellow outline and yellow text */
+html.a11y-high-contrast .radio-option-card {
+  background: #000 !important;
+  color: #ff0 !important;
+  border: 2px solid #ff0 !important;
+}
+
+/* Focused radio option should keep the orange dashed border */
+html.a11y-high-contrast .radio-option-card:focus-within {
+  border: 2px dashed #ff8c00 !important;
+}
+
+/* Make sure the radio-options wrapper does not get its own border in high-contrast */
+html.a11y-high-contrast .radio-options {
+  border: none !important;
+}
+
+/* Dropdown arrow for selects: SVG with yellow fill */
+html.a11y-high-contrast .submit-label select {
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'><path fill='%23ff0' d='M6 8L1 3h10z'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+}
+
+
+/* Keyboard focus states: use orange dashed border for all interactive elements in high contrast */
+html.a11y-high-contrast button:focus-visible,
+html.a11y-high-contrast a:focus-visible,
+html.a11y-high-contrast input:focus-visible,
+html.a11y-high-contrast select:focus-visible,
+html.a11y-high-contrast textarea:focus-visible,
+html.a11y-high-contrast .text-size-button:focus-visible,
+html.a11y-high-contrast .accessibility-toggle-button:focus-visible,
+html.a11y-high-contrast .radio-option-card:focus-within {
+  outline: 2px dashed #ff8c00 !important;
+  outline-offset: 2px;
+  box-shadow: none !important;
+  border: 2px dashed #ff8c00 !important;
+}
+
+/* Ensure radio-option-selected still uses dashed border when focused */
+html.a11y-high-contrast .radio-option-selected:focus-within {
+  border-style: dashed !important;
+}
+
+

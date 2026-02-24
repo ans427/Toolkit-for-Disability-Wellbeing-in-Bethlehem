@@ -71,7 +71,7 @@ function StoryDetail() {
 
   return (
     <main className="container">
-      <Breadcrumb />
+      <Breadcrumb storyTitle={story.title} />
       
       <article className="story-detail">
         <header className="story-detail-header">

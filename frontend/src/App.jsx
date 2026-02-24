@@ -6,7 +6,13 @@ import CommunityStories from './CommunityStories'
 import StoryDetail from './StoryDetail'
 import SubmitForm from './SubmitForm'
 import PolicyGaps from './PolicyGaps'
+import Sitemap from './Sitemap'
+import Disclaimers from './Disclaimers'
+import AccessibilityStatement from './AccessibilityStatement'
+import PrivacyPolicy from './PrivacyPolicy'
+import Footer from './Footer'
 import './App.css'
+import './AccessibilityToolbar.css'
 
 function HomePage() {
   return (
@@ -79,67 +85,135 @@ function HomePage() {
         </div>
       </section>
 
-      <footer>
+      {/* <footer>
         <p>
           Created in collaboration with Lehigh University and the Bethlehem
           community.
         </p>
-      </footer>
+      </footer> */}
     </main>
   )
 }
 
-function AccessibilityToolbar({ textSize, setTextSize }) {
+function AccessibilityToolbar({ textSize, setTextSize, highContrast, setHighContrast, underlineLinks, setUnderlineLinks }) {
+  const [open, setOpen] = useState(false)
+
   const sizes = [
-    { id: 'normal', label: 'A', description: 'Normal text size' },
-    { id: 'large', label: 'A', description: 'Large text size' },
-    { id: 'xlarge', label: 'A', description: 'Extra large text size' },
-    { id: 'xxlarge', label: 'A', description: 'Largest text size' },
+    { id: 'smaller', label: 'Smaller', description: 'Smaller text' },
+    { id: 'normal', label: 'Default', description: 'Default text size' },
+    { id: 'large', label: 'Larger', description: 'Larger text' },
+    { id: 'xlarge', label: 'Largest', description: 'Largest text' },
   ]
 
   return (
-    <div
-      className="accessibility-toolbar"
-      aria-label="Accessibility options"
-      role="region"
-    >
-      <span className="toolbar-label">Text size:</span>
-      {sizes.map((size, index) => (
-        <button
-          key={size.id}
-          type="button"
-          onClick={() => setTextSize(size.id)}
-          className={`text-size-button ${
-            textSize === size.id ? 'active' : ''
-          }`}
-          aria-pressed={textSize === size.id}
-          aria-label={size.description}
-          style={{ fontSize: `${1 + index * 0.15}rem` }}
-        >
-          {size.label}
-        </button>
-      ))}
+    <div>
+      <button
+        className="accessibility-toggle-button"
+        aria-expanded={open}
+        aria-controls="accessibility-panel"
+        onClick={() => setOpen(v => !v)}
+        title="Accessibility options"
+      >
+        ⚙ Accessibility
+      </button>
+
+      {open && (
+        <div id="accessibility-panel" className="accessibility-panel" role="dialog" aria-label="Accessibility settings">
+          <div className="panel-row">
+            <strong>Text size</strong>
+            <div className="size-buttons">
+              {sizes.map((size) => (
+                <button
+                  key={size.id}
+                  type="button"
+                  onClick={() => setTextSize(size.id)}
+                  className={`text-size-button ${textSize === size.id ? 'active' : ''}`}
+                  aria-pressed={textSize === size.id}
+                  aria-label={size.description}
+                >
+                  {size.label}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div className="panel-row">
+            <label>
+              <input
+                type="checkbox"
+                checked={highContrast}
+                onChange={(e) => setHighContrast(e.target.checked)}
+              />{' '}
+              High contrast
+            </label>
+          </div>
+
+          <div className="panel-row">
+            <label>
+              <input
+                type="checkbox"
+                checked={underlineLinks}
+                onChange={(e) => setUnderlineLinks(e.target.checked)}
+              />{' '}
+              Underline links
+            </label>
+          </div>
+
+          <div className="panel-actions">
+            <button type="button" onClick={() => { setOpen(false) }}>Close</button>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
 
 function App() {
-  const [textSize, setTextSize] = useState('normal')
+  const [textSize, setTextSize] = useState(() => {
+    return localStorage.getItem('a11y_textSize') || 'normal'
+  })
+  const [highContrast, setHighContrast] = useState(() => {
+    return localStorage.getItem('a11y_highContrast') === 'true'
+  })
+  const [underlineLinks, setUnderlineLinks] = useState(() => {
+    return localStorage.getItem('a11y_underlineLinks') === 'true'
+  })
 
   useEffect(() => {
     const sizeMap = {
+      smaller: '14px',
       normal: '16px',
       large: '18px',
       xlarge: '20px',
-      xxlarge: '22px',
     }
     document.documentElement.style.fontSize = sizeMap[textSize] || '16px'
+    localStorage.setItem('a11y_textSize', textSize)
   }, [textSize])
+
+  useEffect(() => {
+    if (highContrast) document.documentElement.classList.add('a11y-high-contrast')
+    else document.documentElement.classList.remove('a11y-high-contrast')
+    localStorage.setItem('a11y_highContrast', highContrast)
+  }, [highContrast])
+
+  useEffect(() => {
+    if (underlineLinks) document.documentElement.classList.add('a11y-underline-links')
+    else document.documentElement.classList.remove('a11y-underline-links')
+    localStorage.setItem('a11y_underlineLinks', underlineLinks)
+  }, [underlineLinks])
 
   return (
     <BrowserRouter>
-      <AccessibilityToolbar textSize={textSize} setTextSize={setTextSize} />
-      <Routes>
+      <AccessibilityToolbar
+        textSize={textSize}
+        setTextSize={setTextSize}
+        highContrast={highContrast}
+        setHighContrast={setHighContrast}
+        underlineLinks={underlineLinks}
+        setUnderlineLinks={setUnderlineLinks}
+      />
+      <div id="page-content">
+        <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/resources/:resourceId" element={<ResourceDetail />} />
         <Route path="/resources" element={<ImmediateResources />} />
@@ -147,7 +221,13 @@ function App() {
         <Route path="/community-stories/:storyId" element={<StoryDetail />} />
         <Route path="/policy-gaps" element={<PolicyGaps />} />
         <Route path="/submit" element={<SubmitForm />} />
-      </Routes>
+        <Route path="/sitemap" element={<Sitemap />} />
+        <Route path="/disclaimers" element={<Disclaimers />} />
+        <Route path="/accessibility-statement" element={<AccessibilityStatement />} />
+        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+        </Routes>
+      </div>
+      <Footer />
     </BrowserRouter>
   )
 }
