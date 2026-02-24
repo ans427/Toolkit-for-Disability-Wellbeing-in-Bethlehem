@@ -2,8 +2,6 @@ import { useEffect, useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { sanity } from './sanityClient'
 import Breadcrumb from './Breadcrumb'
-import InlineComments from './InlineComments'
-import Comments from './Comments'
 import './StoryDetail.css'
 
 function StoryDetail() {
@@ -67,7 +65,6 @@ function StoryDetail() {
     )
   }
 
-  // Split story into paragraphs for inline comments
   const paragraphs = story.story
     .split('\n\n')
     .filter(p => p.trim().length > 0)
@@ -111,20 +108,10 @@ function StoryDetail() {
 
         <div className="story-body">
           {paragraphs.map((paragraph, index) => (
-            <div key={index} className="story-paragraph-wrapper">
-              <InlineComments
-                storyId={storyId}
-                paragraphIndex={index}
-                paragraphText={paragraph}
-              />
-              <p className="story-paragraph">{paragraph}</p>
-            </div>
+            <p key={index} className="story-paragraph">{paragraph}</p>
           ))}
         </div>
       </article>
-
-      {/* Bottom Comments Section */}
-      <Comments storyId={storyId} />
     </main>
   )
 }

@@ -36,6 +36,8 @@ function ImmediateResources() {
             category,
             url,
             description,
+            helpfulCount,
+            notHelpfulCount,
             contactEmail,
             contactPhone,
             address{
@@ -188,6 +190,15 @@ function ImmediateResources() {
                 <p className="card-description">
                   {resource.description}
                 </p>
+
+                {((resource.helpfulCount ?? 0) + (resource.notHelpfulCount ?? 0)) > 0 && (
+                  <p className="card-helpful-count" aria-label="Community feedback">
+                    👍 {(resource.helpfulCount ?? 0)} found this helpful
+                    {(resource.notHelpfulCount ?? 0) > 0 && (
+                      <> · 👎 {resource.notHelpfulCount} did not</>
+                    )}
+                  </p>
+                )}
 
                 {(resource.contactEmail || resource.contactPhone || resource.address) && (
                   <div className="card-contact">

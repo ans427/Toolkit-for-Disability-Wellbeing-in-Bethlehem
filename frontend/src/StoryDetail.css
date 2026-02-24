@@ -70,12 +70,6 @@
   line-height: 1.8;
 }
 
-.story-paragraph-wrapper {
-  margin: 1.5rem 0;
-  position: relative;
-  padding-right: 3.2rem;
-}
-
 .story-paragraph {
   color: #333;
   font-size: 1rem;
@@ -134,10 +128,6 @@
 @media (max-width: 480px) {
   .story-detail h1.story-title {
     font-size: 1.25rem;
-  }
-
-  .story-paragraph-wrapper {
-    margin: 1rem 0;
   }
 
   .story-body {

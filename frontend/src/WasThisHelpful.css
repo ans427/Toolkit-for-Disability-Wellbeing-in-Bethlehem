@@ -1,0 +1,214 @@
+.was-this-helpful {
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 1px solid rgba(0, 102, 204, 0.12);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.was-this-helpful--loading .was-this-helpful-skeleton {
+  height: 5rem;
+  background: linear-gradient(
+    90deg,
+    #e8f0f8 25%,
+    #f0f6fc 50%,
+    #e8f0f8 75%
+  );
+  background-size: 200% 100%;
+  animation: was-this-helpful-shimmer 1.5s ease-in-out infinite;
+  border-radius: 12px;
+  max-width: 420px;
+}
+
+@keyframes was-this-helpful-shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+.was-this-helpful-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 1.5rem 1.75rem;
+  width: 100%;
+  box-shadow: 0 2px 12px rgba(0, 102, 204, 0.06);
+  border: 1px solid rgba(0, 102, 204, 0.1);
+  margin: 0 auto;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.was-this-helpful-question {
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: #1a1a2e;
+  margin: 0 0 0.5rem 0;
+  letter-spacing: -0.01em;
+}
+
+.was-this-helpful-counts {
+  font-size: 0.9rem;
+  color: #5a6578;
+  margin: 0 0 1rem 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+.was-this-helpful-counts--prompt {
+  margin-bottom: 1.25rem;
+}
+
+.was-this-helpful-count {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.was-this-helpful-icon {
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.was-this-helpful-sep {
+  color: #c4cbd6;
+  font-weight: 300;
+}
+
+.was-this-helpful-suggestion {
+  text-align: left;
+  margin-top: 0.5rem;
+}
+
+.was-this-helpful-suggestion-label {
+  display: block;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #374151;
+  margin-bottom: 0.5rem;
+}
+
+.was-this-helpful-suggestion-input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  font-size: 0.95rem;
+  font-family: inherit;
+  color: #1e293b;
+  background-color: #fff;
+  border: 1.5px solid #d0d7e0;
+  border-radius: 8px;
+  resize: vertical;
+  min-height: 80px;
+  margin-bottom: 1rem;
+  box-sizing: border-box;
+}
+
+.was-this-helpful-suggestion-input:focus {
+  outline: none;
+  border-color: #0066cc;
+  box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.15);
+}
+
+.was-this-helpful-suggestion-input::placeholder {
+  color: #9ca3af;
+}
+
+.was-this-helpful-suggestion-actions {
+  display: flex;
+  justify-content: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.was-this-helpful-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.was-this-helpful-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.65rem 1.35rem;
+  font-size: 0.95rem;
+  font-weight: 500;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: inherit;
+  border: 1.5px solid transparent;
+}
+
+.was-this-helpful-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.was-this-helpful-btn-icon {
+  font-size: 1.1rem;
+  line-height: 1;
+}
+
+.was-this-helpful-btn-yes {
+  background: linear-gradient(135deg, #0066cc 0%, #0052a3 100%);
+  color: white;
+  border-color: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 2px 8px rgba(0, 102, 204, 0.25);
+}
+
+.was-this-helpful-btn-yes:hover:not(:disabled) {
+  background: linear-gradient(135deg, #0052a3 0%, #003d7a 100%);
+  box-shadow: 0 4px 12px rgba(0, 102, 204, 0.35);
+  transform: translateY(-1px);
+}
+
+.was-this-helpful-btn-no {
+  background: #fff;
+  color: #5a6578;
+  border-color: #d0d7e0;
+}
+
+.was-this-helpful-btn-no:hover:not(:disabled) {
+  background: #f8fafc;
+  border-color: #a8b4c4;
+  color: #3d4553;
+}
+
+.was-this-helpful-error {
+  color: #c53030;
+  font-size: 0.9rem;
+  margin: 0 0 1rem 0;
+  padding: 0.75rem;
+  background: #fff5f5;
+  border: 1px solid #feb2b2;
+  border-radius: 6px;
+}
+
+.was-this-helpful-thanks {
+  font-size: 1rem;
+  color: #2d3748;
+  margin: 0 0 0.5rem 0;
+  font-weight: 500;
+}
+
+.was-this-helpful--voted .was-this-helpful-counts {
+  margin-bottom: 0;
+}
+
+@media (max-width: 480px) {
+  .was-this-helpful-card {
+    padding: 1.25rem 1.5rem;
+  }
+
+  .was-this-helpful-question {
+    font-size: 1.05rem;
+  }
+
+  .was-this-helpful-btn {
+    padding: 0.6rem 1.2rem;
+    font-size: 0.9rem;
+  }
+}

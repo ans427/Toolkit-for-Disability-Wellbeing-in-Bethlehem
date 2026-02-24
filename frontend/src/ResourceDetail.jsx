@@ -3,6 +3,7 @@ import { useParams, Link } from 'react-router-dom'
 import { sanity } from './sanityClient'
 import Breadcrumb from './Breadcrumb'
 import ResourceComments from './ResourceComments'
+import WasThisHelpful from './WasThisHelpful'
 import './ResourceDetail.css'
 
 const CATEGORY_LABELS = {
@@ -41,6 +42,8 @@ function ResourceDetail() {
             url,
             isFree,
             isChildSpecific,
+            helpfulCount,
+            notHelpfulCount,
             contactEmail,
             contactPhone,
             address{
@@ -301,6 +304,11 @@ function ResourceDetail() {
         )}
       </article>
 
+      <WasThisHelpful
+        resourceId={resourceId}
+        initialHelpfulCount={resource.helpfulCount ?? 0}
+        initialNotHelpfulCount={resource.notHelpfulCount ?? 0}
+      />
       <ResourceComments resourceId={resourceId} />
     </main>
   )

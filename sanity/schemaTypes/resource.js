@@ -104,6 +104,22 @@ export default {
       ]
     },
     {
+      name: 'helpfulCount',
+      type: 'number',
+      title: 'Helpful count',
+      description: 'Number of people who found this resource helpful (updated automatically)',
+      initialValue: 0,
+      readOnly: true
+    },
+    {
+      name: 'notHelpfulCount',
+      type: 'number',
+      title: 'Not helpful count',
+      description: 'Number of people who did not find this resource helpful (updated automatically)',
+      initialValue: 0,
+      readOnly: true
+    },
+    {
       name: 'gallery',
       type: 'array',
       title: 'Additional Photos',
