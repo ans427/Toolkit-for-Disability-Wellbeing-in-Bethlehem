@@ -36,14 +36,14 @@
 }
 
 .sitemap-section ul li a {
-  color: #0056b3;
+  color: var(--color-forest-green);
   text-decoration: none;
   font-weight: 500;
 }
 
 .sitemap-section ul li a:hover {
   text-decoration: underline;
-  color: #003d82;
+  color: var(--color-forest-green-hover);
 }
 
 .sitemap-section p {
@@ -55,17 +55,17 @@
 .inline-link {
   display: inline-block;
   margin-top: 0.5rem;
-  color: #0056b3;
+  color: var(--color-forest-green);
   text-decoration: none;
   font-weight: 600;
   padding: 0.5rem 1rem;
-  border: 1px solid #0056b3;
+  border: 1px solid var(--color-forest-green);
   border-radius: 4px;
   transition: all 0.2s;
 }
 
 .inline-link:hover {
-  background: #0056b3;
+  background: var(--color-forest-green);
   color: white;
   text-decoration: none;
 }

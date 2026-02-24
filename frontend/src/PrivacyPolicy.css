@@ -19,7 +19,7 @@
   font-size: 1.3rem;
   margin-top: 0;
   margin-bottom: 1rem;
-  color: #0056b3;
+  color: var(--color-forest-green);
   text-align: left;
 }
 
@@ -35,7 +35,7 @@
 }
 
 .policy-section a {
-  color: #0056b3;
+  color: var(--color-forest-green);
   text-decoration: none;
 }
 

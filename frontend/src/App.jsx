@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom'
+import Header from './Header'
 import ImmediateResources from './ImmediateResources'
 import ResourceDetail from './ResourceDetail'
 import CommunityStories from './CommunityStories'
@@ -12,6 +13,7 @@ import AccessibilityStatement from './AccessibilityStatement'
 import PrivacyPolicy from './PrivacyPolicy'
 import Footer from './Footer'
 import './App.css'
+import './Header.css'
 import './AccessibilityToolbar.css'
 
 function HomePage() {
@@ -85,6 +87,13 @@ function HomePage() {
         </div>
       </section>
 
+      <section className="cta-band">
+        <p className="cta-band-text">Know something we don&apos;t? This toolkit grows through community contribution.</p>
+        <Link to="/submit" className="cta-band-button">
+          Contribute to the Toolkit
+        </Link>
+      </section>
+
       {/* <footer>
         <p>
           Created in collaboration with Lehigh University and the Bethlehem
@@ -95,97 +104,172 @@ function HomePage() {
   )
 }
 
-function AccessibilityToolbar({ textSize, setTextSize, highContrast, setHighContrast, underlineLinks, setUnderlineLinks }) {
-  const [open, setOpen] = useState(false)
-
+function AccessibilityToolbar({
+  textSize, setTextSize,
+  highContrast, setHighContrast,
+  underlineLinks, setUnderlineLinks,
+  dyslexiaFont, setDyslexiaFont,
+  reduceAnimations, setReduceAnimations,
+  increaseSpacing, setIncreaseSpacing,
+  onReset, open, onToggle,
+}) {
   const sizes = [
     { id: 'smaller', label: 'Smaller', description: 'Smaller text' },
     { id: 'normal', label: 'Default', description: 'Default text size' },
-    { id: 'large', label: 'Larger', description: 'Larger text' },
-    { id: 'xlarge', label: 'Largest', description: 'Largest text' },
+    { id: 'large', label: 'Large', description: 'Larger text' },
+    { id: 'xlarge', label: 'Extra Large', description: 'Largest text' },
   ]
 
+  const contrastOptions = [
+    { id: false, label: 'Default' },
+    { id: true, label: 'High Contrast' },
+  ]
+
+  const fontOptions = [
+    { id: false, label: 'Default' },
+    { id: true, label: 'Dyslexia-Friendly' },
+  ]
+
+  useEffect(() => {
+    if (!open) return
+    const handleEscape = (e) => {
+      if (e.key === 'Escape') onToggle()
+    }
+    document.addEventListener('keydown', handleEscape)
+    return () => document.removeEventListener('keydown', handleEscape)
+  }, [open, onToggle])
+
   return (
-    <div>
-      <button
-        className="accessibility-toggle-button"
-        aria-expanded={open}
-        aria-controls="accessibility-panel"
-        onClick={() => setOpen(v => !v)}
-        title="Accessibility options"
-      >
-        ⚙ Accessibility
-      </button>
-
+    <>
       {open && (
-        <div id="accessibility-panel" className="accessibility-panel" role="dialog" aria-label="Accessibility settings">
-          <div className="panel-row">
-            <strong>Text size</strong>
-            <div className="size-buttons">
-              {sizes.map((size) => (
-                <button
-                  key={size.id}
-                  type="button"
-                  onClick={() => setTextSize(size.id)}
-                  className={`text-size-button ${textSize === size.id ? 'active' : ''}`}
-                  aria-pressed={textSize === size.id}
-                  aria-label={size.description}
-                >
-                  {size.label}
-                </button>
-              ))}
+        <>
+          <div className="accessibility-overlay" onClick={onToggle} aria-hidden="true" />
+          <aside
+            id="accessibility-panel"
+            className="accessibility-panel"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Accessibility Options"
+          >
+            <div className="panel-header">
+              <h2 className="panel-title">Accessibility Options</h2>
+              <button
+                type="button"
+                className="panel-close"
+                onClick={onToggle}
+                aria-label="Close accessibility options"
+              >
+                ×
+              </button>
             </div>
-          </div>
 
-          <div className="panel-row">
-            <label>
-              <input
-                type="checkbox"
-                checked={highContrast}
-                onChange={(e) => setHighContrast(e.target.checked)}
-              />{' '}
-              High contrast
-            </label>
-          </div>
+            <div className="panel-body">
+              <section className="panel-section">
+                <h3 className="panel-section-title">Text size</h3>
+                <div className="panel-option-row">
+                  {sizes.map((size) => (
+                    <button
+                      key={size.id}
+                      type="button"
+                      onClick={() => setTextSize(size.id)}
+                      className={`panel-option-btn ${textSize === size.id ? 'active' : ''}`}
+                      aria-pressed={textSize === size.id}
+                      aria-label={size.description}
+                    >
+                      {size.label}
+                    </button>
+                  ))}
+                </div>
+              </section>
 
-          <div className="panel-row">
-            <label>
-              <input
-                type="checkbox"
-                checked={underlineLinks}
-                onChange={(e) => setUnderlineLinks(e.target.checked)}
-              />{' '}
-              Underline links
-            </label>
-          </div>
+              <section className="panel-section">
+                <h3 className="panel-section-title">Color contrast</h3>
+                <div className="panel-option-row">
+                  {contrastOptions.map((opt) => (
+                    <button
+                      key={String(opt.id)}
+                      type="button"
+                      onClick={() => setHighContrast(opt.id)}
+                      className={`panel-option-btn ${highContrast === opt.id ? 'active' : ''}`}
+                      aria-pressed={highContrast === opt.id}
+                    >
+                      {opt.label}
+                    </button>
+                  ))}
+                </div>
+              </section>
 
-          <div className="panel-actions">
-            <button type="button" onClick={() => { setOpen(false) }}>Close</button>
-          </div>
-        </div>
+              <section className="panel-section">
+                <h3 className="panel-section-title">Reading font</h3>
+                <div className="panel-option-row">
+                  {fontOptions.map((opt) => (
+                    <button
+                      key={String(opt.id)}
+                      type="button"
+                      onClick={() => setDyslexiaFont(opt.id)}
+                      className={`panel-option-btn ${dyslexiaFont === opt.id ? 'active' : ''}`}
+                      aria-pressed={dyslexiaFont === opt.id}
+                    >
+                      {opt.label}
+                    </button>
+                  ))}
+                </div>
+                <p className="panel-hint">Dyslexia-friendly mode uses a clean sans-serif font with wider letter and word spacing.</p>
+              </section>
+
+              <section className="panel-section">
+                <h3 className="panel-section-title">Motion & layout</h3>
+                <div className="panel-toggles">
+                  <label className="panel-toggle-row">
+                    <span className="panel-toggle-label">Reduce animations</span>
+                    <input
+                      type="checkbox"
+                      checked={reduceAnimations}
+                      onChange={(e) => setReduceAnimations(e.target.checked)}
+                    />
+                  </label>
+                  <label className="panel-toggle-row">
+                    <span className="panel-toggle-label">Increase spacing</span>
+                    <input
+                      type="checkbox"
+                      checked={increaseSpacing}
+                      onChange={(e) => setIncreaseSpacing(e.target.checked)}
+                    />
+                  </label>
+                  <label className="panel-toggle-row">
+                    <span className="panel-toggle-label">Underline all links</span>
+                    <input
+                      type="checkbox"
+                      checked={underlineLinks}
+                      onChange={(e) => setUnderlineLinks(e.target.checked)}
+                    />
+                  </label>
+                </div>
+              </section>
+
+              <div className="panel-footer">
+                <button type="button" className="panel-reset-btn" onClick={onReset}>
+                  Reset all accessibility settings
+                </button>
+              </div>
+            </div>
+          </aside>
+        </>
       )}
-    </div>
+    </>
   )
 }
 
 function App() {
-  const [textSize, setTextSize] = useState(() => {
-    return localStorage.getItem('a11y_textSize') || 'normal'
-  })
-  const [highContrast, setHighContrast] = useState(() => {
-    return localStorage.getItem('a11y_highContrast') === 'true'
-  })
-  const [underlineLinks, setUnderlineLinks] = useState(() => {
-    return localStorage.getItem('a11y_underlineLinks') === 'true'
-  })
+  const [textSize, setTextSize] = useState(() => localStorage.getItem('a11y_textSize') || 'normal')
+  const [highContrast, setHighContrast] = useState(() => localStorage.getItem('a11y_highContrast') === 'true')
+  const [underlineLinks, setUnderlineLinks] = useState(() => localStorage.getItem('a11y_underlineLinks') === 'true')
+  const [dyslexiaFont, setDyslexiaFont] = useState(() => localStorage.getItem('a11y_dyslexiaFont') === 'true')
+  const [reduceAnimations, setReduceAnimations] = useState(() => localStorage.getItem('a11y_reduceAnimations') === 'true')
+  const [increaseSpacing, setIncreaseSpacing] = useState(() => localStorage.getItem('a11y_increaseSpacing') === 'true')
 
   useEffect(() => {
-    const sizeMap = {
-      smaller: '14px',
-      normal: '16px',
-      large: '18px',
-      xlarge: '20px',
-    }
+    const sizeMap = { smaller: '14px', normal: '16px', large: '18px', xlarge: '20px' }
     document.documentElement.style.fontSize = sizeMap[textSize] || '16px'
     localStorage.setItem('a11y_textSize', textSize)
   }, [textSize])
@@ -202,8 +286,41 @@ function App() {
     localStorage.setItem('a11y_underlineLinks', underlineLinks)
   }, [underlineLinks])
 
+  useEffect(() => {
+    if (dyslexiaFont) document.documentElement.classList.add('a11y-dyslexia-font')
+    else document.documentElement.classList.remove('a11y-dyslexia-font')
+    localStorage.setItem('a11y_dyslexiaFont', dyslexiaFont)
+  }, [dyslexiaFont])
+
+  useEffect(() => {
+    if (reduceAnimations) document.documentElement.classList.add('a11y-reduce-motion')
+    else document.documentElement.classList.remove('a11y-reduce-motion')
+    localStorage.setItem('a11y_reduceAnimations', reduceAnimations)
+  }, [reduceAnimations])
+
+  useEffect(() => {
+    if (increaseSpacing) document.documentElement.classList.add('a11y-increase-spacing')
+    else document.documentElement.classList.remove('a11y-increase-spacing')
+    localStorage.setItem('a11y_increaseSpacing', increaseSpacing)
+  }, [increaseSpacing])
+
+  const handleResetAccessibility = () => {
+    setTextSize('normal')
+    setHighContrast(false)
+    setUnderlineLinks(false)
+    setDyslexiaFont(false)
+    setReduceAnimations(false)
+    setIncreaseSpacing(false)
+  }
+
+  const [a11yOpen, setA11yOpen] = useState(false)
+
   return (
     <BrowserRouter>
+      <Header
+        onAccessibilityClick={() => setA11yOpen(v => !v)}
+        accessibilityOpen={a11yOpen}
+      />
       <AccessibilityToolbar
         textSize={textSize}
         setTextSize={setTextSize}
@@ -211,8 +328,17 @@ function App() {
         setHighContrast={setHighContrast}
         underlineLinks={underlineLinks}
         setUnderlineLinks={setUnderlineLinks}
+        dyslexiaFont={dyslexiaFont}
+        setDyslexiaFont={setDyslexiaFont}
+        reduceAnimations={reduceAnimations}
+        setReduceAnimations={setReduceAnimations}
+        increaseSpacing={increaseSpacing}
+        setIncreaseSpacing={setIncreaseSpacing}
+        onReset={handleResetAccessibility}
+        open={a11yOpen}
+        onToggle={() => setA11yOpen(v => !v)}
       />
-      <div id="page-content">
+      <div id="main-content" className="page-content">
         <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/resources/:resourceId" element={<ResourceDetail />} />

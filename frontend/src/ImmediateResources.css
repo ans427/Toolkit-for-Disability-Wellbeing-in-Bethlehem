@@ -51,13 +51,13 @@
 }
 
 .resource-search-input:hover {
-  border-color: #0056b3;
+  border-color: var(--color-forest-green);
 }
 
 .resource-search-input:focus {
   outline: none;
-  border-color: #0056b3;
-  box-shadow: 0 0 0 3px rgba(0, 86, 179, 0.2);
+  border-color: var(--color-forest-green);
+  box-shadow: 0 0 0 3px rgba(30, 61, 50, 0.2);
 }
 
 /* Category filter chips (multi-select, keyboard accessible) */
@@ -103,36 +103,36 @@
 }
 
 .resource-filter-chip:hover {
-  border-color: #0056b3;
-  background-color: #f0f7ff;
+  border-color: var(--color-forest-green);
+  background-color: rgba(30, 61, 50, 0.06);
 }
 
 .resource-filter-chip:focus {
   outline: none;
-  border-color: #0056b3;
-  box-shadow: 0 0 0 3px rgba(0, 86, 179, 0.2);
+  border-color: var(--color-forest-green);
+  box-shadow: 0 0 0 3px rgba(30, 61, 50, 0.2);
 }
 
 .resource-filter-chip--selected {
-  background-color: #0056b3;
-  border-color: #0056b3;
+  background-color: var(--color-forest-green);
+  border-color: var(--color-forest-green);
   color: #fff;
 }
 
 .resource-filter-chip--selected:hover {
-  background-color: #004494;
-  border-color: #004494;
+  background-color: var(--color-forest-green-hover);
+  border-color: var(--color-forest-green-hover);
   color: #fff;
 }
 
 .resource-filter-chip--selected:focus {
-  box-shadow: 0 0 0 3px rgba(0, 86, 179, 0.3);
+  box-shadow: 0 0 0 3px rgba(30, 61, 50, 0.3);
 }
 
 .resource-filter-count {
   margin: 0.5rem 0 0;
   font-size: 0.9rem;
-  color: #555;
+  color: var(--color-text-muted);
 }
 
 .resource-header {
@@ -175,7 +175,7 @@
 }
 
 .resource-card:focus-visible {
-  outline: 3px solid #0056b3;
+  outline: 3px solid var(--color-forest-green);
   outline-offset: 2px;
 }
 
@@ -203,8 +203,8 @@
 /* Category Pill */
 .card-category {
   display: inline-block;
-  background-color: #eef4ff;
-  color: #0056b3;
+  background-color: rgba(30, 61, 50, 0.1);
+  color: var(--color-forest-green);
   font-size: 0.75rem;
   font-weight: 700;
   text-transform: uppercase;
@@ -249,7 +249,7 @@
   padding: 0.5rem 0;
   font-size: 0.9rem;
   font-weight: 600;
-  color: #0056b3;
+  color: var(--color-forest-green);
   width: fit-content;
 }
 

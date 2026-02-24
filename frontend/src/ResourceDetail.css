@@ -3,7 +3,7 @@
    ========================================= */
 
 .resource-detail-page {
-  background: linear-gradient(180deg, #f8fafc 0%, #f1f5f9 50%, #fff 100%);
+  background: linear-gradient(180deg, var(--color-cream) 0%, var(--color-cream-alt) 50%, #fff 100%);
   min-height: 100vh;
   text-align: left;
 }
@@ -20,7 +20,7 @@
   display: inline-flex;
   align-items: center;
   gap: 0.35rem;
-  color: #475569;
+  color: var(--color-text-muted);
   text-decoration: none;
   font-size: 0.95rem;
   font-weight: 500;
@@ -29,7 +29,7 @@
 }
 
 .resource-back-link:hover {
-  color: #0f172a;
+  color: var(--color-text);
 }
 
 /* Hero */
@@ -46,7 +46,7 @@
 }
 
 .resource-hero--no-image {
-  background: linear-gradient(135deg, #1e3a5f 0%, #0f172a 100%);
+  background: linear-gradient(135deg, var(--color-forest-green) 0%, var(--color-brown) 100%);
 }
 
 .resource-hero-bg {
@@ -65,9 +65,9 @@
   inset: 0;
   background: linear-gradient(
     180deg,
-    rgba(15, 23, 42, 0.3) 0%,
-    rgba(15, 23, 42, 0.7) 60%,
-    rgba(15, 23, 42, 0.92) 100%
+    rgba(30, 61, 50, 0.3) 0%,
+    rgba(30, 61, 50, 0.7) 60%,
+    rgba(30, 61, 50, 0.92) 100%
   );
 }
 
@@ -157,7 +157,7 @@
   justify-content: center;
   width: 100%;
   box-sizing: border-box;
-  background: #0f172a;
+  background: var(--color-forest-green);
   color: #fff;
   text-decoration: none;
   font-weight: 600;
@@ -165,13 +165,13 @@
   padding: 0.9rem 1.5rem;
   border-radius: 10px;
   transition: background 0.2s, transform 0.15s;
-  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.25);
+  box-shadow: 0 4px 14px rgba(30, 61, 50, 0.25);
 }
 
 .resource-cta-button:hover {
-  background: #1e293b;
+  background: var(--color-forest-green-hover);
   transform: translateY(-1px);
-  box-shadow: 0 6px 20px rgba(15, 23, 42, 0.3);
+  box-shadow: 0 6px 20px rgba(30, 61, 50, 0.3);
 }
 
 /* Sections */

@@ -54,8 +54,8 @@
 .submit-label textarea:focus,
 .submit-label select:focus {
   outline: none;
-  border-color: #0056b3;
-  box-shadow: 0 0 0 3px rgba(0, 86, 179, 0.2);
+  border-color: var(--color-forest-green);
+  box-shadow: 0 0 0 3px rgba(30, 61, 50, 0.2);
 }
 
 .submit-label input::placeholder,
@@ -125,18 +125,18 @@
 
 /* Minimum 44x44px touch target - cards are much larger */
 .radio-option-card:hover {
-  border-color: #0056b3;
-  background: #f8fafc;
+  border-color: var(--color-forest-green);
+  background: rgba(30, 61, 50, 0.04);
 }
 
 .radio-option-selected {
-  border-color: #0056b3;
-  background: #eef4ff;
-  box-shadow: 0 0 0 1px #0056b3;
+  border-color: var(--color-forest-green);
+  background: rgba(30, 61, 50, 0.08);
+  box-shadow: 0 0 0 1px var(--color-forest-green);
 }
 
 .radio-option-card:focus-within {
-  outline: 3px solid #0056b3;
+  outline: 3px solid var(--color-forest-green);
   outline-offset: 2px;
 }
 
@@ -165,10 +165,10 @@
 
 .submit-button {
   display: inline-block;
-  background-color: #222;
+  background-color: var(--color-terracotta);
   color: #fff;
   border-radius: 8px;
-  border: 2px solid #222;
+  border: 2px solid var(--color-terracotta);
   padding: 1rem 2rem;
   min-height: 48px;
   font-size: 1.1rem;
@@ -178,11 +178,11 @@
 }
 
 .submit-button:hover:not(:disabled) {
-  background-color: #444;
+  background-color: var(--color-terracotta-hover);
 }
 
 .submit-button:focus-visible {
-  outline: 3px solid #0056b3;
+  outline: 3px solid var(--color-forest-green);
   outline-offset: 2px;
 }
 

@@ -19,7 +19,7 @@
 
 .story-card-link:hover .story-card {
   box-shadow: 0 12px 28px rgba(0, 0, 0, 0.1);
-  border-color: #0066cc;
+  border-color: var(--color-forest-green);
   transform: translateY(-2px);
 }
 
@@ -71,7 +71,7 @@
 }
 
 .read-more-button {
-  background-color: #0066cc;
+  background-color: var(--color-forest-green);
   color: white;
   border: none;
   padding: 0.6rem 1.2rem;
@@ -83,7 +83,7 @@
 }
 
 .story-card-link:hover .read-more-button {
-  background-color: #0052a3;
+  background-color: var(--color-forest-green-hover);
   transform: translateX(2px);
 }
 

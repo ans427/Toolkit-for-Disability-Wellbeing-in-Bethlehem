@@ -3,18 +3,18 @@ html, body, #root {
   min-height: 100vh;
   margin: 0;
   padding: 0;
-  background: #e8f0f8;
+  background: var(--color-cream);
   display: flex;
   flex-direction: column;
   align-items: center;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI',
     Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue',
     sans-serif;
-  color: #222;
+  color: var(--color-text);
   line-height: 1.7;
 }
 
-#page-content {
+#main-content.page-content {
   flex: 1;
   width: 100%;
 }
@@ -51,24 +51,24 @@ html, body, #root {
 
 .text-size-button {
   background: white;
-  border: 1px solid #b0c4de;
+  border: 1px solid rgba(30, 61, 50, 0.3);
   border-radius: 999px;
   padding: 0.1rem 0.6rem;
   cursor: pointer;
-  color: #222;
+  color: var(--color-text);
   min-width: 2rem;
 }
 
 .text-size-button:hover,
 .text-size-button:focus-visible {
-  outline: 2px solid #0056b3;
+  outline: 2px solid var(--color-forest-green);
   outline-offset: 1px;
 }
 
 .text-size-button.active {
-  background: #0056b3;
+  background: var(--color-forest-green);
   color: white;
-  border-color: #0056b3;
+  border-color: var(--color-forest-green);
 }
 
 /* Main Container Wrapper */
@@ -103,12 +103,12 @@ h1 {
 h2 {
   margin-top: 2.5rem;
   font-size: 1.5rem;
-  border-bottom: 2px solid #eee;
+  border-bottom: 2px solid rgba(45, 42, 38, 0.12);
   padding-bottom: 0.4rem;
 }
 
 .subtitle {
-  color: #444;
+  color: var(--color-text-muted);
   font-size: 1.1rem;
 }
 
@@ -119,11 +119,12 @@ h2 {
 }
 
 a {
-  color: #0056b3;
+  color: var(--color-link);
   text-decoration: underline;
 }
 
 a:hover, a:focus {
+  color: var(--color-link-hover);
   text-decoration: none;
 }
 
@@ -134,20 +135,20 @@ a:hover, a:focus {
   font-size: 0.9rem;
   font-weight: bold;
   text-decoration: none;
-  color: #555;
+  color: var(--color-text-muted);
 }
 
 .back-link:hover {
-  color: #000;
+  color: var(--color-text);
   text-decoration: underline;
 }
 
-/* Footer */
+/* Footer (basic – site footer uses Footer.css) */
 footer {
   margin-top: 3rem;
   font-size: 0.9rem;
-  color: #555;
-  border-top: 1px solid #eee;
+  color: var(--color-text-muted);
+  border-top: 1px solid rgba(45, 42, 38, 0.12);
   padding-top: 1rem;
 }
 
@@ -166,6 +167,12 @@ footer {
   margin-top: 3rem;
   width: 100%;
   justify-content: center;
+  align-items: stretch;
+}
+
+.homepage-grid > a {
+  display: flex;
+  min-height: 100%;
 }
 
 @media (max-width: 1024px) {
@@ -188,13 +195,16 @@ footer {
   border-radius: 14px;
   cursor: pointer;
   transition: all 0.2s ease;
-  border: 1px solid #e0e0e0;
+  border: 1px solid rgba(45, 42, 38, 0.1);
   min-height: 280px;
+  flex: 1;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   text-align: center;
   align-items: center;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 @media (max-width: 600px) {
@@ -207,17 +217,18 @@ footer {
 .nav-card:hover {
   background: white;
   transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(45, 42, 38, 0.08);
 }
 
 .nav-card h2 {
   font-size: 1.2rem;
   margin: 0 0 0.5rem 0;
-  border-bottom: none; /* Override global H2 style */
+  border-bottom: none;
 }
 
 .nav-card p {
   font-size: 0.95rem;
-  color: #555;
+  color: var(--color-text-muted);
 }
 
 /* Make Link components properly focusable */
@@ -234,4 +245,43 @@ a {
   outline: 2px dashed #ff8c00;
   outline-offset: 2px;
   border-color: #ff8c00;
+}
+
+/* CTA band – warm terracotta */
+.cta-band {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  margin-top: 3rem;
+  padding: 2rem 2.5rem;
+  background: var(--color-cream-alt);
+  border-radius: 14px;
+  border: 1px solid rgba(45, 42, 38, 0.08);
+}
+
+.cta-band-text {
+  flex: 1;
+  min-width: 200px;
+  margin: 0;
+  font-size: 1.1rem;
+  color: var(--color-text);
+}
+
+.cta-band-button {
+  display: inline-block;
+  padding: 0.9rem 1.75rem;
+  background: var(--color-terracotta);
+  color: white !important;
+  font-weight: 600;
+  border-radius: 10px;
+  text-decoration: none !important;
+  transition: background 0.2s, transform 0.15s;
+  box-shadow: 0 2px 8px rgba(184, 92, 56, 0.25);
+}
+
+.cta-band-button:hover {
+  background: var(--color-terracotta-hover);
+  transform: translateY(-1px);
 }

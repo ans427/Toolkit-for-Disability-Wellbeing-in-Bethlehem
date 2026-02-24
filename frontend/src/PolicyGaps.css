@@ -42,7 +42,7 @@
 }
 
 .toc-list a {
-  color: #0056b3;
+  color: var(--color-forest-green);
   text-decoration: none;
   font-size: 1rem;
   padding: 0.25rem 0;
@@ -52,7 +52,7 @@
 .toc-list a:hover,
 .toc-list a:focus-visible {
   text-decoration: underline;
-  outline: 2px solid #0056b3;
+  outline: 2px solid var(--color-forest-green);
   outline-offset: 2px;
 }
 
@@ -125,7 +125,7 @@
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  color: #0056b3;
+  color: var(--color-forest-green);
   margin: 0 0 0.5rem 0;
 }
 
@@ -139,14 +139,14 @@
 /* Implications block - full width, highlighted */
 .highlight-block {
   grid-column: 1 / -1;
-  background: #eef4ff;
+  background: rgba(30, 61, 50, 0.08);
   padding: 1.25rem;
   border-radius: 8px;
-  border-left: 4px solid #0056b3;
+  border-left: 4px solid var(--color-forest-green);
 }
 
 .highlight-block h3 {
-  color: #0056b3;
+  color: var(--color-forest-green);
   margin-bottom: 0.75rem;
 }
 
@@ -168,7 +168,7 @@
   content: '✓';
   position: absolute;
   left: 0;
-  color: #0056b3;
+  color: var(--color-forest-green);
   font-weight: 700;
 }
 
@@ -184,7 +184,7 @@
 #action h3 {
   font-size: 1rem;
   font-weight: 700;
-  color: #0056b3;
+  color: var(--color-forest-green);
   margin: 1.5rem 0 0.75rem 0;
   text-transform: none;
   letter-spacing: normal;
@@ -229,7 +229,7 @@
 }
 
 .return-top a {
-  color: #0056b3;
+  color: var(--color-forest-green);
   text-decoration: none;
   font-size: 1rem;
   font-weight: 600;
@@ -238,7 +238,7 @@
 .return-top a:hover,
 .return-top a:focus-visible {
   text-decoration: underline;
-  outline: 2px solid #0056b3;
+  outline: 2px solid var(--color-forest-green);
   outline-offset: 2px;
 }
 

@@ -12,7 +12,7 @@
 }
 
 .breadcrumb a {
-  color: #0066cc;
+  color: var(--color-forest-green);
   text-decoration: none;
 }
 
