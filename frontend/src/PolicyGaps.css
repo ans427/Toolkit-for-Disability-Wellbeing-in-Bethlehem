@@ -110,6 +110,31 @@
   border-bottom: none;
 }
 
+/* Photo in bottom-right of grid */
+.policy-block-image {
+  margin: 0;
+  padding: 0;
+  border: none;
+  min-height: 0;
+  align-self: start;
+}
+
+.policy-block-image img {
+  display: block;
+  width: 100%;
+  height: auto;
+  min-height: 180px;
+  max-height: 280px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.policy-block-image figcaption {
+  font-size: 0.9rem;
+  color: #666;
+  padding: 0.5rem 0 0;
+}
+
 @media (min-width: 600px) {
   .policy-block {
     padding: 1rem 1.25rem 1rem 0;
