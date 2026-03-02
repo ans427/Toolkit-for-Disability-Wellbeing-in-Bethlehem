@@ -5,8 +5,8 @@ import './PrivacyPolicy.css'
 function PrivacyPolicy() {
   return (
     <>
-      <Breadcrumb />
       <main className="container">
+        <Breadcrumb />
         <div className="privacy-policy">
           <header className="privacy-policy-header">
             <Link to="/" className="back-link">← Back Home</Link>

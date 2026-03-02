@@ -5,8 +5,8 @@ import './About.css'
 function About() {
   return (
     <>
-      <Breadcrumb />
       <main className="container">
+        <Breadcrumb />
         <div className="about">
           <header className="about-header">
             <Link to="/" className="back-link">← Back Home</Link>

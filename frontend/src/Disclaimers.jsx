@@ -5,13 +5,13 @@ import './Disclaimers.css'
 function Disclaimers() {
   return (
     <>
-      <Breadcrumb />
       <main className="container">
-      <div className="disclaimers">
-        <header className="disclaimers-header">
-          <Link to="/" className="back-link">← Back Home</Link>
-          <h1>Disclaimers</h1>
-        </header>
+        <Breadcrumb />
+        <div className="disclaimers">
+          <header className="disclaimers-header">
+            <Link to="/" className="back-link">← Back Home</Link>
+            <h1>Disclaimers</h1>
+          </header>
 
         <section className="disclaimer-section">
           <h2>Section One</h2>

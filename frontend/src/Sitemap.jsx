@@ -5,13 +5,13 @@ import './Sitemap.css'
 function Sitemap() {
   return (
     <>
-      <Breadcrumb />
       <main className="container">
-      <div className="sitemap">
-        <header className="sitemap-header">
-          <Link to="/" className="back-link">← Back Home</Link>
-          <h1>Site Map</h1>
-        </header>
+        <Breadcrumb />
+        <div className="sitemap">
+          <header className="sitemap-header">
+            <Link to="/" className="back-link">← Back Home</Link>
+            <h1>Site Map</h1>
+          </header>
 
         <section className="sitemap-section">
           <h2>Main Pages</h2>

@@ -7,11 +7,12 @@
   margin-bottom: 2rem;
   padding-bottom: 1.5rem;
   border-bottom: 2px solid #f0f0f0;
+  text-align: left; /* align link and heading flush with container */
 }
 
 .story-detail-header .back-link {
   display: inline-block;
-  color: #0066cc;
+  color: var(--color-text-muted); /* match other back links */
   text-decoration: none;
   font-weight: 500;
   margin-bottom: 1rem;
@@ -19,9 +20,9 @@
 }
 
 .story-detail-header .back-link:hover {
+  color: var(--color-text);
   text-decoration: underline;
 }
-
 .story-detail h1.story-title {
   font-size: 2rem;
   margin: 1rem 0;

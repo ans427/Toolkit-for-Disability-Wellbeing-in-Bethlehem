@@ -17,9 +17,8 @@
 }
 
 .resource-back-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.35rem;
+  display: block; /* force full-width so parent text-align:center doesn't affect it */
+  text-align: left; /* link text should be left-aligned */
   color: var(--color-text-muted);
   text-decoration: none;
   font-size: 0.95rem;
@@ -30,8 +29,8 @@
 
 .resource-back-link:hover {
   color: var(--color-text);
+  text-decoration: underline;
 }
-
 /* Hero */
 .resource-hero {
   position: relative;

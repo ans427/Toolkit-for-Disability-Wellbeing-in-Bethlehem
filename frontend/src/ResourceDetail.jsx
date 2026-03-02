@@ -154,12 +154,11 @@ function ResourceDetail() {
   return (
     <main className="resource-detail-page container">
       <Breadcrumb />
+      <Link to="/resources" className="back-link">
+        ← Back to Immediate Resources
+      </Link>
 
       <article className="resource-detail">
-        <Link to="/resources" className="resource-back-link">
-          ← Back to Immediate Resources
-        </Link>
-
         <header
           className={`resource-hero ${heroImage ? 'resource-hero--with-image' : 'resource-hero--no-image'}`}
         >

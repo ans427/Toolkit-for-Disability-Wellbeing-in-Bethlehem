@@ -110,6 +110,7 @@ h2 {
 .subtitle {
   color: var(--color-text-muted);
   font-size: 1.1rem;
+  text-align: left;
 }
 
 @media (max-width: 600px) {
@@ -130,12 +131,14 @@ a:hover, a:focus {
 
 /* Navigation "Back" Link */
 .back-link {
-  display: inline-block;
-  margin-bottom: 1rem;
+  display: block;
+  max-width: 1200px;
+  margin: 0 auto 1rem; /* horizontal auto to center, bottom margin for spacing */
   font-size: 0.9rem;
   font-weight: bold;
   text-decoration: none;
   color: var(--color-text-muted);
+  text-align: left; /* ensure text left-aligned within the centered box */
 }
 
 .back-link:hover {
