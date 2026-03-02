@@ -1,7 +1,7 @@
 import { Link, useLocation } from 'react-router-dom'
 import './Breadcrumb.css'
 
-function Breadcrumb({ storyTitle }) {
+function Breadcrumb({ storyTitle, resourceTitle }) {
   const location = useLocation()
   const pathnames = location.pathname.split('/').filter(x => x)
 
@@ -38,13 +38,16 @@ function Breadcrumb({ storyTitle }) {
       <Link to="/">Home</Link>
       {pathnames.map((value, index) => {
         const routeTo = `/${pathnames.slice(0, index + 1).join('/')}`
-        // Use storyTitle if this is a story detail page (UUID format with dashes)
-        const isUUID = /^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/.test(value)
-        const isStoryId = isUUID && pathnames[index - 1] === 'community-stories'
+        // identify whether this segment follows the resources or community-stories path
+        const isStoryId = pathnames[index - 1] === 'community-stories'
+        const isResourceId = pathnames[index - 1] === 'resources'
         let label = getLabel(value, index)
         
         if (storyTitle && isStoryId) {
           label = storyTitle
+        }
+        if (resourceTitle && isResourceId) {
+          label = resourceTitle
         }
         
         const isLast = index === pathnames.length - 1

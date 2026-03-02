@@ -153,7 +153,7 @@ function ResourceDetail() {
 
   return (
     <main className="resource-detail-page container">
-      <Breadcrumb />
+      <Breadcrumb resourceTitle={resource?.title} />
       <Link to="/resources" className="back-link">
         ← Back to Immediate Resources
       </Link>
