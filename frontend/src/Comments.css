@@ -19,6 +19,31 @@
   margin-bottom: 2rem;
 }
 
+/* high contrast overrides for comment areas */
+html.a11y-high-contrast .comment-form,
+html.a11y-high-contrast .comment-item {
+  background: #000;
+  border: 1px solid #ff0;
+  color: #ff0;
+}
+html.a11y-high-contrast .comment-form textarea {
+  background: #000;
+  color: #ff0;
+  border-color: #ff0;
+}
+html.a11y-high-contrast .comment-form button {
+  background: #ff0;
+  color: #000;
+  border-color: #000;
+}
+html.a11y-high-contrast .comment-item .comment-header,
+html.a11y-high-contrast .comment-item .comment-text,
+html.a11y-high-contrast .comment-item .comment-footer,
+html.a11y-high-contrast .comment-item .comment-author,
+html.a11y-high-contrast .comment-item .comment-date {
+  color: #ff0;
+}
+
 .comment-form textarea {
   width: 100%;
   padding: 0.75rem;

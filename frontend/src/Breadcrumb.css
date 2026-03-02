@@ -24,6 +24,13 @@
   color: #666;
 }
 
+/* high contrast: make non-link text (including slashes) white and links yellow */
+html.a11y-high-contrast .breadcrumb span {
+  color: #fff;
+}
+html.a11y-high-contrast .breadcrumb a {
+  color: #ff0;
+}
 @media (max-width: 600px) {
   .breadcrumb {
     flex-wrap: wrap;

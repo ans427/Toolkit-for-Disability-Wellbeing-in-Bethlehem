@@ -285,3 +285,16 @@ a {
   background: var(--color-terracotta-hover);
   transform: translateY(-1px);
 }
+
+/* high contrast adjustments for CTA band */
+html.a11y-high-contrast .cta-band {
+  background: #000;
+  border: 1px solid #ff0;
+}
+html.a11y-high-contrast .cta-band-text {
+  color: #ff0;
+}
+html.a11y-high-contrast .cta-band-button {
+  background: #ff0;
+  color: #000 !important;
+}

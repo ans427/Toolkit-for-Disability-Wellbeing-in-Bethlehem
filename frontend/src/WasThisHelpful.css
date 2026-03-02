@@ -37,6 +37,28 @@
   box-sizing: border-box;
 }
 
+/* high contrast adjustments */
+html.a11y-high-contrast .was-this-helpful-card {
+  background: #000;
+  border: 1px solid #ff0;
+  color: #ff0;
+}
+html.a11y-high-contrast .was-this-helpful-question,
+html.a11y-high-contrast .was-this-helpful-counts,
+html.a11y-high-contrast .was-this-helpful-counts .was-this-helpful-count {
+  color: #ff0;
+}
+html.a11y-high-contrast .was-this-helpful-suggestion-input {
+  background: #000;
+  color: #ff0;
+  border-color: #ff0;
+}
+html.a11y-high-contrast .was-this-helpful-btn {
+  background: #ff0;
+  color: #000;
+  border-color: #000;
+}
+
 .was-this-helpful-question {
   font-size: 1.15rem;
   font-weight: 600;

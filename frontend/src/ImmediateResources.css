@@ -200,6 +200,29 @@
   flex-grow: 1;
 }
 
+/* high-contrast adjustments: ensure readability on black background */
+html.a11y-high-contrast .resource-card {
+  background: #000;
+  border-color: #ff0;
+  color: #ff0;
+}
+html.a11y-high-contrast .resource-card .card-title,
+html.a11y-high-contrast .resource-card .card-description,
+html.a11y-high-contrast .resource-card .card-helpful-count,
+html.a11y-high-contrast .resource-card .card-category,
+html.a11y-high-contrast .resource-card .card-link-hint {
+  color: #ff0;
+}
+/* contact details (phone/email/address) should be white rather than yellow */
+html.a11y-high-contrast .resource-card .card-contact,
+html.a11y-high-contrast .resource-card .card-contact p,
+html.a11y-high-contrast .resource-card .card-contact span {
+  color: #fff;
+}
+html.a11y-high-contrast .resource-card .card-category {
+  background-color: #222;
+}
+
 /* Category Pill */
 .card-category {
   display: inline-block;
