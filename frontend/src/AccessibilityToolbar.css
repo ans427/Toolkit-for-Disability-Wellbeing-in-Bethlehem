@@ -239,21 +239,10 @@ html.a11y-high-contrast .panel-reset-btn {
 /* Underline links */
 .a11y-underline-links a { text-decoration: underline !important }
 
-/* Dyslexia-friendly font – Lexend with wider spacing */
-html.a11y-dyslexia-font,
-html.a11y-dyslexia-font body,
-html.a11y-dyslexia-font .site-header,
-html.a11y-dyslexia-font .container,
-html.a11y-dyslexia-font main {
-  font-family: 'Lexend', system-ui, sans-serif !important;
+/* Dyslexia-friendly mode – adds letter and word spacing for better readability */
+html.a11y-dyslexia-font {
   letter-spacing: 0.05em !important;
   word-spacing: 0.15em !important;
-}
-
-html.a11y-dyslexia-font h1,
-html.a11y-dyslexia-font h2,
-html.a11y-dyslexia-font h3 {
-  font-family: 'Lexend', system-ui, sans-serif !important;
 }
 
 /* Reduce animations */
