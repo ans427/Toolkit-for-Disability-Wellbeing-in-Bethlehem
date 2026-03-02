@@ -18,6 +18,7 @@ function Header({
 
         <nav className="site-nav" aria-label="Main navigation">
           <ul>
+            <li><Link to="/about">About</Link></li>
             <li><Link to="/resources">Resources</Link></li>
             <li><Link to="/community-stories">Stories</Link></li>
             <li><Link to="/">Map</Link></li>

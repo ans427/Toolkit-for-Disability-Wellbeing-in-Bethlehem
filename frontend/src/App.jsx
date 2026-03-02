@@ -11,6 +11,7 @@ import Sitemap from './Sitemap'
 import Disclaimers from './Disclaimers'
 import AccessibilityStatement from './AccessibilityStatement'
 import PrivacyPolicy from './PrivacyPolicy'
+import About from './About'
 import Footer from './Footer'
 import './App.css'
 import './Header.css'
@@ -351,6 +352,7 @@ function App() {
         <Route path="/disclaimers" element={<Disclaimers />} />
         <Route path="/accessibility-statement" element={<AccessibilityStatement />} />
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+        <Route path="/about" element={<About />} />
         </Routes>
       </div>
       <Footer />

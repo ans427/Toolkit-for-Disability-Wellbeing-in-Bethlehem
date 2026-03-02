@@ -21,6 +21,7 @@ function Footer() {
         <div className="footer-section">
           <h3>Information</h3>
           <ul>
+            <li><Link to="/about">About</Link></li>
             <li><Link to="/sitemap">Site Map</Link></li>
             <li><Link to="/disclaimers">Disclaimers</Link></li>
             <li><Link to="/accessibility-statement">Accessibility Statement</Link></li>
