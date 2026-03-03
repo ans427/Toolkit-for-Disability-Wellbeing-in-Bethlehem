@@ -11,8 +11,10 @@ function Breadcrumb({ storyTitle, resourceTitle }) {
     'resources': 'Immediate Resources',
     'community-stories': 'Community Stories',
     'policy-gaps': 'Policy & Service Gaps',
+    'disability-activism': 'Disability Activism',
     'submit': 'Submit a Resource or Story',
     'accessibility-statement': 'Accessibility Statement',
+    'about': 'About',
     'privacy-policy': 'Privacy Policy',
     'sitemap': 'Site Map',
     'disclaimers': 'Disclaimers'

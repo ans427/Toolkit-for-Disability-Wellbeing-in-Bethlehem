@@ -5,6 +5,7 @@ import submission from './submission'
 import resourceFeedback from './resourceFeedback'
 import policyGap from './policyGap'
 import policyGapsPage from './policyGapsPage'
+import disabilityActivismPage from './disabilityActivismPage'
 
 export const schemaTypes = [
   resource,
@@ -14,5 +15,6 @@ export const schemaTypes = [
   resourceFeedback,
   policyGap,
   policyGapsPage,
+  disabilityActivismPage,
 ]
 

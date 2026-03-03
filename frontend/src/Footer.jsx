@@ -39,6 +39,7 @@ function Footer() {
         <div className="footer-section">
           <h3>About</h3>
           <p>The Toolkit for Disability Wellbeing is a community-driven initiative supporting disabled residents in Bethlehem, PA through accessible resources and shared experiences.</p>
+          <p><Link to="/about">Learn more about the project</Link></p>
         </div>
       </div>
 

@@ -20,6 +20,7 @@ function Sitemap() {
             <li><Link to="/resources">Immediate Resources</Link></li>
             <li><Link to="/community-stories">Community Stories</Link></li>
             <li><Link to="/policy-gaps">Policy & Service Gaps</Link></li>
+            <li><Link to="/disability-activism">Disability Activism</Link></li>
             <li><Link to="/submit">Submit a Resource or Story</Link></li>
           </ul>
         </section>
@@ -27,6 +28,7 @@ function Sitemap() {
         <section className="sitemap-section">
           <h2>Information & Support</h2>
           <ul>
+            <li><Link to="/about">About</Link></li>
             <li><Link to="/sitemap">Site Map</Link></li>
             <li><Link to="/disclaimers">Disclaimers</Link></li>
             <li><Link to="/accessibility-statement">Accessibility Statement</Link></li>

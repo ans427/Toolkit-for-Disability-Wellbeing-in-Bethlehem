@@ -1,0 +1,278 @@
+/* =========================================
+   DISABILITY ACTIVISM PAGE - Matches Policy Gaps layout
+   ========================================= */
+
+.disability-activism-header {
+  margin-bottom: 3rem;
+  text-align: left;
+}
+
+.disability-activism-header .subtitle {
+  font-size: 1.125rem;
+  color: #555;
+  margin: 0.5rem 0 1.5rem 0;
+}
+
+.disability-activism-header .intro {
+  margin-top: 1rem;
+}
+
+.disability-activism-header .intro p {
+  font-size: 1rem;
+  line-height: 1.7;
+  color: #333;
+  margin: 0 0 1rem 0;
+}
+
+.disability-activism-header .intro p:last-child {
+  margin-bottom: 0;
+}
+
+/* Table of contents */
+.disability-activism-toc {
+  background: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  padding: 1.5rem 2rem;
+  margin-bottom: 3rem;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.disability-activism-toc h2 {
+  font-size: 1rem;
+  font-weight: 700;
+  margin: 0 0 1rem 0;
+  color: #222;
+  border-bottom: none;
+}
+
+.disability-activism .toc-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.5rem;
+}
+
+.disability-activism .toc-list li {
+  margin: 0;
+}
+
+.disability-activism .toc-list a {
+  color: var(--color-forest-green);
+  text-decoration: none;
+  font-size: 1rem;
+  padding: 0.25rem 0;
+  border-radius: 4px;
+}
+
+.disability-activism .toc-list a:hover,
+.disability-activism .toc-list a:focus-visible {
+  text-decoration: underline;
+  outline: 2px solid var(--color-forest-green);
+  outline-offset: 2px;
+}
+
+/* Content sections */
+.disability-activism-content {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding-bottom: 4rem;
+  text-align: left;
+}
+
+.disability-activism-section {
+  background: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  overflow: hidden;
+  padding: 1.5rem 2rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.disability-activism-section:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
+}
+
+.disability-activism-section h2 {
+  font-size: 1.25rem;
+  margin: 0 0 1.25rem 0;
+  padding: 0;
+  border-bottom: none;
+  color: #222;
+}
+
+.section-content p {
+  margin: 0 0 1rem 0;
+  font-size: 1rem;
+  color: #555;
+  line-height: 1.7;
+}
+
+.section-content p:last-child {
+  margin-bottom: 0;
+}
+
+/* Ten Principles */
+.principles-section {
+  background: rgba(30, 61, 50, 0.04);
+  border-left: 4px solid var(--color-forest-green);
+}
+
+.principles-intro {
+  font-size: 0.95rem;
+  color: #666;
+  margin: 0 0 1rem 0;
+  font-style: italic;
+}
+
+.principles-list {
+  list-style: decimal;
+  padding-left: 1.5rem;
+  margin: 0;
+}
+
+.principle-item {
+  margin-bottom: 1rem;
+  font-size: 1rem;
+  color: #333;
+  line-height: 1.6;
+}
+
+.principle-item strong {
+  display: block;
+  color: var(--color-forest-green);
+  margin-bottom: 0.25rem;
+}
+
+.principle-desc {
+  display: block;
+  padding-left: 0;
+  color: #555;
+}
+
+/* External links */
+.external-links-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.external-links-list li {
+  margin-bottom: 0.75rem;
+}
+
+.external-link {
+  color: var(--color-forest-green);
+  text-decoration: none;
+}
+
+.external-link:hover,
+.external-link:focus-visible {
+  text-decoration: underline;
+  outline: 2px solid var(--color-forest-green);
+  outline-offset: 2px;
+}
+
+/* Sources */
+.sources-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sources-list li {
+  margin-bottom: 0.5rem;
+  font-size: 0.95rem;
+  color: #555;
+}
+
+.source-link {
+  color: var(--color-forest-green);
+  text-decoration: none;
+}
+
+.source-link:hover,
+.source-link:focus-visible {
+  text-decoration: underline;
+}
+
+/* Return to top */
+.disability-activism .return-top {
+  text-align: center;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+
+.disability-activism .return-top a {
+  color: var(--color-forest-green);
+  text-decoration: none;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.disability-activism .return-top a:hover,
+.disability-activism .return-top a:focus-visible {
+  text-decoration: underline;
+  outline: 2px solid var(--color-forest-green);
+  outline-offset: 2px;
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .disability-activism-section,
+  .disability-activism .toc-list a {
+    transition: none;
+  }
+  .disability-activism-section:hover {
+    transform: none;
+  }
+}
+
+@media (prefers-contrast: more) {
+  .disability-activism-section,
+  .disability-activism-toc {
+    border-width: 2px;
+    border-color: #222;
+  }
+  .disability-activism .toc-list a {
+    text-decoration: underline;
+  }
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+  .disability-activism-header {
+    margin-bottom: 2rem;
+  }
+
+  .disability-activism-toc {
+    padding: 1rem 1.25rem;
+    margin-bottom: 2rem;
+  }
+
+  .disability-activism .toc-list {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .disability-activism-section {
+    padding: 1.25rem 1rem;
+  }
+
+  .disability-activism-section:hover {
+    transform: none;
+  }
+}
+
+@media print {
+  .disability-activism-section:hover {
+    transform: none;
+    box-shadow: none;
+  }
+}

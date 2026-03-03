@@ -7,11 +7,12 @@ import CommunityStories from './CommunityStories'
 import StoryDetail from './StoryDetail'
 import SubmitForm from './SubmitForm'
 import PolicyGaps from './PolicyGaps'
+import DisabilityActivism from './DisabilityActivism'
 import Sitemap from './Sitemap'
 import Disclaimers from './Disclaimers'
 import AccessibilityStatement from './AccessibilityStatement'
-import PrivacyPolicy from './PrivacyPolicy'
 import About from './About'
+import PrivacyPolicy from './PrivacyPolicy'
 import Footer from './Footer'
 import './App.css'
 import './Header.css'
@@ -62,10 +63,15 @@ function HomePage() {
           </div>
         </Link>
 
-        <div className="nav-card">
-          <h2>Disability Activism</h2>
-          <p>Explore movements and discussions around disability justice.</p>
-        </div>
+        <Link
+          to="/disability-activism"
+          style={{ textDecoration: 'none', color: 'inherit' }}
+        >
+          <div className="nav-card">
+            <h2>Disability Activism</h2>
+            <p>Explore movements and discussions around disability justice.</p>
+          </div>
+        </Link>
 
         <div className="nav-card">
           <h2>Report an Issue</h2>
@@ -82,10 +88,15 @@ function HomePage() {
           </div>
         </Link>
 
-        <div className="nav-card">
-          <h2>About the Toolkit</h2>
-          <p>Learn about the project and collaborators.</p>
-        </div>
+        <Link
+          to="/about"
+          style={{ textDecoration: 'none', color: 'inherit' }}
+        >
+          <div className="nav-card">
+            <h2>About the Toolkit</h2>
+            <p>Learn about the project and collaborators.</p>
+          </div>
+        </Link>
       </section>
 
       <section className="cta-band">
@@ -347,12 +358,13 @@ function App() {
         <Route path="/community-stories" element={<CommunityStories />} />
         <Route path="/community-stories/:storyId" element={<StoryDetail />} />
         <Route path="/policy-gaps" element={<PolicyGaps />} />
+        <Route path="/disability-activism" element={<DisabilityActivism />} />
         <Route path="/submit" element={<SubmitForm />} />
         <Route path="/sitemap" element={<Sitemap />} />
         <Route path="/disclaimers" element={<Disclaimers />} />
         <Route path="/accessibility-statement" element={<AccessibilityStatement />} />
-        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
         <Route path="/about" element={<About />} />
+        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
         </Routes>
       </div>
       <Footer />
