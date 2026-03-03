@@ -55,10 +55,11 @@ html.a11y-high-contrast .comment-item .comment-date {
   min-height: 80px;
 }
 
-.comment-form textarea:focus {
-  outline: none;
+.comment-form textarea:focus,
+.comment-form textarea:focus-visible {
+  outline: 2px dashed #ff8c00;
+  outline-offset: 2px;
   border-color: #0066cc;
-  box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.1);
 }
 
 .comment-form-footer {
@@ -87,6 +88,11 @@ html.a11y-high-contrast .comment-item .comment-date {
 
 .comment-form button:hover:not(:disabled) {
   background-color: #0052a3;
+}
+
+.comment-form button:focus-visible {
+  outline: 2px dashed #ff8c00;
+  outline-offset: 2px;
 }
 
 .comment-form button:disabled {
@@ -182,6 +188,11 @@ html.a11y-high-contrast .comment-item .comment-date {
 
 .flag-button:hover:not(:disabled) {
   background-color: #ffe6e0;
+}
+
+.flag-button:focus-visible {
+  outline: 2px dashed #ff8c00;
+  outline-offset: 2px;
 }
 
 .flag-button:disabled {

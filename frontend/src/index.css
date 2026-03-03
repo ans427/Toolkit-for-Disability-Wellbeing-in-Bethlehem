@@ -59,3 +59,8 @@ a {
 a:hover {
   color: var(--color-link-hover);
 }
+
+a:focus-visible {
+  outline: 2px dashed #ff8c00;
+  outline-offset: 2px;
+}

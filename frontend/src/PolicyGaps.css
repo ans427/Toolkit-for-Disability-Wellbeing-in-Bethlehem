@@ -52,7 +52,7 @@
 .toc-list a:hover,
 .toc-list a:focus-visible {
   text-decoration: underline;
-  outline: 2px solid var(--color-forest-green);
+  outline: 2px dashed #ff8c00;
   outline-offset: 2px;
 }
 
@@ -263,7 +263,7 @@
 .return-top a:hover,
 .return-top a:focus-visible {
   text-decoration: underline;
-  outline: 2px solid var(--color-forest-green);
+  outline: 2px dashed #ff8c00;
   outline-offset: 2px;
 }
 

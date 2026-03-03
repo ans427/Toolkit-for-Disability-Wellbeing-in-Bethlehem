@@ -31,6 +31,11 @@
   color: var(--color-text);
   text-decoration: underline;
 }
+
+.resource-back-link:focus-visible {
+  outline: 2px dashed #ff8c00;
+  outline-offset: 2px;
+}
 /* Hero */
 .resource-hero {
   position: relative;
@@ -173,6 +178,11 @@
   box-shadow: 0 6px 20px rgba(30, 61, 50, 0.3);
 }
 
+.resource-cta-button:focus-visible {
+  outline: 2px dashed #ff8c00;
+  outline-offset: 2px;
+}
+
 /* high contrast: visit website button should be yellow with dark text */
 html.a11y-high-contrast .resource-cta-button {
   background: #ff0;
@@ -244,6 +254,11 @@ html.a11y-high-contrast .resource-cta-button:hover {
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
 }
 
+.resource-gallery-figure:focus-visible {
+  outline: 2px dashed #ff8c00;
+  outline-offset: 2px;
+}
+
 .resource-gallery-figure img {
   width: 100%;
   aspect-ratio: 4 / 3;
@@ -308,6 +323,11 @@ html.a11y-high-contrast .resource-cta-button:hover {
   background: rgba(255, 255, 255, 0.3);
 }
 
+.resource-lightbox-close:focus-visible {
+  outline: 2px dashed #ff8c00;
+  outline-offset: 2px;
+}
+
 .resource-lightbox-prev,
 .resource-lightbox-next {
   position: absolute;
@@ -340,6 +360,12 @@ html.a11y-high-contrast .resource-cta-button:hover {
   background: rgba(255, 255, 255, 0.3);
 }
 
+.resource-lightbox-prev:focus-visible,
+.resource-lightbox-next:focus-visible {
+  outline: 2px dashed #ff8c00;
+  outline-offset: 2px;
+}
+
 /* Contact */
 .resource-contact-card {
   display: flex;
@@ -364,6 +390,11 @@ html.a11y-high-contrast .resource-cta-button:hover {
 a.resource-contact-item:hover {
   background: #f1f5f9;
   color: #0f172a;
+}
+
+a.resource-contact-item:focus-visible {
+  outline: 2px dashed #ff8c00;
+  outline-offset: 2px;
 }
 
 .resource-contact-icon {
@@ -401,6 +432,11 @@ a.resource-contact-item:hover {
 
 .error-container .back-link:hover {
   text-decoration: underline;
+}
+
+.error-container .back-link:focus-visible {
+  outline: 2px dashed #ff8c00;
+  outline-offset: 2px;
 }
 
 /* high-contrast adjustments for detail page containers */

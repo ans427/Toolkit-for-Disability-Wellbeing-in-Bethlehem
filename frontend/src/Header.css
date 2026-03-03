@@ -68,6 +68,11 @@
   color: var(--color-forest-green);
 }
 
+.site-title:focus-visible {
+  outline: 2px dashed #ff8c00;
+  outline-offset: 2px;
+}
+
 /* Main navigation */
 .site-nav {
   height: 100%;
@@ -99,6 +104,11 @@
 .site-nav a:hover {
   color: var(--color-forest-green);
   text-decoration: underline;
+}
+
+.site-nav a:focus-visible {
+  outline: 2px dashed #ff8c00;
+  outline-offset: 2px;
 }
 
 /* Accessibility button – pill style, forest green */
@@ -211,8 +221,13 @@ html.a11y-high-contrast .language-dropdown button {
   font-size: 0.95rem;
 }
 
-.language-dropdown button:hover,
-.language-dropdown button:focus {
+.language-dropdown button:hover {
+  background: rgba(30, 61, 50, 0.06);
+}
+
+.language-dropdown button:focus-visible {
+  outline: 2px dashed #ff8c00;
+  outline-offset: 2px;
   background: rgba(30, 61, 50, 0.06);
 }
 

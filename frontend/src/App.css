@@ -61,8 +61,8 @@ html, body, #root {
 
 .text-size-button:hover,
 .text-size-button:focus-visible {
-  outline: 2px solid var(--color-forest-green);
-  outline-offset: 1px;
+  outline: 2px dashed #ff8c00;
+  outline-offset: 2px;
 }
 
 .text-size-button.active {
@@ -144,6 +144,11 @@ a:hover, a:focus {
 .back-link:hover {
   color: var(--color-text);
   text-decoration: underline;
+}
+
+.back-link:focus-visible {
+  outline: 2px dashed #ff8c00;
+  outline-offset: 2px;
 }
 
 /* Footer (basic – site footer uses Footer.css) */
@@ -287,6 +292,11 @@ a {
 .cta-band-button:hover {
   background: var(--color-terracotta-hover);
   transform: translateY(-1px);
+}
+
+.cta-band-button:focus-visible {
+  outline: 2px dashed #ff8c00;
+  outline-offset: 2px;
 }
 
 /* high contrast adjustments for CTA band */

@@ -54,10 +54,11 @@
   border-color: var(--color-forest-green);
 }
 
-.resource-search-input:focus {
-  outline: none;
+.resource-search-input:focus,
+.resource-search-input:focus-visible {
+  outline: 2px dashed #ff8c00;
+  outline-offset: 2px;
   border-color: var(--color-forest-green);
-  box-shadow: 0 0 0 3px rgba(30, 61, 50, 0.2);
 }
 
 /* Category filter chips (multi-select, keyboard accessible) */
@@ -107,10 +108,11 @@
   background-color: rgba(30, 61, 50, 0.06);
 }
 
-.resource-filter-chip:focus {
-  outline: none;
+.resource-filter-chip:focus,
+.resource-filter-chip:focus-visible {
+  outline: 2px dashed #ff8c00;
+  outline-offset: 2px;
   border-color: var(--color-forest-green);
-  box-shadow: 0 0 0 3px rgba(30, 61, 50, 0.2);
 }
 
 .resource-filter-chip--selected {
@@ -125,8 +127,10 @@
   color: #fff;
 }
 
-.resource-filter-chip--selected:focus {
-  box-shadow: 0 0 0 3px rgba(30, 61, 50, 0.3);
+.resource-filter-chip--selected:focus,
+.resource-filter-chip--selected:focus-visible {
+  outline: 2px dashed #ff8c00;
+  outline-offset: 2px;
 }
 
 .resource-filter-count {
@@ -174,9 +178,13 @@
   box-shadow: 0 12px 24px rgba(0,0,0,0.08);
 }
 
+/* Keyboard focus – each resource card shows clear outline (matches homepage nav cards) */
+a.resource-card:focus-visible,
 .resource-card:focus-visible {
-  outline: 3px solid var(--color-forest-green);
+  outline: 2px dashed #ff8c00;
   outline-offset: 2px;
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
 }
 
 /* Image Wrapper */
@@ -205,6 +213,12 @@ html.a11y-high-contrast .resource-card {
   background: #000;
   border-color: #ff0;
   color: #ff0;
+}
+
+html.a11y-high-contrast a.resource-card:focus-visible,
+html.a11y-high-contrast .resource-card:focus-visible {
+  outline: 2px dashed #ff8c00;
+  outline-offset: 2px;
 }
 html.a11y-high-contrast .resource-card .card-title,
 html.a11y-high-contrast .resource-card .card-description,

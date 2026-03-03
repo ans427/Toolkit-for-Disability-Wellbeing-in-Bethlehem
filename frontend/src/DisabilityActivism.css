@@ -72,7 +72,7 @@
 .disability-activism .toc-list a:hover,
 .disability-activism .toc-list a:focus-visible {
   text-decoration: underline;
-  outline: 2px solid var(--color-forest-green);
+  outline: 2px dashed #ff8c00;
   outline-offset: 2px;
 }
 
@@ -175,7 +175,7 @@
 .external-link:hover,
 .external-link:focus-visible {
   text-decoration: underline;
-  outline: 2px solid var(--color-forest-green);
+  outline: 2px dashed #ff8c00;
   outline-offset: 2px;
 }
 
@@ -200,6 +200,8 @@
 .source-link:hover,
 .source-link:focus-visible {
   text-decoration: underline;
+  outline: 2px dashed #ff8c00;
+  outline-offset: 2px;
 }
 
 /* Return to top */
@@ -219,7 +221,7 @@
 .disability-activism .return-top a:hover,
 .disability-activism .return-top a:focus-visible {
   text-decoration: underline;
-  outline: 2px solid var(--color-forest-green);
+  outline: 2px dashed #ff8c00;
   outline-offset: 2px;
 }
 

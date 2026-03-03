@@ -24,6 +24,13 @@
   visibility: hidden;
 }
 
+.inline-bubble:focus-visible {
+  outline: 2px dashed #ff8c00;
+  outline-offset: 2px;
+  opacity: 1;
+  visibility: visible;
+}
+
 /* When there are comments, show the bubble always */
 .inline-bubble.has-comments {
   opacity: 1;
@@ -96,6 +103,11 @@
   color: #333;
 }
 
+.close-button:focus-visible {
+  outline: 2px dashed #ff8c00;
+  outline-offset: 2px;
+}
+
 .inline-comment-form {
   background-color: #fafafa;
   border: 1px solid #eee;
@@ -145,10 +157,11 @@
   min-height: 60px;
 }
 
-.inline-comment-form textarea:focus {
-  outline: none;
+.inline-comment-form textarea:focus,
+.inline-comment-form textarea:focus-visible {
+  outline: 2px dashed #ff8c00;
+  outline-offset: 2px;
   border-color: #0066cc;
-  box-shadow: 0 0 0 2px rgba(0, 102, 204, 0.1);
 }
 
 .inline-comment-form textarea:disabled {
@@ -183,6 +196,11 @@
 
 .inline-comment-form button:hover:not(:disabled) {
   background-color: #0052a3;
+}
+
+.inline-comment-form button:focus-visible {
+  outline: 2px dashed #ff8c00;
+  outline-offset: 2px;
 }
 
 .inline-comment-form button:disabled {
@@ -264,6 +282,11 @@
 
 .inline-flag-button:hover:not(:disabled) {
   background-color: #ffe6e0;
+}
+
+.inline-flag-button:focus-visible {
+  outline: 2px dashed #ff8c00;
+  outline-offset: 2px;
 }
 
 .inline-flag-button:disabled {

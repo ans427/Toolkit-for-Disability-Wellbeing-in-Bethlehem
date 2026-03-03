@@ -23,6 +23,11 @@
   color: var(--color-text);
   text-decoration: underline;
 }
+
+.story-detail-header .back-link:focus-visible {
+  outline: 2px dashed #ff8c00;
+  outline-offset: 2px;
+}
 .story-detail h1.story-title {
   font-size: 2rem;
   margin: 1rem 0;
@@ -106,6 +111,11 @@
 
 .error-container .back-link:hover {
   text-decoration: underline;
+}
+
+.error-container .back-link:focus-visible {
+  outline: 2px dashed #ff8c00;
+  outline-offset: 2px;
 }
 
 @media (max-width: 768px) {

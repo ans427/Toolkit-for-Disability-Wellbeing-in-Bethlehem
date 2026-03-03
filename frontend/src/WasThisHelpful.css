@@ -126,10 +126,11 @@ html.a11y-high-contrast .was-this-helpful-btn {
   box-sizing: border-box;
 }
 
-.was-this-helpful-suggestion-input:focus {
-  outline: none;
+.was-this-helpful-suggestion-input:focus,
+.was-this-helpful-suggestion-input:focus-visible {
+  outline: 2px dashed #ff8c00;
+  outline-offset: 2px;
   border-color: #0066cc;
-  box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.15);
 }
 
 .was-this-helpful-suggestion-input::placeholder {
@@ -197,6 +198,11 @@ html.a11y-high-contrast .was-this-helpful-btn {
   background: #f8fafc;
   border-color: #a8b4c4;
   color: #3d4553;
+}
+
+.was-this-helpful-btn:focus-visible {
+  outline: 2px dashed #ff8c00;
+  outline-offset: 2px;
 }
 
 .was-this-helpful-error {

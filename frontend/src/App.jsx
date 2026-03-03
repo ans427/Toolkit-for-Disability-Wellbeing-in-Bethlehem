@@ -1,5 +1,13 @@
 import { useState, useEffect } from 'react'
-import { BrowserRouter, Routes, Route, Link } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, Link, useLocation } from 'react-router-dom'
+
+function ScrollToTop() {
+  const { pathname } = useLocation()
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [pathname])
+  return null
+}
 import Header from './Header'
 import ImmediateResources from './ImmediateResources'
 import ResourceDetail from './ResourceDetail'
@@ -329,6 +337,7 @@ function App() {
 
   return (
     <BrowserRouter>
+      <ScrollToTop />
       <Header
         onAccessibilityClick={() => setA11yOpen(v => !v)}
         accessibilityOpen={a11yOpen}

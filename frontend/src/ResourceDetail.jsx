@@ -211,7 +211,16 @@ function ResourceDetail() {
                   <figure
                     key={index}
                     className="resource-gallery-figure"
+                    role="button"
+                    tabIndex={0}
                     onClick={() => openLightbox(index)}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault()
+                        openLightbox(index)
+                      }
+                    }}
+                    aria-label={`View photo ${index + 1}`}
                   >
                     <img
                       src={img.asset.url}

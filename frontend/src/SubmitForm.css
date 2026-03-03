@@ -51,11 +51,14 @@
 }
 
 .submit-label input:focus,
+.submit-label input:focus-visible,
 .submit-label textarea:focus,
-.submit-label select:focus {
-  outline: none;
+.submit-label textarea:focus-visible,
+.submit-label select:focus,
+.submit-label select:focus-visible {
+  outline: 2px dashed #ff8c00;
+  outline-offset: 2px;
   border-color: var(--color-forest-green);
-  box-shadow: 0 0 0 3px rgba(30, 61, 50, 0.2);
 }
 
 .submit-label input::placeholder,
@@ -136,7 +139,7 @@
 }
 
 .radio-option-card:focus-within {
-  outline: 3px solid var(--color-forest-green);
+  outline: 2px dashed #ff8c00;
   outline-offset: 2px;
 }
 
@@ -182,7 +185,7 @@
 }
 
 .submit-button:focus-visible {
-  outline: 3px solid var(--color-forest-green);
+  outline: 2px dashed #ff8c00;
   outline-offset: 2px;
 }
 
