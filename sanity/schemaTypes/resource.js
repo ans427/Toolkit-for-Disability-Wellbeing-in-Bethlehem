@@ -16,9 +16,13 @@ export default {
           { title: 'Legal Aid', value: 'legal-aid' },
           { title: 'Community Organizations', value: 'community-organizations' },
           { title: 'Mutual Aid Support', value: 'mutual-aid-support' },
-          { title: 'Interdependency Support', value: 'interdependency-support' },
-          { title: 'Mental Health Support', value: 'mental-health-support' }
-        ]
+          { title: 'Collaborative Support', value: 'collaborative-support' },
+          { title: 'Mental Health Support', value: 'mental-health-support' },
+          { title: 'Employment Support', value: 'employment-support' },
+          { title: 'Food Access and Housing Support', value: 'food-access-and-housing-support' },
+          { title: 'Healthcare Support', value: 'healthcare-support' },
+          { title: 'Transportation Services', value: 'transportation-services' },
+          { title: 'Multilingual Support', value: 'multilingual-support' }        ]
       }
     },
     {

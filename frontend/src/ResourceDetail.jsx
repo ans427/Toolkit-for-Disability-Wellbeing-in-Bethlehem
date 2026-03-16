@@ -10,8 +10,13 @@ const CATEGORY_LABELS = {
   'legal-aid': 'Legal Aid',
   'community-organizations': 'Community Organizations',
   'mutual-aid-support': 'Mutual Aid Support',
-  'interdependency-support': 'Interdependency Support',
+  'collaborative-support': 'Collaborative Support',
   'mental-health-support': 'Mental Health Support',
+  'employment-support': 'Employment Support',
+  'food-access-and-housing-support': 'Food Access and Housing Support',
+  'healthcare-support': 'Healthcare Support',
+  'transportation-services': 'Transportation Services',
+  'multilingual-support': 'Multilingual Support',
   general: 'General',
 }
 

@@ -193,7 +193,12 @@ function SubmitForm() {
                   <option value="legal-aid">Legal Aid</option>
                   <option value="community-organizations">Community Organizations</option>
                   <option value="mutual-aid-support">Mutual Aid Support</option>
-                  <option value="interdependency-support">Interdependency Support</option>
+                  <option value="collaborative-support">Collaborative Support</option>
+                  <option value="employment-support">Employment Support</option>
+                  <option value="food-access-and-housing-support">Food Access and Housing Support</option>
+                  <option value="healthcare-support">Healthcare Support</option>
+                  <option value="transportation-services">Transportation Services</option>
+                  <option value="multilingual-support">Multilingual Support</option>
                   <option value="mental-health-support">Mental Health Support</option>
                 </select>
               </label>

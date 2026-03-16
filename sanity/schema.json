@@ -1274,11 +1274,31 @@
             },
             {
               "type": "string",
-              "value": "interdependency-support"
+              "value": "collaborative-support"
             },
             {
               "type": "string",
               "value": "mental-health-support"
+            },
+            {
+              "type": "string",
+              "value": "employment-support"
+            },
+            {
+              "type": "string",
+              "value": "food-access-and-housing-support"
+            },
+            {
+              "type": "string",
+              "value": "healthcare-support"
+            },
+            {
+              "type": "string",
+              "value": "transportation-services"
+            },
+            {
+              "type": "string",
+              "value": "multilingual-support"
             }
           ]
         },
