@@ -137,9 +137,9 @@ function ImmediateResources() {
         keywords: ['mental health', 'therapy', 'counseling', 'counsellor', 'psychologist']
       },
       {
-        triggers: /\b(legal|lawyer|attorney|rights|legal aid)\b/i,
+        triggers: /\b(legal|lawyer|attorney|rights|legal aid|SSI|SSID|file a claim)\b/i,
         categories: ['legal-aid'],
-        keywords: ['legal', 'lawyer', 'attorney', 'rights']
+        keywords: ['legal', 'lawyer', 'attorney', 'rights', 'legal aid', 'SSI', 'SSDI', 'file a claim']
       },
       {
         triggers: /\b(transport|bus|train|ride|accessible transit|transportation)\b/i,
@@ -147,9 +147,9 @@ function ImmediateResources() {
         keywords: ['transport', 'bus', 'train', 'transit', 'transportation']
       },
       {
-        triggers: /\b(community|neighborhood|local organization|community center|nonprofit|ngo|non-profit)\b/i,
+        triggers: /\b(community|neighborhood|local organization|community center|nonprofit|ngo|non-profit|advocacy)\b/i,
         categories: ['community-organizations'],
-        keywords: ['community', 'neighborhood', 'nonprofit', 'ngo', 'community center', 'local org']
+        keywords: ['community', 'neighborhood', 'nonprofit', 'ngo', 'community center', 'local org', 'advocacy']
       },
       {
         triggers: /\b(mutual aid|mutual-aid|mutualaid|volunteer|volunteering|peer support|grassroots)\b/i,
@@ -167,9 +167,9 @@ function ImmediateResources() {
         keywords: ['medical', 'clinic', 'doctor', 'healthcare', 'hospital', 'nurse']
       },
       {
-        triggers: /\b(translate|interpreter|translation|translating|multilingual|interpretation|spanish|english)\b/i,
+        triggers: /\b(translate|interpreter|translation|translating|multilingual|interpretation|spanish|hispanic|espanol|english|bilingual)\b/i,
         categories: ['multilingual-support'],
-        keywords: ['translate', 'interpreter', 'translation', 'translating', 'spanish', 'language', 'multilingual']
+        keywords: ['translate', 'interpreter', 'translation', 'translating', 'spanish', 'hispanic', 'espanol', 'language', 'multilingual', 'interpretation', 'bilingual']
       },
     ]
 
