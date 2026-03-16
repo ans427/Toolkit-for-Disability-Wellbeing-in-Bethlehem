@@ -170,7 +170,7 @@ function Comments({ storyId }) {
         />
         <div className="comment-form-footer">
           <span className="char-count">{newComment.length}/1000</span>
-          <button type="submit" disabled={submitting}>
+          <button type="submit" disabled={submitting || !newComment.trim()}>
             {submitting ? 'Posting...' : 'Post Comment'}
           </button>
         </div>

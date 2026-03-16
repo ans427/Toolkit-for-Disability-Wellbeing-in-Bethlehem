@@ -59,7 +59,7 @@ html.a11y-high-contrast .comment-item .comment-date {
 .comment-form textarea:focus-visible {
   outline: 2px dashed #ff8c00;
   outline-offset: 2px;
-  border-color: #0066cc;
+  border-color: var(--color-forest-green);
 }
 
 .comment-form-footer {
@@ -75,7 +75,7 @@ html.a11y-high-contrast .comment-item .comment-date {
 }
 
 .comment-form button {
-  background-color: #0066cc;
+  background-color: var(--color-forest-green);
   color: white;
   border: none;
   padding: 0.65rem 1.5rem;
@@ -87,7 +87,7 @@ html.a11y-high-contrast .comment-item .comment-date {
 }
 
 .comment-form button:hover:not(:disabled) {
-  background-color: #0052a3;
+  background-color: var(--color-forest-green-hover);
 }
 
 .comment-form button:focus-visible {
