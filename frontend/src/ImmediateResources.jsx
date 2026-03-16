@@ -133,8 +133,8 @@ function ImmediateResources() {
       },
       {
         triggers: /\b(therapy|mental|counseling|counsellor|psychologist)\b/i,
-        categories: ['mental-health-support'],
-        keywords: ['mental health', 'therapy', 'counseling', 'counsellor']
+        categories: ['mental-health-support', 'healthcare-support'],
+        keywords: ['mental health', 'therapy', 'counseling', 'counsellor', 'psychologist']
       },
       {
         triggers: /\b(legal|lawyer|attorney|rights|legal aid)\b/i,
@@ -145,6 +145,31 @@ function ImmediateResources() {
         triggers: /\b(transport|bus|train|ride|accessible transit|transportation)\b/i,
         categories: ['transportation-services'],
         keywords: ['transport', 'bus', 'train', 'transit', 'transportation']
+      },
+      {
+        triggers: /\b(community|neighborhood|local organization|community center|nonprofit|ngo|non-profit)\b/i,
+        categories: ['community-organizations'],
+        keywords: ['community', 'neighborhood', 'nonprofit', 'ngo', 'community center', 'local org']
+      },
+      {
+        triggers: /\b(mutual aid|mutual-aid|mutualaid|volunteer|volunteering|peer support|grassroots)\b/i,
+        categories: ['mutual-aid-support'],
+        keywords: ['mutual aid', 'volunteer', 'volunteering', 'peer support', 'grassroots']
+      },
+      {
+        triggers: /\b(collaborative|cooperative|co-op|collective|peer-led|partnership|collaboration)\b/i,
+        categories: ['collaborative-support'],
+        keywords: ['collaborative', 'cooperative', 'collective', 'partnership', 'peer-led']
+      },
+      {
+        triggers: /\b(doctor|clinic|medical|healthcare|hospital|nurse|appointment|medical care)\b/i,
+        categories: ['healthcare-support'],
+        keywords: ['medical', 'clinic', 'doctor', 'healthcare', 'hospital', 'nurse']
+      },
+      {
+        triggers: /\b(translate|interpreter|translation|translating|multilingual|interpretation|spanish|english)\b/i,
+        categories: ['multilingual-support'],
+        keywords: ['translate', 'interpreter', 'translation', 'translating', 'spanish', 'language', 'multilingual']
       },
     ]
 
