@@ -40,6 +40,8 @@
 }
 
 .about-section .inline-link:hover {
+  background: rgba(30, 61, 50, 0.08);
+  color: var(--color-forest-green);
   text-decoration: underline;
 }
 

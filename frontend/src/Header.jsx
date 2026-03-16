@@ -39,7 +39,6 @@ function Header({
             <li><Link to="/community-stories">Stories</Link></li>
             <li><Link to="/">Map</Link></li>
             <li><Link to="/policy-gaps">Advocacy</Link></li>
-            <li><Link to="/about">About</Link></li>
           </ul>
         </nav>
 
