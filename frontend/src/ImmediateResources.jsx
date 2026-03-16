@@ -113,15 +113,84 @@ function ImmediateResources() {
 
   const filteredResources = useMemo(() => {
     const query = searchQuery.trim().toLowerCase()
+
+    // Simple intent mapping for natural language queries
+    const INTENT_MAP = [
+      {
+        triggers: /\b(job|work|employment|hiring|hire|career|apply for a job|finding a job)\b/i,
+        categories: ['employment-support'],
+        keywords: ['job', 'employment', 'work', 'career', 'resume', 'interview', 'hiring']
+      },
+      {
+        triggers: /\b(food|food bank|pantry|meal|hunger)\b/i,
+        categories: ['food-access-and-housing-support'],
+        keywords: ['food', 'pantry', 'meals', 'food bank']
+      },
+      {
+        triggers: /\b(housing|shelter|rent|evict|homeless)\b/i,
+        categories: ['food-access-and-housing-support'],
+        keywords: ['housing', 'shelter', 'rent', 'eviction']
+      },
+      {
+        triggers: /\b(therapy|mental|counseling|counsellor|psychologist)\b/i,
+        categories: ['mental-health-support'],
+        keywords: ['mental health', 'therapy', 'counseling', 'counsellor']
+      },
+      {
+        triggers: /\b(legal|lawyer|attorney|rights|legal aid)\b/i,
+        categories: ['legal-aid'],
+        keywords: ['legal', 'lawyer', 'attorney', 'rights']
+      },
+      {
+        triggers: /\b(transport|bus|train|ride|accessible transit|transportation)\b/i,
+        categories: ['transportation-services'],
+        keywords: ['transport', 'bus', 'train', 'transit', 'transportation']
+      },
+    ]
+
+    const detectIntent = (q) => {
+      const intents = { categories: new Set(), keywords: new Set() }
+      if (!q) return intents
+      for (const m of INTENT_MAP) {
+        if (m.triggers.test(q)) {
+          ;(m.categories || []).forEach((c) => intents.categories.add(c))
+          ;(m.keywords || []).forEach((k) => intents.keywords.add(k))
+        }
+      }
+      return intents
+    }
+
+    const intent = detectIntent(query)
+
     const byCategory = showAll
       ? resources
       : resources.filter((r) => selectedCategories.has(r.category || 'general'))
+
     if (!query) return byCategory
+
+    // Check each resource against the typed query and detected intent keywords/categories
     return byCategory.filter((r) => {
       const title = (r.title || '').toLowerCase()
       const description = (r.description || '').toLowerCase()
-      const category = getCategoryLabel(r.category || 'general').toLowerCase()
-      return title.includes(query) || description.includes(query) || category.includes(query)
+      const categoryKey = (r.category || 'general')
+      const categoryLabel = getCategoryLabel(r.category || 'general').toLowerCase()
+
+      // direct substring match
+      if (title.includes(query) || description.includes(query) || categoryLabel.includes(query)) return true
+
+      // split words match (handles simple natural phrasing)
+      const qWords = query.split(/[^\w]+/).filter(Boolean)
+      if (qWords.every((w) => title.includes(w) || description.includes(w))) return true
+
+      // intent-based category match
+      if (intent.categories.has(categoryKey)) return true
+
+      // intent-based keyword match in text
+      for (const kw of intent.keywords) {
+        if (title.includes(kw) || description.includes(kw)) return true
+      }
+
+      return false
     })
   }, [resources, showAll, selectedCategories, searchQuery])
 
