@@ -9,6 +9,12 @@ export default {
       validation: Rule => Rule.required()
     },
     {
+      name: 'titleI18n',
+      title: 'Title (translations)',
+      type: 'localizedString',
+      description: 'Optional. If set, the site can show Spanish when selected.',
+    },
+    {
       name: 'category',
       type: 'string',
       options: {
@@ -38,6 +44,12 @@ export default {
     {
       name: 'description',
       type: 'text'
+    },
+    {
+      name: 'descriptionI18n',
+      title: 'Description (translations)',
+      type: 'localizedText',
+      description: 'Optional. If set, the site can show Spanish when selected.',
     },
     {
       name: 'url',

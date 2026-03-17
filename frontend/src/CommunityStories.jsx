@@ -2,9 +2,13 @@ import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { sanity } from './sanityClient'
 import Breadcrumb from './Breadcrumb'
+import { useLanguage } from './languageContext'
+import { pickI18n } from './i18nUtils'
+import { t } from './uiStrings'
 import './CommunityStories.css'
 
 function CommunityStories() {
+  const lang = useLanguage()
   const [stories, setStories] = useState([])
   const [loading, setLoading] = useState(true)
 
@@ -15,10 +19,13 @@ function CommunityStories() {
           `*[_type == "communityStory"] | order(coalesce(date, _createdAt) desc){
             _id,
             title,
+            titleI18n,
             personName,
             location,
             summary,
+            summaryI18n,
             story,
+            storyI18n,
             date
           }`
         )
@@ -38,18 +45,18 @@ function CommunityStories() {
       <Breadcrumb />
       <header className="stories-header">
         <Link to="/" className="back-link">
-          ← Back to Home
+          {t(lang, 'pages.communityStories.backHome')}
         </Link>
-        <h1>Community Stories</h1>
+        <h1>{t(lang, 'pages.communityStories.title')}</h1>
         <p className="subtitle">
-          Lived experiences from disabled residents and their communities in Bethlehem.
+          {t(lang, 'pages.communityStories.subtitle')}
         </p>
       </header>
 
       {loading ? (
-        <p>Loading stories...</p>
+        <p>{t(lang, 'pages.communityStories.loading')}</p>
       ) : stories.length === 0 ? (
-        <p>No stories have been added yet. Check back soon.</p>
+        <p>{t(lang, 'pages.communityStories.empty')}</p>
       ) : (
         <section className="stories-list" aria-label="Community stories">
           {stories.map((story) => (
@@ -61,7 +68,7 @@ function CommunityStories() {
             >
               <article className="story-card">
                 <header className="story-card-header">
-                  <h2 className="story-title">{story.title}</h2>
+                  <h2 className="story-title">{pickI18n(story.titleI18n, lang, story.title)}</h2>
                   <p className="story-meta">
                     {story.personName && <span>{story.personName}</span>}
                     {story.location && (
@@ -73,21 +80,21 @@ function CommunityStories() {
                   </p>
                 </header>
 
-                {story.summary && (
+                {pickI18n(story.summaryI18n, lang, story.summary) && (
                   <p className="story-summary">
-                    {story.summary}
+                    {pickI18n(story.summaryI18n, lang, story.summary)}
                   </p>
                 )}
 
-                {story.story && (
+                {pickI18n(story.storyI18n, lang, story.story) && (
                   <p className="story-body">
-                    {story.story.substring(0, 150)}...
+                    {pickI18n(story.storyI18n, lang, story.story).substring(0, 150)}...
                   </p>
                 )}
 
                 <div className="story-card-footer">
                   <button className="read-more-button">
-                    Read Full Story →
+                    {t(lang, 'pages.communityStories.readFull')}
                   </button>
                 </div>
               </article>

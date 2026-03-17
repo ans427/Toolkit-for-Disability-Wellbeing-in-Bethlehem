@@ -11,6 +11,11 @@ export default {
       validation: (Rule) => Rule.required(),
     },
     {
+      name: 'titleI18n',
+      title: 'Title (translations)',
+      type: 'localizedString',
+    },
+    {
       name: 'slug',
       title: 'Slug (for anchor link)',
       type: 'slug',
@@ -29,6 +34,12 @@ export default {
       validation: (Rule) => Rule.required(),
     },
     {
+      name: 'experienceI18n',
+      title: 'The Resident Experience (translations)',
+      type: 'localizedText',
+      rows: 4,
+    },
+    {
       name: 'conditions',
       title: 'Current Conditions',
       type: 'text',
@@ -36,11 +47,23 @@ export default {
       validation: (Rule) => Rule.required(),
     },
     {
+      name: 'conditionsI18n',
+      title: 'Current Conditions (translations)',
+      type: 'localizedText',
+      rows: 4,
+    },
+    {
       name: 'gaps',
       title: 'Analyzing the Gap',
       type: 'text',
       rows: 4,
       validation: (Rule) => Rule.required(),
+    },
+    {
+      name: 'gapsI18n',
+      title: 'Analyzing the Gap (translations)',
+      type: 'localizedText',
+      rows: 4,
     },
     {
       name: 'implications',

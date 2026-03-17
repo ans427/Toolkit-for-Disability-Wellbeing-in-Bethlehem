@@ -1,13 +1,5 @@
 import { useState, useEffect } from 'react'
 import { BrowserRouter, Routes, Route, Link, useLocation } from 'react-router-dom'
-
-function ScrollToTop() {
-  const { pathname } = useLocation()
-  useEffect(() => {
-    window.scrollTo(0, 0)
-  }, [pathname])
-  return null
-}
 import Header from './Header'
 import ImmediateResources from './ImmediateResources'
 import ResourceDetail from './ResourceDetail'
@@ -22,15 +14,27 @@ import AccessibilityStatement from './AccessibilityStatement'
 import About from './About'
 import PrivacyPolicy from './PrivacyPolicy'
 import Footer from './Footer'
+import { LanguageProvider } from './languageContext'
+import { t } from './uiStrings'
+import { useLanguage } from './languageContext'
 import './App.css'
 import './Header.css'
 import './AccessibilityToolbar.css'
 
+function ScrollToTop() {
+  const { pathname } = useLocation()
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [pathname])
+  return null
+}
+
 function HomePage() {
+  const lang = useLanguage()
   return (
     <main className="container">
       <header>
-        <h1>Toolkit for Disability Wellbeing</h1>
+        <h1>{t(lang, 'home.title')}</h1>
       </header>
 
       <section className="homepage-grid">
@@ -40,8 +44,8 @@ function HomePage() {
           style={{ textDecoration: 'none', color: 'inherit' }}
         >
           <div className="nav-card">
-            <h2>Immediate Resources</h2>
-            <p>Find healthcare, legal, housing, and community support.</p>
+            <h2>{t(lang, 'home.cards.resourcesTitle')}</h2>
+            <p>{t(lang, 'home.cards.resourcesBody')}</p>
           </div>
         </Link>
 
@@ -51,14 +55,14 @@ function HomePage() {
           style={{ textDecoration: 'none', color: 'inherit' }}
         >
           <div className="nav-card">
-            <h2>Community Stories</h2>
-            <p>Read lived experiences from disabled residents.</p>
+            <h2>{t(lang, 'home.cards.storiesTitle')}</h2>
+            <p>{t(lang, 'home.cards.storiesBody')}</p>
           </div>
         </Link>
 
         <div className="nav-card">
-          <h2>Accessibility Map</h2>
-          <p>Explore accessible and inaccessible spaces in Bethlehem.</p>
+          <h2>{t(lang, 'home.cards.mapTitle')}</h2>
+          <p>{t(lang, 'home.cards.mapBody')}</p>
         </div>
 
         <Link
@@ -66,8 +70,8 @@ function HomePage() {
           style={{ textDecoration: 'none', color: 'inherit' }}
         >
           <div className="nav-card">
-            <h2>Policy & Service Gaps</h2>
-            <p>Learn about local accessibility challenges and recommendations.</p>
+            <h2>{t(lang, 'home.cards.policyTitle')}</h2>
+            <p>{t(lang, 'home.cards.policyBody')}</p>
           </div>
         </Link>
 
@@ -76,14 +80,14 @@ function HomePage() {
           style={{ textDecoration: 'none', color: 'inherit' }}
         >
           <div className="nav-card">
-            <h2>Disability Activism</h2>
-            <p>Explore movements and discussions around disability justice.</p>
+            <h2>{t(lang, 'home.cards.activismTitle')}</h2>
+            <p>{t(lang, 'home.cards.activismBody')}</p>
           </div>
         </Link>
 
         <div className="nav-card">
-          <h2>Report an Issue</h2>
-          <p>Share an accessibility barrier in the community.</p>
+          <h2>{t(lang, 'home.cards.reportTitle')}</h2>
+          <p>{t(lang, 'home.cards.reportBody')}</p>
         </div>
 
         <Link
@@ -91,8 +95,8 @@ function HomePage() {
           style={{ textDecoration: 'none', color: 'inherit' }}
         >
           <div className="nav-card">
-            <h2>Submit a Resource or Story</h2>
-            <p>Share a resource or community story for review.</p>
+            <h2>{t(lang, 'home.cards.submitTitle')}</h2>
+            <p>{t(lang, 'home.cards.submitBody')}</p>
           </div>
         </Link>
 
@@ -101,16 +105,16 @@ function HomePage() {
           style={{ textDecoration: 'none', color: 'inherit' }}
         >
           <div className="nav-card">
-            <h2>About the Toolkit</h2>
-            <p>Learn about the project and collaborators.</p>
+            <h2>{t(lang, 'home.cards.aboutTitle')}</h2>
+            <p>{t(lang, 'home.cards.aboutBody')}</p>
           </div>
         </Link>
       </section>
 
       <section className="cta-band">
-        <p className="cta-band-text">Know something we don&apos;t? This toolkit grows through community contribution.</p>
+        <p className="cta-band-text">{t(lang, 'home.cta.text')}</p>
         <Link to="/submit" className="cta-band-button">
-          Contribute to the Toolkit
+          {t(lang, 'home.cta.button')}
         </Link>
       </section>
 
@@ -334,6 +338,12 @@ function App() {
   }
 
   const [a11yOpen, setA11yOpen] = useState(false)
+  const [language, setLanguage] = useState(() => localStorage.getItem('lang') || 'en')
+
+  useEffect(() => {
+    localStorage.setItem('lang', language)
+    document.documentElement.lang = language
+  }, [language])
 
   return (
     <BrowserRouter>
@@ -341,6 +351,8 @@ function App() {
       <Header
         onAccessibilityClick={() => setA11yOpen(v => !v)}
         accessibilityOpen={a11yOpen}
+        language={language}
+        onLanguageChange={setLanguage}
       />
       <AccessibilityToolbar
         textSize={textSize}
@@ -359,23 +371,25 @@ function App() {
         open={a11yOpen}
         onToggle={() => setA11yOpen(v => !v)}
       />
-      <div id="main-content" className="page-content">
-        <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/resources/:resourceId" element={<ResourceDetail />} />
-        <Route path="/resources" element={<ImmediateResources />} />
-        <Route path="/community-stories" element={<CommunityStories />} />
-        <Route path="/community-stories/:storyId" element={<StoryDetail />} />
-        <Route path="/policy-gaps" element={<PolicyGaps />} />
-        <Route path="/disability-activism" element={<DisabilityActivism />} />
-        <Route path="/submit" element={<SubmitForm />} />
-        <Route path="/sitemap" element={<Sitemap />} />
-        <Route path="/disclaimers" element={<Disclaimers />} />
-        <Route path="/accessibility-statement" element={<AccessibilityStatement />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-        </Routes>
-      </div>
+      <LanguageProvider value={language}>
+        <div id="main-content" className="page-content">
+          <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/resources/:resourceId" element={<ResourceDetail />} />
+          <Route path="/resources" element={<ImmediateResources />} />
+          <Route path="/community-stories" element={<CommunityStories />} />
+          <Route path="/community-stories/:storyId" element={<StoryDetail />} />
+          <Route path="/policy-gaps" element={<PolicyGaps />} />
+          <Route path="/disability-activism" element={<DisabilityActivism />} />
+          <Route path="/submit" element={<SubmitForm />} />
+          <Route path="/sitemap" element={<Sitemap />} />
+          <Route path="/disclaimers" element={<Disclaimers />} />
+          <Route path="/accessibility-statement" element={<AccessibilityStatement />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+          </Routes>
+        </div>
+      </LanguageProvider>
       <Footer />
     </BrowserRouter>
   )

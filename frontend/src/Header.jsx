@@ -1,19 +1,24 @@
 import { Link } from 'react-router-dom'
 import { useState, useEffect } from 'react'
+import { t } from './uiStrings'
 import './Header.css'
 
 function Header({
   onAccessibilityClick,
   accessibilityOpen,
+  language,
+  onLanguageChange,
 }) {
-  const [language, setLanguage] = useState('English')
   const [langOpen, setLangOpen] = useState(false)
-  const languages = ['English', 'Spanish', 'Chinese', 'Arabic']
+  const languages = [
+    { code: 'en', label: 'English' },
+    { code: 'es', label: 'Spanish' },
+  ]
 
   // close dropdown when clicking outside
   useEffect(() => {
     const handleClick = (e) => {
-      if (!e.target.closest('.header-lang-btn')) {
+      if (!e.target.closest('.lang-wrapper')) {
         setLangOpen(false)
       }
     }
@@ -21,24 +26,26 @@ function Header({
     return () => document.removeEventListener('click', handleClick)
   }, [])
 
+  const currentLabel = languages.find((l) => l.code === language)?.label ?? 'English'
+
   return (
     <header className="site-header" role="banner">
       <a href="#main-content" className="skip-link">
-        Skip to main content
+        {t(language, 'skipToMain')}
       </a>
 
       <div className="header-inner">
         <Link to="/" className="site-title">
-          Toolkit for Disability Wellbeing
+          {t(language, 'appTitle')}
         </Link>
 
         <nav className="site-nav" aria-label="Main navigation">
           <ul>
-            <li><Link to="/about">About</Link></li>
-            <li><Link to="/resources">Resources</Link></li>
-            <li><Link to="/community-stories">Stories</Link></li>
-            <li><Link to="/">Map</Link></li>
-            <li><Link to="/policy-gaps">Advocacy</Link></li>
+            <li><Link to="/about">{t(language, 'nav.about')}</Link></li>
+            <li><Link to="/resources">{t(language, 'nav.resources')}</Link></li>
+            <li><Link to="/community-stories">{t(language, 'nav.stories')}</Link></li>
+            <li><Link to="/">{t(language, 'nav.map')}</Link></li>
+            <li><Link to="/policy-gaps">{t(language, 'nav.advocacy')}</Link></li>
           </ul>
         </nav>
 
@@ -52,21 +59,21 @@ function Header({
               onClick={() => setLangOpen((v) => !v)}
               title="Select language"
             >
-              {language} <span aria-hidden="true">▼</span>
+              {currentLabel} <span aria-hidden="true">▼</span>
             </button>
             {langOpen && (
               <div className="language-dropdown" role="menu">
                 {languages.map((lang) => (
                   <button
-                    key={lang}
+                    key={lang.code}
                     type="button"
                     role="menuitem"
                     onClick={() => {
-                      setLanguage(lang)
+                      onLanguageChange?.(lang.code)
                       setLangOpen(false)
                     }}
                   >
-                    {lang}
+                    {lang.label}
                   </button>
                 ))}
               </div>
@@ -82,7 +89,7 @@ function Header({
             title="Accessibility options"
           >
             <span className="header-accessibility-icon" aria-hidden="true">♿</span>
-            Accessibility
+            {t(language, 'accessibility')}
           </button>
         </div>
       </div>

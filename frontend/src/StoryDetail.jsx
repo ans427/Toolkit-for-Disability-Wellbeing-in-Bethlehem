@@ -2,10 +2,13 @@ import { useEffect, useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { sanity } from './sanityClient'
 import Breadcrumb from './Breadcrumb'
+import { useLanguage } from './languageContext'
+import { pickI18n } from './i18nUtils'
 import './StoryDetail.css'
 
 function StoryDetail() {
   const { storyId } = useParams()
+  const lang = useLanguage()
   const [story, setStory] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
@@ -17,10 +20,13 @@ function StoryDetail() {
           `*[_type == "communityStory" && _id == $storyId][0]{
             _id,
             title,
+            titleI18n,
             personName,
             location,
             summary,
+            summaryI18n,
             story,
+            storyI18n,
             date
           }`,
           { storyId }
@@ -65,13 +71,17 @@ function StoryDetail() {
     )
   }
 
-  const paragraphs = story.story
+  const storyText = pickI18n(story.storyI18n, lang, story.story)
+  const title = pickI18n(story.titleI18n, lang, story.title)
+  const summary = pickI18n(story.summaryI18n, lang, story.summary)
+
+  const paragraphs = storyText
     .split('\n\n')
     .filter(p => p.trim().length > 0)
 
   return (
     <main className="container">
-      <Breadcrumb storyTitle={story.title} />
+      <Breadcrumb storyTitle={title} />
       
       <article className="story-detail">
         <header className="story-detail-header">
@@ -79,7 +89,7 @@ function StoryDetail() {
             ← Back to Community Stories
           </Link>
           
-          <h1 className="story-title">{story.title}</h1>
+          <h1 className="story-title">{title}</h1>
           
           <div className="story-meta">
             {story.personName && (
@@ -101,8 +111,8 @@ function StoryDetail() {
             )}
           </div>
 
-          {story.summary && (
-            <p className="story-summary">{story.summary}</p>
+          {summary && (
+            <p className="story-summary">{summary}</p>
           )}
         </header>
 

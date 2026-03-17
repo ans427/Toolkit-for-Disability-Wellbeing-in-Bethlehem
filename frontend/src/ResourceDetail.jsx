@@ -4,6 +4,8 @@ import { sanity } from './sanityClient'
 import Breadcrumb from './Breadcrumb'
 import ResourceComments from './ResourceComments'
 import WasThisHelpful from './WasThisHelpful'
+import { useLanguage } from './languageContext'
+import { pickI18n } from './i18nUtils'
 import './ResourceDetail.css'
 
 const CATEGORY_LABELS = {
@@ -26,6 +28,7 @@ function getCategoryLabel(value) {
 
 function ResourceDetail() {
   const { resourceId } = useParams()
+  const lang = useLanguage()
   const [resource, setResource] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
@@ -42,8 +45,10 @@ function ResourceDetail() {
           `*[_type == "resource" && _id == $resourceId][0]{
             _id,
             title,
+            titleI18n,
             category,
             description,
+            descriptionI18n,
             url,
             isFree,
             isChildSpecific,
@@ -156,9 +161,12 @@ function ResourceDetail() {
     setLightboxIndex((i) => (i >= galleryLength - 1 ? 0 : i + 1))
   }
 
+  const title = pickI18n(resource?.titleI18n, lang, resource?.title)
+  const description = pickI18n(resource?.descriptionI18n, lang, resource?.description)
+
   return (
     <main className="resource-detail-page container">
-      <Breadcrumb resourceTitle={resource?.title} />
+      <Breadcrumb resourceTitle={title} />
       <Link to="/resources" className="back-link">
         ← Back to Immediate Resources
       </Link>
@@ -183,7 +191,7 @@ function ResourceDetail() {
                 <span className="resource-badge resource-badge--child">For Children</span>
               )}
             </div>
-            <h1 className="resource-hero-title">{resource.title}</h1>
+            <h1 className="resource-hero-title">{title}</h1>
           </div>
         </header>
 
@@ -201,10 +209,10 @@ function ResourceDetail() {
             </div>
           )}
 
-          {resource.description && (
+          {description && (
             <section className="resource-section resource-about">
               <h2 className="resource-section-title">About this resource</h2>
-              <p className="resource-description">{resource.description}</p>
+              <p className="resource-description">{description}</p>
             </section>
           )}
 

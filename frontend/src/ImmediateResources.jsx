@@ -2,6 +2,9 @@ import { useEffect, useState, useMemo } from 'react'
 import { Link } from 'react-router-dom'
 import { sanity } from './sanityClient'
 import Breadcrumb from './Breadcrumb'
+import { useLanguage } from './languageContext'
+import { pickI18n } from './i18nUtils'
+import { t } from './uiStrings'
 import './ImmediateResources.css'
 
 /* Human-readable category labels for filter and display */
@@ -24,6 +27,7 @@ function getCategoryLabel(value) {
 }
 
 function ImmediateResources() {
+  const lang = useLanguage()
   const [resources, setResources] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
@@ -38,9 +42,11 @@ function ImmediateResources() {
           `*[_type == "resource"] | order(title asc){
             _id,
             title,
+            titleI18n,
             category,
             url,
             description,
+            descriptionI18n,
             helpfulCount,
             notHelpfulCount,
             contactEmail,
@@ -195,41 +201,72 @@ function ImmediateResources() {
 
     // Check each resource against the typed query and detected intent keywords/categories
     return byCategory.filter((r) => {
-      const title = (r.title || '').toLowerCase()
-      const description = (r.description || '').toLowerCase()
+      const titleActive = pickI18n(r.titleI18n, lang, r.title)
+      const descActive = pickI18n(r.descriptionI18n, lang, r.description)
+      const title = (titleActive || '').toLowerCase()
+      const description = (descActive || '').toLowerCase()
+      const titleEn = (pickI18n(r.titleI18n, 'en', r.title) || '').toLowerCase()
+      const descEn = (pickI18n(r.descriptionI18n, 'en', r.description) || '').toLowerCase()
+      const titleEs = (pickI18n(r.titleI18n, 'es', '') || '').toLowerCase()
+      const descEs = (pickI18n(r.descriptionI18n, 'es', '') || '').toLowerCase()
       const categoryKey = (r.category || 'general')
       const categoryLabel = getCategoryLabel(r.category || 'general').toLowerCase()
 
       // direct substring match
-      if (title.includes(query) || description.includes(query) || categoryLabel.includes(query)) return true
+      if (
+        title.includes(query) ||
+        description.includes(query) ||
+        titleEn.includes(query) ||
+        descEn.includes(query) ||
+        titleEs.includes(query) ||
+        descEs.includes(query) ||
+        categoryLabel.includes(query)
+      ) return true
 
       // split words match (handles simple natural phrasing)
       const qWords = query.split(/[^\w]+/).filter(Boolean)
-      if (qWords.every((w) => title.includes(w) || description.includes(w))) return true
+      if (
+        qWords.every(
+          (w) =>
+            title.includes(w) ||
+            description.includes(w) ||
+            titleEn.includes(w) ||
+            descEn.includes(w) ||
+            titleEs.includes(w) ||
+            descEs.includes(w)
+        )
+      ) return true
 
       // intent-based category match
       if (intent.categories.has(categoryKey)) return true
 
       // intent-based keyword match in text
       for (const kw of intent.keywords) {
-        if (title.includes(kw) || description.includes(kw)) return true
+        if (
+          title.includes(kw) ||
+          description.includes(kw) ||
+          titleEn.includes(kw) ||
+          descEn.includes(kw) ||
+          titleEs.includes(kw) ||
+          descEs.includes(kw)
+        ) return true
       }
 
       return false
     })
-  }, [resources, showAll, selectedCategories, searchQuery])
+  }, [resources, showAll, selectedCategories, searchQuery, lang])
 
   return (
     <main className="container">
       <Breadcrumb />
       <header className="resource-header">
-        <Link to="/" className="back-link">← Back to Home</Link>
-        <h1>Immediate Resources</h1>
-        <p className="subtitle">Healthcare, legal, and community support in Bethlehem.</p>
+        <Link to="/" className="back-link">{t(lang, 'pages.immediateResources.backHome')}</Link>
+        <h1>{t(lang, 'pages.immediateResources.title')}</h1>
+        <p className="subtitle">{t(lang, 'pages.immediateResources.subtitle')}</p>
       </header>
 
       {loading ? (
-        <p>Loading resources...</p>
+        <p>{t(lang, 'pages.immediateResources.loading')}</p>
       ) : error ? (
         <p className="resource-error">
           {error}
@@ -243,13 +280,13 @@ function ImmediateResources() {
             <div className="resource-filter-controls">
               <div className="resource-search-wrap">
                 <label htmlFor="resource-search" className="resource-search-label">
-                  Search resources
+                  {t(lang, 'pages.immediateResources.searchLabel')}
                 </label>
                 <input
                   id="resource-search"
                   type="search"
                   className="resource-search-input"
-                  placeholder="Search by name, description, or category…"
+                  placeholder={t(lang, 'pages.immediateResources.searchPlaceholder')}
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   aria-label="Search resources by name, description, or category"
@@ -264,7 +301,7 @@ function ImmediateResources() {
                 aria-label="Filter by category"
                 aria-describedby="filter-results-count"
               >
-                <span className="resource-filter-legend">Filter by category</span>
+                <span className="resource-filter-legend">{t(lang, 'pages.immediateResources.filterLegend')}</span>
                 <div className="resource-filter-chip-list">
                   <button
                       id="filter-all"
@@ -275,7 +312,7 @@ function ImmediateResources() {
                       aria-pressed={showAll}
                       aria-label="Show all categories"
                     >
-                      All
+                      {t(lang, 'pages.immediateResources.filterAll')}
                     </button>
                   {categories.map((cat, i) => (
                     <button
@@ -319,7 +356,7 @@ function ImmediateResources() {
                 <div className="card-image-wrapper">
                   <img
                     src={resource.image.asset.url}
-                    alt={resource.image.alt || resource.title}
+                    alt={resource.image.alt || pickI18n(resource.titleI18n, lang, resource.title)}
                     className="card-image"
                   />
                 </div>
@@ -331,11 +368,11 @@ function ImmediateResources() {
                 </span>
 
                 <h3 className="card-title">
-                  {resource.title}
+                  {pickI18n(resource.titleI18n, lang, resource.title)}
                 </h3>
 
                 <p className="card-description">
-                  {resource.description}
+                  {pickI18n(resource.descriptionI18n, lang, resource.description)}
                 </p>
 
                 {((resource.helpfulCount ?? 0) + (resource.notHelpfulCount ?? 0)) > 0 && (

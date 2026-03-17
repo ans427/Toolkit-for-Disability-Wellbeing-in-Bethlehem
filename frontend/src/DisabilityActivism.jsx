@@ -2,15 +2,23 @@ import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { sanity } from './sanityClient'
 import Breadcrumb from './Breadcrumb'
+import { useLanguage } from './languageContext'
+import { pickI18n } from './i18nUtils'
+import { t } from './uiStrings'
 import './DisabilityActivism.css'
 
 const DISABILITY_ACTIVISM_QUERY = `*[_type == "disabilityActivismPage" && _id == "disabilityActivismPage"][0]{
   pageTitle,
+  pageTitleI18n,
   subtitle,
+  subtitleI18n,
   intro,
+  introI18n,
   sections[]{
     title,
+    titleI18n,
     content
+    ,contentI18n
   },
   principlesSection{
     intro,
@@ -40,6 +48,7 @@ function slugify(text) {
 }
 
 export default function DisabilityActivism() {
+  const lang = useLanguage()
   const [data, setData] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
@@ -64,7 +73,7 @@ export default function DisabilityActivism() {
     return (
       <main className="container" id="main-content">
         <Breadcrumb />
-        <p aria-live="polite">Loading Disability Activism...</p>
+        <p aria-live="polite">{t(lang, 'pages.disabilityActivism.loading')}</p>
       </main>
     )
   }
@@ -81,9 +90,9 @@ export default function DisabilityActivism() {
     )
   }
 
-  const title = data?.pageTitle ?? 'Disability Activism'
-  const subtitle = data?.subtitle ?? ''
-  const intro = data?.intro ?? ''
+  const title = pickI18n(data?.pageTitleI18n, lang, data?.pageTitle) ?? 'Disability Activism'
+  const subtitle = pickI18n(data?.subtitleI18n, lang, data?.subtitle) ?? ''
+  const intro = pickI18n(data?.introI18n, lang, data?.intro) ?? ''
   const sections = data?.sections ?? []
   const principlesSection = data?.principlesSection ?? {}
   const principles = principlesSection?.principles ?? []
@@ -91,7 +100,10 @@ export default function DisabilityActivism() {
   const sources = data?.sources ?? []
 
   const tocItems = [
-    ...sections.map((s) => ({ title: s.title, slug: slugify(s.title) })),
+    ...sections.map((s) => {
+      const sectionTitle = pickI18n(s?.titleI18n, lang, s?.title)
+      return { title: sectionTitle, slug: slugify(sectionTitle) }
+    }),
     ...(principles.length > 0
       ? [{ title: 'Ten Principles of Disability Justice', slug: 'ten-principles' }]
       : []),
@@ -103,7 +115,7 @@ export default function DisabilityActivism() {
     <main className="container disability-activism" id="main-content">
       <Breadcrumb />
       <header className="disability-activism-header">
-        <Link to="/" className="back-link">← Back to Home</Link>
+        <Link to="/" className="back-link">{t(lang, 'pages.disabilityActivism.backHome')}</Link>
         <h1>{title}</h1>
         {subtitle && <p className="subtitle">{subtitle}</p>}
         {intro && (
@@ -132,14 +144,16 @@ export default function DisabilityActivism() {
         {sections.map((section, index) => (
           <article
             key={index}
-            id={slugify(section.title)}
+            id={slugify(pickI18n(section?.titleI18n, lang, section?.title))}
             className="disability-activism-section"
-            aria-labelledby={`heading-${slugify(section.title)}`}
+            aria-labelledby={`heading-${slugify(pickI18n(section?.titleI18n, lang, section?.title))}`}
           >
-            <h2 id={`heading-${slugify(section.title)}`}>{section.title}</h2>
-            {section.content && (
+            <h2 id={`heading-${slugify(pickI18n(section?.titleI18n, lang, section?.title))}`}>
+              {pickI18n(section?.titleI18n, lang, section?.title)}
+            </h2>
+            {pickI18n(section?.contentI18n, lang, section?.content) && (
               <div className="section-content">
-                {section.content.split('\n\n').map((para, i) => (
+                {pickI18n(section?.contentI18n, lang, section?.content).split('\n\n').map((para, i) => (
                   <p key={i}>{para}</p>
                 ))}
               </div>
@@ -178,7 +192,7 @@ export default function DisabilityActivism() {
             className="disability-activism-section"
             aria-labelledby="heading-further-reading"
           >
-            <h2 id="heading-further-reading">Further Reading</h2>
+            <h2 id="heading-further-reading">{t(lang, 'pages.disabilityActivism.furtherReading')}</h2>
             <ul className="external-links-list">
               {externalLinks.map((link, index) => (
                 <li key={index}>
@@ -202,7 +216,7 @@ export default function DisabilityActivism() {
             className="disability-activism-section sources-section"
             aria-labelledby="heading-sources"
           >
-            <h2 id="heading-sources">Sources</h2>
+            <h2 id="heading-sources">{t(lang, 'pages.disabilityActivism.sources')}</h2>
             <ul className="sources-list">
               {sources.map((source, index) => (
                 <li key={index}>
@@ -226,7 +240,7 @@ export default function DisabilityActivism() {
       </div>
 
       <p className="return-top">
-        <a href="#main-content">&uarr; Return to Top</a>
+        <a href="#main-content">{t(lang, 'pages.disabilityActivism.returnTop')}</a>
       </p>
     </main>
   )

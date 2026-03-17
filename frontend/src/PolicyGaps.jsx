@@ -2,15 +2,22 @@ import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { sanity } from './sanityClient'
 import Breadcrumb from './Breadcrumb'
+import { useLanguage } from './languageContext'
+import { pickI18n } from './i18nUtils'
+import { t } from './uiStrings'
 import './PolicyGaps.css'
 
 const POLICY_GAPS_QUERY = `*[_type == "policyGap"] | order(title asc){
   _id,
   title,
+  titleI18n,
   "slug": slug.current,
   experience,
+  experienceI18n,
   conditions,
+  conditionsI18n,
   gaps,
+  gapsI18n,
   implications,
   image{
     asset->{ url },
@@ -21,15 +28,20 @@ const POLICY_GAPS_QUERY = `*[_type == "policyGap"] | order(title asc){
 
 const POLICY_GAPS_PAGE_QUERY = `*[_type == "policyGapsPage" && _id == "policyGapsPage"][0]{
   pageTitle,
+  pageTitleI18n,
   subtitle,
+  subtitleI18n,
   actionSection{
     overlappingThemes,
     forPolicymakers,
-    forActivists
+    forPolicymakersI18n,
+    forActivists,
+    forActivistsI18n
   }
 }`
 
 export default function PolicyGaps() {
+  const lang = useLanguage()
   const [policyData, setPolicyData] = useState([])
   const [pageConfig, setPageConfig] = useState(null)
   const [loading, setLoading] = useState(true)
@@ -59,7 +71,7 @@ export default function PolicyGaps() {
     return (
       <main className="container" id="main-content">
         <Breadcrumb />
-        <p aria-live="polite">Loading Policy & Service Gaps...</p>
+        <p aria-live="polite">{t(lang, 'pages.policyGaps.loading')}</p>
       </main>
     )
   }
@@ -76,18 +88,18 @@ export default function PolicyGaps() {
     )
   }
 
-  const title = pageConfig?.pageTitle ?? 'Policy & Service Gaps'
-  const subtitle = pageConfig?.subtitle ?? 'Bridging the gap between policy and lived experience. A living document of accessibility challenges in Bethlehem and recommendations for change.'
+  const title = pickI18n(pageConfig?.pageTitleI18n, lang, pageConfig?.pageTitle) || 'Policy & Service Gaps'
+  const subtitle = pickI18n(pageConfig?.subtitleI18n, lang, pageConfig?.subtitle) || 'Bridging the gap between policy and lived experience. A living document of accessibility challenges in Bethlehem and recommendations for change.'
   const actionSection = pageConfig?.actionSection ?? {}
   const overlappingThemes = actionSection?.overlappingThemes ?? []
-  const forPolicymakers = actionSection?.forPolicymakers ?? ''
-  const forActivists = actionSection?.forActivists ?? ''
+  const forPolicymakers = pickI18n(actionSection?.forPolicymakersI18n, lang, actionSection?.forPolicymakers) ?? ''
+  const forActivists = pickI18n(actionSection?.forActivistsI18n, lang, actionSection?.forActivists) ?? ''
 
   return (
     <main className="container" id="main-content">
       <Breadcrumb />
       <header className="policy-header">
-        <Link to="/" className="back-link">← Back to Home</Link>
+        <Link to="/" className="back-link">{t(lang, 'pages.policyGaps.backHome')}</Link>
         <h1>{title}</h1>
         <p className="subtitle">{subtitle}</p>
       </header>
@@ -112,22 +124,22 @@ export default function PolicyGaps() {
             className="policy-section"
             aria-labelledby={`heading-${area.slug || area._id}`}
           >
-            <h2 id={`heading-${area.slug || area._id}`}>{area.title}</h2>
+            <h2 id={`heading-${area.slug || area._id}`}>{pickI18n(area.titleI18n, lang, area.title)}</h2>
 
             <div className={`policy-grid${area.image?.asset?.url ? ' policy-grid--with-image' : ''}`}>
               <div className="policy-block">
                 <h3>The Resident Experience</h3>
-                <p>{area.experience}</p>
+                <p>{pickI18n(area.experienceI18n, lang, area.experience)}</p>
               </div>
 
               <div className="policy-block">
                 <h3>Current Conditions</h3>
-                <p>{area.conditions}</p>
+                <p>{pickI18n(area.conditionsI18n, lang, area.conditions)}</p>
               </div>
 
               <div className="policy-block">
                 <h3>Analyzing the Gap</h3>
-                <p>{area.gaps}</p>
+                <p>{pickI18n(area.gapsI18n, lang, area.gaps)}</p>
               </div>
 
               {area.image?.asset?.url && (

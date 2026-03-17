@@ -10,6 +10,11 @@ export default {
       validation: Rule => Rule.required()
     },
     {
+      name: 'titleI18n',
+      title: 'Story title (translations)',
+      type: 'localizedString',
+    },
+    {
       name: 'personName',
       title: 'Name or pseudonym',
       type: 'string',
@@ -29,11 +34,23 @@ export default {
       description: '1–2 sentence overview of the story (optional).'
     },
     {
+      name: 'summaryI18n',
+      title: 'Short summary (translations)',
+      type: 'localizedText',
+      rows: 3,
+    },
+    {
       name: 'story',
       title: 'Full story',
       type: 'text',
       rows: 8,
       validation: Rule => Rule.required()
+    },
+    {
+      name: 'storyI18n',
+      title: 'Full story (translations)',
+      type: 'localizedText',
+      rows: 8,
     },
     {
       name: 'date',

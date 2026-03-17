@@ -11,12 +11,23 @@ export default {
       validation: (Rule) => Rule.required(),
     },
     {
+      name: 'pageTitleI18n',
+      title: 'Page Title (translations)',
+      type: 'localizedString',
+    },
+    {
       name: 'subtitle',
       title: 'Subtitle',
       type: 'text',
       rows: 2,
       initialValue:
         'Bridging the gap between policy and lived experience. A living document of accessibility challenges in Bethlehem and recommendations for change.',
+    },
+    {
+      name: 'subtitleI18n',
+      title: 'Subtitle (translations)',
+      type: 'localizedText',
+      rows: 2,
     },
     {
       name: 'actionSection',
@@ -53,9 +64,21 @@ export default {
           rows: 4,
         },
         {
+          name: 'forPolicymakersI18n',
+          title: 'For Policymakers (translations)',
+          type: 'localizedText',
+          rows: 4,
+        },
+        {
           name: 'forActivists',
           title: 'For Activists and Community Members',
           type: 'text',
+          rows: 4,
+        },
+        {
+          name: 'forActivistsI18n',
+          title: 'For Activists and Community Members (translations)',
+          type: 'localizedText',
           rows: 4,
         },
       ],

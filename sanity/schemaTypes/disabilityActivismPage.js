@@ -11,10 +11,20 @@ export default {
       validation: (Rule) => Rule.required(),
     },
     {
+      name: 'pageTitleI18n',
+      title: 'Page Title (translations)',
+      type: 'localizedString',
+    },
+    {
       name: 'subtitle',
       title: 'Subtitle',
       type: 'string',
       description: 'Optional subtitle, e.g. "Current Terms, Activism, and Questions"',
+    },
+    {
+      name: 'subtitleI18n',
+      title: 'Subtitle (translations)',
+      type: 'localizedString',
     },
     {
       name: 'intro',
@@ -22,6 +32,12 @@ export default {
       type: 'text',
       rows: 6,
       description: 'Opening paragraphs that introduce the section.',
+    },
+    {
+      name: 'introI18n',
+      title: 'Introduction (translations)',
+      type: 'localizedText',
+      rows: 6,
     },
     {
       name: 'sections',
@@ -39,9 +55,20 @@ export default {
               validation: (Rule) => Rule.required(),
             },
             {
+              name: 'titleI18n',
+              title: 'Section Title (translations)',
+              type: 'localizedString',
+            },
+            {
               name: 'content',
               title: 'Content',
               type: 'text',
+              rows: 8,
+            },
+            {
+              name: 'contentI18n',
+              title: 'Content (translations)',
+              type: 'localizedText',
               rows: 8,
             },
           ],
