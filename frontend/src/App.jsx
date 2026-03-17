@@ -136,22 +136,23 @@ function AccessibilityToolbar({
   reduceAnimations, setReduceAnimations,
   increaseSpacing, setIncreaseSpacing,
   onReset, open, onToggle,
+  lang,
 }) {
   const sizes = [
-    { id: 'smaller', label: 'Smaller', description: 'Smaller text' },
-    { id: 'normal', label: 'Default', description: 'Default text size' },
-    { id: 'large', label: 'Large', description: 'Larger text' },
-    { id: 'xlarge', label: 'Extra Large', description: 'Largest text' },
+    { id: 'smaller', label: t(lang, 'accessibilityPanel.textSizeSmaller'), description: t(lang, 'accessibilityPanel.textSizeSmaller') },
+    { id: 'normal', label: t(lang, 'accessibilityPanel.textSizeDefault'), description: t(lang, 'accessibilityPanel.textSizeDefault') },
+    { id: 'large', label: t(lang, 'accessibilityPanel.textSizeLarge'), description: t(lang, 'accessibilityPanel.textSizeLarge') },
+    { id: 'xlarge', label: t(lang, 'accessibilityPanel.textSizeXLarge'), description: t(lang, 'accessibilityPanel.textSizeXLarge') },
   ]
 
   const contrastOptions = [
-    { id: false, label: 'Default' },
-    { id: true, label: 'High Contrast' },
+    { id: false, label: t(lang, 'accessibilityPanel.contrastDefault') },
+    { id: true, label: t(lang, 'accessibilityPanel.contrastHigh') },
   ]
 
   const fontOptions = [
-    { id: false, label: 'Default' },
-    { id: true, label: 'Dyslexia-Friendly' },
+    { id: false, label: t(lang, 'accessibilityPanel.fontDefault') },
+    { id: true, label: t(lang, 'accessibilityPanel.fontDyslexia') },
   ]
 
   useEffect(() => {
@@ -173,15 +174,15 @@ function AccessibilityToolbar({
             className="accessibility-panel"
             role="dialog"
             aria-modal="true"
-            aria-label="Accessibility Options"
+            aria-label={t(lang, 'accessibilityPanel.title')}
           >
             <div className="panel-header">
-              <h2 className="panel-title">Accessibility Options</h2>
+              <h2 className="panel-title">{t(lang, 'accessibilityPanel.title')}</h2>
               <button
                 type="button"
                 className="panel-close"
                 onClick={onToggle}
-                aria-label="Close accessibility options"
+                aria-label={t(lang, 'accessibilityPanel.close')}
               >
                 ×
               </button>
@@ -189,7 +190,7 @@ function AccessibilityToolbar({
 
             <div className="panel-body">
               <section className="panel-section">
-                <h3 className="panel-section-title">Text size</h3>
+                <h3 className="panel-section-title">{t(lang, 'accessibilityPanel.textSize')}</h3>
                 <div className="panel-option-row">
                   {sizes.map((size) => (
                     <button
@@ -207,7 +208,7 @@ function AccessibilityToolbar({
               </section>
 
               <section className="panel-section">
-                <h3 className="panel-section-title">Color contrast</h3>
+                <h3 className="panel-section-title">{t(lang, 'accessibilityPanel.colorContrast')}</h3>
                 <div className="panel-option-row">
                   {contrastOptions.map((opt) => (
                     <button
@@ -224,7 +225,7 @@ function AccessibilityToolbar({
               </section>
 
               <section className="panel-section">
-                <h3 className="panel-section-title">Reading font</h3>
+                <h3 className="panel-section-title">{t(lang, 'accessibilityPanel.readingFont')}</h3>
                 <div className="panel-option-row">
                   {fontOptions.map((opt) => (
                     <button
@@ -238,14 +239,14 @@ function AccessibilityToolbar({
                     </button>
                   ))}
                 </div>
-                <p className="panel-hint">Dyslexia-friendly mode uses a clean sans-serif font with wider letter and word spacing.</p>
+                <p className="panel-hint">{t(lang, 'accessibilityPanel.dyslexiaHint')}</p>
               </section>
 
               <section className="panel-section">
-                <h3 className="panel-section-title">Motion & layout</h3>
+                <h3 className="panel-section-title">{t(lang, 'accessibilityPanel.motionLayout')}</h3>
                 <div className="panel-toggles">
                   <label className="panel-toggle-row">
-                    <span className="panel-toggle-label">Reduce animations</span>
+                    <span className="panel-toggle-label">{t(lang, 'accessibilityPanel.reduceAnimations')}</span>
                     <input
                       type="checkbox"
                       checked={reduceAnimations}
@@ -253,7 +254,7 @@ function AccessibilityToolbar({
                     />
                   </label>
                   <label className="panel-toggle-row">
-                    <span className="panel-toggle-label">Increase spacing</span>
+                    <span className="panel-toggle-label">{t(lang, 'accessibilityPanel.increaseSpacing')}</span>
                     <input
                       type="checkbox"
                       checked={increaseSpacing}
@@ -261,7 +262,7 @@ function AccessibilityToolbar({
                     />
                   </label>
                   <label className="panel-toggle-row">
-                    <span className="panel-toggle-label">Underline all links</span>
+                    <span className="panel-toggle-label">{t(lang, 'accessibilityPanel.underlineLinks')}</span>
                     <input
                       type="checkbox"
                       checked={underlineLinks}
@@ -273,7 +274,7 @@ function AccessibilityToolbar({
 
               <div className="panel-footer">
                 <button type="button" className="panel-reset-btn" onClick={onReset}>
-                  Reset all accessibility settings
+                  {t(lang, 'accessibilityPanel.reset')}
                 </button>
               </div>
             </div>
@@ -370,6 +371,7 @@ function App() {
         onReset={handleResetAccessibility}
         open={a11yOpen}
         onToggle={() => setA11yOpen(v => !v)}
+        lang={language}
       />
       <LanguageProvider value={language}>
         <div id="main-content" className="page-content">
