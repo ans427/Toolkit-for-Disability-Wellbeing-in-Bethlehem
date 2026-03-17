@@ -46,6 +46,11 @@ export const uiStrings = {
         searchPlaceholder: 'Search by name, description, or category…',
         filterLegend: 'Filter by category',
         filterAll: 'All',
+        resultsNone: 'No resources match your search.',
+        resultsCount: 'Showing {{count}} {{item}}.',
+        resultsItemSingular: 'resource',
+        resultsItemPlural: 'resources',
+        viewDetails: 'View details →',
       },
       communityStories: {
         title: 'Community Stories',
@@ -66,6 +71,19 @@ export const uiStrings = {
         furtherReading: 'Further Reading',
         sources: 'Sources',
         returnTop: '↑ Return to Top',
+      },
+      resourceDetail: {
+        backToResources: '← Back to Immediate Resources',
+        visitWebsite: 'Visit Website ↗',
+        aboutThisResource: 'About this resource',
+        photos: 'Photos',
+        contact: 'Contact',
+        lightboxLabel: 'View photo',
+        lightboxClose: 'Close',
+        lightboxPrev: 'Previous photo',
+        lightboxNext: 'Next photo',
+        viewPhotoNumber: 'View photo {{n}}',
+        photoNumber: 'Photo {{n}}',
       },
     },
     accessibilityPanel: {
@@ -89,6 +107,21 @@ export const uiStrings = {
       increaseSpacing: 'Increase spacing',
       underlineLinks: 'Underline all links',
       reset: 'Reset all accessibility settings',
+    },
+    breadcrumb: {
+      home: 'Home',
+      resources: 'Immediate Resources',
+      resource: 'Resource',
+      communityStories: 'Community Stories',
+      story: 'Story',
+      policyGaps: 'Policy & Service Gaps',
+      disabilityActivism: 'Disability Activism',
+      submit: 'Submit a Resource or Story',
+      accessibilityStatement: 'Accessibility Statement',
+      about: 'About',
+      privacyPolicy: 'Privacy Policy',
+      sitemap: 'Site Map',
+      disclaimers: 'Disclaimers',
     },
   },
   es: {
@@ -142,6 +175,11 @@ export const uiStrings = {
         searchPlaceholder: 'Buscar por nombre, descripción o categoría…',
         filterLegend: 'Filtrar por categoría',
         filterAll: 'Todos',
+        resultsNone: 'Ningún recurso coincide con tu búsqueda.',
+        resultsCount: 'Mostrando {{count}} {{item}}.',
+        resultsItemSingular: 'recurso',
+        resultsItemPlural: 'recursos',
+        viewDetails: 'Ver detalles →',
       },
       communityStories: {
         title: 'Historias de la comunidad',
@@ -162,6 +200,19 @@ export const uiStrings = {
         furtherReading: 'Lecturas recomendadas',
         sources: 'Fuentes',
         returnTop: '↑ Volver arriba',
+      },
+      resourceDetail: {
+        backToResources: '← Volver a recursos inmediatos',
+        visitWebsite: 'Visitar sitio web ↗',
+        aboutThisResource: 'Acerca de este recurso',
+        photos: 'Fotos',
+        contact: 'Contacto',
+        lightboxLabel: 'Ver foto',
+        lightboxClose: 'Cerrar',
+        lightboxPrev: 'Foto anterior',
+        lightboxNext: 'Siguiente foto',
+        viewPhotoNumber: 'Ver foto {{n}}',
+        photoNumber: 'Foto {{n}}',
       },
     },
     accessibilityPanel: {
@@ -186,6 +237,21 @@ export const uiStrings = {
       underlineLinks: 'Subrayar todos los enlaces',
       reset: 'Restablecer toda la accesibilidad',
     },
+    breadcrumb: {
+      home: 'Inicio',
+      resources: 'Recursos inmediatos',
+      resource: 'Recurso',
+      communityStories: 'Historias de la comunidad',
+      story: 'Historia',
+      policyGaps: 'Brechas de políticas y servicios',
+      disabilityActivism: 'Activismo por la discapacidad',
+      submit: 'Enviar un recurso o historia',
+      accessibilityStatement: 'Declaración de accesibilidad',
+      about: 'Acerca de',
+      privacyPolicy: 'Política de privacidad',
+      sitemap: 'Mapa del sitio',
+      disclaimers: 'Avisos',
+    },
   },
 }
 
@@ -193,5 +259,13 @@ export function t(lang, key) {
   const parts = key.split('.')
   const get = (obj) => parts.reduce((acc, p) => (acc ? acc[p] : undefined), obj)
   return get(uiStrings[lang]) ?? get(uiStrings.en) ?? key
+}
+
+export function tFormat(lang, key, vars = {}) {
+  const template = t(lang, key)
+  return String(template).replace(/\{\{(\w+)\}\}/g, (_, name) => {
+    const value = vars[name]
+    return value == null ? '' : String(value)
+  })
 }
 

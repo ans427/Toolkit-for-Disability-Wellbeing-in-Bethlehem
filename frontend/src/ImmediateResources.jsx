@@ -4,7 +4,7 @@ import { sanity } from './sanityClient'
 import Breadcrumb from './Breadcrumb'
 import { useLanguage } from './languageContext'
 import { pickI18n } from './i18nUtils'
-import { t } from './uiStrings'
+import { t, tFormat } from './uiStrings'
 import './ImmediateResources.css'
 
 /* Human-readable category labels for filter and display */
@@ -340,8 +340,14 @@ function ImmediateResources() {
               aria-atomic="true"
             >
               {filteredResources.length === 0
-                ? 'No resources match your search.'
-                : `Showing ${filteredResources.length} ${filteredResources.length === 1 ? 'resource' : 'resources'}.`}
+                ? t(lang, 'pages.immediateResources.resultsNone')
+                : tFormat(lang, 'pages.immediateResources.resultsCount', {
+                    count: filteredResources.length,
+                    item:
+                      filteredResources.length === 1
+                        ? t(lang, 'pages.immediateResources.resultsItemSingular')
+                        : t(lang, 'pages.immediateResources.resultsItemPlural'),
+                  })}
             </p>
           </section>
 
@@ -409,7 +415,7 @@ function ImmediateResources() {
                   </div>
                 )}
 
-                <span className="card-link-hint">View details →</span>
+                <span className="card-link-hint">{t(lang, 'pages.immediateResources.viewDetails')}</span>
               </div>
             </Link>
           ))}

@@ -6,6 +6,7 @@ import ResourceComments from './ResourceComments'
 import WasThisHelpful from './WasThisHelpful'
 import { useLanguage } from './languageContext'
 import { pickI18n } from './i18nUtils'
+import { t, tFormat } from './uiStrings'
 import './ResourceDetail.css'
 
 const CATEGORY_LABELS = {
@@ -168,7 +169,7 @@ function ResourceDetail() {
     <main className="resource-detail-page container">
       <Breadcrumb resourceTitle={title} />
       <Link to="/resources" className="back-link">
-        ← Back to Immediate Resources
+        {t(lang, 'pages.resourceDetail.backToResources')}
       </Link>
 
       <article className="resource-detail">
@@ -204,21 +205,21 @@ function ResourceDetail() {
                 rel="noopener noreferrer"
                 className="resource-cta-button"
               >
-                Visit Website ↗
+                {t(lang, 'pages.resourceDetail.visitWebsite')}
               </a>
             </div>
           )}
 
           {description && (
             <section className="resource-section resource-about">
-              <h2 className="resource-section-title">About this resource</h2>
+              <h2 className="resource-section-title">{t(lang, 'pages.resourceDetail.aboutThisResource')}</h2>
               <p className="resource-description">{description}</p>
             </section>
           )}
 
           {showGallerySeparately && (
             <section className="resource-section resource-gallery-section">
-              <h2 className="resource-section-title">Photos</h2>
+              <h2 className="resource-section-title">{t(lang, 'pages.resourceDetail.photos')}</h2>
               <div className="resource-gallery">
                 {displayGalleryImages.map((img, index) => (
                   <figure
@@ -233,11 +234,11 @@ function ResourceDetail() {
                         openLightbox(index)
                       }
                     }}
-                    aria-label={`View photo ${index + 1}`}
+                    aria-label={tFormat(lang, 'pages.resourceDetail.viewPhotoNumber', { n: index + 1 })}
                   >
                     <img
                       src={img.asset.url}
-                      alt={img.alt || `Photo ${index + 1}`}
+                      alt={img.alt || tFormat(lang, 'pages.resourceDetail.photoNumber', { n: index + 1 })}
                       loading="lazy"
                     />
                     {img.caption && <figcaption>{img.caption}</figcaption>}
@@ -249,7 +250,7 @@ function ResourceDetail() {
 
           {(resource.contactEmail || resource.contactPhone || resource.address) && (
             <section className="resource-section resource-contact-section">
-              <h2 className="resource-section-title">Contact</h2>
+              <h2 className="resource-section-title">{t(lang, 'pages.resourceDetail.contact')}</h2>
               <div className="resource-contact-card">
                 {resource.contactPhone && (
                   <a href={`tel:${resource.contactPhone}`} className="resource-contact-item">
@@ -284,13 +285,13 @@ function ResourceDetail() {
             onClick={closeLightbox}
             role="dialog"
             aria-modal="true"
-            aria-label="View photo"
+            aria-label={t(lang, 'pages.resourceDetail.lightboxLabel')}
           >
             <button
               type="button"
               className="resource-lightbox-close"
               onClick={closeLightbox}
-              aria-label="Close"
+              aria-label={t(lang, 'pages.resourceDetail.lightboxClose')}
             >
               ×
             </button>
@@ -301,13 +302,13 @@ function ResourceDetail() {
                 e.stopPropagation()
                 goToPrev()
               }}
-              aria-label="Previous photo"
+              aria-label={t(lang, 'pages.resourceDetail.lightboxPrev')}
             >
               ‹
             </button>
             <img
               src={displayGalleryImages[lightboxIndex]?.asset?.url}
-              alt={displayGalleryImages[lightboxIndex]?.alt || `Photo ${lightboxIndex + 1}`}
+              alt={displayGalleryImages[lightboxIndex]?.alt || tFormat(lang, 'pages.resourceDetail.photoNumber', { n: lightboxIndex + 1 })}
               onClick={(e) => e.stopPropagation()}
             />
             <button
@@ -317,7 +318,7 @@ function ResourceDetail() {
                 e.stopPropagation()
                 goToNext()
               }}
-              aria-label="Next photo"
+              aria-label={t(lang, 'pages.resourceDetail.lightboxNext')}
             >
               ›
             </button>
