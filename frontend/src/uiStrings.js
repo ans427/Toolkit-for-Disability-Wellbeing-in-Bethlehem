@@ -125,7 +125,7 @@ export const uiStrings = {
     },
   },
   es: {
-    appTitle: 'Kit de herramientas para el bienestar de la discapacidad',
+    appTitle: 'Kit para el bienestar de la discapacidad',
     skipToMain: 'Saltar al contenido principal',
     accessibility: 'Accesibilidad',
     language: 'Idioma',
@@ -137,7 +137,7 @@ export const uiStrings = {
       advocacy: 'Incidencia',
     },
     home: {
-      title: 'Kit de herramientas para el bienestar de la discapacidad',
+      title: 'Kit para el bienestar de la discapacidad',
       cards: {
         resourcesTitle: 'Recursos inmediatos',
         resourcesBody:

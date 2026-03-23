@@ -22,9 +22,33 @@ const CATEGORY_LABELS = {
   'general': 'General',
 }
 
-function getCategoryLabel(value) {
+const CATEGORY_LABELS_ES = {
+  'legal-aid': 'Asistencia legal',
+  'community-organizations': 'Organizaciones comunitarias',
+  'mutual-aid-support': 'Apoyo de ayuda mutua',
+  'collaborative-support': 'Apoyo colaborativo',
+  'mental-health-support': 'Apoyo de salud mental',
+  'employment-support': 'Apoyo al empleo',
+  'food-access-and-housing-support': 'Apoyo de vivienda y acceso a alimentos',
+  'healthcare-support': 'Apoyo de atención médica',
+  'transportation-services': 'Servicios de transporte',
+  'multilingual-support': 'Soporte multilingüe',
+  'general': 'General',
+}
+
+function getCategoryLabel(value, lang = 'en') {
+  if (lang === 'es') {
+    return CATEGORY_LABELS_ES[value] || CATEGORY_LABELS[value] || value || 'General'
+  }
   return CATEGORY_LABELS[value] || value || 'General'
 }
+
+const normalizeText = (text) =>
+  (text || '')
+    .toString()
+    .normalize('NFD')
+    .replace(/\p{Diacritic}/gu, '')
+    .toLowerCase()
 
 function ImmediateResources() {
   const lang = useLanguage()
@@ -118,64 +142,64 @@ function ImmediateResources() {
   const showAll = selectedCategories.size === 0
 
   const filteredResources = useMemo(() => {
-    const query = searchQuery.trim().toLowerCase()
+    const query = normalizeText(searchQuery.trim())
 
-    // Simple intent mapping for natural language queries
+    // Simple intent mapping for natural language queries (supported in English and Spanish)
     const INTENT_MAP = [
       {
-        triggers: /\b(job|work|employment|hiring|hire|career|apply for a job|finding a job)\b/i,
+        triggers: /\b(job|work|employment|hiring|hire|career|apply for a job|finding a job|trabajo|empleo|contratar|carrera|solicitar empleo)\b/i,
         categories: ['employment-support'],
-        keywords: ['job', 'employment', 'work', 'career', 'resume', 'interview', 'hiring']
+        keywords: ['job', 'employment', 'work', 'career', 'resume', 'interview', 'hiring', 'trabajo', 'empleo', 'contratar', 'empleador']
       },
       {
-        triggers: /\b(food|food bank|pantry|meal|hunger)\b/i,
+        triggers: /\b(food|food bank|pantry|meal|hunger|comida|banco de alimentos|despensa|hambre)\b/i,
         categories: ['food-access-and-housing-support'],
-        keywords: ['food', 'pantry', 'meals', 'food bank']
+        keywords: ['food', 'pantry', 'meals', 'food bank', 'comida', 'despensa', 'banco de alimentos']
       },
       {
-        triggers: /\b(housing|shelter|rent|evict|homeless)\b/i,
+        triggers: /\b(housing|shelter|rent|evict|homeless|vivienda|refugio|alquiler|desalojo|sin hogar)\b/i,
         categories: ['food-access-and-housing-support'],
-        keywords: ['housing', 'shelter', 'rent', 'eviction']
+        keywords: ['housing', 'shelter', 'rent', 'eviction', 'vivienda', 'refugio', 'alquiler', 'desalojado']
       },
       {
-        triggers: /\b(therapy|mental|counseling|counsellor|psychologist)\b/i,
+        triggers: /\b(therapy|mental|counseling|counsellor|psychologist|terapia|mental|consejeria|consejero|psicologo)\b/i,
         categories: ['mental-health-support', 'healthcare-support'],
-        keywords: ['mental health', 'therapy', 'counseling', 'counsellor', 'psychologist']
+        keywords: ['mental health', 'therapy', 'counseling', 'counsellor', 'psychologist', 'terapia', 'salud mental', 'consejeria', 'psicologo']
       },
       {
-        triggers: /\b(legal|lawyer|attorney|rights|legal aid|SSI|SSID|file a claim)\b/i,
+        triggers: /\b(legal|lawyer|attorney|rights|legal aid|SSI|SSDI|file a claim|legalidad|abogado|derechos|asistencia legal|discapacidad)\b/i,
         categories: ['legal-aid'],
-        keywords: ['legal', 'lawyer', 'attorney', 'rights', 'legal aid', 'SSI', 'SSDI', 'file a claim']
+        keywords: ['legal', 'lawyer', 'attorney', 'rights', 'legal aid', 'SSI', 'SSDI', 'file a claim', 'abogado', 'derechos', 'asistencia legal']
       },
       {
-        triggers: /\b(transport|bus|train|ride|accessible transit|transportation)\b/i,
+        triggers: /\b(transport|bus|train|ride|accessible transit|transportation|transporte|autobus|bus|tren|movilidad)\b/i,
         categories: ['transportation-services'],
-        keywords: ['transport', 'bus', 'train', 'transit', 'transportation']
+        keywords: ['transport', 'bus', 'train', 'transit', 'transportation', 'transporte', 'autobus', 'tren', 'movilidad']
       },
       {
-        triggers: /\b(community|neighborhood|local organization|community center|nonprofit|ngo|non-profit|advocacy)\b/i,
+        triggers: /\b(community|neighborhood|local organization|community center|nonprofit|ngo|non-profit|advocacy|comunidad|vecindario|organizacion comunitaria|ONG|sin fines de lucro|activismo)\b/i,
         categories: ['community-organizations'],
-        keywords: ['community', 'neighborhood', 'nonprofit', 'ngo', 'community center', 'local org', 'advocacy']
+        keywords: ['community', 'neighborhood', 'nonprofit', 'ngo', 'community center', 'local org', 'advocacy', 'comunidad', 'ONG', 'organizacion comunitaria']
       },
       {
-        triggers: /\b(mutual aid|mutual-aid|mutualaid|volunteer|volunteering|peer support|grassroots)\b/i,
+        triggers: /\b(mutual aid|mutual-aid|mutualaid|volunteer|volunteering|peer support|grassroots|ayuda mutua|voluntariado|voluntario)\b/i,
         categories: ['mutual-aid-support'],
-        keywords: ['mutual aid', 'volunteer', 'volunteering', 'peer support', 'grassroots']
+        keywords: ['mutual aid', 'volunteer', 'volunteering', 'peer support', 'grassroots', 'ayuda mutua', 'voluntariado', 'voluntario']
       },
       {
-        triggers: /\b(collaborative|cooperative|co-op|collective|peer-led|partnership|collaboration)\b/i,
+        triggers: /\b(collaborative|cooperative|co-op|collective|peer-led|partnership|collaboration|colaborativo|cooperativa|colectivo|asociacion)\b/i,
         categories: ['collaborative-support'],
-        keywords: ['collaborative', 'cooperative', 'collective', 'partnership', 'peer-led']
+        keywords: ['collaborative', 'cooperative', 'collective', 'partnership', 'peer-led', 'colaborativo', 'cooperativa', 'colectivo']
       },
       {
-        triggers: /\b(doctor|clinic|medical|healthcare|hospital|nurse|appointment|medical care)\b/i,
+        triggers: /\b(doctor|clinic|medical|healthcare|hospital|nurse|appointment|medical care|doctor|clinica|medico|atencion medica|hospital|enfermero)\b/i,
         categories: ['healthcare-support'],
-        keywords: ['medical', 'clinic', 'doctor', 'healthcare', 'hospital', 'nurse']
+        keywords: ['medical', 'clinic', 'doctor', 'healthcare', 'hospital', 'nurse', 'clinica', 'medico', 'atencion medica']
       },
       {
-        triggers: /\b(translate|interpreter|translation|translating|multilingual|interpretation|spanish|hispanic|espanol|english|bilingual)\b/i,
+        triggers: /\b(translate|interpreter|translation|translating|multilingual|interpretation|spanish|hispanic|espanol|english|bilingual|traducir|interprete|interpretacion|bilingue)\b/i,
         categories: ['multilingual-support'],
-        keywords: ['translate', 'interpreter', 'translation', 'translating', 'spanish', 'hispanic', 'espanol', 'language', 'multilingual', 'interpretation', 'bilingual']
+        keywords: ['translate', 'interpreter', 'translation', 'translating', 'spanish', 'hispanic', 'espanol', 'language', 'multilingual', 'interpretation', 'bilingual', 'traducir', 'interprete', 'interpretacion', 'bilingue']
       },
     ]
 
@@ -203,14 +227,17 @@ function ImmediateResources() {
     return byCategory.filter((r) => {
       const titleActive = pickI18n(r.titleI18n, lang, r.title)
       const descActive = pickI18n(r.descriptionI18n, lang, r.description)
-      const title = (titleActive || '').toLowerCase()
-      const description = (descActive || '').toLowerCase()
-      const titleEn = (pickI18n(r.titleI18n, 'en', r.title) || '').toLowerCase()
-      const descEn = (pickI18n(r.descriptionI18n, 'en', r.description) || '').toLowerCase()
-      const titleEs = (pickI18n(r.titleI18n, 'es', '') || '').toLowerCase()
-      const descEs = (pickI18n(r.descriptionI18n, 'es', '') || '').toLowerCase()
-      const categoryKey = (r.category || 'general')
-      const categoryLabel = getCategoryLabel(r.category || 'general').toLowerCase()
+      const rawTitle = titleActive || r.title || ''
+      const rawDescription = descActive || r.description || ''
+      const title = normalizeText(rawTitle)
+      const description = normalizeText(rawDescription)
+      const titleEn = normalizeText(pickI18n(r.titleI18n, 'en', r.title))
+      const descEn = normalizeText(pickI18n(r.descriptionI18n, 'en', r.description))
+      const titleEs = normalizeText(pickI18n(r.titleI18n, 'es', r.title) || '')
+      const descEs = normalizeText(pickI18n(r.descriptionI18n, 'es', r.description) || '')
+      const categoryKey = r.category || 'general'
+      const categoryLabel = normalizeText(getCategoryLabel(categoryKey, lang))
+      const categoryLabelEn = normalizeText(getCategoryLabel(categoryKey, 'en'))
 
       // direct substring match
       if (
@@ -220,7 +247,8 @@ function ImmediateResources() {
         descEn.includes(query) ||
         titleEs.includes(query) ||
         descEs.includes(query) ||
-        categoryLabel.includes(query)
+        categoryLabel.includes(query) ||
+        categoryLabelEn.includes(query)
       ) return true
 
       // split words match (handles simple natural phrasing)
