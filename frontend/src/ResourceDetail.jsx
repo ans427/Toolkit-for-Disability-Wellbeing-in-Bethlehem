@@ -23,7 +23,24 @@ const CATEGORY_LABELS = {
   general: 'General',
 }
 
-function getCategoryLabel(value) {
+const CATEGORY_LABELS_ES = {
+  'legal-aid': 'Asistencia legal',
+  'community-organizations': 'Organizaciones comunitarias',
+  'mutual-aid-support': 'Apoyo de ayuda mutua',
+  'collaborative-support': 'Apoyo colaborativo',
+  'mental-health-support': 'Apoyo de salud mental',
+  'employment-support': 'Apoyo al empleo',
+  'food-access-and-housing-support': 'Apoyo de vivienda y acceso a alimentos',
+  'healthcare-support': 'Apoyo de atención médica',
+  'transportation-services': 'Servicios de transporte',
+  'multilingual-support': 'Soporte multilingüe',
+  general: 'General',
+}
+
+function getCategoryLabel(value, lang = 'en') {
+  if (lang === 'es') {
+    return CATEGORY_LABELS_ES[value] || CATEGORY_LABELS[value] || value || 'General'
+  }
   return CATEGORY_LABELS[value] || value || 'General'
 }
 
@@ -185,7 +202,7 @@ function ResourceDetail() {
           <div className="resource-hero-content">
             <div className="resource-hero-badges">
               <span className="resource-category-pill">
-                {getCategoryLabel(resource.category || 'general')}
+                {getCategoryLabel(resource.category || 'general', lang)}
               </span>
               {resource.isFree && <span className="resource-badge resource-badge--free">Free</span>}
               {resource.isChildSpecific && (

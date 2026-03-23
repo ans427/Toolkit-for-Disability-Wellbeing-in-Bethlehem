@@ -342,8 +342,10 @@ function ImmediateResources() {
                     >
                       {t(lang, 'pages.immediateResources.filterAll')}
                     </button>
-                  {categories.map((cat, i) => (
-                    <button
+                  {categories.map((cat, i) => {
+                    const label = getCategoryLabel(cat, lang)
+                    return (
+                      <button
                         key={cat}
                         id={`filter-${cat}`}
                         type="button"
@@ -351,11 +353,12 @@ function ImmediateResources() {
                         onClick={() => toggleCategory(cat)}
                         onKeyDown={(e) => handleChipKeyDown(e, i + 1)}
                         aria-pressed={selectedCategories.has(cat)}
-                        aria-label={`Filter by ${getCategoryLabel(cat)}`}
+                        aria-label={t(lang, 'pages.immediateResources.filterLegend') + ': ' + label}
                       >
-                        {getCategoryLabel(cat)}
+                        {label}
                       </button>
-                  ))}
+                    )
+                  })}
                 </div>
               </div>
             </div>
@@ -398,7 +401,7 @@ function ImmediateResources() {
 
               <div className="card-content">
                 <span className="card-category">
-                  {getCategoryLabel(resource.category || 'general')}
+                  {getCategoryLabel(resource.category || 'general', lang)}
                 </span>
 
                 <h3 className="card-title">
