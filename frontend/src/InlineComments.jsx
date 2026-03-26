@@ -9,9 +9,12 @@ import {
   recordFlagSubmission,
   getSessionId,
 } from './sessionUtils'
+import { useLanguage } from './languageContext'
+import { t, tFormat } from './uiStrings'
 import './InlineComments.css'
 
 function InlineComments({ storyId, paragraphIndex, paragraphText }) {
+  const lang = useLanguage()
   const [panelOpen, setPanelOpen] = useState(false)
   const [comments, setComments] = useState([])
   const [commentsCount, setCommentsCount] = useState(0)
@@ -91,14 +94,13 @@ function InlineComments({ storyId, paragraphIndex, paragraphText }) {
     e.preventDefault()
 
     if (!newComment.trim()) {
-      setError('Comment cannot be empty')
+      setError(t(lang, 'comments.commentEmpty'))
       return
     }
 
-
     const limitCheck = canSubmitComment()
     if (!limitCheck.allowed) {
-      setError(limitCheck.message)
+      setError(limitCheck.messageKey ? tFormat(lang, limitCheck.messageKey, limitCheck.messageVars || {}) : limitCheck.message)
       return
     }
 
@@ -130,19 +132,19 @@ function InlineComments({ storyId, paragraphIndex, paragraphText }) {
       await fetchInlineComments()
     } catch (err) {
       console.error('Error submitting inline comment:', err)
-      setError('Failed to post comment')
+      setError(t(lang, 'comments.postErrorShort'))
     }
   }
 
   const handleFlagComment = async (commentId) => {
     if (hasUserFlaggedComment(commentId)) {
-      setError('You have already flagged this comment')
+      setError(t(lang, 'comments.alreadyFlagged'))
       return
     }
 
     const limitCheck = canFlagComment()
     if (!limitCheck.allowed) {
-      setError(limitCheck.message)
+      setError(limitCheck.messageKey ? tFormat(lang, limitCheck.messageKey, limitCheck.messageVars || {}) : limitCheck.message)
       return
     }
 
@@ -161,7 +163,7 @@ function InlineComments({ storyId, paragraphIndex, paragraphText }) {
       await fetchInlineComments()
     } catch (err) {
       console.error('Error flagging comment:', err)
-      setError('Failed to flag comment')
+      setError(t(lang, 'comments.flagError'))
     }
   }
 
@@ -188,7 +190,7 @@ function InlineComments({ storyId, paragraphIndex, paragraphText }) {
       <button
         className={`inline-bubble ${commentsCount > 0 ? 'has-comments' : ''}`}
         onClick={() => (panelOpen ? closePanel() : openPanel())}
-        aria-label={commentsCount > 0 ? `${commentsCount} inline comments` : 'Add inline comment'}
+        aria-label={commentsCount > 0 ? tFormat(lang, 'comments.inlineCommentsAria', { count: commentsCount }) : t(lang, 'comments.addInlineCommentAria')}
       >
         <span className="bubble-icon">💬</span>
         {commentsCount > 0 && <span className="bubble-count">{commentsCount}</span>}
@@ -198,33 +200,33 @@ function InlineComments({ storyId, paragraphIndex, paragraphText }) {
       {panelOpen && (
         <div className="inline-comment-panel">
           <div className="inline-comment-header">
-            <h4>Comments on this passage</h4>
-            <button onClick={closePanel} className="close-button" aria-label="Close comments">×</button>
+            <h4>{t(lang, 'comments.commentsOnPassage')}</h4>
+            <button onClick={closePanel} className="close-button" aria-label={t(lang, 'comments.closeComments')}>×</button>
           </div>
 
           <form onSubmit={handleSubmitInlineComment} className="inline-comment-form">
             {paragraphText && (
               <div className="selected-text-context">
-                <small>Paragraph:</small>
+                <small>{t(lang, 'comments.paragraph')}</small>
                   <p>{paragraphText.substring(0, 400)}{paragraphText.length > 400 ? '...' : ''}</p>
               </div>
             )}
 
             <div className="select-instruction">
-                <small>Comment on this paragraph</small>
+                <small>{t(lang, 'comments.commentOnParagraph')}</small>
             </div>
 
             <textarea
               value={newComment}
               onChange={(e) => setNewComment(e.target.value)}
-              placeholder={'Add a comment...'}
+              placeholder={t(lang, 'comments.placeholderInline')}
                 rows="3"
               maxLength="500"
               onMouseUp={handleTextSelect}
             />
             <div className="inline-form-footer">
               <span className="char-count">{newComment.length}/500</span>
-              <button type="submit" disabled={!newComment.trim()}>Post</button>
+              <button type="submit" disabled={!newComment.trim()}>{t(lang, 'comments.post')}</button>
             </div>
           </form>
 
@@ -232,14 +234,14 @@ function InlineComments({ storyId, paragraphIndex, paragraphText }) {
 
           <div className="inline-comments-list">
             {loading ? (
-              <p>Loading comments...</p>
+              <p>{t(lang, 'comments.loading')}</p>
             ) : comments.length === 0 ? (
-                <p className="no-comments">Be the first to comment</p>
+                <p className="no-comments">{t(lang, 'comments.noCommentsInline')}</p>
             ) : (
               comments.map((comment) => (
                 <div key={comment._id} className="inline-comment-item">
                   <div className="inline-comment-meta">
-                    <span className="inline-comment-author">Anonymous</span>
+                    <span className="inline-comment-author">{t(lang, 'comments.anonymous')}</span>
                     <span className="inline-comment-date">{formatDate(comment._createdAt)}</span>
                   </div>
 
@@ -250,7 +252,7 @@ function InlineComments({ storyId, paragraphIndex, paragraphText }) {
                     onClick={() => handleFlagComment(comment._id)}
                     disabled={hasUserFlaggedComment(comment._id)}
                   >
-                    {hasUserFlaggedComment(comment._id) ? '✓ Flagged' : '⚠ Flag'}
+                    {hasUserFlaggedComment(comment._id) ? t(lang, 'comments.flagged') : t(lang, 'comments.flag')}
                   </button>
                 </div>
               ))

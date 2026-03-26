@@ -1,9 +1,12 @@
 import { useState, useEffect } from 'react'
 import { sanity } from './sanityClient'
 import { getSessionId } from './sessionUtils'
+import { useLanguage } from './languageContext'
+import { t, tFormat } from './uiStrings'
 import './WasThisHelpful.css'
 
 function WasThisHelpful({ resourceId, initialHelpfulCount = 0, initialNotHelpfulCount = 0 }) {
+  const lang = useLanguage()
   const [helpfulCount, setHelpfulCount] = useState(initialHelpfulCount)
   const [notHelpfulCount, setNotHelpfulCount] = useState(initialNotHelpfulCount)
   const [userVote, setUserVote] = useState(null) // 'yes' | 'no' | null
@@ -50,7 +53,7 @@ function WasThisHelpful({ resourceId, initialHelpfulCount = 0, initialNotHelpful
   const submitFeedback = async (value, suggestionText) => {
     if (submitting) return
     if (value === 'no' && (!suggestionText || suggestionText.trim().length < 20)) {
-      setError('Please provide 1–2 sentences on how this resource could improve (at least 20 characters).')
+      setError(t(lang, 'wasThisHelpful.improveError'))
       return
     }
     setSubmitting(true)
@@ -79,7 +82,7 @@ function WasThisHelpful({ resourceId, initialHelpfulCount = 0, initialNotHelpful
       setNotHelpfulCount((c) => (value === 'no' ? c + 1 : c))
     } catch (err) {
       console.error('Error submitting feedback:', err)
-      setError(err?.message || 'Failed to save your feedback. Check that VITE_SANITY_TOKEN is set in .env with write permissions.')
+      setError(err?.message || t(lang, 'wasThisHelpful.saveError'))
     } finally {
       setSubmitting(false)
     }
@@ -109,24 +112,24 @@ function WasThisHelpful({ resourceId, initialHelpfulCount = 0, initialNotHelpful
   return (
     <section
       className={`was-this-helpful ${hasVoted ? 'was-this-helpful--voted' : ''}`}
-      aria-label="Rate this resource"
+      aria-label={t(lang, 'wasThisHelpful.rateAriaLabel')}
     >
       <div className="was-this-helpful-card">
         {hasVoted ? (
           <>
-            <p className="was-this-helpful-thanks">Thank you for your feedback.</p>
+            <p className="was-this-helpful-thanks">{t(lang, 'wasThisHelpful.thanks')}</p>
             {totalVotes > 0 && (
               <p className="was-this-helpful-counts" aria-live="polite">
                 <span className="was-this-helpful-count was-this-helpful-count--yes">
                   <span className="was-this-helpful-icon" aria-hidden>👍</span>
-                  {helpfulCount} found this helpful
+                  {tFormat(lang, 'wasThisHelpful.foundHelpful', { count: helpfulCount })}
                 </span>
                 {notHelpfulCount > 0 && (
                   <>
                     <span className="was-this-helpful-sep">·</span>
                     <span className="was-this-helpful-count was-this-helpful-count--no">
                       <span className="was-this-helpful-icon" aria-hidden>👎</span>
-                      {notHelpfulCount} did not
+                      {tFormat(lang, 'wasThisHelpful.didNot', { count: notHelpfulCount })}
                     </span>
                   </>
                 )}
@@ -135,7 +138,7 @@ function WasThisHelpful({ resourceId, initialHelpfulCount = 0, initialNotHelpful
           </>
         ) : (
           <>
-            <p className="was-this-helpful-question">Was this helpful?</p>
+            <p className="was-this-helpful-question">{t(lang, 'wasThisHelpful.question')}</p>
             {totalVotes > 0 && (
               <p className="was-this-helpful-counts was-this-helpful-counts--prompt">
                 <span className="was-this-helpful-count was-this-helpful-count--yes">
@@ -157,14 +160,14 @@ function WasThisHelpful({ resourceId, initialHelpfulCount = 0, initialNotHelpful
             {showSuggestionInput ? (
               <div className="was-this-helpful-suggestion">
                 <label htmlFor="was-this-helpful-suggestion-input" className="was-this-helpful-suggestion-label">
-                  How could this resource be improved? (1–2 sentences required)
+                  {t(lang, 'wasThisHelpful.improveLabel')}
                 </label>
                 <textarea
                   id="was-this-helpful-suggestion-input"
                   className="was-this-helpful-suggestion-input"
                   value={suggestion}
                   onChange={(e) => setSuggestion(e.target.value)}
-                  placeholder="e.g., Add more contact options or clarify the eligibility requirements…"
+                  placeholder={t(lang, 'wasThisHelpful.improvePlaceholder')}
                   rows={3}
                   maxLength={500}
                   disabled={submitting}
@@ -177,7 +180,7 @@ function WasThisHelpful({ resourceId, initialHelpfulCount = 0, initialNotHelpful
                     onClick={handleCancelSuggestion}
                     disabled={submitting}
                   >
-                    Cancel
+                    {t(lang, 'wasThisHelpful.cancel')}
                   </button>
                   <button
                     type="button"
@@ -185,12 +188,12 @@ function WasThisHelpful({ resourceId, initialHelpfulCount = 0, initialNotHelpful
                     onClick={handleSubmitSuggestion}
                     disabled={submitting || suggestion.trim().length < 20}
                   >
-                    {submitting ? 'Submitting…' : 'Submit feedback'}
+                    {submitting ? t(lang, 'wasThisHelpful.submitting') : t(lang, 'wasThisHelpful.submitFeedback')}
                   </button>
                 </div>
               </div>
             ) : (
-              <div className="was-this-helpful-buttons" role="group" aria-label="Yes or No">
+              <div className="was-this-helpful-buttons" role="group" aria-label={t(lang, 'wasThisHelpful.yesNoAriaLabel')}>
                 <button
                   type="button"
                   className="was-this-helpful-btn was-this-helpful-btn-yes"
@@ -199,7 +202,7 @@ function WasThisHelpful({ resourceId, initialHelpfulCount = 0, initialNotHelpful
                   aria-pressed={false}
                 >
                   <span className="was-this-helpful-btn-icon" aria-hidden>👍</span>
-                  Yes
+                  {t(lang, 'wasThisHelpful.yes')}
                 </button>
                 <button
                   type="button"
@@ -209,7 +212,7 @@ function WasThisHelpful({ resourceId, initialHelpfulCount = 0, initialNotHelpful
                   aria-pressed={false}
                 >
                   <span className="was-this-helpful-btn-icon" aria-hidden>👎</span>
-                  No
+                  {t(lang, 'wasThisHelpful.no')}
                 </button>
               </div>
             )}

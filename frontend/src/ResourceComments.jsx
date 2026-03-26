@@ -9,9 +9,12 @@ import {
   recordFlagSubmission,
   getSessionId,
 } from './sessionUtils'
+import { useLanguage } from './languageContext'
+import { t, tFormat } from './uiStrings'
 import './Comments.css'
 
 function ResourceComments({ resourceId }) {
+  const lang = useLanguage()
   const [comments, setComments] = useState([])
   const [newComment, setNewComment] = useState('')
   const [loading, setLoading] = useState(true)
@@ -40,7 +43,7 @@ function ResourceComments({ resourceId }) {
       setLoading(false)
     } catch (err) {
       console.error('Error fetching comments:', err)
-      setError('Failed to load comments')
+      setError(t(lang, 'comments.loadError'))
       setLoading(false)
     }
   }
@@ -49,13 +52,13 @@ function ResourceComments({ resourceId }) {
     e.preventDefault()
 
     if (!newComment.trim()) {
-      setError('Comment cannot be empty')
+      setError(t(lang, 'comments.commentEmpty'))
       return
     }
 
     const limitCheck = canSubmitComment()
     if (!limitCheck.allowed) {
-      setError(limitCheck.message)
+      setError(limitCheck.messageKey ? tFormat(lang, limitCheck.messageKey, limitCheck.messageVars || {}) : limitCheck.message)
       return
     }
 
@@ -80,13 +83,13 @@ function ResourceComments({ resourceId }) {
 
       recordCommentSubmission()
       setNewComment('')
-      setSuccessMessage('Comment posted successfully!')
+      setSuccessMessage(t(lang, 'comments.postSuccess'))
       setTimeout(() => setSuccessMessage(''), 3000)
 
       await fetchComments()
     } catch (err) {
       console.error('Error submitting comment:', err)
-      setError('Failed to post comment. Please try again.')
+      setError(t(lang, 'comments.postError'))
     } finally {
       setSubmitting(false)
     }
@@ -94,13 +97,13 @@ function ResourceComments({ resourceId }) {
 
   const handleFlagComment = async (commentId) => {
     if (hasUserFlaggedComment(commentId)) {
-      setError('You have already flagged this comment')
+      setError(t(lang, 'comments.alreadyFlagged'))
       return
     }
 
     const limitCheck = canFlagComment()
     if (!limitCheck.allowed) {
-      setError(limitCheck.message)
+      setError(limitCheck.messageKey ? tFormat(lang, limitCheck.messageKey, limitCheck.messageVars || {}) : limitCheck.message)
       return
     }
 
@@ -119,13 +122,13 @@ function ResourceComments({ resourceId }) {
 
       recordCommentFlag(commentId)
       recordFlagSubmission()
-      setSuccessMessage('Comment flagged. Thank you for helping keep the community safe.')
+      setSuccessMessage(t(lang, 'comments.flagSuccess'))
       setTimeout(() => setSuccessMessage(''), 3000)
 
       await fetchComments()
     } catch (err) {
       console.error('Error flagging comment:', err)
-      setError('Failed to flag comment')
+      setError(t(lang, 'comments.flagError'))
     }
   }
 
@@ -148,13 +151,13 @@ function ResourceComments({ resourceId }) {
 
   return (
     <section className="comments-section">
-      <h2>Comments</h2>
+      <h2>{t(lang, 'comments.title')}</h2>
 
       <form onSubmit={handleSubmitComment} className="comment-form">
         <textarea
           value={newComment}
           onChange={(e) => setNewComment(e.target.value)}
-          placeholder="Share your experience with this resource, ask questions, or help others… (anonymous)"
+          placeholder={t(lang, 'comments.placeholderResource')}
           rows="3"
           maxLength="1000"
           disabled={submitting}
@@ -162,7 +165,7 @@ function ResourceComments({ resourceId }) {
         <div className="comment-form-footer">
           <span className="char-count">{newComment.length}/1000</span>
           <button type="submit" disabled={submitting}>
-            {submitting ? 'Posting...' : 'Post Comment'}
+            {submitting ? t(lang, 'comments.posting') : t(lang, 'comments.postComment')}
           </button>
         </div>
       </form>
@@ -172,14 +175,14 @@ function ResourceComments({ resourceId }) {
 
       <div className="comments-list">
         {loading ? (
-          <p>Loading comments...</p>
+          <p>{t(lang, 'comments.loading')}</p>
         ) : comments.length === 0 ? (
-          <p className="no-comments">No comments yet. Be the first to share your thoughts!</p>
+          <p className="no-comments">{t(lang, 'comments.noComments')}</p>
         ) : (
           comments.map((comment) => (
             <div key={comment._id} className="comment-item">
               <div className="comment-header">
-                <span className="comment-author">Anonymous</span>
+                <span className="comment-author">{t(lang, 'comments.anonymous')}</span>
                 <span className="comment-date">{formatDate(comment._createdAt)}</span>
               </div>
               <p className="comment-text">{comment.text}</p>
@@ -189,10 +192,10 @@ function ResourceComments({ resourceId }) {
                   onClick={() => handleFlagComment(comment._id)}
                   disabled={hasUserFlaggedComment(comment._id)}
                 >
-                  {hasUserFlaggedComment(comment._id) ? '✓ Flagged' : '⚠ Flag'}
+                  {hasUserFlaggedComment(comment._id) ? t(lang, 'comments.flagged') : t(lang, 'comments.flag')}
                 </button>
                 {comment.flagCount > 0 && (
-                  <span className="flag-count">{comment.flagCount} flag(s)</span>
+                  <span className="flag-count">{tFormat(lang, 'comments.flagCount', { count: comment.flagCount })}</span>
                 )}
               </div>
             </div>

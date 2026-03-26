@@ -1,9 +1,9 @@
 export default {
   name: 'localizedString',
-  title: 'Localized String (EN/ES)',
+  title: 'Spanish Translation',
   type: 'object',
+  description: 'Optional Spanish translation. English comes from the main field above.',
   fields: [
-    { name: 'en', title: 'English', type: 'string' },
     { name: 'es', title: 'Spanish', type: 'string' },
   ],
 }

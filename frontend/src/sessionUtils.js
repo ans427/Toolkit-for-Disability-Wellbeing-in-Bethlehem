@@ -33,10 +33,11 @@ export const canSubmitComment = () => {
 
   // Check if limit exceeded
   if (submissions[sessionId].length >= MAX_COMMENTS_PER_WINDOW) {
+    const remaining = Math.ceil((RATE_LIMIT_WINDOW - (now - submissions[sessionId][0])) / 1000)
     return {
       allowed: false,
-      message: `You can submit at most ${MAX_COMMENTS_PER_WINDOW} comments per minute. Please wait before posting again.`,
-      remaining: Math.ceil((RATE_LIMIT_WINDOW - (now - submissions[sessionId][0])) / 1000)
+      messageKey: 'comments.rateLimitExceeded',
+      messageVars: { max: MAX_COMMENTS_PER_WINDOW, remaining },
     }
   }
 
@@ -76,7 +77,7 @@ export const canFlagComment = () => {
   if (flags[sessionId].length >= MAX_FLAGS_PER_WINDOW) {
     return {
       allowed: false,
-      message: 'You have reached your daily flag limit. Please try again tomorrow.'
+      messageKey: 'comments.flagLimitExceeded',
     }
   }
 

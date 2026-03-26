@@ -1,9 +1,9 @@
 export default {
   name: 'localizedText',
-  title: 'Localized Text (EN/ES)',
+  title: 'Spanish Translation',
   type: 'object',
+  description: 'Optional Spanish translation. English comes from the main field above.',
   fields: [
-    { name: 'en', title: 'English', type: 'text', rows: 4 },
     { name: 'es', title: 'Spanish', type: 'text', rows: 4 },
   ],
 }

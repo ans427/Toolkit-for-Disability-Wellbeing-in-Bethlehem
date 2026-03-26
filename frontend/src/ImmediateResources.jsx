@@ -303,7 +303,7 @@ function ImmediateResources() {
         <>
           <section
             className="resource-filter"
-            aria-label="Search and filter resources"
+            aria-label={t(lang, 'pages.immediateResources.searchFilterAria')}
           >
             <div className="resource-filter-controls">
               <div className="resource-search-wrap">
@@ -317,7 +317,7 @@ function ImmediateResources() {
                   placeholder={t(lang, 'pages.immediateResources.searchPlaceholder')}
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  aria-label="Search resources by name, description, or category"
+                  aria-label={t(lang, 'pages.immediateResources.searchInputAria')}
                   aria-describedby="filter-results-count"
                   autoComplete="off"
                 />
@@ -326,7 +326,7 @@ function ImmediateResources() {
               <div
                 className="resource-filter-chips"
                 role="group"
-                aria-label="Filter by category"
+                aria-label={t(lang, 'pages.immediateResources.filterGroupAria')}
                 aria-describedby="filter-results-count"
               >
                 <span className="resource-filter-legend">{t(lang, 'pages.immediateResources.filterLegend')}</span>
@@ -338,7 +338,7 @@ function ImmediateResources() {
                       onClick={() => setSelectedCategories(new Set())}
                       onKeyDown={(e) => handleChipKeyDown(e, 0)}
                       aria-pressed={showAll}
-                      aria-label="Show all categories"
+                      aria-label={t(lang, 'pages.immediateResources.showAllAria')}
                     >
                       {t(lang, 'pages.immediateResources.filterAll')}
                     </button>
@@ -353,7 +353,11 @@ function ImmediateResources() {
                         onClick={() => toggleCategory(cat)}
                         onKeyDown={(e) => handleChipKeyDown(e, i + 1)}
                         aria-pressed={selectedCategories.has(cat)}
+<<<<<<< HEAD
                         aria-label={t(lang, 'pages.immediateResources.filterLegend') + ': ' + label}
+=======
+                        aria-label={tFormat(lang, 'pages.immediateResources.filterByAria', { category: getCategoryLabel(cat) })}
+>>>>>>> 2be0c03 (optimizing for text to speech and fixing some translations)
                       >
                         {label}
                       </button>
@@ -388,6 +392,10 @@ function ImmediateResources() {
               key={resource._id}
               to={`/resources/${resource._id}`}
               className="resource-card"
+              aria-label={tFormat(lang, 'pages.immediateResources.cardAriaLabel', {
+                title: pickI18n(resource.titleI18n, lang, resource.title),
+                category: getCategoryLabel(resource.category || 'general'),
+              })}
             >
               {resource.image?.asset?.url && (
                 <div className="card-image-wrapper">
@@ -413,10 +421,14 @@ function ImmediateResources() {
                 </p>
 
                 {((resource.helpfulCount ?? 0) + (resource.notHelpfulCount ?? 0)) > 0 && (
-                  <p className="card-helpful-count" aria-label="Community feedback">
-                    👍 {(resource.helpfulCount ?? 0)} found this helpful
+                  <p className="card-helpful-count" aria-label={t(lang, 'pages.immediateResources.communityFeedbackAria')}>
+                    <span aria-hidden>👍 </span>
+                    {tFormat(lang, 'pages.immediateResources.foundHelpful', { count: resource.helpfulCount ?? 0 })}
                     {(resource.notHelpfulCount ?? 0) > 0 && (
-                      <> · 👎 {resource.notHelpfulCount} did not</>
+                      <>
+                        {' '}· <span aria-hidden>👎 </span>
+                        {tFormat(lang, 'pages.immediateResources.didNot', { count: resource.notHelpfulCount })}
+                      </>
                     )}
                   </p>
                 )}
@@ -446,7 +458,7 @@ function ImmediateResources() {
                   </div>
                 )}
 
-                <span className="card-link-hint">{t(lang, 'pages.immediateResources.viewDetails')}</span>
+                <span className="card-link-hint" aria-hidden="true">{t(lang, 'pages.immediateResources.viewDetails')}</span>
               </div>
             </Link>
           ))}
