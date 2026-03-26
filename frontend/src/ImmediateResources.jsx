@@ -353,11 +353,7 @@ function ImmediateResources() {
                         onClick={() => toggleCategory(cat)}
                         onKeyDown={(e) => handleChipKeyDown(e, i + 1)}
                         aria-pressed={selectedCategories.has(cat)}
-<<<<<<< HEAD
-                        aria-label={t(lang, 'pages.immediateResources.filterLegend') + ': ' + label}
-=======
-                        aria-label={tFormat(lang, 'pages.immediateResources.filterByAria', { category: getCategoryLabel(cat) })}
->>>>>>> 2be0c03 (optimizing for text to speech and fixing some translations)
+                        aria-label={tFormat(lang, 'pages.immediateResources.filterByAria', { category: label })}
                       >
                         {label}
                       </button>
