@@ -8,6 +8,7 @@ import StoryDetail from './StoryDetail'
 import SubmitForm from './SubmitForm'
 import PolicyGaps from './PolicyGaps'
 import DisabilityActivism from './DisabilityActivism'
+import AccessibilityMap from './AccessibilityMap'
 import Sitemap from './Sitemap'
 import Disclaimers from './Disclaimers'
 import AccessibilityStatement from './AccessibilityStatement'
@@ -60,10 +61,15 @@ function HomePage() {
           </div>
         </Link>
 
-        <div className="nav-card">
-          <h2>{t(lang, 'home.cards.mapTitle')}</h2>
-          <p>{t(lang, 'home.cards.mapBody')}</p>
-        </div>
+        <Link
+          to="/map"
+          style={{ textDecoration: 'none', color: 'inherit' }}
+        >
+          <div className="nav-card">
+            <h2>{t(lang, 'home.cards.mapTitle')}</h2>
+            <p>{t(lang, 'home.cards.mapBody')}</p>
+          </div>
+        </Link>
 
         <Link
           to="/policy-gaps"
@@ -379,6 +385,7 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/resources/:resourceId" element={<ResourceDetail />} />
           <Route path="/resources" element={<ImmediateResources />} />
+          <Route path="/map" element={<AccessibilityMap />} />
           <Route path="/community-stories" element={<CommunityStories />} />
           <Route path="/community-stories/:storyId" element={<StoryDetail />} />
           <Route path="/policy-gaps" element={<PolicyGaps />} />

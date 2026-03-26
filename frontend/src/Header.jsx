@@ -44,7 +44,7 @@ function Header({
             <li><Link to="/about">{t(language, 'nav.about')}</Link></li>
             <li><Link to="/resources">{t(language, 'nav.resources')}</Link></li>
             <li><Link to="/community-stories">{t(language, 'nav.stories')}</Link></li>
-            <li><Link to="/">{t(language, 'nav.map')}</Link></li>
+            <li><Link to="/map">{t(language, 'nav.map')}</Link></li>
             <li><Link to="/policy-gaps">{t(language, 'nav.advocacy')}</Link></li>
           </ul>
         </nav>

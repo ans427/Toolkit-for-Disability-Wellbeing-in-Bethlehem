@@ -13,6 +13,7 @@ function Breadcrumb({ storyTitle, resourceTitle }) {
   const breadcrumbMap = {
     'resources': t(lang, 'breadcrumb.resources'),
     'community-stories': t(lang, 'breadcrumb.communityStories'),
+    'map': t(lang, 'breadcrumb.map'),
     'policy-gaps': t(lang, 'breadcrumb.policyGaps'),
     'disability-activism': t(lang, 'breadcrumb.disabilityActivism'),
     'submit': t(lang, 'breadcrumb.submit'),
