@@ -87,11 +87,29 @@ export default {
       type: 'object',
       fields: [
         {
+          name: 'heading',
+          title: 'Section heading',
+          type: 'string',
+          initialValue: 'Ten Principles of Disability Justice',
+          description: 'Main heading shown above the principles list.',
+        },
+        {
+          name: 'headingI18n',
+          title: 'Section heading (translations)',
+          type: 'localizedString',
+        },
+        {
           name: 'intro',
           title: 'Section Introduction',
           type: 'text',
           rows: 2,
           description: 'Optional intro text before the principles list (e.g. "Shortened for clarity/approachability")',
+        },
+        {
+          name: 'introI18n',
+          title: 'Section Introduction (translations)',
+          type: 'localizedText',
+          rows: 2,
         },
         {
           name: 'principles',
@@ -114,9 +132,20 @@ export default {
                   validation: (Rule) => Rule.required(),
                 },
                 {
+                  name: 'titleI18n',
+                  title: 'Title (translations)',
+                  type: 'localizedString',
+                },
+                {
                   name: 'description',
                   title: 'Description',
                   type: 'text',
+                  rows: 2,
+                },
+                {
+                  name: 'descriptionI18n',
+                  title: 'Description (translations)',
+                  type: 'localizedText',
                   rows: 2,
                 },
               ],

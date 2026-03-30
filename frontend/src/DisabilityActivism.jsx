@@ -21,11 +21,16 @@ const DISABILITY_ACTIVISM_QUERY = `*[_type == "disabilityActivismPage" && _id ==
     ,contentI18n
   },
   principlesSection{
+    heading,
+    headingI18n,
     intro,
+    introI18n,
     principles[]{
       number,
       title,
-      description
+      titleI18n,
+      description,
+      descriptionI18n
     }
   },
   externalLinks[]{
@@ -96,6 +101,10 @@ export default function DisabilityActivism() {
   const sections = data?.sections ?? []
   const principlesSection = data?.principlesSection ?? {}
   const principles = principlesSection?.principles ?? []
+  const principlesHeading =
+    pickI18n(principlesSection?.headingI18n, lang, principlesSection?.heading) ||
+    'Ten Principles of Disability Justice'
+  const principlesIntro = pickI18n(principlesSection?.introI18n, lang, principlesSection?.intro) ?? ''
   const externalLinks = data?.externalLinks ?? []
   const sources = data?.sources ?? []
 
@@ -104,9 +113,7 @@ export default function DisabilityActivism() {
       const sectionTitle = pickI18n(s?.titleI18n, lang, s?.title)
       return { title: sectionTitle, slug: slugify(sectionTitle) }
     }),
-    ...(principles.length > 0
-      ? [{ title: 'Ten Principles of Disability Justice', slug: 'ten-principles' }]
-      : []),
+    ...(principles.length > 0 ? [{ title: principlesHeading, slug: 'ten-principles' }] : []),
     ...(externalLinks.length > 0 ? [{ title: 'Further Reading', slug: 'further-reading' }] : []),
     ...(sources.length > 0 ? [{ title: 'Sources', slug: 'sources' }] : []),
   ]
@@ -167,18 +174,20 @@ export default function DisabilityActivism() {
             className="disability-activism-section principles-section"
             aria-labelledby="heading-ten-principles"
           >
-            <h2 id="heading-ten-principles">Ten Principles of Disability Justice</h2>
-            {principlesSection?.intro && (
-              <p className="principles-intro">{principlesSection.intro}</p>
+            <h2 id="heading-ten-principles">{principlesHeading}</h2>
+            {principlesIntro && (
+              <p className="principles-intro">{principlesIntro}</p>
             )}
             <ol className="principles-list">
               {principles
                 .sort((a, b) => (a.number ?? 0) - (b.number ?? 0))
                 .map((principle, index) => (
                   <li key={index} className="principle-item">
-                    <strong>{principle.title}</strong>
-                    {principle.description && (
-                      <span className="principle-desc">{principle.description}</span>
+                    <strong>{pickI18n(principle?.titleI18n, lang, principle?.title)}</strong>
+                    {pickI18n(principle?.descriptionI18n, lang, principle?.description) && (
+                      <span className="principle-desc">
+                        {pickI18n(principle?.descriptionI18n, lang, principle?.description)}
+                      </span>
                     )}
                   </li>
                 ))}
