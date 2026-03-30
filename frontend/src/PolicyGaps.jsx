@@ -14,11 +14,19 @@ const POLICY_GAPS_QUERY = `*[_type == "policyGap"] | order(title asc){
   "slug": slug.current,
   experience,
   experienceI18n,
+  experienceHeading,
+  experienceHeadingI18n,
   conditions,
   conditionsI18n,
+  conditionsHeading,
+  conditionsHeadingI18n,
   gaps,
   gapsI18n,
+  gapsHeading,
+  gapsHeadingI18n,
   implications,
+  implicationsHeading,
+  implicationsHeadingI18n,
   image{
     asset->{ url },
     alt,
@@ -31,6 +39,28 @@ const POLICY_GAPS_PAGE_QUERY = `*[_type == "policyGapsPage" && _id == "policyGap
   pageTitleI18n,
   subtitle,
   subtitleI18n,
+  sectionHeadings{
+    tocHeading,
+    tocHeadingI18n,
+    experienceHeading,
+    experienceHeadingI18n,
+    conditionsHeading,
+    conditionsHeadingI18n,
+    gapsHeading,
+    gapsHeadingI18n,
+    implicationsHeading,
+    implicationsHeadingI18n,
+    actionHeading,
+    actionHeadingI18n,
+    overlappingThemesHeading,
+    overlappingThemesHeadingI18n,
+    forPolicymakersHeading,
+    forPolicymakersHeadingI18n,
+    forActivistsHeading,
+    forActivistsHeadingI18n,
+    returnTopLabel,
+    returnTopLabelI18n
+  },
   actionSection{
     overlappingThemes,
     forPolicymakers,
@@ -91,9 +121,24 @@ export default function PolicyGaps() {
   const title = pickI18n(pageConfig?.pageTitleI18n, lang, pageConfig?.pageTitle) || 'Policy & Service Gaps'
   const subtitle = pickI18n(pageConfig?.subtitleI18n, lang, pageConfig?.subtitle) || 'Bridging the gap between policy and lived experience. A living document of accessibility challenges in Bethlehem and recommendations for change.'
   const actionSection = pageConfig?.actionSection ?? {}
+  const sectionHeadings = pageConfig?.sectionHeadings ?? {}
   const overlappingThemes = actionSection?.overlappingThemes ?? []
   const forPolicymakers = pickI18n(actionSection?.forPolicymakersI18n, lang, actionSection?.forPolicymakers) ?? ''
   const forActivists = pickI18n(actionSection?.forActivistsI18n, lang, actionSection?.forActivists) ?? ''
+  const tocHeading = pickI18n(sectionHeadings?.tocHeadingI18n, lang, sectionHeadings?.tocHeading) || 'Jump to a Section'
+  const experienceHeading = pickI18n(sectionHeadings?.experienceHeadingI18n, lang, sectionHeadings?.experienceHeading) || 'The Resident Experience'
+  const conditionsHeading = pickI18n(sectionHeadings?.conditionsHeadingI18n, lang, sectionHeadings?.conditionsHeading) || 'Current Conditions'
+  const gapsHeading = pickI18n(sectionHeadings?.gapsHeadingI18n, lang, sectionHeadings?.gapsHeading) || 'Analyzing the Gap'
+  const implicationsHeading = pickI18n(sectionHeadings?.implicationsHeadingI18n, lang, sectionHeadings?.implicationsHeading) || 'Policy Implications'
+  const actionHeading = pickI18n(sectionHeadings?.actionHeadingI18n, lang, sectionHeadings?.actionHeading) || 'Moving Forward: From Observation to Action'
+  const overlappingThemesHeading =
+    pickI18n(sectionHeadings?.overlappingThemesHeadingI18n, lang, sectionHeadings?.overlappingThemesHeading) || 'Overlapping Themes'
+  const forPolicymakersHeading =
+    pickI18n(sectionHeadings?.forPolicymakersHeadingI18n, lang, sectionHeadings?.forPolicymakersHeading) || 'For Policymakers'
+  const forActivistsHeading =
+    pickI18n(sectionHeadings?.forActivistsHeadingI18n, lang, sectionHeadings?.forActivistsHeading) || 'For Activists and Community Members'
+  const returnTopLabel =
+    pickI18n(sectionHeadings?.returnTopLabelI18n, lang, sectionHeadings?.returnTopLabel) || '↑ Return to Top'
 
   return (
     <main className="container" id="main-content">
@@ -105,14 +150,14 @@ export default function PolicyGaps() {
       </header>
 
       <nav className="policy-toc" aria-labelledby="toc-heading">
-        <h2 id="toc-heading">Jump to a Section</h2>
+        <h2 id="toc-heading">{tocHeading}</h2>
         <ul className="toc-list">
           {policyData.map((item) => (
             <li key={`toc-${item._id}`}>
-              <a href={`#${item.slug || item._id}`}>{item.title}</a>
+              <a href={`#${item.slug || item._id}`}>{pickI18n(item.titleI18n, lang, item.title)}</a>
             </li>
           ))}
-          <li><a href="#action">Moving Forward: From Observation to Action</a></li>
+          <li><a href="#action">{actionHeading}</a></li>
         </ul>
       </nav>
 
@@ -128,17 +173,17 @@ export default function PolicyGaps() {
 
             <div className={`policy-grid${area.image?.asset?.url ? ' policy-grid--with-image' : ''}`}>
               <div className="policy-block">
-                <h3>The Resident Experience</h3>
+                <h3>{pickI18n(area.experienceHeadingI18n, lang, area.experienceHeading) || experienceHeading}</h3>
                 <p>{pickI18n(area.experienceI18n, lang, area.experience)}</p>
               </div>
 
               <div className="policy-block">
-                <h3>Current Conditions</h3>
+                <h3>{pickI18n(area.conditionsHeadingI18n, lang, area.conditionsHeading) || conditionsHeading}</h3>
                 <p>{pickI18n(area.conditionsI18n, lang, area.conditions)}</p>
               </div>
 
               <div className="policy-block">
-                <h3>Analyzing the Gap</h3>
+                <h3>{pickI18n(area.gapsHeadingI18n, lang, area.gapsHeading) || gapsHeading}</h3>
                 <p>{pickI18n(area.gapsI18n, lang, area.gaps)}</p>
               </div>
 
@@ -156,7 +201,7 @@ export default function PolicyGaps() {
               )}
 
               <div className="policy-block highlight-block policy-block-full-width">
-                <h3>Policy Implications</h3>
+                <h3>{pickI18n(area.implicationsHeadingI18n, lang, area.implicationsHeading) || implicationsHeading}</h3>
                 <ul>
                   {(area.implications || []).map((imp, index) => (
                     <li key={index}>{imp}</li>
@@ -168,11 +213,11 @@ export default function PolicyGaps() {
         ))}
 
         <article id="action" className="policy-section" aria-labelledby="heading-action">
-          <h2 id="heading-action">Moving Forward: From Observation to Action</h2>
+          <h2 id="heading-action">{actionHeading}</h2>
 
           {overlappingThemes.length > 0 && (
             <>
-              <h3>Overlapping Themes</h3>
+              <h3>{overlappingThemesHeading}</h3>
               <ul>
                 {overlappingThemes.map((theme, index) => (
                   <li key={index}>
@@ -186,14 +231,14 @@ export default function PolicyGaps() {
 
           {forPolicymakers && (
             <>
-              <h3>For Policymakers</h3>
+              <h3>{forPolicymakersHeading}</h3>
               <p>{forPolicymakers}</p>
             </>
           )}
 
           {forActivists && (
             <>
-              <h3>For Activists and Community Members</h3>
+              <h3>{forActivistsHeading}</h3>
               <p>{forActivists}</p>
             </>
           )}
@@ -201,7 +246,7 @@ export default function PolicyGaps() {
       </div>
 
       <p className="return-top">
-        <a href="#main-content">&uarr; Return to Top</a>
+        <a href="#main-content">{returnTopLabel}</a>
       </p>
     </main>
   )

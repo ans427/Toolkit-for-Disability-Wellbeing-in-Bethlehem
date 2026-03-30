@@ -40,6 +40,18 @@ export default {
       rows: 4,
     },
     {
+      name: 'experienceHeading',
+      title: 'The Resident Experience heading',
+      type: 'string',
+      initialValue: 'The Resident Experience',
+      description: 'Optional override for this card heading.',
+    },
+    {
+      name: 'experienceHeadingI18n',
+      title: 'The Resident Experience heading (translations)',
+      type: 'localizedString',
+    },
+    {
       name: 'conditions',
       title: 'Current Conditions',
       type: 'text',
@@ -51,6 +63,18 @@ export default {
       title: 'Current Conditions (translations)',
       type: 'localizedText',
       rows: 4,
+    },
+    {
+      name: 'conditionsHeading',
+      title: 'Current Conditions heading',
+      type: 'string',
+      initialValue: 'Current Conditions',
+      description: 'Optional override for this card heading.',
+    },
+    {
+      name: 'conditionsHeadingI18n',
+      title: 'Current Conditions heading (translations)',
+      type: 'localizedString',
     },
     {
       name: 'gaps',
@@ -66,11 +90,35 @@ export default {
       rows: 4,
     },
     {
+      name: 'gapsHeading',
+      title: 'Analyzing the Gap heading',
+      type: 'string',
+      initialValue: 'Analyzing the Gap',
+      description: 'Optional override for this card heading.',
+    },
+    {
+      name: 'gapsHeadingI18n',
+      title: 'Analyzing the Gap heading (translations)',
+      type: 'localizedString',
+    },
+    {
       name: 'implications',
       title: 'Policy Implications',
       type: 'array',
       of: [{ type: 'string' }],
       description: 'Each item becomes a bullet point',
+    },
+    {
+      name: 'implicationsHeading',
+      title: 'Policy Implications heading',
+      type: 'string',
+      initialValue: 'Policy Implications',
+      description: 'Optional override for this card heading.',
+    },
+    {
+      name: 'implicationsHeadingI18n',
+      title: 'Policy Implications heading (translations)',
+      type: 'localizedString',
     },
     {
       name: 'image',
