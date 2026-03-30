@@ -46,34 +46,14 @@ const POLICY_GAPS_PAGE_QUERY = `*[_type == "policyGapsPage" && _id == "policyGap
   pageTitleI18n,
   subtitle,
   subtitleI18n,
-  sectionHeadings{
-    tocHeading,
-    tocHeadingI18n,
-    experienceHeading,
-    experienceHeadingI18n,
-    conditionsHeading,
-    conditionsHeadingI18n,
-    gapsHeading,
-    gapsHeadingI18n,
-    implicationsHeading,
-    implicationsHeadingI18n,
-    actionHeading,
-    actionHeadingI18n,
-    overlappingThemesHeading,
-    overlappingThemesHeadingI18n,
-    forPolicymakersHeading,
-    forPolicymakersHeadingI18n,
-    forActivistsHeading,
-    forActivistsHeadingI18n,
-    returnTopLabel,
-    returnTopLabelI18n
-  },
   actionSection{
     overlappingThemes,
-    forPolicymakers,
-    forPolicymakersI18n,
-    forActivists,
-    forActivistsI18n
+    contentBlocks[]{
+      heading,
+      headingI18n,
+      body,
+      bodyI18n
+    }
   }
 }`
 
@@ -128,24 +108,13 @@ export default function PolicyGaps() {
   const title = pickI18n(pageConfig?.pageTitleI18n, lang, pageConfig?.pageTitle) || 'Policy & Service Gaps'
   const subtitle = pickI18n(pageConfig?.subtitleI18n, lang, pageConfig?.subtitle) || 'Bridging the gap between policy and lived experience. A living document of accessibility challenges in Bethlehem and recommendations for change.'
   const actionSection = pageConfig?.actionSection ?? {}
-  const sectionHeadings = pageConfig?.sectionHeadings ?? {}
   const overlappingThemes = actionSection?.overlappingThemes ?? []
-  const forPolicymakers = pickI18n(actionSection?.forPolicymakersI18n, lang, actionSection?.forPolicymakers) ?? ''
-  const forActivists = pickI18n(actionSection?.forActivistsI18n, lang, actionSection?.forActivists) ?? ''
-  const tocHeading = pickI18n(sectionHeadings?.tocHeadingI18n, lang, sectionHeadings?.tocHeading) || 'Jump to a Section'
-  const experienceHeading = pickI18n(sectionHeadings?.experienceHeadingI18n, lang, sectionHeadings?.experienceHeading) || 'The Resident Experience'
-  const conditionsHeading = pickI18n(sectionHeadings?.conditionsHeadingI18n, lang, sectionHeadings?.conditionsHeading) || 'Current Conditions'
-  const gapsHeading = pickI18n(sectionHeadings?.gapsHeadingI18n, lang, sectionHeadings?.gapsHeading) || 'Analyzing the Gap'
-  const implicationsHeading = pickI18n(sectionHeadings?.implicationsHeadingI18n, lang, sectionHeadings?.implicationsHeading) || 'Policy Implications'
-  const actionHeading = pickI18n(sectionHeadings?.actionHeadingI18n, lang, sectionHeadings?.actionHeading) || 'Moving Forward: From Observation to Action'
-  const overlappingThemesHeading =
-    pickI18n(sectionHeadings?.overlappingThemesHeadingI18n, lang, sectionHeadings?.overlappingThemesHeading) || 'Overlapping Themes'
-  const forPolicymakersHeading =
-    pickI18n(sectionHeadings?.forPolicymakersHeadingI18n, lang, sectionHeadings?.forPolicymakersHeading) || 'For Policymakers'
-  const forActivistsHeading =
-    pickI18n(sectionHeadings?.forActivistsHeadingI18n, lang, sectionHeadings?.forActivistsHeading) || 'For Activists and Community Members'
-  const returnTopLabel =
-    pickI18n(sectionHeadings?.returnTopLabelI18n, lang, sectionHeadings?.returnTopLabel) || '↑ Return to Top'
+  const actionContentBlocks = Array.isArray(actionSection?.contentBlocks) ? actionSection.contentBlocks : []
+  const tocHeading = lang === 'es' ? 'Ir a una sección' : 'Jump to a Section'
+  const actionHeading =
+    lang === 'es' ? 'Avanzando: De la observación a la acción' : 'Moving Forward: From Observation to Action'
+  const overlappingThemesHeading = lang === 'es' ? 'Temas superpuestos' : 'Overlapping Themes'
+  const returnTopLabel = lang === 'es' ? '↑ Volver arriba' : '↑ Return to Top'
 
   return (
     <main className="container" id="main-content">
@@ -181,17 +150,17 @@ export default function PolicyGaps() {
             <div className={`policy-grid${area.image?.asset?.url ? ' policy-grid--with-image' : ''}`}>
               <>
                 <div className="policy-block">
-                  <h3>{pickI18n(area.experienceHeadingI18n, lang, area.experienceHeading) || experienceHeading}</h3>
+                  <h3>{pickI18n(area.experienceHeadingI18n, lang, area.experienceHeading) || 'The Resident Experience'}</h3>
                   <p>{pickI18n(area.experienceI18n, lang, area.experience)}</p>
                 </div>
 
                 <div className="policy-block">
-                  <h3>{pickI18n(area.conditionsHeadingI18n, lang, area.conditionsHeading) || conditionsHeading}</h3>
+                  <h3>{pickI18n(area.conditionsHeadingI18n, lang, area.conditionsHeading) || 'Current Conditions'}</h3>
                   <p>{pickI18n(area.conditionsI18n, lang, area.conditions)}</p>
                 </div>
 
                 <div className="policy-block">
-                  <h3>{pickI18n(area.gapsHeadingI18n, lang, area.gapsHeading) || gapsHeading}</h3>
+                  <h3>{pickI18n(area.gapsHeadingI18n, lang, area.gapsHeading) || 'Analyzing the Gap'}</h3>
                   <p>{pickI18n(area.gapsI18n, lang, area.gaps)}</p>
                 </div>
 
@@ -218,7 +187,7 @@ export default function PolicyGaps() {
               )}
 
               <div className="policy-block highlight-block policy-block-full-width">
-                <h3>{pickI18n(area.implicationsHeadingI18n, lang, area.implicationsHeading) || implicationsHeading}</h3>
+                <h3>{pickI18n(area.implicationsHeadingI18n, lang, area.implicationsHeading) || 'Policy Implications'}</h3>
                 <ul>
                   {(area.implications || []).map((imp, index) => (
                     <li key={index}>{pickI18n(area.implicationsI18n?.[index], lang, imp)}</li>
@@ -246,19 +215,12 @@ export default function PolicyGaps() {
             </>
           )}
 
-          {forPolicymakers && (
-            <>
-              <h3>{forPolicymakersHeading}</h3>
-              <p>{forPolicymakers}</p>
-            </>
-          )}
-
-          {forActivists && (
-            <>
-              <h3>{forActivistsHeading}</h3>
-              <p>{forActivists}</p>
-            </>
-          )}
+          {actionContentBlocks.map((block, index) => (
+            <div key={`action-block-${index}`}>
+              <h3>{pickI18n(block?.headingI18n, lang, block?.heading)}</h3>
+              <p>{pickI18n(block?.bodyI18n, lang, block?.body)}</p>
+            </div>
+          ))}
         </article>
       </div>
 

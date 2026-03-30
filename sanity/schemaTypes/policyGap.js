@@ -31,7 +31,7 @@ export default {
       title: 'The Resident Experience heading',
       type: 'string',
       initialValue: 'The Resident Experience',
-      description: 'Optional override for this card heading.',
+      description: 'Per-policy-gap heading used on the website for this section.',
     },
     {
       name: 'experienceHeadingI18n',
@@ -69,7 +69,7 @@ export default {
       title: 'Current Conditions heading',
       type: 'string',
       initialValue: 'Current Conditions',
-      description: 'Optional override for this card heading.',
+      description: 'Per-policy-gap heading used on the website for this section.',
     },
     {
       name: 'conditionsHeadingI18n',
@@ -94,7 +94,7 @@ export default {
       title: 'Analyzing the Gap heading',
       type: 'string',
       initialValue: 'Analyzing the Gap',
-      description: 'Optional override for this card heading.',
+      description: 'Per-policy-gap heading used on the website for this section.',
     },
     {
       name: 'gapsHeadingI18n',
@@ -121,7 +121,7 @@ export default {
       title: 'Policy Implications heading',
       type: 'string',
       initialValue: 'Policy Implications',
-      description: 'Optional override for this card heading.',
+      description: 'Per-policy-gap heading used on the website for this section.',
     },
     {
       name: 'implicationsHeadingI18n',
