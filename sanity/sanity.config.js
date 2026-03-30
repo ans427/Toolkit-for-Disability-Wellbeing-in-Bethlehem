@@ -30,6 +30,13 @@ export default defineConfig({
                   .schemaType('disabilityActivismPage')
                   .documentId('disabilityActivismPage')
               ),
+            S.listItem()
+              .title('About Page')
+              .child(
+                S.document()
+                  .schemaType('aboutPage')
+                  .documentId('aboutPage')
+              ),
             S.divider(),
             S.listItem()
               .title('Policy Gaps')

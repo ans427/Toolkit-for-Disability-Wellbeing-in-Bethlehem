@@ -49,9 +49,19 @@ export default {
                   description: 'e.g. "Intersectionality"',
                 },
                 {
+                  name: 'labelI18n',
+                  title: 'Theme label (translations)',
+                  type: 'localizedString',
+                },
+                {
                   name: 'description',
                   title: 'Description',
                   type: 'text',
+                },
+                {
+                  name: 'descriptionI18n',
+                  title: 'Description (translations)',
+                  type: 'localizedText',
                 },
               ],
             },
