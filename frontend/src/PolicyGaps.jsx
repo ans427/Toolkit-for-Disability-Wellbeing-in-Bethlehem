@@ -179,31 +179,30 @@ export default function PolicyGaps() {
             <h2 id={`heading-${area.slug || area._id}`}>{pickI18n(area.titleI18n, lang, area.title)}</h2>
 
             <div className={`policy-grid${area.image?.asset?.url ? ' policy-grid--with-image' : ''}`}>
-              {(Array.isArray(area.subsections) && area.subsections.length > 0) ? (
-                area.subsections.map((section, index) => (
-                  <div className="policy-block" key={`${area._id}-subsection-${index}`}>
-                    <h3>{pickI18n(section?.headingI18n, lang, section?.heading)}</h3>
-                    <p>{pickI18n(section?.bodyI18n, lang, section?.body)}</p>
-                  </div>
-                ))
-              ) : (
-                <>
-                  <div className="policy-block">
-                    <h3>{pickI18n(area.experienceHeadingI18n, lang, area.experienceHeading) || experienceHeading}</h3>
-                    <p>{pickI18n(area.experienceI18n, lang, area.experience)}</p>
-                  </div>
+              <>
+                <div className="policy-block">
+                  <h3>{pickI18n(area.experienceHeadingI18n, lang, area.experienceHeading) || experienceHeading}</h3>
+                  <p>{pickI18n(area.experienceI18n, lang, area.experience)}</p>
+                </div>
 
-                  <div className="policy-block">
-                    <h3>{pickI18n(area.conditionsHeadingI18n, lang, area.conditionsHeading) || conditionsHeading}</h3>
-                    <p>{pickI18n(area.conditionsI18n, lang, area.conditions)}</p>
-                  </div>
+                <div className="policy-block">
+                  <h3>{pickI18n(area.conditionsHeadingI18n, lang, area.conditionsHeading) || conditionsHeading}</h3>
+                  <p>{pickI18n(area.conditionsI18n, lang, area.conditions)}</p>
+                </div>
 
-                  <div className="policy-block">
-                    <h3>{pickI18n(area.gapsHeadingI18n, lang, area.gapsHeading) || gapsHeading}</h3>
-                    <p>{pickI18n(area.gapsI18n, lang, area.gaps)}</p>
-                  </div>
-                </>
-              )}
+                <div className="policy-block">
+                  <h3>{pickI18n(area.gapsHeadingI18n, lang, area.gapsHeading) || gapsHeading}</h3>
+                  <p>{pickI18n(area.gapsI18n, lang, area.gaps)}</p>
+                </div>
+
+                {(Array.isArray(area.subsections) && area.subsections.length > 0) &&
+                  area.subsections.map((section, index) => (
+                    <div className="policy-block" key={`${area._id}-subsection-${index}`}>
+                      <h3>{pickI18n(section?.headingI18n, lang, section?.heading)}</h3>
+                      <p>{pickI18n(section?.bodyI18n, lang, section?.body)}</p>
+                    </div>
+                  ))}
+              </>
 
               {area.image?.asset?.url && (
                 <figure className="policy-block policy-block-image">
