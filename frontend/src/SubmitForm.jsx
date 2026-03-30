@@ -2,9 +2,12 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { sanity } from './sanityClient'
 import Breadcrumb from './Breadcrumb'
+import { useLanguage } from './languageContext'
+import { t } from './uiStrings'
 import './SubmitForm.css'
 
 function SubmitForm() {
+  const lang = useLanguage()
   const [type, setType] = useState('resource')
 
   const initialFormState = {
@@ -29,6 +32,28 @@ function SubmitForm() {
 
   const [formData, setFormData] = useState(initialFormState)
   const [status, setStatus] = useState('idle')
+
+  const categoryOptions = [
+    { value: 'legal-aid', label: t(lang, 'pages.submitForm.categories.legalAid') },
+    {
+      value: 'community-organizations',
+      label: t(lang, 'pages.submitForm.categories.communityOrganizations'),
+    },
+    { value: 'mutual-aid-support', label: t(lang, 'pages.submitForm.categories.mutualAidSupport') },
+    {
+      value: 'collaborative-support',
+      label: t(lang, 'pages.submitForm.categories.collaborativeSupport'),
+    },
+    { value: 'employment-support', label: t(lang, 'pages.submitForm.categories.employmentSupport') },
+    {
+      value: 'food-access-and-housing-support',
+      label: t(lang, 'pages.submitForm.categories.foodAccessAndHousingSupport'),
+    },
+    { value: 'healthcare-support', label: t(lang, 'pages.submitForm.categories.healthcareSupport') },
+    { value: 'transportation-services', label: t(lang, 'pages.submitForm.categories.transportationServices') },
+    { value: 'multilingual-support', label: t(lang, 'pages.submitForm.categories.multilingualSupport') },
+    { value: 'mental-health-support', label: t(lang, 'pages.submitForm.categories.mentalHealthSupport') },
+  ]
 
   const handleChange = (e) => {
     const { name, value } = e.target
@@ -84,18 +109,18 @@ function SubmitForm() {
       <Breadcrumb />
       <header className="submit-header">
         <Link to="/" className="back-link">
-          ← Back to Home
+          {t(lang, 'pages.submitForm.backHome')}
         </Link>
-        <h1>Submit a Resource or Community Story</h1>
+        <h1>{t(lang, 'pages.submitForm.title')}</h1>
         <p className="subtitle">
-          Your submission will be reviewed by the Toolkit team before being added to the site.
+          {t(lang, 'pages.submitForm.subtitle')}
         </p>
       </header>
 
       <section className="submit-section">
         <form onSubmit={handleSubmit} className="submit-form">
           <fieldset className="submit-fieldset radio-fieldset">
-            <legend>What would you like to share?</legend>
+            <legend>{t(lang, 'pages.submitForm.shareLegend')}</legend>
 
             <div className="radio-options">
               <label className={`radio-option-card ${type === 'resource' ? 'radio-option-selected' : ''}`}>
@@ -108,8 +133,10 @@ function SubmitForm() {
                   className="radio-input-visually-hidden"
                   aria-describedby="resource-description"
                 />
-                <span className="radio-option-title">Submit a resource</span>
-                <span id="resource-description" className="radio-option-description">Share a service, organization, or support (healthcare, legal aid, housing, etc.)</span>
+                <span className="radio-option-title">{t(lang, 'pages.submitForm.shareResourceTitle')}</span>
+                <span id="resource-description" className="radio-option-description">
+                  {t(lang, 'pages.submitForm.shareResourceDescription')}
+                </span>
               </label>
 
               <label className={`radio-option-card ${type === 'communityStory' ? 'radio-option-selected' : ''}`}>
@@ -122,17 +149,19 @@ function SubmitForm() {
                   className="radio-input-visually-hidden"
                   aria-describedby="story-description"
                 />
-                <span className="radio-option-title">Submit a community story</span>
-                <span id="story-description" className="radio-option-description">Share a lived experience from the Bethlehem disability community</span>
+                <span className="radio-option-title">{t(lang, 'pages.submitForm.shareStoryTitle')}</span>
+                <span id="story-description" className="radio-option-description">
+                  {t(lang, 'pages.submitForm.shareStoryDescription')}
+                </span>
               </label>
             </div>
           </fieldset>
 
           <fieldset className="submit-fieldset">
-            <legend>Your contact (optional)</legend>
+            <legend>{t(lang, 'pages.submitForm.contactLegend')}</legend>
 
             <label className="submit-label" htmlFor="submitterName">
-              Your name
+              {t(lang, 'pages.submitForm.nameLabel')}
               <input
                 id="submitterName"
                 type="text"
@@ -143,7 +172,7 @@ function SubmitForm() {
             </label>
 
             <label className="submit-label" htmlFor="submitterEmail">
-              Email address
+              {t(lang, 'pages.submitForm.emailLabel')}
               <input
                 id="submitterEmail"
                 type="email"
@@ -156,10 +185,10 @@ function SubmitForm() {
 
           {type === 'resource' && (
             <fieldset className="submit-fieldset">
-              <legend>Resource details</legend>
+              <legend>{t(lang, 'pages.submitForm.resourceLegend')}</legend>
 
               <label className="submit-label" htmlFor="resourceTitle">
-                Resource name
+                {t(lang, 'pages.submitForm.resourceNameLabel')}
                 <input
                   id="resourceTitle"
                   type="text"
@@ -171,7 +200,7 @@ function SubmitForm() {
               </label>
 
               <label className="submit-label" htmlFor="resourceUrl">
-                Website link
+                {t(lang, 'pages.submitForm.websiteLinkLabel')}
                 <input
                   id="resourceUrl"
                   type="url"
@@ -182,29 +211,24 @@ function SubmitForm() {
               </label>
 
               <label className="submit-label" htmlFor="resourceCategory">
-                Category
+                {t(lang, 'pages.submitForm.categoryLabel')}
                 <select
                   id="resourceCategory"
                   name="resourceCategory"
                   value={formData.resourceCategory}
                   onChange={handleChange}
                 >
-                  <option value="">Select a category</option>
-                  <option value="legal-aid">Legal Aid</option>
-                  <option value="community-organizations">Community Organizations</option>
-                  <option value="mutual-aid-support">Mutual Aid Support</option>
-                  <option value="collaborative-support">Collaborative Support</option>
-                  <option value="employment-support">Employment Support</option>
-                  <option value="food-access-and-housing-support">Food Access and Housing Support</option>
-                  <option value="healthcare-support">Healthcare Support</option>
-                  <option value="transportation-services">Transportation Services</option>
-                  <option value="multilingual-support">Multilingual Support</option>
-                  <option value="mental-health-support">Mental Health Support</option>
+                  <option value="">{t(lang, 'pages.submitForm.categorySelectPlaceholder')}</option>
+                  {categoryOptions.map((opt) => (
+                    <option key={opt.value} value={opt.value}>
+                      {opt.label}
+                    </option>
+                  ))}
                 </select>
               </label>
 
               <label className="submit-label" htmlFor="resourceDescription">
-                Description
+                {t(lang, 'pages.submitForm.descriptionLabel')}
                 <textarea
                   id="resourceDescription"
                   name="resourceDescription"
@@ -216,7 +240,7 @@ function SubmitForm() {
               </label>
 
               <label className="submit-label" htmlFor="resourceContactEmail">
-                Contact email
+                {t(lang, 'pages.submitForm.resourceContactEmailLabel')}
                 <input
                   id="resourceContactEmail"
                   type="email"
@@ -227,7 +251,7 @@ function SubmitForm() {
               </label>
 
               <label className="submit-label" htmlFor="resourceContactPhone">
-                Contact phone
+                {t(lang, 'pages.submitForm.resourceContactPhoneLabel')}
                 <input
                   id="resourceContactPhone"
                   type="tel"
@@ -238,7 +262,7 @@ function SubmitForm() {
               </label>
 
               <label className="submit-label" htmlFor="resourceAddressStreet">
-                Street address
+                {t(lang, 'pages.submitForm.streetAddressLabel')}
                 <input
                   id="resourceAddressStreet"
                   type="text"
@@ -249,7 +273,7 @@ function SubmitForm() {
               </label>
 
               <label className="submit-label" htmlFor="resourceAddressCity">
-                City
+                {t(lang, 'pages.submitForm.cityLabel')}
                 <input
                   id="resourceAddressCity"
                   type="text"
@@ -260,7 +284,7 @@ function SubmitForm() {
               </label>
 
               <label className="submit-label" htmlFor="resourceAddressState">
-                State
+                {t(lang, 'pages.submitForm.stateLabel')}
                 <input
                   id="resourceAddressState"
                   type="text"
@@ -271,7 +295,7 @@ function SubmitForm() {
               </label>
 
               <label className="submit-label" htmlFor="resourceAddressZipCode">
-                ZIP code
+                {t(lang, 'pages.submitForm.zipCodeLabel')}
                 <input
                   id="resourceAddressZipCode"
                   type="text"
@@ -285,10 +309,10 @@ function SubmitForm() {
 
           {type === 'communityStory' && (
             <fieldset className="submit-fieldset">
-              <legend>Story details</legend>
+              <legend>{t(lang, 'pages.submitForm.storyLegend')}</legend>
 
               <label className="submit-label" htmlFor="storyTitle">
-                Story title
+                {t(lang, 'pages.submitForm.storyTitleLabel')}
                 <input
                   id="storyTitle"
                   type="text"
@@ -300,7 +324,7 @@ function SubmitForm() {
               </label>
 
               <label className="submit-label" htmlFor="storyPersonName">
-                Name or pseudonym
+                {t(lang, 'pages.submitForm.storyPersonNameLabel')}
                 <input
                   id="storyPersonName"
                   type="text"
@@ -311,7 +335,7 @@ function SubmitForm() {
               </label>
 
               <label className="submit-label" htmlFor="storyLocation">
-                Location
+                {t(lang, 'pages.submitForm.storyLocationLabel')}
                 <input
                   id="storyLocation"
                   type="text"
@@ -322,7 +346,7 @@ function SubmitForm() {
               </label>
 
               <label className="submit-label" htmlFor="storySummary">
-                Short summary
+                {t(lang, 'pages.submitForm.storySummaryLabel')}
                 <textarea
                   id="storySummary"
                   name="storySummary"
@@ -333,7 +357,7 @@ function SubmitForm() {
               </label>
 
               <label className="submit-label" htmlFor="storyBody">
-                Full story
+                {t(lang, 'pages.submitForm.storyBodyLabel')}
                 <textarea
                   id="storyBody"
                   name="storyBody"
@@ -347,18 +371,18 @@ function SubmitForm() {
           )}
 
           <button type="submit" className="submit-button" disabled={status === 'submitting'} aria-busy={status === 'submitting'}>
-            {status === 'submitting' ? 'Sending...' : 'Send submission'}
+            {status === 'submitting' ? t(lang, 'pages.submitForm.sending') : t(lang, 'pages.submitForm.sendButton')}
           </button>
 
           {status === 'success' && (
             <p className="submit-message success" role="status" aria-live="polite">
-              Thank you. Your submission has been received.
+              {t(lang, 'pages.submitForm.successMessage')}
             </p>
           )}
 
           {status === 'error' && (
             <p className="submit-message error" role="alert" aria-live="assertive">
-              Something went wrong. Please try again later.
+              {t(lang, 'pages.submitForm.errorMessage')}
             </p>
           )}
         </form>
