@@ -25,6 +25,7 @@ const POLICY_GAPS_QUERY = `*[_type == "policyGap"] | order(title asc){
   gapsHeading,
   gapsHeadingI18n,
   implications,
+  implicationsI18n,
   implicationsHeading,
   implicationsHeadingI18n,
   subsections[]{
@@ -221,7 +222,7 @@ export default function PolicyGaps() {
                 <h3>{pickI18n(area.implicationsHeadingI18n, lang, area.implicationsHeading) || implicationsHeading}</h3>
                 <ul>
                   {(area.implications || []).map((imp, index) => (
-                    <li key={index}>{imp}</li>
+                    <li key={index}>{pickI18n(area.implicationsI18n?.[index], lang, imp)}</li>
                   ))}
                 </ul>
               </div>

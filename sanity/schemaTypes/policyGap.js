@@ -27,6 +27,18 @@ export default {
       validation: (Rule) => Rule.required(),
     },
     {
+      name: 'experienceHeading',
+      title: 'The Resident Experience heading',
+      type: 'string',
+      initialValue: 'The Resident Experience',
+      description: 'Optional override for this card heading.',
+    },
+    {
+      name: 'experienceHeadingI18n',
+      title: 'The Resident Experience heading (translations)',
+      type: 'localizedString',
+    },
+    {
       name: 'experience',
       title: 'The Resident Experience',
       type: 'text',
@@ -38,18 +50,6 @@ export default {
       title: 'The Resident Experience (translations)',
       type: 'localizedText',
       rows: 4,
-    },
-    {
-      name: 'experienceHeading',
-      title: 'The Resident Experience heading',
-      type: 'string',
-      initialValue: 'The Resident Experience',
-      description: 'Optional override for this card heading.',
-    },
-    {
-      name: 'experienceHeadingI18n',
-      title: 'The Resident Experience heading (translations)',
-      type: 'localizedString',
     },
     {
       name: 'conditions',
@@ -107,6 +107,14 @@ export default {
       type: 'array',
       of: [{ type: 'string' }],
       description: 'Each item becomes a bullet point',
+    },
+    {
+      name: 'implicationsI18n',
+      title: 'Policy Implications (translations)',
+      type: 'array',
+      description:
+        'Optional Spanish translations for each bullet in the same order as "Policy Implications".',
+      of: [{ type: 'localizedString' }],
     },
     {
       name: 'implicationsHeading',
