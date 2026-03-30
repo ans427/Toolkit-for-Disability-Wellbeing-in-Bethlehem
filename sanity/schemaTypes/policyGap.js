@@ -121,6 +121,56 @@ export default {
       type: 'localizedString',
     },
     {
+      name: 'subsections',
+      title: 'Custom Subsections',
+      description:
+        'Optional flexible sections. Add, reorder, or remove subsections. If present, these render instead of the fixed three text blocks above.',
+      type: 'array',
+      of: [
+        {
+          type: 'object',
+          fields: [
+            {
+              name: 'heading',
+              title: 'Heading',
+              type: 'string',
+              validation: (Rule) => Rule.required(),
+            },
+            {
+              name: 'headingI18n',
+              title: 'Heading (translations)',
+              type: 'localizedString',
+            },
+            {
+              name: 'body',
+              title: 'Body',
+              type: 'text',
+              rows: 4,
+              validation: (Rule) => Rule.required(),
+            },
+            {
+              name: 'bodyI18n',
+              title: 'Body (translations)',
+              type: 'localizedText',
+              rows: 4,
+            },
+          ],
+          preview: {
+            select: {
+              title: 'heading',
+              subtitle: 'body',
+            },
+            prepare({ title, subtitle }) {
+              return {
+                title: title || 'Untitled subsection',
+                subtitle: subtitle || '',
+              }
+            },
+          },
+        },
+      ],
+    },
+    {
       name: 'image',
       title: 'Photo',
       type: 'image',
