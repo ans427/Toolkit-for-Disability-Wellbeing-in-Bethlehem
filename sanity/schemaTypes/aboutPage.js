@@ -98,6 +98,34 @@ export default {
         },
       ],
     },
+    {
+      name: 'getInvolved',
+      title: 'Get Involved Section',
+      type: 'object',
+      fields: [
+        { name: 'heading', title: 'Heading', type: 'string', initialValue: 'Get Involved' },
+        { name: 'headingI18n', title: 'Heading (translations)', type: 'localizedString' },
+        { name: 'body', title: 'Body', type: 'text', rows: 3 },
+        { name: 'bodyI18n', title: 'Body (translations)', type: 'localizedText' },
+        { name: 'buttonLabel', title: 'Button Label', type: 'string', initialValue: 'Submit a Resource or Story' },
+        { name: 'buttonLabelI18n', title: 'Button Label (translations)', type: 'localizedString' },
+        { name: 'buttonHref', title: 'Button Link', type: 'string', initialValue: '/submit' },
+      ],
+    },
+    {
+      name: 'contact',
+      title: 'Contact Section',
+      type: 'object',
+      fields: [
+        { name: 'heading', title: 'Heading', type: 'string', initialValue: 'Contact Us' },
+        { name: 'headingI18n', title: 'Heading (translations)', type: 'localizedString' },
+        { name: 'emailLabel', title: 'Email Label', type: 'string', initialValue: 'Email' },
+        { name: 'emailLabelI18n', title: 'Email Label (translations)', type: 'localizedString' },
+        { name: 'email', title: 'Email Address', type: 'string', initialValue: 'example@example.org' },
+        { name: 'body', title: 'Body', type: 'text', rows: 3 },
+        { name: 'bodyI18n', title: 'Body (translations)', type: 'localizedText' },
+      ],
+    },
   ],
   preview: {
     prepare() {

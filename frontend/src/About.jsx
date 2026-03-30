@@ -19,6 +19,24 @@ const ABOUT_PAGE_QUERY = `*[_type == "aboutPage" && _id == "aboutPage"][0]{
       text,
       textI18n
     }
+  },
+  getInvolved{
+    heading,
+    headingI18n,
+    body,
+    bodyI18n,
+    buttonLabel,
+    buttonLabelI18n,
+    buttonHref
+  },
+  contact{
+    heading,
+    headingI18n,
+    emailLabel,
+    emailLabelI18n,
+    email,
+    body,
+    bodyI18n
   }
 }`
 
@@ -40,6 +58,8 @@ function About() {
 
   const title = pickI18n(content?.pageTitleI18n, lang, content?.pageTitle) || 'About Us'
   const sections = Array.isArray(content?.sections) ? content.sections : []
+  const getInvolved = content?.getInvolved || null
+  const contact = content?.contact || null
 
   const renderBodyParagraphs = (section) => {
     const body = pickI18n(section?.bodyI18n, lang, section?.body) || ''
@@ -91,6 +111,37 @@ function About() {
           {sections.length === 0 && (
             <section className="about-section">
               <p>About content has not been configured in Sanity yet.</p>
+            </section>
+          )}
+
+          {getInvolved && (
+            <section className="about-section">
+              <h2>{pickI18n(getInvolved?.headingI18n, lang, getInvolved?.heading) || 'Get Involved'}</h2>
+              {(pickI18n(getInvolved?.bodyI18n, lang, getInvolved?.body) || '')
+                .split(/\n\s*\n/g)
+                .map((p) => p.trim())
+                .filter(Boolean)
+                .map((p, idx) => <p key={idx}>{p}</p>)}
+              <p>
+                <Link to={getInvolved?.buttonHref || '/submit'} className="inline-link">
+                  {pickI18n(getInvolved?.buttonLabelI18n, lang, getInvolved?.buttonLabel) || 'Submit a Resource or Story'}
+                </Link>
+              </p>
+            </section>
+          )}
+
+          {contact && (
+            <section className="about-section about-contact">
+              <h2>{pickI18n(contact?.headingI18n, lang, contact?.heading) || 'Contact Us'}</h2>
+              <p>
+                {(pickI18n(contact?.emailLabelI18n, lang, contact?.emailLabel) || 'Email')}: {' '}
+                <a href={`mailto:${contact?.email || ''}`}>{contact?.email}</a>
+              </p>
+              {(pickI18n(contact?.bodyI18n, lang, contact?.body) || '')
+                .split(/\n\s*\n/g)
+                .map((p) => p.trim())
+                .filter(Boolean)
+                .map((p, idx) => <p key={idx}>{p}</p>)}
             </section>
           )}
         </div>
