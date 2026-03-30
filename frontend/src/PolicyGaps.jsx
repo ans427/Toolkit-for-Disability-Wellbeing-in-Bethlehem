@@ -207,8 +207,10 @@ export default function PolicyGaps() {
               <ul>
                 {overlappingThemes.map((theme, index) => (
                   <li key={index}>
-                    {theme?.label && <strong>{theme.label}:</strong>}{' '}
-                    {theme?.description}
+                    {pickI18n(theme?.labelI18n, lang, theme?.label) && (
+                      <strong>{pickI18n(theme?.labelI18n, lang, theme?.label)}:</strong>
+                    )}{' '}
+                    {pickI18n(theme?.descriptionI18n, lang, theme?.description)}
                   </li>
                 ))}
               </ul>
