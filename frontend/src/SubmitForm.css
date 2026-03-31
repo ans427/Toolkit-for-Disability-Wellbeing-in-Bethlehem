@@ -121,7 +121,7 @@
   min-height: 88px;
   border: 2px solid #c5cedb;
   border-radius: 12px;
-  background: var(--color-card-bg);
+  background: #ffffff;
   cursor: pointer;
   transition: border-color 0.2s, background-color 0.2s, box-shadow 0.2s;
 }
@@ -129,13 +129,24 @@
 /* Minimum 44x44px touch target - cards are much larger */
 .radio-option-card:hover {
   border-color: var(--color-forest-green);
-  background: rgba(30, 61, 50, 0.04);
+  background: #ffffff;
+  box-shadow: 0 2px 8px color-mix(in srgb, var(--color-shadow) 25%, transparent);
 }
 
 .radio-option-selected {
   border-color: var(--color-forest-green);
-  background: rgba(30, 61, 50, 0.08);
+  background: var(--color-forest-green);
   box-shadow: 0 0 0 1px var(--color-forest-green);
+}
+
+.radio-option-selected .radio-option-title,
+.radio-option-selected .radio-option-description {
+  color: #ffffff;
+}
+
+.radio-option-selected:hover {
+  background: var(--color-forest-green);
+  border-color: var(--color-forest-green);
 }
 
 .radio-option-card:focus-within {
@@ -168,10 +179,10 @@
 
 .submit-button {
   display: inline-block;
-  background-color: var(--color-terracotta);
-  color: #fff;
+  background-color: #ffffff;
+  color: var(--color-forest-green);
   border-radius: 8px;
-  border: 2px solid var(--color-terracotta);
+  border: 2px solid var(--color-forest-green);
   padding: 1rem 2rem;
   min-height: 48px;
   font-size: 1.1rem;
@@ -181,12 +192,22 @@
 }
 
 .submit-button:hover:not(:disabled) {
-  background-color: var(--color-terracotta-hover);
+  background-color: var(--color-forest-green);
+  color: #ffffff;
+  border-color: var(--color-forest-green-hover);
+  box-shadow: 0 4px 12px color-mix(in srgb, var(--color-shadow) 40%, transparent);
 }
 
 .submit-button:focus-visible {
   outline: 2px dashed var(--focus-color);
   outline-offset: 2px;
+  background-color: var(--color-forest-green);
+  color: #ffffff;
+}
+
+.submit-button:active:not(:disabled) {
+  background-color: var(--color-forest-green-hover);
+  color: #ffffff;
 }
 
 .submit-button:disabled {
