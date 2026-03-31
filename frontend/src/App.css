@@ -3,7 +3,7 @@ html, body, #root {
   min-height: 100vh;
   margin: 0;
   padding: 0;
-  background: var(--color-cream);
+  background: radial-gradient(circle at top, var(--color-surface-soft), var(--color-cream) 40%);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -59,7 +59,7 @@ html, body, #root {
 
 .text-size-button:hover,
 .text-size-button:focus-visible {
-  outline: 2px dashed #ff8c00;
+  outline: 2px dashed var(--focus-color);
   outline-offset: 2px;
 }
 
@@ -145,7 +145,7 @@ a:hover, a:focus {
 }
 
 .back-link:focus-visible {
-  outline: 2px dashed #ff8c00;
+  outline: 2px dashed var(--focus-color);
   outline-offset: 2px;
 }
 
@@ -196,12 +196,12 @@ footer {
 }
 
 .nav-card {
-  background: white;
+  background: var(--color-surface);
   padding: 2rem;
   border-radius: 14px;
   cursor: pointer;
   transition: all 0.2s ease;
-  border: 1px solid rgba(45, 42, 38, 0.1);
+  border: 1px solid var(--color-border);
   min-height: 280px;
   flex: 1;
   display: flex;
@@ -221,9 +221,9 @@ footer {
 }
 
 .nav-card:hover {
-  background: white;
+  background: var(--color-surface);
   transform: translateY(-3px);
-  box-shadow: 0 8px 24px rgba(45, 42, 38, 0.08);
+  box-shadow: 0 8px 24px var(--color-shadow);
 }
 
 .nav-card h2 {
@@ -233,8 +233,10 @@ footer {
 }
 
 .nav-card p {
-  font-size: 0.95rem;
+  font-size: 1.14rem;
   color: var(--color-text-muted);
+  line-height: 1.5;
+  margin: 0;
 }
 
 /* Make Link components properly focusable */
@@ -248,9 +250,9 @@ a {
 }
 
 .homepage-grid a:focus-visible .nav-card {
-  outline: 2px dashed #ff8c00;
+  outline: 2px dashed var(--focus-color);
   outline-offset: 2px;
-  border-color: #ff8c00;
+  border-color: var(--focus-color);
 }
 
 /* CTA band – warm terracotta */
@@ -262,7 +264,7 @@ a {
   gap: 1.5rem;
   margin-top: 3rem;
   padding: 2rem 2.5rem;
-  background: var(--color-cream-alt);
+  background: linear-gradient(180deg, var(--color-surface-soft), var(--color-cream-alt));
   border-radius: 14px;
   border: 1px solid rgba(45, 42, 38, 0.08);
 }
@@ -293,7 +295,7 @@ a {
 }
 
 .cta-band-button:focus-visible {
-  outline: 2px dashed #ff8c00;
+  outline: 2px dashed var(--focus-color);
   outline-offset: 2px;
 }
 

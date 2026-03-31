@@ -398,8 +398,8 @@ function App() {
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
           </Routes>
         </div>
+        <Footer />
       </LanguageProvider>
-      <Footer />
     </BrowserRouter>
   )
 }

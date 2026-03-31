@@ -1,21 +1,63 @@
-/* Warm palette: deep forest green + cream + terracotta (Lehigh-inspired) */
+/* Theme tokens (accessible defaults) */
 :root {
-  /* Primary palette */
+  /* Active theme: Sage + Terracotta */
   --color-forest-green: #1e3d32;
   --color-forest-green-hover: #2a5247;
-  --color-cream: #faf8f5;
-  --color-cream-alt: #f5f2eb;
-  --color-terracotta: #b85c38;
-  --color-terracotta-hover: #9a4d2f;
-  /* Lehigh brown accent */
+  --color-cream: #f7f5f2;
+  --color-cream-alt: #eeebe5;
+  --color-terracotta: #0f766e;
+  --color-terracotta-hover: #115e59;
   --color-brown: #5c4033;
   --color-brown-hover: #4a3529;
-  /* Text */
-  --color-text: #2d2a26;
-  --color-text-muted: #5a554d;
-  /* Link/accent – use forest green as primary, terracotta for CTAs */
+  --color-text: #222222;
+  --color-text-muted: #4f4f4f;
+  --color-surface: #ffffff;
+  --color-surface-soft: #faf8f4;
+  --color-border: #d8d2c9;
+  --color-shadow: rgba(24, 34, 30, 0.12);
+  --focus-color: #0b63ce;
   --color-link: var(--color-forest-green);
   --color-link-hover: var(--color-forest-green-hover);
+}
+
+/* Option 2: Cool Slate + Teal
+   Add class "theme-slate" to <html> to preview */
+html.theme-slate {
+  --color-forest-green: #164e63;
+  --color-forest-green-hover: #155e75;
+  --color-cream: #f4f7fa;
+  --color-cream-alt: #eaf0f5;
+  --color-terracotta: #0f766e;
+  --color-terracotta-hover: #115e59;
+  --color-brown: #2f4858;
+  --color-brown-hover: #243845;
+  --color-text: #1f2933;
+  --color-text-muted: #44505c;
+  --color-surface: #ffffff;
+  --color-surface-soft: #f7fafc;
+  --color-border: #d1dde8;
+  --color-shadow: rgba(16, 44, 66, 0.14);
+  --focus-color: #0b63ce;
+}
+
+/* Option 3: Plum + Sand
+   Add class "theme-plum" to <html> to preview */
+html.theme-plum {
+  --color-forest-green: #5b2a6d;
+  --color-forest-green-hover: #6b2f80;
+  --color-cream: #fbf7f3;
+  --color-cream-alt: #f2eae3;
+  --color-terracotta: #b44a2f;
+  --color-terracotta-hover: #933a24;
+  --color-brown: #6a3f2e;
+  --color-brown-hover: #553224;
+  --color-text: #2b2227;
+  --color-text-muted: #5a4d55;
+  --color-surface: #ffffff;
+  --color-surface-soft: #fbf7fb;
+  --color-border: #decfdf;
+  --color-shadow: rgba(62, 27, 74, 0.14);
+  --focus-color: #9f3a00;
 }
 
 *,
@@ -59,6 +101,6 @@ a:hover {
 }
 
 a:focus-visible {
-  outline: 2px dashed #ff8c00;
+  outline: 2px dashed var(--focus-color);
   outline-offset: 2px;
 }

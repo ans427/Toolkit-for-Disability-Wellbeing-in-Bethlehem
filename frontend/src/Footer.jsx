@@ -1,50 +1,53 @@
 import { Link } from 'react-router-dom'
+import { useLanguage } from './languageContext'
+import { t } from './uiStrings'
 import './Footer.css'
 
 function Footer() {
+  const lang = useLanguage()
   const currentYear = new Date().getFullYear()
 
   return (
     <footer className="site-footer">
       <div className="footer-container">
         <div className="footer-section">
-          <h3>Navigation</h3>
+          <h3>{t(lang, 'footer.navigation')}</h3>
           <ul>
-            <li><Link to="/">Home</Link></li>
-            <li><Link to="/resources">Immediate Resources</Link></li>
-            <li><Link to="/community-stories">Community Stories</Link></li>
-            <li><Link to="/policy-gaps">Policy & Service Gaps</Link></li>
-            <li><Link to="/submit">Submit a Resource or Story</Link></li>
+            <li><Link to="/">{t(lang, 'breadcrumb.home')}</Link></li>
+            <li><Link to="/resources">{t(lang, 'breadcrumb.resources')}</Link></li>
+            <li><Link to="/community-stories">{t(lang, 'breadcrumb.communityStories')}</Link></li>
+            <li><Link to="/policy-gaps">{t(lang, 'breadcrumb.policyGaps')}</Link></li>
+            <li><Link to="/submit">{t(lang, 'breadcrumb.submit')}</Link></li>
           </ul>
         </div>
 
         <div className="footer-section">
-          <h3>Information</h3>
+          <h3>{t(lang, 'footer.information')}</h3>
           <ul>
-            <li><Link to="/about">About</Link></li>
-            <li><Link to="/sitemap">Site Map</Link></li>
-            <li><Link to="/disclaimers">Disclaimers</Link></li>
-            <li><Link to="/accessibility-statement">Accessibility Statement</Link></li>
-            <li><Link to="/privacy-policy">Privacy Policy</Link></li>
+            <li><Link to="/about">{t(lang, 'breadcrumb.about')}</Link></li>
+            <li><Link to="/sitemap">{t(lang, 'breadcrumb.sitemap')}</Link></li>
+            <li><Link to="/disclaimers">{t(lang, 'breadcrumb.disclaimers')}</Link></li>
+            <li><Link to="/accessibility-statement">{t(lang, 'breadcrumb.accessibilityStatement')}</Link></li>
+            <li><Link to="/privacy-policy">{t(lang, 'breadcrumb.privacyPolicy')}</Link></li>
           </ul>
         </div>
 
         <div className="footer-section">
-          <h3>Contact Us</h3>
-          <p>Email: <a href="mailto:example@example.org">example@example.org</a></p>
-          <p>Phone: (123) 456-7890</p>
-          <p>Address: Bethlehem, PA 18015</p>
+          <h3>{t(lang, 'footer.contactUs')}</h3>
+          <p>{t(lang, 'footer.emailLabel')}: <a href="mailto:example@example.org">example@example.org</a></p>
+          <p>{t(lang, 'footer.phoneLabel')}: (123) 456-7890</p>
+          <p>{t(lang, 'footer.addressLabel')}: Bethlehem, PA 18015</p>
         </div>
 
         <div className="footer-section">
-          <h3>About</h3>
-          <p>The Toolkit for Disability Wellbeing is a community-driven initiative supporting disabled residents in Bethlehem, PA through accessible resources and shared experiences.</p>
-          <p><Link to="/about">Learn more about the project</Link></p>
+          <h3>{t(lang, 'breadcrumb.about')}</h3>
+          <p>{t(lang, 'footer.aboutBody')}</p>
+          <p><Link to="/about">{t(lang, 'footer.learnMore')}</Link></p>
         </div>
       </div>
 
       <div className="footer-bottom">
-        <p>&copy; {currentYear} Toolkit for Disability Wellbeing. All rights reserved. Created in collaboration with Lehigh University and the Bethlehem community.</p>
+        <p>{t(lang, 'footer.copyright').replace('{{year}}', currentYear)}</p>
       </div>
     </footer>
   )

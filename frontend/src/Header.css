@@ -15,7 +15,7 @@
 
 .skip-link:focus {
   top: 1rem;
-  outline: 2px dashed #ff8c00;
+  outline: 2px dashed var(--focus-color);
   outline-offset: 2px;
 }
 
@@ -69,7 +69,7 @@
 }
 
 .site-title:focus-visible {
-  outline: 2px dashed #ff8c00;
+  outline: 2px dashed var(--focus-color);
   outline-offset: 2px;
 }
 
@@ -107,7 +107,7 @@
 }
 
 .site-nav a:focus-visible {
-  outline: 2px dashed #ff8c00;
+  outline: 2px dashed var(--focus-color);
   outline-offset: 2px;
 }
 
@@ -133,7 +133,7 @@
 }
 
 .header-accessibility-btn:focus-visible {
-  outline: 2px dashed #ff8c00;
+  outline: 2px dashed var(--focus-color);
   outline-offset: 2px;
 }
 
@@ -193,7 +193,7 @@ html.a11y-high-contrast .language-dropdown button {
 }
 
 .header-lang-btn:focus-visible {
-  outline: 2px dashed #ff8c00;
+  outline: 2px dashed var(--focus-color);
   outline-offset: 2px;
 }
 
@@ -226,7 +226,7 @@ html.a11y-high-contrast .language-dropdown button {
 }
 
 .language-dropdown button:focus-visible {
-  outline: 2px dashed #ff8c00;
+  outline: 2px dashed var(--focus-color);
   outline-offset: 2px;
   background: rgba(30, 61, 50, 0.08);
 }

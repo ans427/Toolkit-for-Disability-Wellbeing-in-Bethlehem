@@ -240,6 +240,19 @@ export const uiStrings = {
       inlineCommentsAria: '{{count}} inline comments',
       addInlineCommentAria: 'Add inline comment',
     },
+    footer: {
+      navigation: 'Navigation',
+      information: 'Information',
+      contactUs: 'Contact Us',
+      emailLabel: 'Email',
+      phoneLabel: 'Phone',
+      addressLabel: 'Address',
+      aboutBody:
+        'The Toolkit for Disability Wellbeing is a community-driven initiative supporting disabled residents in Bethlehem, PA through accessible resources and shared experiences.',
+      learnMore: 'Learn more about the project',
+      copyright:
+        '© {{year}} Toolkit for Disability Wellbeing. All rights reserved. Created in collaboration with Lehigh University and the Bethlehem community.',
+    },
   },
   es: {
     appTitle: 'Kit para el bienestar de la discapacidad',
@@ -487,6 +500,19 @@ export const uiStrings = {
       post: 'Publicar',
       inlineCommentsAria: '{{count}} comentarios en línea',
       addInlineCommentAria: 'Agregar comentario en línea',
+    },
+    footer: {
+      navigation: 'Navegación',
+      information: 'Información',
+      contactUs: 'Contáctanos',
+      emailLabel: 'Correo',
+      phoneLabel: 'Teléfono',
+      addressLabel: 'Dirección',
+      aboutBody:
+        'El Kit para el bienestar de la discapacidad es una iniciativa comunitaria que apoya a residentes con discapacidad en Bethlehem, PA mediante recursos accesibles y experiencias compartidas.',
+      learnMore: 'Conoce más sobre el proyecto',
+      copyright:
+        '© {{year}} Kit para el bienestar de la discapacidad. Todos los derechos reservados. Creado en colaboración con Lehigh University y la comunidad de Bethlehem.',
     },
   },
 }
