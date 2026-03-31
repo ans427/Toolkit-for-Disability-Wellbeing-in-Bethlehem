@@ -10,10 +10,10 @@
 }
 
 .submit-form {
-  background: #ffffff;
+  background: var(--color-card-bg);
   border-radius: 12px;
   padding: 1.75rem 1.5rem 2rem;
-  border: 1px solid #e0e0e0;
+  border: 1px solid var(--color-card-border);
 }
 
 .submit-fieldset {
@@ -45,7 +45,7 @@
   border: 2px solid #c5cedb;
   font: inherit;
   font-size: 1rem;
-  color: #222;
+  color: var(--color-text);
   background-color: #ffffff;
   transition: border-color 0.2s;
 }
@@ -56,14 +56,14 @@
 .submit-label textarea:focus-visible,
 .submit-label select:focus,
 .submit-label select:focus-visible {
-  outline: 2px dashed #ff8c00;
+  outline: 2px dashed var(--focus-color);
   outline-offset: 2px;
   border-color: var(--color-forest-green);
 }
 
 .submit-label input::placeholder,
 .submit-label textarea::placeholder {
-  color: #777;
+  color: var(--color-text-muted);
 }
 
 .submit-label textarea {
@@ -121,7 +121,7 @@
   min-height: 88px;
   border: 2px solid #c5cedb;
   border-radius: 12px;
-  background: #fff;
+  background: var(--color-card-bg);
   cursor: pointer;
   transition: border-color 0.2s, background-color 0.2s, box-shadow 0.2s;
 }
@@ -139,19 +139,19 @@
 }
 
 .radio-option-card:focus-within {
-  outline: 2px dashed #ff8c00;
+  outline: 2px dashed var(--focus-color);
   outline-offset: 2px;
 }
 
 .radio-option-title {
   font-size: 1.1rem;
   font-weight: 700;
-  color: #222;
+  color: var(--color-text);
 }
 
 .radio-option-description {
   font-size: 0.9rem;
-  color: #555;
+  color: var(--color-text-muted);
   line-height: 1.4;
 }
 
@@ -185,7 +185,7 @@
 }
 
 .submit-button:focus-visible {
-  outline: 2px dashed #ff8c00;
+  outline: 2px dashed var(--focus-color);
   outline-offset: 2px;
 }
 

@@ -27,7 +27,7 @@
   font-weight: 600;
   font-size: 1rem;
   margin-bottom: 0.5rem;
-  color: #222;
+  color: var(--color-text);
   text-align: center;
 }
 
@@ -39,7 +39,7 @@
   min-height: 44px;
   font-size: 1rem;
   font-family: inherit;
-  color: #222;
+  color: var(--color-text);
   background-color: #fff;
   border: 2px solid #c5cedb;
   border-radius: 8px;
@@ -47,7 +47,7 @@
 }
 
 .resource-search-input::placeholder {
-  color: #777;
+  color: var(--color-text-muted);
 }
 
 .resource-search-input:hover {
@@ -56,7 +56,7 @@
 
 .resource-search-input:focus,
 .resource-search-input:focus-visible {
-  outline: 2px dashed #ff8c00;
+  outline: 2px dashed var(--focus-color);
   outline-offset: 2px;
   border-color: var(--color-forest-green);
 }
@@ -67,7 +67,7 @@
   font-size: 1rem;
   display: block;
   margin-bottom: 0.25rem;
-  color: #222;
+  color: var(--color-text);
   text-align: center;
 }
 
@@ -95,7 +95,7 @@
   font-size: 1rem;
   font-family: inherit;
   font-weight: 500;
-  color: #222;
+  color: var(--color-text);
   background-color: #fff;
   border: 2px solid #c5cedb;
   border-radius: 50px;
@@ -110,7 +110,7 @@
 
 .resource-filter-chip:focus,
 .resource-filter-chip:focus-visible {
-  outline: 2px dashed #ff8c00;
+  outline: 2px dashed var(--focus-color);
   outline-offset: 2px;
   border-color: var(--color-forest-green);
 }
@@ -129,7 +129,7 @@
 
 .resource-filter-chip--selected:focus,
 .resource-filter-chip--selected:focus-visible {
-  outline: 2px dashed #ff8c00;
+  outline: 2px dashed var(--focus-color);
   outline-offset: 2px;
 }
 
@@ -160,8 +160,8 @@
 
 /* Individual Card - whole card is a link to the detail page */
 .resource-card {
-  background: white;
-  border: 1px solid #e0e0e0;
+  background: var(--color-card-bg);
+  border: 1px solid var(--color-card-border);
   border-radius: 12px;
   overflow: hidden;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
@@ -181,7 +181,7 @@
 /* Keyboard focus – each resource card shows clear outline (matches homepage nav cards) */
 a.resource-card:focus-visible,
 .resource-card:focus-visible {
-  outline: 2px dashed #ff8c00;
+  outline: 2px dashed var(--focus-color);
   outline-offset: 2px;
   transform: translateY(-4px);
   box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
@@ -217,7 +217,7 @@ html.a11y-high-contrast .resource-card {
 
 html.a11y-high-contrast a.resource-card:focus-visible,
 html.a11y-high-contrast .resource-card:focus-visible {
-  outline: 2px dashed #ff8c00;
+  outline: 2px dashed var(--focus-color);
   outline-offset: 2px;
 }
 html.a11y-high-contrast .resource-card .card-title,
@@ -234,19 +234,20 @@ html.a11y-high-contrast .resource-card .card-contact span {
   color: #fff;
 }
 html.a11y-high-contrast .resource-card .card-category {
-  background-color: #222;
+  background-color: var(--color-text);
 }
 
 /* Category Pill */
 .card-category {
   display: inline-block;
-  background-color: rgba(30, 61, 50, 0.1);
-  color: var(--color-forest-green);
+  background-color: var(--color-forest-green);
+  color: #ffffff;
   font-size: 0.75rem;
   font-weight: 700;
   text-transform: uppercase;
   padding: 0.2rem 0.6rem;
   border-radius: 50px;
+  border: 1px solid var(--color-forest-green-hover);
   align-self: flex-start;
   margin-bottom: 0.5rem;
   letter-spacing: 0.5px;
@@ -257,14 +258,15 @@ html.a11y-high-contrast .resource-card .card-category {
   margin: 0 0 0.5rem 0;
   font-size: 1.1rem;
   line-height: 1.3;
-  color: #222;
+  color: var(--color-text);
 }
 
 /* Description - clamped to 2 lines for compact cards */
 .card-description {
   font-size: 0.9rem;
-  color: #555;
+  color: var(--color-text-muted);
   margin-bottom: 0.5rem;
+  text-align: left;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
@@ -277,6 +279,7 @@ html.a11y-high-contrast .resource-card .card-category {
   color: #5a6578;
   margin: 0 0 0.75rem 0;
   line-height: 1.4;
+  text-align: left;
 }
 
 /* Visual cue to view details */
@@ -296,6 +299,7 @@ html.a11y-high-contrast .resource-card .card-category {
   color: #444;
   margin-bottom: 0.75rem;
   line-height: 1.35;
+  text-align: left;
 }
 
 .card-contact p {

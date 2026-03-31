@@ -20,7 +20,7 @@
 }
 
 .accessibility-toggle-button:focus-visible {
-  outline: 2px dashed #ff8c00;
+  outline: 2px dashed var(--focus-color);
   outline-offset: 2px;
 }
 
@@ -242,7 +242,8 @@ html.a11y-high-contrast .panel-reset-btn {
 /* Dyslexia-friendly mode – adds letter and word spacing for better readability */
 html.a11y-dyslexia-font {
   letter-spacing: 0.05em !important;
-  word-spacing: 0.15em !important;
+  word-spacing: 0.2em !important;
+  line-height: 1.7 !important;
 }
 
 /* Reduce animations */
@@ -256,22 +257,52 @@ html.a11y-reduce-motion *::after {
 
 /* Increase spacing */
 html.a11y-increase-spacing body {
-  line-height: 1.8 !important;
+  line-height: 1.95 !important;
+  word-spacing: 0.12em !important;
 }
 
 html.a11y-increase-spacing p,
 html.a11y-increase-spacing li {
-  margin-bottom: 1rem !important;
+  margin-bottom: 1.25rem !important;
+}
+
+html.a11y-increase-spacing h1,
+html.a11y-increase-spacing h2,
+html.a11y-increase-spacing h3 {
+  letter-spacing: 0.015em !important;
+  margin-bottom: 0.9rem !important;
+}
+
+html.a11y-increase-spacing .homepage-grid {
+  gap: 2.5rem !important;
+}
+
+html.a11y-increase-spacing .nav-card p,
+html.a11y-increase-spacing .story-card p,
+html.a11y-increase-spacing .resource-card p {
+  line-height: 1.9 !important;
 }
 
 html.a11y-increase-spacing .nav-card,
 html.a11y-increase-spacing .resource-card,
 html.a11y-increase-spacing .story-card {
-  padding: 2rem !important;
+  padding: 2.35rem !important;
+}
+
+html.a11y-increase-spacing .submit-label,
+html.a11y-increase-spacing .panel-toggle-row {
+  margin-bottom: 1rem !important;
+}
+
+html.a11y-increase-spacing input,
+html.a11y-increase-spacing textarea,
+html.a11y-increase-spacing select,
+html.a11y-increase-spacing button {
+  letter-spacing: 0.02em !important;
 }
 
 html.a11y-increase-spacing .container {
-  padding: 2rem 5rem !important;
+  padding: 2.5rem 5rem !important;
 }
 
 /* Universal focus styles for all interactive elements */
@@ -281,7 +312,7 @@ input:focus-visible,
 textarea:focus-visible,
 select:focus-visible,
 [role="button"]:focus-visible {
-  outline: 2px dashed #ff8c00;
+  outline: 2px dashed var(--focus-color);
   outline-offset: 2px;
 }
 
@@ -297,13 +328,13 @@ textarea:focus-visible,
 .text-size-button:focus-visible,
 .accessibility-toggle-button:focus-visible,
 .story-card-link:focus-visible {
-  outline: 2px dashed #ff8c00;
+  outline: 2px dashed var(--focus-color);
   outline-offset: 2px;
 }
 
 /* Ensure links show a clear focus ring (non-high-contrast) */
 a:focus-visible {
-  outline: 2px dashed #ff8c00;
+  outline: 2px dashed var(--focus-color);
   outline-offset: 2px;
 }
 
@@ -315,44 +346,44 @@ a {
 /* Story card link focus - the Link component itself */
 a.story-card-link:focus-visible,
 .story-card-link:focus-visible {
-  outline: 2px dashed #ff8c00;
+  outline: 2px dashed var(--focus-color);
   outline-offset: 2px;
 }
 
 .story-card-link:focus-visible .story-card {
-  border: 2px dashed #ff8c00;
+  border: 2px dashed var(--focus-color);
   box-shadow: none;
 }
 
 /* Ensure all form fieldsets and labels are keyboard navigable */
 label:focus-within {
-  outline: 3px dashed #ff8c00;
+  outline: 3px dashed var(--focus-color);
   outline-offset: 2px;
 }
 
 /* Dropdown select should show focus */
 select:focus {
-  outline: 2px dashed #ff8c00 !important;
+  outline: 2px dashed var(--focus-color) !important;
   outline-offset: 2px;
 }
 
 /* Ensure radio/checkbox inputs are focusable */
 input[type="radio"]:focus-visible,
 input[type="checkbox"]:focus-visible {
-  outline: 2px dashed #ff8c00;
+  outline: 2px dashed var(--focus-color);
   outline-offset: 2px;
 }
 
 /* Improve nav card focus ring in high-contrast */
 html.a11y-high-contrast a:focus-visible .nav-card,
 html.a11y-high-contrast .nav-card-link:focus-visible .nav-card {
-  border: 2px dashed #ff8c00 !important;
+  border: 2px dashed var(--focus-color) !important;
   box-shadow: none !important;
 }
 
 /* High-contrast mode nav cards and homepage links focus */
 html.a11y-high-contrast .homepage-grid a:focus-visible .nav-card {
-  border: 2px dashed #ff8c00 !important;
+  border: 2px dashed var(--focus-color) !important;
   outline-offset: 2px;
 }
 
@@ -562,7 +593,7 @@ html.a11y-high-contrast ::placeholder { color: #fff !important }
 html.a11y-high-contrast .radio-option-selected {
   background: #000 !important;
   color: #ff0 !important;
-  border: 2px dashed #ff8c00 !important; /* orange dashed */
+  border: 2px dashed var(--focus-color) !important; /* orange dashed */
 }
 
 /* When not selected, radio option cards should be black with a yellow outline and yellow text */
@@ -574,7 +605,7 @@ html.a11y-high-contrast .radio-option-card {
 
 /* Focused radio option should keep the orange dashed border */
 html.a11y-high-contrast .radio-option-card:focus-within {
-  border: 2px dashed #ff8c00 !important;
+  border: 2px dashed var(--focus-color) !important;
 }
 
 /* Make sure the radio-options wrapper does not get its own border in high-contrast */
@@ -599,10 +630,10 @@ html.a11y-high-contrast textarea:focus-visible,
 html.a11y-high-contrast .text-size-button:focus-visible,
 html.a11y-high-contrast .accessibility-toggle-button:focus-visible,
 html.a11y-high-contrast .radio-option-card:focus-within {
-  outline: 2px dashed #ff8c00 !important;
+  outline: 2px dashed var(--focus-color) !important;
   outline-offset: 2px;
   box-shadow: none !important;
-  border: 2px dashed #ff8c00 !important;
+  border: 2px dashed var(--focus-color) !important;
 }
 
 /* Ensure radio-option-selected still uses dashed border when focused */

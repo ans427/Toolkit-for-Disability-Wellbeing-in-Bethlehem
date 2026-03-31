@@ -1,7 +1,9 @@
 .comments-section {
-  margin-top: 3rem;
-  padding-top: 2rem;
-  border-top: 1px solid #e0e0e0;
+  margin-top: 2rem;
+  padding: 1.5rem;
+  background: var(--color-card-bg);
+  border: 1px solid var(--color-card-border);
+  border-radius: 12px;
   text-align: left;
 }
 
@@ -12,11 +14,19 @@
 }
 
 .comment-form {
-  background-color: #f9f9f9;
-  border: 1px solid #e0e0e0;
-  border-radius: 8px;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
   padding: 1rem;
   margin-bottom: 2rem;
+}
+
+.comment-input-label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--color-text);
 }
 
 /* high contrast overrides for comment areas */
@@ -49,15 +59,15 @@ html.a11y-high-contrast .comment-item .comment-date {
   padding: 0.75rem;
   font-family: inherit;
   font-size: 1rem;
-  border: 1px solid #ddd;
-  border-radius: 4px;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
   resize: vertical;
   min-height: 80px;
 }
 
 .comment-form textarea:focus,
 .comment-form textarea:focus-visible {
-  outline: 2px dashed #ff8c00;
+  outline: 2px dashed var(--focus-color);
   outline-offset: 2px;
   border-color: var(--color-forest-green);
 }
@@ -67,19 +77,20 @@ html.a11y-high-contrast .comment-item .comment-date {
   justify-content: space-between;
   align-items: center;
   margin-top: 0.75rem;
+  gap: 1rem;
 }
 
 .char-count {
-  font-size: 0.85rem;
-  color: #666;
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
 }
 
 .comment-form button {
   background-color: var(--color-forest-green);
   color: white;
   border: none;
-  padding: 0.65rem 1.5rem;
-  border-radius: 4px;
+  padding: 0.65rem 1rem;
+  border-radius: 8px;
   font-size: 0.95rem;
   cursor: pointer;
   font-weight: 600;
@@ -91,12 +102,12 @@ html.a11y-high-contrast .comment-item .comment-date {
 }
 
 .comment-form button:focus-visible {
-  outline: 2px dashed #ff8c00;
+  outline: 2px dashed var(--focus-color);
   outline-offset: 2px;
 }
 
 .comment-form button:disabled {
-  background-color: #ccc;
+  background-color: var(--color-border);
   cursor: not-allowed;
 }
 
@@ -126,22 +137,22 @@ html.a11y-high-contrast .comment-item .comment-date {
 
 .no-comments {
   text-align: center;
-  color: #666;
+  color: var(--color-text-muted);
   padding: 2rem 0;
   font-style: italic;
 }
 
 .comment-item {
-  background-color: #fafafa;
-  border: 1px solid #e8e8e8;
-  border-radius: 6px;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
   padding: 1rem;
   transition: background-color 0.2s, box-shadow 0.2s;
 }
 
 .comment-item:hover {
-  background-color: #f5f5f5;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  background-color: var(--color-surface);
+  box-shadow: 0 2px 8px color-mix(in srgb, var(--color-shadow) 28%, transparent);
 }
 
 .comment-header {
@@ -154,15 +165,15 @@ html.a11y-high-contrast .comment-item .comment-date {
 
 .comment-author {
   font-weight: 600;
-  color: #333;
+  color: var(--color-text);
 }
 
 .comment-date {
-  color: #999;
+  color: var(--color-text-muted);
 }
 
 .comment-text {
-  color: #333;
+  color: var(--color-text);
   line-height: 1.5;
   margin: 0.75rem 0;
   word-wrap: break-word;
@@ -177,34 +188,35 @@ html.a11y-high-contrast .comment-item .comment-date {
 
 .flag-button {
   background-color: transparent;
-  color: #e74c3c;
-  border: 1px solid #e74c3c;
+  color: #9f1239;
+  border: 1px solid #9f1239;
   padding: 0.4rem 0.8rem;
-  border-radius: 4px;
-  font-size: 0.85rem;
+  border-radius: 8px;
+  font-size: 0.8rem;
   cursor: pointer;
   transition: all 0.2s;
+  font-weight: 600;
 }
 
 .flag-button:hover:not(:disabled) {
-  background-color: #ffe6e0;
+  background-color: #ffe4ed;
 }
 
 .flag-button:focus-visible {
-  outline: 2px dashed #ff8c00;
+  outline: 2px dashed var(--focus-color);
   outline-offset: 2px;
 }
 
 .flag-button:disabled {
   opacity: 0.6;
   cursor: not-allowed;
-  color: #999;
-  border-color: #ccc;
+  color: var(--color-text-muted);
+  border-color: var(--color-border);
 }
 
 .flag-count {
   font-size: 0.85rem;
-  color: #e74c3c;
+  color: #9f1239;
   font-weight: 500;
 }
 

@@ -28,13 +28,13 @@
 }
 
 .story-card-link:focus-visible .story-card {
-  outline: 2px dashed #ff8c00;
+  outline: 2px dashed var(--focus-color);
   outline-offset: 2px;
 }
 
 .story-card {
-  background: white;
-  border: 1px solid #e0e0e0;
+  background: var(--color-card-bg);
+  border: 1px solid var(--color-card-border);
   border-radius: 12px;
   padding: 1.75rem 1.5rem;
   text-align: left;
@@ -56,19 +56,19 @@
 .story-meta {
   margin: 0;
   font-size: 0.9rem;
-  color: #666;
+  color: var(--color-text-muted);
 }
 
 .story-summary {
   font-size: 1rem;
-  color: #333;
+  color: var(--color-text);
   font-weight: 500;
   margin: 0.75rem 0 1rem 0;
 }
 
 .story-body {
   font-size: 1rem;
-  color: #333;
+  color: var(--color-text);
   white-space: pre-wrap;
   flex-grow: 1;
   margin-bottom: 1rem;
@@ -97,7 +97,7 @@
 }
 
 .read-more-button:focus-visible {
-  outline: 2px dashed #ff8c00;
+  outline: 2px dashed var(--focus-color);
   outline-offset: 2px;
 }
 

@@ -154,16 +154,23 @@ function ResourceComments({ resourceId }) {
       <h2>{t(lang, 'comments.title')}</h2>
 
       <form onSubmit={handleSubmitComment} className="comment-form">
+        <label htmlFor="resource-comment-input" className="comment-input-label">
+          {t(lang, 'comments.commentLabelResource')}
+        </label>
         <textarea
+          id="resource-comment-input"
           value={newComment}
           onChange={(e) => setNewComment(e.target.value)}
           placeholder={t(lang, 'comments.placeholderResource')}
           rows="3"
           maxLength="1000"
           disabled={submitting}
+          aria-describedby="resource-comment-char-count"
         />
         <div className="comment-form-footer">
-          <span className="char-count">{newComment.length}/1000</span>
+          <span id="resource-comment-char-count" className="char-count" aria-live="polite" role="status" aria-atomic="true">
+            {tFormat(lang, 'comments.charCount', { count: newComment.length, max: 1000 })}
+          </span>
           <button type="submit" disabled={submitting}>
             {submitting ? t(lang, 'comments.posting') : t(lang, 'comments.postComment')}
           </button>
@@ -191,6 +198,7 @@ function ResourceComments({ resourceId }) {
                   className="flag-button"
                   onClick={() => handleFlagComment(comment._id)}
                   disabled={hasUserFlaggedComment(comment._id)}
+                  aria-label={hasUserFlaggedComment(comment._id) ? t(lang, 'comments.flagged') : t(lang, 'comments.flag')}
                 >
                   {hasUserFlaggedComment(comment._id) ? t(lang, 'comments.flagged') : t(lang, 'comments.flag')}
                 </button>

@@ -10,8 +10,8 @@
 
 /* Table of contents / jump links */
 .policy-toc {
-  background: white;
-  border: 1px solid #e0e0e0;
+  background: var(--color-card-bg);
+  border: 1px solid var(--color-card-border);
   border-radius: 12px;
   padding: 1.5rem 2rem;
   margin-bottom: 3rem;
@@ -24,7 +24,7 @@
   font-size: 1rem;
   font-weight: 700;
   margin: 0 0 1rem 0;
-  color: #222;
+  color: var(--color-text);
   border-bottom: none;
 }
 
@@ -52,7 +52,7 @@
 .toc-list a:hover,
 .toc-list a:focus-visible {
   text-decoration: underline;
-  outline: 2px dashed #ff8c00;
+  outline: 2px dashed var(--focus-color);
   outline-offset: 2px;
 }
 
@@ -67,8 +67,8 @@
 
 /* Each policy area = one card (like resource-card) */
 .policy-section {
-  background: white;
-  border: 1px solid #e0e0e0;
+  background: var(--color-card-bg);
+  border: 1px solid var(--color-card-border);
   border-radius: 12px;
   overflow: hidden;
   padding: 1.5rem 2rem;
@@ -85,7 +85,7 @@
   margin: 0 0 1.25rem 0;
   padding: 0;
   border-bottom: none;
-  color: #222;
+  color: var(--color-text);
 }
 
 /* Section content - readable layout */
@@ -131,7 +131,7 @@
 
 .policy-block-image figcaption {
   font-size: 0.9rem;
-  color: #666;
+  color: var(--color-text-muted);
   padding: 0.5rem 0 0;
 }
 
@@ -157,7 +157,7 @@
 .policy-block p {
   margin: 0;
   font-size: 1rem;
-  color: #555;
+  color: var(--color-text-muted);
   line-height: 1.7;
 }
 
@@ -183,7 +183,7 @@
 
 .highlight-block ul li {
   font-size: 1rem;
-  color: #333;
+  color: var(--color-text);
   line-height: 1.6;
   padding: 0.4rem 0 0.4rem 1.5rem;
   position: relative;
@@ -227,17 +227,17 @@
 #action ul li {
   margin-bottom: 0.5rem;
   font-size: 1rem;
-  color: #555;
+  color: var(--color-text-muted);
   line-height: 1.7;
 }
 
 #action ul li strong {
-  color: #222;
+  color: var(--color-text);
 }
 
 #action p {
   font-size: 1rem;
-  color: #555;
+  color: var(--color-text-muted);
   line-height: 1.7;
   margin: 0 0 1rem 0;
 }
@@ -263,7 +263,7 @@
 .return-top a:hover,
 .return-top a:focus-visible {
   text-decoration: underline;
-  outline: 2px dashed #ff8c00;
+  outline: 2px dashed var(--focus-color);
   outline-offset: 2px;
 }
 
@@ -283,7 +283,7 @@
   .policy-section,
   .policy-toc {
     border-width: 2px;
-    border-color: #222;
+    border-color: var(--color-text);
   }
   .toc-list a {
     text-decoration: underline;

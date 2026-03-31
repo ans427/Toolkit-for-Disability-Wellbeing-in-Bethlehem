@@ -3,7 +3,7 @@
    ========================================= */
 
 .resource-detail-page {
-  background: linear-gradient(180deg, var(--color-cream) 0%, var(--color-cream-alt) 50%, #fff 100%);
+  background: var(--color-cream);
   min-height: 100vh;
   text-align: left;
 }
@@ -33,7 +33,7 @@
 }
 
 .resource-back-link:focus-visible {
-  outline: 2px dashed #ff8c00;
+  outline: 2px dashed var(--focus-color);
   outline-offset: 2px;
 }
 /* Hero */
@@ -50,7 +50,7 @@
 }
 
 .resource-hero--no-image {
-  background: linear-gradient(135deg, var(--color-forest-green) 0%, var(--color-brown) 100%);
+  background: var(--color-forest-green);
 }
 
 .resource-hero-bg {
@@ -67,12 +67,7 @@
 .resource-hero-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    180deg,
-    rgba(30, 61, 50, 0.3) 0%,
-    rgba(30, 61, 50, 0.7) 60%,
-    rgba(30, 61, 50, 0.92) 100%
-  );
+  background: rgba(12, 28, 47, 0.68);
 }
 
 .resource-hero-content {
@@ -168,7 +163,8 @@
   font-size: 1rem;
   padding: 0.9rem 1.5rem;
   border-radius: 10px;
-  transition: background 0.2s, transform 0.15s;
+  transition: background 0.2s, transform 0.15s, box-shadow 0.2s, border-color 0.2s;
+  border: 2px solid transparent;
   box-shadow: 0 4px 14px rgba(30, 61, 50, 0.25);
 }
 
@@ -177,11 +173,14 @@
   color: #fff;
   transform: translateY(-1px);
   box-shadow: 0 6px 20px rgba(30, 61, 50, 0.3);
+  border-color: rgba(255, 255, 255, 0.45);
 }
 
 .resource-cta-button:focus-visible {
-  outline: 2px dashed #ff8c00;
+  outline: 2px dashed var(--focus-color);
   outline-offset: 2px;
+  border-color: #ffffff;
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.35);
 }
 
 /* high contrast: visit website button should be yellow with dark text */
@@ -195,11 +194,11 @@ html.a11y-high-contrast .resource-cta-button:hover {
 
 /* Sections */
 .resource-section {
-  background: #fff;
+  background: var(--color-card-bg);
   border-radius: 12px;
   padding: 1.5rem 1.75rem;
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
-  border: 1px solid rgba(0, 0, 0, 0.04);
+  border: 1px solid var(--color-card-border);
 }
 
 .resource-section-title {
@@ -256,7 +255,7 @@ html.a11y-high-contrast .resource-cta-button:hover {
 }
 
 .resource-gallery-figure:focus-visible {
-  outline: 2px dashed #ff8c00;
+  outline: 2px dashed var(--focus-color);
   outline-offset: 2px;
 }
 
@@ -325,7 +324,7 @@ html.a11y-high-contrast .resource-cta-button:hover {
 }
 
 .resource-lightbox-close:focus-visible {
-  outline: 2px dashed #ff8c00;
+  outline: 2px dashed var(--focus-color);
   outline-offset: 2px;
 }
 
@@ -363,7 +362,7 @@ html.a11y-high-contrast .resource-cta-button:hover {
 
 .resource-lightbox-prev:focus-visible,
 .resource-lightbox-next:focus-visible {
-  outline: 2px dashed #ff8c00;
+  outline: 2px dashed var(--focus-color);
   outline-offset: 2px;
 }
 
@@ -394,7 +393,7 @@ a.resource-contact-item:hover {
 }
 
 a.resource-contact-item:focus-visible {
-  outline: 2px dashed #ff8c00;
+  outline: 2px dashed var(--focus-color);
   outline-offset: 2px;
 }
 
@@ -436,7 +435,7 @@ a.resource-contact-item:focus-visible {
 }
 
 .error-container .back-link:focus-visible {
-  outline: 2px dashed #ff8c00;
+  outline: 2px dashed var(--focus-color);
   outline-offset: 2px;
 }
 
@@ -461,12 +460,12 @@ html.a11y-high-contrast a.resource-contact-item:hover {
 
 /* Comments section integration */
 .resource-detail-page .comments-section {
-  background: #fff;
+  background: var(--color-card-bg);
   border-radius: 12px;
   padding: 1.5rem 1.75rem;
   margin-top: 2rem;
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
-  border: 1px solid rgba(0, 0, 0, 0.04);
+  border: 1px solid var(--color-card-border);
 }
 
 @media (max-width: 600px) {

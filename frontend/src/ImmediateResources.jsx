@@ -397,7 +397,10 @@ function ImmediateResources() {
                 <div className="card-image-wrapper">
                   <img
                     src={resource.image.asset.url}
-                    alt={resource.image.alt || pickI18n(resource.titleI18n, lang, resource.title)}
+                    alt={
+                      resource.image.alt ||
+                      `${pickI18n(resource.titleI18n, lang, resource.title)} (${getCategoryLabel(resource.category || 'general', lang)})`
+                    }
                     className="card-image"
                   />
                 </div>

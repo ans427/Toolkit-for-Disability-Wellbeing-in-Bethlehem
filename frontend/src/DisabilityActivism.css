@@ -9,7 +9,7 @@
 
 .disability-activism-header .subtitle {
   font-size: 1.125rem;
-  color: #555;
+  color: var(--color-text);
   margin: 0.5rem 0 1.5rem 0;
 }
 
@@ -20,7 +20,7 @@
 .disability-activism-header .intro p {
   font-size: 1rem;
   line-height: 1.7;
-  color: #333;
+  color: var(--color-text);
   margin: 0 0 1rem 0;
 }
 
@@ -30,8 +30,8 @@
 
 /* Table of contents */
 .disability-activism-toc {
-  background: white;
-  border: 1px solid #e0e0e0;
+  background: var(--color-card-bg);
+  border: 1.5px solid var(--color-card-border);
   border-radius: 12px;
   padding: 1.5rem 2rem;
   margin-bottom: 3rem;
@@ -44,7 +44,7 @@
   font-size: 1rem;
   font-weight: 700;
   margin: 0 0 1rem 0;
-  color: #222;
+  color: var(--color-text);
   border-bottom: none;
 }
 
@@ -72,7 +72,7 @@
 .disability-activism .toc-list a:hover,
 .disability-activism .toc-list a:focus-visible {
   text-decoration: underline;
-  outline: 2px dashed #ff8c00;
+  outline: 2px dashed var(--focus-color);
   outline-offset: 2px;
 }
 
@@ -86,8 +86,8 @@
 }
 
 .disability-activism-section {
-  background: white;
-  border: 1px solid #e0e0e0;
+  background: var(--color-card-bg);
+  border: 1.5px solid var(--color-card-border);
   border-radius: 12px;
   overflow: hidden;
   padding: 1.5rem 2rem;
@@ -96,7 +96,7 @@
 
 .disability-activism-section:hover {
   transform: translateY(-4px);
-  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 10px 20px color-mix(in srgb, var(--color-shadow) 40%, transparent);
 }
 
 .disability-activism-section h2 {
@@ -104,13 +104,13 @@
   margin: 0 0 1.25rem 0;
   padding: 0;
   border-bottom: none;
-  color: #222;
+  color: var(--color-text);
 }
 
 .section-content p {
   margin: 0 0 1rem 0;
   font-size: 1rem;
-  color: #555;
+  color: var(--color-text);
   line-height: 1.7;
 }
 
@@ -120,40 +120,48 @@
 
 /* Ten Principles */
 .principles-section {
-  background: rgba(30, 61, 50, 0.04);
-  border-left: 4px solid var(--color-forest-green);
+  background: var(--color-card-bg);
+  border-left: 5px solid var(--color-forest-green);
+  border-top: 1.5px solid var(--color-card-border);
+  border-right: 1.5px solid var(--color-card-border);
+  border-bottom: 1.5px solid var(--color-card-border);
 }
 
 .principles-intro {
-  font-size: 0.95rem;
-  color: #666;
-  margin: 0 0 1rem 0;
-  font-style: italic;
+  max-width: 70ch;
+  font-size: 1.05rem;
+  color: var(--color-text);
+  margin: 0 0 1.2rem 0;
+  line-height: 1.7;
 }
 
 .principles-list {
   list-style: decimal;
-  padding-left: 1.5rem;
+  padding-left: 1.75rem;
   margin: 0;
+  max-width: 74ch;
 }
 
 .principle-item {
-  margin-bottom: 1rem;
-  font-size: 1rem;
-  color: #333;
-  line-height: 1.6;
+  margin-bottom: 1.25rem;
+  font-size: 1.06rem;
+  color: var(--color-text);
+  line-height: 1.75;
 }
 
 .principle-item strong {
   display: block;
   color: var(--color-forest-green);
-  margin-bottom: 0.25rem;
+  margin-bottom: 0.3rem;
+  font-size: 1.1em;
+  line-height: 1.4;
 }
 
 .principle-desc {
   display: block;
   padding-left: 0;
-  color: #555;
+  color: var(--color-text);
+  max-width: 70ch;
 }
 
 /* External links */
@@ -175,7 +183,7 @@
 .external-link:hover,
 .external-link:focus-visible {
   text-decoration: underline;
-  outline: 2px dashed #ff8c00;
+  outline: 2px dashed var(--focus-color);
   outline-offset: 2px;
 }
 
@@ -189,7 +197,7 @@
 .sources-list li {
   margin-bottom: 0.5rem;
   font-size: 0.95rem;
-  color: #555;
+  color: var(--color-text);
 }
 
 .source-link {
@@ -200,7 +208,7 @@
 .source-link:hover,
 .source-link:focus-visible {
   text-decoration: underline;
-  outline: 2px dashed #ff8c00;
+  outline: 2px dashed var(--focus-color);
   outline-offset: 2px;
 }
 
@@ -221,7 +229,7 @@
 .disability-activism .return-top a:hover,
 .disability-activism .return-top a:focus-visible {
   text-decoration: underline;
-  outline: 2px dashed #ff8c00;
+  outline: 2px dashed var(--focus-color);
   outline-offset: 2px;
 }
 
@@ -240,7 +248,7 @@
   .disability-activism-section,
   .disability-activism-toc {
     border-width: 2px;
-    border-color: #222;
+    border-color: var(--color-text);
   }
   .disability-activism .toc-list a {
     text-decoration: underline;

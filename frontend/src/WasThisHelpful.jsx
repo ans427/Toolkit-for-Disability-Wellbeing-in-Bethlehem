@@ -119,7 +119,7 @@ function WasThisHelpful({ resourceId, initialHelpfulCount = 0, initialNotHelpful
           <>
             <p className="was-this-helpful-thanks">{t(lang, 'wasThisHelpful.thanks')}</p>
             {totalVotes > 0 && (
-              <p className="was-this-helpful-counts" aria-live="polite">
+              <p className="was-this-helpful-counts" role="status" aria-live="polite" aria-atomic="true">
                 <span className="was-this-helpful-count was-this-helpful-count--yes">
                   <span className="was-this-helpful-icon" aria-hidden>👍</span>
                   {tFormat(lang, 'wasThisHelpful.foundHelpful', { count: helpfulCount })}
@@ -140,7 +140,7 @@ function WasThisHelpful({ resourceId, initialHelpfulCount = 0, initialNotHelpful
           <>
             <p className="was-this-helpful-question">{t(lang, 'wasThisHelpful.question')}</p>
             {totalVotes > 0 && (
-              <p className="was-this-helpful-counts was-this-helpful-counts--prompt">
+              <p className="was-this-helpful-counts was-this-helpful-counts--prompt" role="status" aria-live="polite" aria-atomic="true">
                 <span className="was-this-helpful-count was-this-helpful-count--yes">
                   <span className="was-this-helpful-icon" aria-hidden>👍</span>
                   {helpfulCount}
@@ -199,7 +199,7 @@ function WasThisHelpful({ resourceId, initialHelpfulCount = 0, initialNotHelpful
                   className="was-this-helpful-btn was-this-helpful-btn-yes"
                   onClick={() => handleVote('yes')}
                   disabled={submitting}
-                  aria-pressed={false}
+                  aria-pressed={userVote === 'yes'}
                 >
                   <span className="was-this-helpful-btn-icon" aria-hidden>👍</span>
                   {t(lang, 'wasThisHelpful.yes')}
@@ -209,7 +209,7 @@ function WasThisHelpful({ resourceId, initialHelpfulCount = 0, initialNotHelpful
                   className="was-this-helpful-btn was-this-helpful-btn-no"
                   onClick={() => handleVote('no')}
                   disabled={submitting}
-                  aria-pressed={false}
+                  aria-pressed={userVote === 'no' || showSuggestionInput}
                 >
                   <span className="was-this-helpful-btn-icon" aria-hidden>👎</span>
                   {t(lang, 'wasThisHelpful.no')}

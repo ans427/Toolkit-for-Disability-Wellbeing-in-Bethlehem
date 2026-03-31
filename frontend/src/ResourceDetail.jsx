@@ -341,14 +341,14 @@ function ResourceDetail() {
             </button>
           </div>
         )}
-      </article>
 
-      <WasThisHelpful
-        resourceId={resourceId}
-        initialHelpfulCount={resource.helpfulCount ?? 0}
-        initialNotHelpfulCount={resource.notHelpfulCount ?? 0}
-      />
-      <ResourceComments resourceId={resourceId} />
+        <WasThisHelpful
+          resourceId={resourceId}
+          initialHelpfulCount={resource.helpfulCount ?? 0}
+          initialNotHelpfulCount={resource.notHelpfulCount ?? 0}
+        />
+        <ResourceComments resourceId={resourceId} />
+      </article>
     </main>
   )
 }

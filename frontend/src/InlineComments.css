@@ -25,7 +25,7 @@
 }
 
 .inline-bubble:focus-visible {
-  outline: 2px dashed #ff8c00;
+  outline: 2px dashed var(--focus-color);
   outline-offset: 2px;
   opacity: 1;
   visibility: visible;
@@ -86,7 +86,7 @@
 .inline-comment-header h4 {
   margin: 0;
   font-size: 0.95rem;
-  color: #333;
+  color: var(--color-text);
   text-align: left;
 }
 
@@ -95,16 +95,16 @@
   border: none;
   font-size: 1.25rem;
   cursor: pointer;
-  color: #666;
+  color: var(--color-text-muted);
   padding: 0 0.25rem;
 }
 
 .close-button:hover {
-  color: #333;
+  color: var(--color-text);
 }
 
 .close-button:focus-visible {
-  outline: 2px dashed #ff8c00;
+  outline: 2px dashed var(--focus-color);
   outline-offset: 2px;
 }
 
@@ -127,7 +127,7 @@
 .selected-text-context small {
   display: block;
   font-size: 0.75rem;
-  color: #999;
+  color: var(--color-text-muted);
   margin-bottom: 0.25rem;
 }
 
@@ -135,14 +135,14 @@
   margin: 0;
   font-size: 0.95rem;
   line-height: 1.5;
-  color: #333;
+  color: var(--color-text);
   text-align: left;
 }
 
 .select-instruction {
   text-align: left;
   margin-bottom: 0.5rem;
-  color: #666;
+  color: var(--color-text-muted);
   font-size: 0.9rem;
 }
 
@@ -159,14 +159,14 @@
 
 .inline-comment-form textarea:focus,
 .inline-comment-form textarea:focus-visible {
-  outline: 2px dashed #ff8c00;
+  outline: 2px dashed var(--focus-color);
   outline-offset: 2px;
   border-color: #0066cc;
 }
 
 .inline-comment-form textarea:disabled {
   background-color: #f9f9f9;
-  color: #999;
+  color: var(--color-text-muted);
   cursor: not-allowed;
 }
 
@@ -179,7 +179,7 @@
 
 .char-count {
   font-size: 0.75rem;
-  color: #999;
+  color: var(--color-text-muted);
 }
 
 .inline-comment-form button {
@@ -199,12 +199,12 @@
 }
 
 .inline-comment-form button:focus-visible {
-  outline: 2px dashed #ff8c00;
+  outline: 2px dashed var(--focus-color);
   outline-offset: 2px;
 }
 
 .inline-comment-form button:disabled {
-  background-color: #ccc;
+  background-color: var(--color-border);
   cursor: not-allowed;
 }
 
@@ -217,7 +217,7 @@
 
 .no-comments {
   text-align: left;
-  color: #999;
+  color: var(--color-text-muted);
   font-size: 0.95rem;
   padding: 0.6rem 0;
   font-style: italic;
@@ -242,11 +242,11 @@
 
 .inline-comment-author {
   font-weight: 600;
-  color: #333;
+  color: var(--color-text);
 }
 
 .inline-comment-date {
-  color: #999;
+  color: var(--color-text-muted);
 }
 
 .inline-comment-quote {
@@ -258,14 +258,14 @@
 }
 
 .inline-comment-quote em {
-  color: #555;
+  color: var(--color-text-muted);
 }
 
 .inline-comment-text {
   margin: 0.5rem 0;
   font-size: 0.9rem;
   line-height: 1.4;
-  color: #333;
+  color: var(--color-text);
 }
 
 .inline-flag-button {
@@ -285,7 +285,7 @@
 }
 
 .inline-flag-button:focus-visible {
-  outline: 2px dashed #ff8c00;
+  outline: 2px dashed var(--focus-color);
   outline-offset: 2px;
 }
 
