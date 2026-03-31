@@ -215,10 +215,18 @@ html.a11y-high-contrast .language-dropdown button {
   width: 100%;
   background: none;
   border: none;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
   text-align: left;
   padding: 0.5rem 1rem;
   cursor: pointer;
   font-size: 0.95rem;
+}
+
+.lang-flag {
+  font-size: 1rem;
+  line-height: 1;
 }
 
 .language-dropdown button:hover {

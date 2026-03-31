@@ -11,8 +11,8 @@ function Header({
 }) {
   const [langOpen, setLangOpen] = useState(false)
   const languages = [
-    { code: 'en', label: 'English' },
-    { code: 'es', label: 'Español' },
+    { code: 'en', label: 'English', flag: '🇺🇸' },
+    { code: 'es', label: 'Español', flag: '🇪🇸' },
   ]
 
   // close dropdown when clicking outside
@@ -26,7 +26,7 @@ function Header({
     return () => document.removeEventListener('click', handleClick)
   }, [])
 
-  const currentLabel = languages.find((l) => l.code === language)?.label ?? 'English'
+  const currentLanguage = languages.find((l) => l.code === language) ?? languages[0]
 
   return (
     <header className="site-header" role="banner">
@@ -59,7 +59,9 @@ function Header({
               onClick={() => setLangOpen((v) => !v)}
               title="Select language"
             >
-              {currentLabel} <span aria-hidden="true">▼</span>
+              <span aria-hidden="true" className="lang-flag">{currentLanguage.flag}</span>
+              <span>{currentLanguage.label}</span>
+              <span aria-hidden="true">▼</span>
             </button>
             {langOpen && (
               <div className="language-dropdown" role="menu">
@@ -73,7 +75,8 @@ function Header({
                       setLangOpen(false)
                     }}
                   >
-                    {lang.label}
+                    <span aria-hidden="true" className="lang-flag">{lang.flag}</span>
+                    <span>{lang.label}</span>
                   </button>
                 ))}
               </div>
