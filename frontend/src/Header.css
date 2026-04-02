@@ -13,6 +13,18 @@
   transition: top 0.2s;
 }
 
+.skip-link-nav {
+  left: 25rem;
+}
+
+.skip-link-footer {
+  left: 37rem;
+}
+
+.skip-link-page {
+  left: 13rem;
+}
+
 .skip-link:focus {
   top: 1rem;
   outline: 2px dashed var(--focus-color);

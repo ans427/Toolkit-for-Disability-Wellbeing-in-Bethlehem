@@ -33,13 +33,22 @@ function Header({
       <a href="#main-content" className="skip-link">
         {t(language, 'skipToMain')}
       </a>
+      <a href="#page-content-start" className="skip-link skip-link-page">
+        {t(language, 'skipToPageContent')}
+      </a>
+      <a href="#site-navigation" className="skip-link skip-link-nav">
+        {t(language, 'skipToNav')}
+      </a>
+      <a href="#site-footer" className="skip-link skip-link-footer">
+        {t(language, 'skipToFooter')}
+      </a>
 
       <div className="header-inner">
         <Link to="/" className="site-title">
           {t(language, 'appTitle')}
         </Link>
 
-        <nav className="site-nav" aria-label="Main navigation">
+        <nav id="site-navigation" className="site-nav" aria-label="Main navigation">
           <ul>
             <li><Link to="/about">{t(language, 'nav.about')}</Link></li>
             <li><Link to="/resources">{t(language, 'nav.resources')}</Link></li>

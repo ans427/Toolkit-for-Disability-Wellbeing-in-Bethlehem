@@ -2,6 +2,9 @@ export const uiStrings = {
   en: {
     appTitle: 'Toolkit for Disability Wellbeing',
     skipToMain: 'Skip to main content',
+    skipToPageContent: 'Skip to page content',
+    skipToNav: 'Skip to main navigation',
+    skipToFooter: 'Skip to footer',
     accessibility: 'Accessibility',
     language: 'Language',
     nav: {
@@ -40,6 +43,10 @@ export const uiStrings = {
       immediateResources: {
         title: 'Immediate Resources',
         subtitle: 'Healthcare, legal, and community support in Bethlehem.',
+        skipNavAria: 'Skip links for Immediate Resources',
+        skipToSearch: 'Skip to search',
+        skipToFilters: 'Skip to filters',
+        skipToResults: 'Skip to results',
         backHome: '← Back to Home',
         loading: 'Loading resources...',
         searchLabel: 'Search resources',
@@ -107,6 +114,11 @@ export const uiStrings = {
         title: 'Submit a Resource or Community Story',
         subtitle:
           'Your submission will be reviewed by the Toolkit team before being added to the site.',
+        skipNavAria: 'Skip links for submit form',
+        skipToType: 'Skip to submission type',
+        skipToContact: 'Skip to contact details',
+        skipToDetails: 'Skip to resource or story details',
+        skipToSend: 'Skip to send submission',
         shareLegend: 'What would you like to share?',
         shareResourceTitle: 'Submit a resource',
         shareResourceDescription:
@@ -121,7 +133,11 @@ export const uiStrings = {
         resourceNameLabel: 'Resource name',
         websiteLinkLabel: 'Website link',
         categoryLabel: 'Category',
-        categorySelectPlaceholder: 'Select a category',
+        categorySelectPlaceholder: 'Select a category (required)',
+        categoryHelpText: 'Choose one category to help us route your submission.',
+        categoryKeyboardHelpText:
+          'Keyboard tip: when focused on Category, use Arrow keys to move options. Press Enter or Space to open the list in supported browsers.',
+        categoryRequiredError: 'Please choose a category before sending.',
         categories: {
           legalAid: 'Legal Aid',
           communityOrganizations: 'Community Organizations',
@@ -260,6 +276,9 @@ export const uiStrings = {
   es: {
     appTitle: 'Kit para el bienestar de la discapacidad',
     skipToMain: 'Saltar al contenido principal',
+    skipToPageContent: 'Saltar al contenido de la pagina',
+    skipToNav: 'Saltar a la navegación principal',
+    skipToFooter: 'Saltar al pie de página',
     accessibility: 'Accesibilidad',
     language: 'Idioma',
     nav: {
@@ -302,6 +321,10 @@ export const uiStrings = {
       immediateResources: {
         title: 'Recursos inmediatos',
         subtitle: 'Apoyo de salud, legal y comunitario en Bethlehem.',
+        skipNavAria: 'Enlaces para saltar en Recursos inmediatos',
+        skipToSearch: 'Saltar a la búsqueda',
+        skipToFilters: 'Saltar a los filtros',
+        skipToResults: 'Saltar a los resultados',
         backHome: '← Volver al inicio',
         loading: 'Cargando recursos...',
         searchLabel: 'Buscar recursos',
@@ -369,6 +392,11 @@ export const uiStrings = {
         title: 'Enviar un recurso o historia de la comunidad',
         subtitle:
           'Tu envío será revisado por el equipo del Kit antes de agregarse al sitio.',
+        skipNavAria: 'Enlaces para saltar en el formulario',
+        skipToType: 'Saltar al tipo de envio',
+        skipToContact: 'Saltar a los datos de contacto',
+        skipToDetails: 'Saltar a los detalles del recurso o historia',
+        skipToSend: 'Saltar a enviar el formulario',
         shareLegend: '¿Qué te gustaría compartir?',
         shareResourceTitle: 'Enviar un recurso',
         shareResourceDescription:
@@ -383,7 +411,11 @@ export const uiStrings = {
         resourceNameLabel: 'Nombre del recurso',
         websiteLinkLabel: 'Enlace del sitio web',
         categoryLabel: 'Categoría',
-        categorySelectPlaceholder: 'Selecciona una categoría',
+        categorySelectPlaceholder: 'Selecciona una categoría (obligatoria)',
+        categoryHelpText: 'Elige una categoría para ayudarnos a clasificar tu envío.',
+        categoryKeyboardHelpText:
+          'Consejo de teclado: cuando el foco esté en Categoría, usa las flechas para recorrer opciones. Presiona Enter o Espacio para abrir la lista en navegadores compatibles.',
+        categoryRequiredError: 'Elige una categoría antes de enviar.',
         categories: {
           legalAid: 'Asistencia legal',
           communityOrganizations: 'Organizaciones comunitarias',

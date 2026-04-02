@@ -8,7 +8,7 @@ function Footer() {
   const currentYear = new Date().getFullYear()
 
   return (
-    <footer className="site-footer">
+    <footer id="site-footer" className="site-footer">
       <div className="footer-container">
         <div className="footer-section">
           <h3>{t(lang, 'footer.navigation')}</h3>

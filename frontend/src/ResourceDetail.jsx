@@ -51,6 +51,7 @@ function ResourceDetail() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
   const [lightboxIndex, setLightboxIndex] = useState(null)
+  const heroTitleRef = useRef(null)
 
   const openLightbox = useCallback((index) => setLightboxIndex(index), [])
   const closeLightbox = useCallback(() => setLightboxIndex(null), [])
@@ -112,6 +113,13 @@ function ResourceDetail() {
 
     fetchResource()
   }, [resourceId])
+
+  useEffect(() => {
+    if (!loading && resource && heroTitleRef.current) {
+      // Move screen-reader focus to the resource heading after route/data load.
+      heroTitleRef.current.focus()
+    }
+  }, [loading, resource, resourceId])
 
   useEffect(() => {
     const handleKey = (e) => {
@@ -189,7 +197,11 @@ function ResourceDetail() {
         {t(lang, 'pages.resourceDetail.backToResources')}
       </Link>
 
-      <article className="resource-detail">
+      <article
+        className="resource-detail"
+        aria-labelledby="resource-title"
+        aria-describedby={description ? 'resource-description' : undefined}
+      >
         <header
           className={`resource-hero ${heroImage ? 'resource-hero--with-image' : 'resource-hero--no-image'}`}
         >
@@ -209,7 +221,14 @@ function ResourceDetail() {
                 <span className="resource-badge resource-badge--child">For Children</span>
               )}
             </div>
-            <h1 className="resource-hero-title">{title}</h1>
+            <h1
+              id="resource-title"
+              ref={heroTitleRef}
+              tabIndex={-1}
+              className="resource-hero-title"
+            >
+              {title}
+            </h1>
           </div>
         </header>
 
@@ -230,7 +249,7 @@ function ResourceDetail() {
           {description && (
             <section className="resource-section resource-about">
               <h2 className="resource-section-title">{t(lang, 'pages.resourceDetail.aboutThisResource')}</h2>
-              <p className="resource-description">{description}</p>
+              <p id="resource-description" className="resource-description">{description}</p>
             </section>
           )}
 

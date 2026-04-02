@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { sanity } from './sanityClient'
 import Breadcrumb from './Breadcrumb'
@@ -32,6 +32,8 @@ function SubmitForm() {
 
   const [formData, setFormData] = useState(initialFormState)
   const [status, setStatus] = useState('idle')
+  const [categoryError, setCategoryError] = useState(false)
+  const resourceCategoryRef = useRef(null)
 
   const categoryOptions = [
     { value: 'legal-aid', label: t(lang, 'pages.submitForm.categories.legalAid') },
@@ -57,11 +59,31 @@ function SubmitForm() {
 
   const handleChange = (e) => {
     const { name, value } = e.target
+    if (name === 'resourceCategory' && value) {
+      setCategoryError(false)
+    }
     setFormData((prev) => ({ ...prev, [name]: value }))
+  }
+
+  const handleCategoryKeyDown = (e) => {
+    // Improve cross-browser keyboard access (VoiceOver + Chrome/Safari).
+    if (e.key === 'Enter' || e.key === ' ' || e.key === 'ArrowDown') {
+      if (typeof e.currentTarget.showPicker === 'function') {
+        e.preventDefault()
+        e.currentTarget.showPicker()
+      }
+    }
   }
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+
+    if (type === 'resource' && !formData.resourceCategory) {
+      setCategoryError(true)
+      resourceCategoryRef.current?.focus()
+      return
+    }
+
     setStatus('submitting')
 
     try {
@@ -116,10 +138,16 @@ function SubmitForm() {
           {t(lang, 'pages.submitForm.subtitle')}
         </p>
       </header>
+      <nav className="submit-skip-links" aria-label={t(lang, 'pages.submitForm.skipNavAria')}>
+        <a href="#submit-type">{t(lang, 'pages.submitForm.skipToType')}</a>
+        <a href="#submit-contact">{t(lang, 'pages.submitForm.skipToContact')}</a>
+        <a href="#submit-details">{t(lang, 'pages.submitForm.skipToDetails')}</a>
+        <a href="#submit-send">{t(lang, 'pages.submitForm.skipToSend')}</a>
+      </nav>
 
       <section className="submit-section">
         <form onSubmit={handleSubmit} className="submit-form">
-          <fieldset className="submit-fieldset radio-fieldset">
+          <fieldset id="submit-type" className="submit-fieldset radio-fieldset">
             <legend>{t(lang, 'pages.submitForm.shareLegend')}</legend>
 
             <div className="radio-options">
@@ -157,7 +185,7 @@ function SubmitForm() {
             </div>
           </fieldset>
 
-          <fieldset className="submit-fieldset">
+          <fieldset id="submit-contact" className="submit-fieldset">
             <legend>{t(lang, 'pages.submitForm.contactLegend')}</legend>
 
             <label className="submit-label" htmlFor="submitterName">
@@ -184,7 +212,7 @@ function SubmitForm() {
           </fieldset>
 
           {type === 'resource' && (
-            <fieldset className="submit-fieldset">
+            <fieldset id="submit-details" className="submit-fieldset">
               <legend>{t(lang, 'pages.submitForm.resourceLegend')}</legend>
 
               <label className="submit-label" htmlFor="resourceTitle">
@@ -213,18 +241,38 @@ function SubmitForm() {
               <label className="submit-label" htmlFor="resourceCategory">
                 {t(lang, 'pages.submitForm.categoryLabel')}
                 <select
+                  ref={resourceCategoryRef}
                   id="resourceCategory"
                   name="resourceCategory"
                   value={formData.resourceCategory}
                   onChange={handleChange}
+                  onKeyDown={handleCategoryKeyDown}
+                  onInvalid={() => setCategoryError(true)}
+                  required
+                  aria-required="true"
+                  aria-invalid={categoryError ? 'true' : 'false'}
+                  aria-describedby={`resource-category-help resource-category-keyboard-help${categoryError ? ' resource-category-error' : ''}`}
                 >
-                  <option value="">{t(lang, 'pages.submitForm.categorySelectPlaceholder')}</option>
+                  <option value="">
+                    {t(lang, 'pages.submitForm.categorySelectPlaceholder')}
+                  </option>
                   {categoryOptions.map((opt) => (
                     <option key={opt.value} value={opt.value}>
                       {opt.label}
                     </option>
                   ))}
                 </select>
+                <span id="resource-category-help" className="submit-help-text">
+                  {t(lang, 'pages.submitForm.categoryHelpText')}
+                </span>
+                <span id="resource-category-keyboard-help" className="submit-help-text">
+                  {t(lang, 'pages.submitForm.categoryKeyboardHelpText')}
+                </span>
+                {categoryError && (
+                  <span id="resource-category-error" className="submit-field-error" role="alert">
+                    {t(lang, 'pages.submitForm.categoryRequiredError')}
+                  </span>
+                )}
               </label>
 
               <label className="submit-label" htmlFor="resourceDescription">
@@ -370,7 +418,7 @@ function SubmitForm() {
             </fieldset>
           )}
 
-          <button type="submit" className="submit-button" disabled={status === 'submitting'} aria-busy={status === 'submitting'}>
+          <button id="submit-send" type="submit" className="submit-button" disabled={status === 'submitting'} aria-busy={status === 'submitting'}>
             {status === 'submitting' ? t(lang, 'pages.submitForm.sending') : t(lang, 'pages.submitForm.sendButton')}
           </button>
 

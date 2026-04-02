@@ -125,6 +125,12 @@
   text-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
 }
 
+.resource-hero-title:focus-visible,
+.resource-hero-title:focus {
+  outline: 2px dashed var(--focus-color);
+  outline-offset: 3px;
+}
+
 @media (min-width: 600px) {
   .resource-hero--with-image {
     min-height: 380px;

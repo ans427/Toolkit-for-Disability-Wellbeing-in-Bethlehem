@@ -292,6 +292,11 @@ function ImmediateResources() {
         <h1>{t(lang, 'pages.immediateResources.title')}</h1>
         <p className="subtitle">{t(lang, 'pages.immediateResources.subtitle')}</p>
       </header>
+      <nav className="resource-skip-links" aria-label={t(lang, 'pages.immediateResources.skipNavAria')}>
+        <a href="#resource-search">{t(lang, 'pages.immediateResources.skipToSearch')}</a>
+        <a href="#resource-filter-chip-list">{t(lang, 'pages.immediateResources.skipToFilters')}</a>
+        <a href="#resource-results">{t(lang, 'pages.immediateResources.skipToResults')}</a>
+      </nav>
 
       {loading ? (
         <p>{t(lang, 'pages.immediateResources.loading')}</p>
@@ -330,7 +335,7 @@ function ImmediateResources() {
                 aria-describedby="filter-results-count"
               >
                 <span className="resource-filter-legend">{t(lang, 'pages.immediateResources.filterLegend')}</span>
-                <div className="resource-filter-chip-list">
+                <div id="resource-filter-chip-list" className="resource-filter-chip-list">
                   <button
                       id="filter-all"
                       type="button"
@@ -382,7 +387,7 @@ function ImmediateResources() {
             </p>
           </section>
 
-          <div className="resource-grid">
+          <div id="resource-results" className="resource-grid" aria-label={t(lang, 'pages.immediateResources.title')}>
             {filteredResources.map((resource) => (
             <Link
               key={resource._id}

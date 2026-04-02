@@ -8,6 +8,19 @@
   text-align: center;
 }
 
+.resource-skip-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.resource-skip-links a {
+  font-size: 0.9rem;
+  color: var(--color-link);
+  text-decoration: underline;
+}
+
 .resource-filter-controls {
   display: flex;
   flex-wrap: wrap;

@@ -381,6 +381,7 @@ function App() {
       />
       <LanguageProvider value={language}>
         <div id="main-content" className="page-content">
+          <div id="page-content-start" tabIndex="-1" />
           <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/resources/:resourceId" element={<ResourceDetail />} />
