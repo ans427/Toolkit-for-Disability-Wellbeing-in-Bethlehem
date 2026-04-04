@@ -47,6 +47,7 @@ export default defineConfig({
             S.documentTypeListItem('comment').title('Comments'),
             S.documentTypeListItem('submission').title('Submissions'),
             S.documentTypeListItem('resourceFeedback').title('Resource Feedback'),
+            S.documentTypeListItem('accessibilityReport').title('Accessibility Reports'),
           ]),
     }),
     visionTool(),

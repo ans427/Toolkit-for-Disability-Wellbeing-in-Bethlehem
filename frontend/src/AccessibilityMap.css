@@ -70,6 +70,18 @@
   line-height: 1.4;
 }
 
+.map-popup-image-wrapper {
+  margin: 0.5rem 0;
+  text-align: center;
+}
+
+.map-popup-image {
+  max-width: 100%;
+  max-height: 150px;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
 .map-popup-link {
   display: inline-block;
   color: var(--color-link);
@@ -95,11 +107,242 @@
   background-color: white;
 }
 
-/* High contrast mode support */
-.a11y-high-contrast .leaflet-popup-content-wrapper {
+.a11y-high-contrast .map-container {
   border: 2px solid;
 }
 
-.a11y-high-contrast .map-container {
-  border: 2px solid;
+.inaccessible-locations-section,
+.resources-section {
+  margin-bottom: 3rem;
+}
+
+.inaccessible-locations-section h2,
+.resources-section h2 {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.inaccessible-locations-section p,
+.resources-section p {
+  margin-bottom: 1rem;
+  color: var(--color-text-secondary);
+}
+
+.submit-report-button {
+  background-color: var(--color-forest-green);
+  color: #ffffff;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  border: none;
+  box-shadow: none;
+  appearance: none;
+  cursor: pointer;
+  font-size: 1rem;
+  margin-bottom: 1rem;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.submit-report-button:hover,
+.submit-report-button:focus-visible {
+  background-color: var(--color-forest-green-hover);
+  transform: translateY(-1px);
+}
+
+/* Ensure all interactive elements are keyboard accessible */
+.report-form button,
+.submit-report-button {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+.report-form button:focus,
+.submit-report-button:focus {
+  outline: 2px dashed blue;
+  outline-offset: 2px;
+}
+
+.report-form {
+  background-color: var(--color-background-secondary);
+  padding: 1.5rem;
+  border-radius: 8px;
+  border: 1px solid var(--color-border);
+}
+
+.report-form fieldset {
+  margin-bottom: 1.5rem;
+  border: none;
+  padding: 0;
+}
+
+.report-form legend {
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.report-form label {
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.report-form label:focus {
+  outline: none;
+}
+
+.report-form label:focus-within {
+  outline: none;
+}
+
+.report-form fieldset:focus {
+  outline: none;
+}
+
+.report-form legend:focus {
+  outline: none;
+}
+
+.report-form input[type="text"],
+.report-form input[type="email"],
+.report-form input[type="file"],
+.report-form input[type="radio"],
+.report-form textarea {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  font-family: inherit;
+}
+
+.report-form input[type="radio"] {
+  width: auto;
+  margin-right: 0.5rem;
+}
+
+.report-form input[type="radio"]:focus + *,
+.report-form input[type="radio"]:focus-visible + * {
+  outline: 2px dashed blue;
+  outline-offset: 2px;
+}
+
+.report-form input[type="file"] {
+  padding: 0.25rem;
+}
+
+.report-form input[type="file"]:focus,
+.report-form input[type="file"]:focus-visible {
+  outline: 3px solid #ffdf00;
+  outline-offset: 2px;
+  border-color: var(--color-forest-green);
+}
+
+.report-form input[type="text"]:focus,
+.report-form input[type="email"]:focus,
+.report-form input[type="file"]:focus,
+.report-form input[type="radio"]:focus,
+.report-form textarea:focus {
+  outline: 2px dashed blue;
+  outline-offset: 2px;
+  border-color: var(--color-forest-green);
+}
+
+.report-form input[type="text"]:focus-visible,
+.report-form input[type="email"]:focus-visible,
+.report-form input[type="file"]:focus-visible,
+.report-form input[type="radio"]:focus-visible,
+.report-form textarea:focus-visible {
+  outline: 2px dashed blue;
+  outline-offset: 2px;
+  border-color: var(--color-forest-green);
+}
+
+.report-form button[type="submit"] {
+  background-color: var(--color-forest-green);
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.report-form button[type="submit"]:focus-visible {
+  outline: 2px dashed blue;
+  outline-offset: 2px;
+}
+
+.report-form button[type="button"] {
+  background-color: var(--color-forest-green);
+  color: white;
+  border: none;
+  box-shadow: none;
+  appearance: none;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-bottom: 1rem;
+}
+
+.report-form button[type="button"]:hover,
+.report-form button[type="button"]:focus-visible {
+  background-color: var(--color-forest-green-hover);
+}
+
+.report-form button[type="button"]:focus-visible {
+  outline: 2px dashed blue;
+  outline-offset: 2px;
+}
+
+.current-location-details {
+  margin-top: 0.75rem;
+  padding: 0.75rem 1rem;
+  background-color: var(--color-background-primary);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+}
+
+.current-location-details p {
+  margin: 0.3rem 0;
+  color: var(--color-text-primary);
+}
+
+.report-success-message,
+.report-error-message {
+  margin-top: 1rem;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.report-success-message {
+  color: var(--color-success, #006644);
+}
+
+.report-error-message {
+  color: var(--color-error, #a80000);
+}
+
+.a11y-high-contrast .leaflet-popup-content-wrapper,
+.a11y-high-contrast .leaflet-popup-tip {
+  background-color: black !important;
+  color: yellow !important;
+}
+
+.a11y-high-contrast .leaflet-popup-content,
+.a11y-high-contrast .leaflet-popup-content-wrapper,
+.a11y-high-contrast .map-popup,
+.a11y-high-contrast .leaflet-popup-content a,
+.a11y-high-contrast .map-popup h3,
+.a11y-high-contrast .map-popup-category,
+.a11y-high-contrast .map-popup-address,
+.a11y-high-contrast .map-popup-description,
+.a11y-high-contrast .map-popup-link {
+  color: yellow !important;
+}
+
+.a11y-high-contrast .leaflet-popup-content-wrapper {
+  border-color: yellow !important;
+}
+
+.a11y-high-contrast .leaflet-popup-tip {
+  background-color: black !important;
 }
