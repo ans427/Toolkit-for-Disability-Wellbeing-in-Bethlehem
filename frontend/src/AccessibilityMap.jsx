@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet'
 import { sanity } from './sanityClient'
 import Breadcrumb from './Breadcrumb'
@@ -76,6 +76,8 @@ function AccessibilityMap() {
   const lang = useLanguage()
   const [searchParams] = useSearchParams()
   const selectedResourceId = searchParams.get('resourceId')
+  const selectedMarkerRef = useRef(null)
+  const resourcesSectionRef = useRef(null)
   const [resources, setResources] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
@@ -212,6 +214,16 @@ function AccessibilityMap() {
   const defaultCenter = [40.6259, -75.3705]
   const selectedResource = geocodedResources.find((resource) => resource._id === selectedResourceId)
   const selectedResourceCenter = selectedResource?.coordinates ?? null
+
+  useEffect(() => {
+    if (!selectedResourceId || !resourcesSectionRef.current || loading) return
+    resourcesSectionRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  }, [selectedResourceId, loading])
+
+  useEffect(() => {
+    if (!selectedResourceId || !selectedResource || !selectedMarkerRef.current) return
+    selectedMarkerRef.current.openPopup()
+  }, [selectedResourceId, selectedResource, geocodedResources])
 
   const handleFormChange = (e) => {
     const { name, value, type, files } = e.target
@@ -554,7 +566,7 @@ function AccessibilityMap() {
             )}
           </section>
 
-          <section className="resources-section">
+          <section className="resources-section" ref={resourcesSectionRef}>
             <h2>{t(lang, 'pages.accessibilityMap.accessibleResourcesTitle')}</h2>
             <p>{t(lang, 'pages.accessibilityMap.accessibleResourcesDescription')}</p>
             {selectedResource && (
@@ -584,7 +596,11 @@ function AccessibilityMap() {
                   const fullAddress = `${address.street}, ${address.city}, ${address.state} ${address.zipCode}`
 
                   return (
-                    <Marker key={resource._id} position={resource.coordinates}>
+                    <Marker
+                      key={resource._id}
+                      position={resource.coordinates}
+                      ref={resource._id === selectedResourceId ? selectedMarkerRef : null}
+                    >
                       <Popup>
                         <div className="map-popup">
                           <h3>{pickI18n(resource.titleI18n, lang, resource.title)}</h3>
