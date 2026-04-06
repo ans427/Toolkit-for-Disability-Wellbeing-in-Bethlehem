@@ -18,8 +18,60 @@ L.Icon.Default.mergeOptions({
   shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
 })
 
-// Simple geocoding cache
-const geocodeCache = new Map()
+// State abbreviations for US
+const STATE_ABBREVS = {
+  'Alabama': 'AL',
+  'Alaska': 'AK',
+  'Arizona': 'AZ',
+  'Arkansas': 'AR',
+  'California': 'CA',
+  'Colorado': 'CO',
+  'Connecticut': 'CT',
+  'Delaware': 'DE',
+  'Florida': 'FL',
+  'Georgia': 'GA',
+  'Hawaii': 'HI',
+  'Idaho': 'ID',
+  'Illinois': 'IL',
+  'Indiana': 'IN',
+  'Iowa': 'IA',
+  'Kansas': 'KS',
+  'Kentucky': 'KY',
+  'Louisiana': 'LA',
+  'Maine': 'ME',
+  'Maryland': 'MD',
+  'Massachusetts': 'MA',
+  'Michigan': 'MI',
+  'Minnesota': 'MN',
+  'Mississippi': 'MS',
+  'Missouri': 'MO',
+  'Montana': 'MT',
+  'Nebraska': 'NE',
+  'Nevada': 'NV',
+  'New Hampshire': 'NH',
+  'New Jersey': 'NJ',
+  'New Mexico': 'NM',
+  'New York': 'NY',
+  'North Carolina': 'NC',
+  'North Dakota': 'ND',
+  'Ohio': 'OH',
+  'Oklahoma': 'OK',
+  'Oregon': 'OR',
+  'Pennsylvania': 'PA',
+  'Rhode Island': 'RI',
+  'South Carolina': 'SC',
+  'South Dakota': 'SD',
+  'Tennessee': 'TN',
+  'Texas': 'TX',
+  'Utah': 'UT',
+  'Vermont': 'VT',
+  'Virginia': 'VA',
+  'Washington': 'WA',
+  'West Virginia': 'WV',
+  'Wisconsin': 'WI',
+  'Wyoming': 'WY',
+  'District of Columbia': 'DC'
+}
 
 // Simple geocoding function using Nominatim (OpenStreetMap)
 async function geocodeAddress(address) {
@@ -256,8 +308,23 @@ function AccessibilityMap() {
         }
       )
       const data = await response.json()
-      if (data?.display_name) {
-        return data.display_name
+      if (data?.address) {
+        const addr = data.address
+        const parts = []
+        // Add name if available (like building name)
+        if (addr.amenity || addr.building || addr.name) {
+          parts.push(addr.amenity || addr.building || addr.name)
+        }
+        // Add house number and road
+        const street = [addr.house_number, addr.road].filter(Boolean).join(' ')
+        if (street) parts.push(street)
+        // Add city
+        if (addr.city) parts.push(addr.city)
+        // Add state and postcode
+        const stateAbbrev = STATE_ABBREVS[addr.state] || addr.state
+        const stateZip = [stateAbbrev, addr.postcode].filter(Boolean).join(' ')
+        if (stateZip) parts.push(stateZip)
+        return parts.join(', ')
       }
     } catch (error) {
       console.error('Reverse geocoding error:', error)
