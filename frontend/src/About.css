@@ -1,22 +1,13 @@
 /* About Page Styles */
-.about {
-  max-width: 980px;
-  margin: 0 auto;
-}
 
 .about-header {
-  margin-bottom: 2.25rem;
+  margin-bottom: 3rem;
   text-align: left;
 }
 
-.about-header h1 {
-  margin-top: 1rem;
-  font-size: 2.6rem;
-  line-height: 1.2;
-  color: var(--color-text);
-}
-
 .about-section {
+  margin: 0 auto;
+  max-width: 980px;
   margin-bottom: 1.5rem;
   text-align: left;
   background: var(--color-card-bg);

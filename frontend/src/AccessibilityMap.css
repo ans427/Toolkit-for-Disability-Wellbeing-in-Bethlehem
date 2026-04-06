@@ -1,23 +1,6 @@
 .map-header {
-  margin-bottom: 2rem;
+  margin-bottom: 3rem;
   text-align: left;
-}
-
-.map-header .back-link {
-  display: inline-block;
-  margin-bottom: 1rem;
-  color: var(--color-link);
-  text-decoration: none;
-}
-
-.map-header .back-link:hover {
-  text-decoration: underline;
-}
-
-.map-header h1 {
-  margin: 0 0 0.5rem 0;
-  font-size: 2rem;
-  font-weight: 700;
 }
 
 .map-header .subtitle {
@@ -358,4 +341,11 @@
 
 .a11y-high-contrast .leaflet-popup-tip {
   background-color: black !important;
+}
+
+/* Mobile responsive styling */
+@media (max-width: 600px) {
+  .map-header h1 {
+    font-size: 1.75rem;
+  }
 }

@@ -34,7 +34,7 @@
 .site-header {
   position: sticky;
   top: 0;
-  z-index: 1000;
+  z-index: 10000;
   width: 100%;
   background: var(--color-cream);
   border-bottom: 1px solid rgba(45, 42, 38, 0.1);

@@ -94,57 +94,55 @@ function About() {
     <>
       <main className="container">
         <Breadcrumb />
-        <div className="about">
-          <header className="about-header">
-            <Link to="/" className="back-link">← Back Home</Link>
-            <h1>{title}</h1>
-          </header>
+        <header className="about-header">
+          <Link to="/" className="back-link">← Back Home</Link>
+          <h1>{title}</h1>
+        </header>
 
-          {sections.map((section, idx) => (
-            <section key={idx} className="about-section">
-              <h2>{pickI18n(section?.headingI18n, lang, section?.heading)}</h2>
-              {renderBodyParagraphs(section)}
-              {renderList(section)}
-            </section>
-          ))}
+        {sections.map((section, idx) => (
+          <section key={idx} className="about-section">
+            <h2>{pickI18n(section?.headingI18n, lang, section?.heading)}</h2>
+            {renderBodyParagraphs(section)}
+            {renderList(section)}
+          </section>
+        ))}
 
-          {sections.length === 0 && (
-            <section className="about-section">
-              <p>About content has not been configured in Sanity yet.</p>
-            </section>
-          )}
+        {sections.length === 0 && (
+          <section className="about-section">
+            <p>About content has not been configured in Sanity yet.</p>
+          </section>
+        )}
 
-          {getInvolved && (
-            <section className="about-section">
-              <h2>{pickI18n(getInvolved?.headingI18n, lang, getInvolved?.heading) || 'Get Involved'}</h2>
-              {(pickI18n(getInvolved?.bodyI18n, lang, getInvolved?.body) || '')
-                .split(/\n\s*\n/g)
-                .map((p) => p.trim())
-                .filter(Boolean)
-                .map((p, idx) => <p key={idx}>{p}</p>)}
-              <p>
-                <Link to={getInvolved?.buttonHref || '/submit'} className="inline-link">
-                  {pickI18n(getInvolved?.buttonLabelI18n, lang, getInvolved?.buttonLabel) || 'Submit a Resource or Story'}
-                </Link>
-              </p>
-            </section>
-          )}
+        {getInvolved && (
+          <section className="about-section">
+            <h2>{pickI18n(getInvolved?.headingI18n, lang, getInvolved?.heading) || 'Get Involved'}</h2>
+            {(pickI18n(getInvolved?.bodyI18n, lang, getInvolved?.body) || '')
+              .split(/\n\s*\n/g)
+              .map((p) => p.trim())
+              .filter(Boolean)
+              .map((p, idx) => <p key={idx}>{p}</p>)}
+            <p>
+              <Link to={getInvolved?.buttonHref || '/submit'} className="inline-link">
+                {pickI18n(getInvolved?.buttonLabelI18n, lang, getInvolved?.buttonLabel) || 'Submit a Resource or Story'}
+              </Link>
+            </p>
+          </section>
+        )}
 
-          {contact && (
-            <section className="about-section about-contact">
-              <h2>{pickI18n(contact?.headingI18n, lang, contact?.heading) || 'Contact Us'}</h2>
-              <p>
-                {(pickI18n(contact?.emailLabelI18n, lang, contact?.emailLabel) || 'Email')}: {' '}
-                <a href={`mailto:${contact?.email || ''}`}>{contact?.email}</a>
-              </p>
-              {(pickI18n(contact?.bodyI18n, lang, contact?.body) || '')
-                .split(/\n\s*\n/g)
-                .map((p) => p.trim())
-                .filter(Boolean)
-                .map((p, idx) => <p key={idx}>{p}</p>)}
-            </section>
-          )}
-        </div>
+        {contact && (
+          <section className="about-section about-contact">
+            <h2>{pickI18n(contact?.headingI18n, lang, contact?.heading) || 'Contact Us'}</h2>
+            <p>
+              {(pickI18n(contact?.emailLabelI18n, lang, contact?.emailLabel) || 'Email')}: {' '}
+              <a href={`mailto:${contact?.email || ''}`}>{contact?.email}</a>
+            </p>
+            {(pickI18n(contact?.bodyI18n, lang, contact?.body) || '')
+              .split(/\n\s*\n/g)
+              .map((p) => p.trim())
+              .filter(Boolean)
+              .map((p, idx) => <p key={idx}>{p}</p>)}
+          </section>
+        )}
       </main>
     </>
   )

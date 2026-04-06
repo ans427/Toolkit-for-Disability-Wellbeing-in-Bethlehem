@@ -4,9 +4,6 @@
   padding: 1rem 0; /* horizontal spacing handled by container */
   margin-top: 2rem;
   font-size: 0.9rem;
-  max-width: 1200px;
-  margin-left: auto;
-  margin-right: auto;
   width: 100%;
   box-sizing: border-box;
 }

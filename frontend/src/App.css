@@ -74,7 +74,7 @@ html, body, #root {
   width: 100%;
   max-width: 1200px;
   margin: 2rem auto;
-  padding: 1rem 5rem;
+  padding: 1rem 2rem;
   box-sizing: border-box;
   text-align: left;
 }
@@ -131,13 +131,12 @@ a:hover, a:focus {
 /* Navigation "Back" Link */
 .back-link {
   display: block;
-  max-width: 1200px;
-  margin: 0 auto 1rem; /* horizontal auto to center, bottom margin for spacing */
+  margin: 0 0 1rem;
   font-size: 0.9rem;
   font-weight: bold;
   text-decoration: none;
   color: var(--color-text-muted);
-  text-align: left; /* ensure text left-aligned within the centered box */
+  text-align: left;
 }
 
 .back-link:hover {
