@@ -73,6 +73,9 @@ const STATE_ABBREVS = {
   'District of Columbia': 'DC'
 }
 
+// Simple geocoding cache
+const geocodeCache = new Map()
+
 // Simple geocoding function using Nominatim (OpenStreetMap)
 async function geocodeAddress(address) {
   const fullAddress = `${address.street}, ${address.city}, ${address.state} ${address.zipCode}`
