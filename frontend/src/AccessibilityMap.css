@@ -128,6 +128,19 @@
   color: var(--color-text-secondary);
 }
 
+.map-selected-resource-note {
+  background: rgba(30, 61, 50, 0.08);
+  border: 1px solid rgba(30, 61, 50, 0.2);
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  margin-bottom: 1rem;
+  color: var(--color-text);
+}
+
+.map-selected-resource-clear {
+  font-weight: 600;
+}
+
 .submit-report-button {
   background-color: var(--color-forest-green);
   color: #ffffff;

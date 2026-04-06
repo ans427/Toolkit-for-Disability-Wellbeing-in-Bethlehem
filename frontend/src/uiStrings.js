@@ -91,6 +91,7 @@ export const uiStrings = {
       resourceDetail: {
         backToResources: '← Back to Immediate Resources',
         visitWebsite: 'Visit Website ↗',
+        viewOnMap: 'View on map ↗',
         aboutThisResource: 'About this resource',
         photos: 'Photos',
         contact: 'Contact',
@@ -108,6 +109,8 @@ export const uiStrings = {
         loading: 'Loading map...',
         mapAriaLabel: 'Interactive map of disability resources in Bethlehem',
         viewDetails: 'View details →',
+        showingResource: 'Showing map location for: {{title}}.',
+        clearSelection: 'Show all resources',
       },
       submitForm: {
         backHome: '← Back to Home',
@@ -405,6 +408,7 @@ export const uiStrings = {
       resourceDetail: {
         backToResources: '← Volver a recursos inmediatos',
         visitWebsite: 'Visitar sitio web ↗',
+        viewOnMap: 'Ver en el mapa ↗',
         aboutThisResource: 'Acerca de este recurso',
         photos: 'Fotos',
         contact: 'Contacto',
@@ -422,6 +426,8 @@ export const uiStrings = {
         loading: 'Cargando mapa...',
         mapAriaLabel: 'Mapa interactivo de recursos para personas con discapacidad en Bethlehem',
         viewDetails: 'Ver detalles →',
+        showingResource: 'Mostrando ubicación en el mapa para: {{title}}.',
+        clearSelection: 'Mostrar todos los recursos',
         inaccessibleLocationsTitle: 'Ubicaciones inaccesibles',
         inaccessibleLocationsDescription: 'Este mapa muestra ubicaciones que han sido reportadas como inaccesibles. Ayúdanos a mejorar la accesibilidad reportando problemas que encuentres.',
         accessibleResourcesTitle: 'Recursos accesibles',

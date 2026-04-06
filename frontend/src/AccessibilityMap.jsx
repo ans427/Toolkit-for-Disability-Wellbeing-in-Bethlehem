@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react'
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
+import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet'
 import { sanity } from './sanityClient'
 import Breadcrumb from './Breadcrumb'
 import { useLanguage } from './languageContext'
 import { pickI18n } from './i18nUtils'
-import { t } from './uiStrings'
-import { Link } from 'react-router-dom'
+import { t, tFormat } from './uiStrings'
+import { Link, useSearchParams } from 'react-router-dom'
 import 'leaflet/dist/leaflet.css'
 import './AccessibilityMap.css'
 
@@ -61,8 +61,21 @@ async function geocodeAddress(address) {
   return coords
 }
 
+function FocusSelectedResource({ coordinates }) {
+  const map = useMap()
+
+  useEffect(() => {
+    if (!coordinates) return
+    map.setView(coordinates, 15, { animate: false })
+  }, [map, coordinates])
+
+  return null
+}
+
 function AccessibilityMap() {
   const lang = useLanguage()
+  const [searchParams] = useSearchParams()
+  const selectedResourceId = searchParams.get('resourceId')
   const [resources, setResources] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
@@ -197,6 +210,8 @@ function AccessibilityMap() {
 
   // Default center on Bethlehem, PA
   const defaultCenter = [40.6259, -75.3705]
+  const selectedResource = geocodedResources.find((resource) => resource._id === selectedResourceId)
+  const selectedResourceCenter = selectedResource?.coordinates ?? null
 
   const handleFormChange = (e) => {
     const { name, value, type, files } = e.target
@@ -542,9 +557,19 @@ function AccessibilityMap() {
           <section className="resources-section">
             <h2>{t(lang, 'pages.accessibilityMap.accessibleResourcesTitle')}</h2>
             <p>{t(lang, 'pages.accessibilityMap.accessibleResourcesDescription')}</p>
+            {selectedResource && (
+              <p className="map-selected-resource-note" role="status" aria-live="polite">
+                {tFormat(lang, 'pages.accessibilityMap.showingResource', {
+                  title: pickI18n(selectedResource.titleI18n, lang, selectedResource.title),
+                })}{' '}
+                <Link to="/map" className="map-selected-resource-clear">
+                  {t(lang, 'pages.accessibilityMap.clearSelection')}
+                </Link>
+              </p>
+            )}
             <div className="map-container">
               <MapContainer
-                center={defaultCenter}
+                center={selectedResourceCenter || defaultCenter}
                 zoom={13}
                 style={{ height: '600px', width: '100%' }}
                 aria-label={t(lang, 'pages.accessibilityMap.mapAriaLabel')}
@@ -553,6 +578,7 @@ function AccessibilityMap() {
                   url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                   attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                 />
+                <FocusSelectedResource coordinates={selectedResourceCenter} />
                 {geocodedResources.map((resource) => {
                   const address = resource.address
                   const fullAddress = `${address.street}, ${address.city}, ${address.state} ${address.zipCode}`

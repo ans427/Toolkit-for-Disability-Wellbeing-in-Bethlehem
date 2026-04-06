@@ -416,6 +416,24 @@ a.resource-contact-item:focus-visible {
   line-height: 1.5;
 }
 
+.resource-map-link {
+  display: inline-block;
+  width: fit-content;
+  margin-top: 0.25rem;
+  color: var(--color-forest-green);
+  font-weight: 600;
+  text-decoration: underline;
+}
+
+.resource-map-link:hover {
+  color: var(--color-forest-green-hover);
+}
+
+.resource-map-link:focus-visible {
+  outline: 2px dashed var(--focus-color);
+  outline-offset: 2px;
+}
+
 /* Error */
 .error-container {
   background: #fff;
@@ -461,6 +479,10 @@ html.a11y-high-contrast .resource-contact-item {
 }
 html.a11y-high-contrast a.resource-contact-item:hover {
   background: #000;
+  color: #ff0;
+}
+
+html.a11y-high-contrast .resource-map-link {
   color: #ff0;
 }
 
