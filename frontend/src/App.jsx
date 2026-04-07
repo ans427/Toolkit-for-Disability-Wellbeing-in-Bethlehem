@@ -9,6 +9,7 @@ import SubmitForm from './SubmitForm'
 import PolicyGaps from './PolicyGaps'
 import DisabilityActivism from './DisabilityActivism'
 import AccessibilityMap from './AccessibilityMap'
+import ReportIssue from './ReportIssue'
 import Sitemap from './Sitemap'
 import Disclaimers from './Disclaimers'
 import AccessibilityStatement from './AccessibilityStatement'
@@ -91,10 +92,15 @@ function HomePage() {
           </div>
         </Link>
 
-        <div className="nav-card">
-          <h2>{t(lang, 'home.cards.reportTitle')}</h2>
-          <p>{t(lang, 'home.cards.reportBody')}</p>
-        </div>
+        <Link
+          to="/report-issue"
+          style={{ textDecoration: 'none', color: 'inherit' }}
+        >
+          <div className="nav-card">
+            <h2>{t(lang, 'home.cards.reportTitle')}</h2>
+            <p>{t(lang, 'home.cards.reportBody')}</p>
+          </div>
+        </Link>
 
         <Link
           to="/submit"
@@ -391,6 +397,7 @@ function App() {
           <Route path="/community-stories/:storyId" element={<StoryDetail />} />
           <Route path="/policy-gaps" element={<PolicyGaps />} />
           <Route path="/disability-activism" element={<DisabilityActivism />} />
+          <Route path="/report-issue" element={<ReportIssue />} />
           <Route path="/submit" element={<SubmitForm />} />
           <Route path="/sitemap" element={<Sitemap />} />
           <Route path="/disclaimers" element={<Disclaimers />} />
