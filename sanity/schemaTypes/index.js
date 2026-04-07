@@ -10,6 +10,7 @@ import aboutPage from './aboutPage'
 import localizedString from './localizedString'
 import localizedText from './localizedText'
 import accessibilityReport from './accessibilityReport'
+import siteIssueReport from './siteIssueReport'
 
 export const schemaTypes = [
   localizedString,
@@ -24,5 +25,6 @@ export const schemaTypes = [
   disabilityActivismPage,
   aboutPage,
   accessibilityReport,
+  siteIssueReport,
 ]
 

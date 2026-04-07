@@ -17,37 +17,64 @@ export default defineConfig({
           .title('Content')
           .items([
             S.listItem()
-              .title('Policy Gaps Page')
+              .title('Pages')
               .child(
-                S.document()
-                  .schemaType('policyGapsPage')
-                  .documentId('policyGapsPage')
+                S.list()
+                  .title('Pages')
+                  .items([
+                    S.listItem()
+                      .title('Policy Gaps Page')
+                      .child(
+                        S.document()
+                          .schemaType('policyGapsPage')
+                          .documentId('policyGapsPage')
+                      ),
+                    S.listItem()
+                      .title('Disability Activism Page')
+                      .child(
+                        S.document()
+                          .schemaType('disabilityActivismPage')
+                          .documentId('disabilityActivismPage')
+                      ),
+                    S.listItem()
+                      .title('About Page')
+                      .child(
+                        S.document()
+                          .schemaType('aboutPage')
+                          .documentId('aboutPage')
+                      ),
+                  ])
               ),
             S.listItem()
-              .title('Disability Activism Page')
+              .title('Policy & Advocacy')
               .child(
-                S.document()
-                  .schemaType('disabilityActivismPage')
-                  .documentId('disabilityActivismPage')
+                S.list()
+                  .title('Policy & Advocacy')
+                  .items([
+                    S.listItem()
+                      .title('Policy Gaps')
+                      .child(S.documentTypeList('policyGap').title('Policy Gaps')),
+                    S.listItem()
+                      .title('Accessibility Reports')
+                      .child(S.documentTypeList('accessibilityReport').title('Accessibility Reports')),
+                    S.listItem()
+                      .title('Site Issue Reports')
+                      .child(S.documentTypeList('siteIssueReport').title('Site Issue Reports')),
+                  ])
               ),
             S.listItem()
-              .title('About Page')
+              .title('Community Content')
               .child(
-                S.document()
-                  .schemaType('aboutPage')
-                  .documentId('aboutPage')
+                S.list()
+                  .title('Community Content')
+                  .items([
+                    S.documentTypeListItem('resource').title('Resources'),
+                    S.documentTypeListItem('communityStory').title('Community Stories'),
+                    S.documentTypeListItem('comment').title('Comments'),
+                    S.documentTypeListItem('submission').title('Submissions'),
+                    S.documentTypeListItem('resourceFeedback').title('Resource Feedback'),
+                  ])
               ),
-            S.divider(),
-            S.listItem()
-              .title('Policy Gaps')
-              .child(S.documentTypeList('policyGap').title('Policy Gaps')),
-            S.divider(),
-            S.documentTypeListItem('resource').title('Resources'),
-            S.documentTypeListItem('communityStory').title('Community Stories'),
-            S.documentTypeListItem('comment').title('Comments'),
-            S.documentTypeListItem('submission').title('Submissions'),
-            S.documentTypeListItem('resourceFeedback').title('Resource Feedback'),
-            S.documentTypeListItem('accessibilityReport').title('Accessibility Reports'),
           ]),
     }),
     visionTool(),
