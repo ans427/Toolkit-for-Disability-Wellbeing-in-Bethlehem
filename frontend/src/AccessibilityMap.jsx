@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet'
+import { MapContainer, TileLayer, Marker, Popup, useMap, useMapEvents } from 'react-leaflet'
 import { sanity } from './sanityClient'
 import Breadcrumb from './Breadcrumb'
 import { useLanguage } from './languageContext'
@@ -16,6 +16,35 @@ L.Icon.Default.mergeOptions({
   iconRetinaUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png',
   iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png',
   shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
+})
+
+// Custom marker icons
+const reportIcon = new L.Icon({
+  iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png',
+  iconRetinaUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png',
+  shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
+  iconSize: [25, 41],
+  iconAnchor: [12, 41],
+  popupAnchor: [1, -34],
+  shadowSize: [41, 41]
+})
+
+const resourceIcon = new L.Icon({
+  iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-green.png',
+  iconRetinaUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png',
+  shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
+  iconSize: [25, 41],
+  iconAnchor: [12, 41],
+  popupAnchor: [1, -34],
+  shadowSize: [41, 41]
+})
+
+// DivIcon for user-placed pin with plus sign
+const pinIcon = L.divIcon({
+  className: 'custom-pin-icon',
+  html: '<span class="pin-plus">+</span>',
+  iconSize: [30, 30],
+  iconAnchor: [15, 30]
 })
 
 // State abbreviations for US
@@ -127,6 +156,34 @@ function FocusSelectedResource({ coordinates }) {
   return null
 }
 
+function MapClickHandler({ enabled, onClick }) {
+  useMapEvents({
+    click(e) {
+      if (!enabled) return
+      onClick(e.latlng)
+    }
+  })
+  return null
+}
+
+// Ensure coordinates are numeric [lat, lng]
+function normalizeCoordinates(coords) {
+  if (!coords) return null
+  if (Array.isArray(coords) && coords.length >= 2) {
+    const lat = Number(coords[0])
+    const lng = Number(coords[1])
+    if (Number.isFinite(lat) && Number.isFinite(lng)) return [lat, lng]
+    return null
+  }
+  if (typeof coords === 'object' && coords.lat != null && coords.lng != null) {
+    const lat = Number(coords.lat)
+    const lng = Number(coords.lng)
+    if (Number.isFinite(lat) && Number.isFinite(lng)) return [lat, lng]
+    return null
+  }
+  return null
+}
+
 function AccessibilityMap() {
   const lang = useLanguage()
   const [searchParams] = useSearchParams()
@@ -152,6 +209,8 @@ function AccessibilityMap() {
   })
   const [formStatus, setFormStatus] = useState('idle')
   const [currentLocationDisplay, setCurrentLocationDisplay] = useState(null)
+  const [showReports, setShowReports] = useState(true)
+  const [showResources, setShowResources] = useState(true)
 
   useEffect(() => {
     const fetchResources = async () => {
@@ -440,20 +499,54 @@ function AccessibilityMap() {
             <h2>{t(lang, 'pages.accessibilityMap.inaccessibleLocationsTitle')}</h2>
             <p>{t(lang, 'pages.accessibilityMap.inaccessibleLocationsDescription')}</p>
             <div className="map-container">
+              <div className="map-controls" style={{ marginBottom: '8px' }}>
+                <label style={{ marginRight: '12px' }}>
+                  <input type="checkbox" checked={showReports} onChange={() => setShowReports(s => !s)} /> Show reports
+                </label>
+                <label>
+                  <input type="checkbox" checked={showResources} onChange={() => setShowResources(s => !s)} /> Show resources
+                </label>
+                <div style={{ marginTop: '6px', fontSize: '0.9em', color: '#444' }}>When reporting, choose location mode <strong>Pin</strong> then click the map to place the pin.</div>
+              </div>
+
               <MapContainer
-                center={defaultCenter}
+                center={selectedResourceCenter || defaultCenter}
                 zoom={13}
-                style={{ height: '400px', width: '100%' }}
-                aria-label="Map of inaccessible locations"
+                style={{ height: '420px', width: '100%' }}
+                aria-label={t(lang, 'pages.accessibilityMap.mapAriaLabel')}
               >
                 <TileLayer
                   url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                   attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                 />
-                {geocodedReports.map((report) => {
-                  console.log('Rendering marker for report:', report._id, report.coordinates)
+                <FocusSelectedResource coordinates={selectedResourceCenter} />
+
+                <MapClickHandler
+                  enabled={showForm && formData.locationType === 'pin'}
+                  onClick={async (latlng) => {
+                    const lat = latlng.lat
+                    const lng = latlng.lng
+                    setFormData(prev => ({ ...prev, locationType: 'pin', coordinates: { lat, lng } }))
+                    const addressLabel = await reverseGeocodeCoordinates(lat, lng)
+                    setCurrentLocationDisplay({ coordinates: { lat, lng }, addressLabel })
+                  }}
+                />
+
+                {showReports && geocodedReports.map((report) => {
+                  const pos = normalizeCoordinates(report.coordinates)
+                  if (!pos) return null
                   return (
-                    <Marker key={report._id} position={report.coordinates}>
+                    <Marker
+                      key={`report-${report._id}`}
+                      position={pos}
+                      icon={reportIcon}
+                      eventHandlers={{
+                        click: (e) => {
+                          console.log('report marker clicked', report._id, e)
+                          setSelectedReportMarker(report)
+                        }
+                      }}
+                    >
                       <Popup>
                         <div className="map-popup">
                           <h3>{report.subject}</h3>
@@ -472,6 +565,53 @@ function AccessibilityMap() {
                     </Marker>
                   )
                 })}
+
+                {showResources && geocodedResources.map((resource) => {
+                  const pos = normalizeCoordinates(resource.coordinates)
+                  if (!pos) return null
+                  const address = resource.address || {}
+                  const fullAddress = `${address.street || ''}${address.city ? `, ${address.city}` : ''}${address.state ? `, ${address.state}` : ''}${address.zipCode ? ` ${address.zipCode}` : ''}`
+                  return (
+                    <Marker
+                      key={`res-${resource._id}`}
+                      position={pos}
+                      icon={resourceIcon}
+                      eventHandlers={{
+                        click: (e) => {
+                          console.log('resource marker clicked', resource._id, e)
+                          setSelectedMapResource(resource)
+                        }
+                      }}
+                      ref={resource._id === selectedResourceId ? selectedMarkerRef : null}
+                    >
+                      <Popup>
+                        <div className="map-popup">
+                          <h3>{pickI18n(resource.titleI18n, lang, resource.title)}</h3>
+                          <p className="map-popup-category">{typeof getCategoryLabel !== 'undefined' ? getCategoryLabel(resource.category || 'general', lang) : (resource.category || '')}</p>
+                          <p className="map-popup-address">{fullAddress}</p>
+                          <p className="map-popup-description">{pickI18n(resource.descriptionI18n, lang, resource.description)}</p>
+                          <Link to={`/resources/${resource._id}`} className="map-popup-link">{t(lang, 'pages.accessibilityMap.viewDetails')}</Link>
+                        </div>
+                      </Popup>
+                    </Marker>
+                  )
+                })}
+
+                {formData.locationType === 'pin' && formData.coordinates?.lat != null && (
+                  <Marker
+                    position={[formData.coordinates.lat, formData.coordinates.lng]}
+                    icon={pinIcon}
+                    draggable={true}
+                    eventHandlers={{
+                      dragend: async (e) => {
+                        const { lat, lng } = e.target.getLatLng()
+                        setFormData(prev => ({ ...prev, coordinates: { lat, lng } }))
+                        const addressLabel = await reverseGeocodeCoordinates(lat, lng)
+                        setCurrentLocationDisplay({ coordinates: { lat, lng }, addressLabel })
+                      }
+                    }}
+                  />
+                )}
               </MapContainer>
             </div>
             <button
@@ -545,6 +685,16 @@ function AccessibilityMap() {
                     />
                     {t(lang, 'pages.accessibilityMap.useCurrentLocation')}
                   </label>
+                  <label>
+                    <input
+                      type="radio"
+                      name="locationType"
+                      value="pin"
+                      checked={formData.locationType === 'pin'}
+                      onChange={handleFormChange}
+                    />
+                    Place pin on map
+                  </label>
                   {formData.locationType === 'address' ? (
                     <>
                       <label>
@@ -586,16 +736,28 @@ function AccessibilityMap() {
                     </>
                   ) : (
                     <>
-                      <button type="button" onClick={getCurrentLocation}>
-                        {t(lang, 'pages.accessibilityMap.getCurrentLocation')}
-                      </button>
-                      {currentLocationDisplay?.coordinates?.lat != null && (
-                        <div className="current-location-details">
-                          <p>
-                            {t(lang, 'pages.accessibilityMap.coordinatesFound')} {currentLocationDisplay.coordinates.lat.toFixed(6)}, {currentLocationDisplay.coordinates.lng.toFixed(6)}
-                          </p>
-                          {currentLocationDisplay.addressLabel && (
-                            <p>{t(lang, 'pages.accessibilityMap.nearbyAddress')} {currentLocationDisplay.addressLabel}</p>
+                      {formData.locationType === 'coordinates' ? (
+                        <>
+                          <button type="button" onClick={getCurrentLocation}>
+                            {t(lang, 'pages.accessibilityMap.getCurrentLocation')}
+                          </button>
+                          {currentLocationDisplay?.coordinates?.lat != null && (
+                            <div className="current-location-details">
+                              <p>
+                                {t(lang, 'pages.accessibilityMap.coordinatesFound')} {currentLocationDisplay.coordinates.lat.toFixed(6)}, {currentLocationDisplay.coordinates.lng.toFixed(6)}
+                              </p>
+                              {currentLocationDisplay.addressLabel && (
+                                <p>{t(lang, 'pages.accessibilityMap.nearbyAddress')} {currentLocationDisplay.addressLabel}</p>
+                              )}
+                            </div>
+                          )}
+                        </>
+                      ) : (
+                        // pin mode
+                        <div className="pin-instructions">
+                          <p>Click the map above to place a pin. You can drag the pin to fine-tune its location.</p>
+                          {currentLocationDisplay?.addressLabel && (
+                            <p>Nearby address: {currentLocationDisplay.addressLabel}</p>
                           )}
                         </div>
                       )}
@@ -649,49 +811,9 @@ function AccessibilityMap() {
                 </Link>
               </p>
             )}
-            <div className="map-container">
-              <MapContainer
-                center={selectedResourceCenter || defaultCenter}
-                zoom={13}
-                style={{ height: '600px', width: '100%' }}
-                aria-label={t(lang, 'pages.accessibilityMap.mapAriaLabel')}
-              >
-                <TileLayer
-                  url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                  attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                />
-                <FocusSelectedResource coordinates={selectedResourceCenter} />
-                {geocodedResources.map((resource) => {
-                  const address = resource.address
-                  const fullAddress = `${address.street}, ${address.city}, ${address.state} ${address.zipCode}`
-
-                  return (
-                    <Marker
-                      key={resource._id}
-                      position={resource.coordinates}
-                      ref={resource._id === selectedResourceId ? selectedMarkerRef : null}
-                    >
-                      <Popup>
-                        <div className="map-popup">
-                          <h3>{pickI18n(resource.titleI18n, lang, resource.title)}</h3>
-                          <p className="map-popup-category">{resource.category}</p>
-                          <p className="map-popup-address">{fullAddress}</p>
-                          <p className="map-popup-description">
-                            {pickI18n(resource.descriptionI18n, lang, resource.description)}
-                          </p>
-                          <Link
-                            to={`/resources/${resource._id}`}
-                            className="map-popup-link"
-                          >
-                            {t(lang, 'pages.accessibilityMap.viewDetails')}
-                          </Link>
-                        </div>
-                      </Popup>
-                    </Marker>
-                  )
-                })}
-              </MapContainer>
-            </div>
+              <div className="map-container">
+                <p className="map-hint">Map is shown above — use the layer toggles to view reports and resources together.</p>
+              </div>
           </section>
         </>
       )}
