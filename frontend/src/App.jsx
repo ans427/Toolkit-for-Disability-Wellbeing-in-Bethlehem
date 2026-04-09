@@ -371,6 +371,7 @@ function App() {
   return (
     <BrowserRouter>
       <ScrollToTop />
+      <div id="top-of-page" tabIndex="-1" />
       <Header
         onAccessibilityClick={() => setA11yOpen(v => !v)}
         accessibilityOpen={a11yOpen}
@@ -415,6 +416,11 @@ function App() {
           <Route path="/about" element={<About />} />
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
           </Routes>
+        </div>
+        <div className="container global-back-to-top">
+          <a href="#top-of-page" className="global-back-to-top-link">
+            {t(language, 'backToTop')}
+          </a>
         </div>
         <Footer />
       </LanguageProvider>

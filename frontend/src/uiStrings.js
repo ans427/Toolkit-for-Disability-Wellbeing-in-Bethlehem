@@ -5,6 +5,7 @@ export const uiStrings = {
     skipToPageContent: 'Skip to page content',
     skipToNav: 'Skip to main navigation',
     skipToFooter: 'Skip to footer',
+    backToTop: '↑ Back to top',
     accessibility: 'Accessibility',
     language: 'Language',
     nav: {
@@ -89,7 +90,6 @@ export const uiStrings = {
         backHome: '← Back to Home',
         furtherReading: 'Further Reading',
         sources: 'Sources',
-        returnTop: '↑ Return to Top',
       },
       resourceDetail: {
         backToResources: '← Back to Immediate Resources',
@@ -339,6 +339,7 @@ export const uiStrings = {
     skipToPageContent: 'Saltar al contenido de la pagina',
     skipToNav: 'Saltar a la navegación principal',
     skipToFooter: 'Saltar al pie de página',
+    backToTop: '↑ Volver arriba',
     accessibility: 'Accesibilidad',
     language: 'Idioma',
     nav: {
@@ -427,7 +428,6 @@ export const uiStrings = {
         backHome: '← Volver al inicio',
         furtherReading: 'Lecturas recomendadas',
         sources: 'Fuentes',
-        returnTop: '↑ Volver arriba',
       },
       resourceDetail: {
         backToResources: '← Volver a recursos inmediatos',

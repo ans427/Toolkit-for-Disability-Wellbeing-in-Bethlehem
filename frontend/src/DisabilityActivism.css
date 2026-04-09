@@ -212,27 +212,6 @@
   outline-offset: 2px;
 }
 
-/* Return to top */
-.disability-activism .return-top {
-  text-align: center;
-  margin-top: 2rem;
-  margin-bottom: 2rem;
-}
-
-.disability-activism .return-top a {
-  color: var(--color-forest-green);
-  text-decoration: none;
-  font-size: 1rem;
-  font-weight: 600;
-}
-
-.disability-activism .return-top a:hover,
-.disability-activism .return-top a:focus-visible {
-  text-decoration: underline;
-  outline: 2px dashed var(--focus-color);
-  outline-offset: 2px;
-}
-
 /* Accessibility */
 @media (prefers-reduced-motion: reduce) {
   .disability-activism-section,

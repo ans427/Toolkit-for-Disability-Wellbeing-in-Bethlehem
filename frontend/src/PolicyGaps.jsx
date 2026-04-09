@@ -114,7 +114,6 @@ export default function PolicyGaps() {
   const actionHeading =
     lang === 'es' ? 'Avanzando: De la observación a la acción' : 'Moving Forward: From Observation to Action'
   const overlappingThemesHeading = lang === 'es' ? 'Temas superpuestos' : 'Overlapping Themes'
-  const returnTopLabel = lang === 'es' ? '↑ Volver arriba' : '↑ Return to Top'
 
   return (
     <main className="container" id="main-content">
@@ -226,9 +225,6 @@ export default function PolicyGaps() {
         </article>
       </div>
 
-      <p className="return-top">
-        <a href="#main-content">{returnTopLabel}</a>
-      </p>
     </main>
   )
 }

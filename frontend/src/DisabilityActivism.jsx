@@ -248,9 +248,6 @@ export default function DisabilityActivism() {
         )}
       </div>
 
-      <p className="return-top">
-        <a href="#main-content">{t(lang, 'pages.disabilityActivism.returnTop')}</a>
-      </p>
     </main>
   )
 }

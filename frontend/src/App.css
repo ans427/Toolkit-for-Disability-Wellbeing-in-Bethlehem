@@ -166,6 +166,24 @@ footer {
   }
 }
 
+.global-back-to-top {
+  margin: 0 auto;
+  padding-top: 0;
+  padding-bottom: 0.75rem;
+  text-align: left;
+}
+
+.global-back-to-top-link {
+  display: inline-block;
+  font-weight: 600;
+  text-decoration: underline;
+}
+
+.global-back-to-top-link:focus-visible {
+  outline: 2px dashed var(--focus-color);
+  outline-offset: 2px;
+}
+
 .homepage-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);

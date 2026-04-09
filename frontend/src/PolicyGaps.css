@@ -246,27 +246,6 @@
   margin-bottom: 0;
 }
 
-/* Return to top */
-.return-top {
-  text-align: center;
-  margin-top: 2rem;
-  margin-bottom: 2rem;
-}
-
-.return-top a {
-  color: var(--color-forest-green);
-  text-decoration: none;
-  font-size: 1rem;
-  font-weight: 600;
-}
-
-.return-top a:hover,
-.return-top a:focus-visible {
-  text-decoration: underline;
-  outline: 2px dashed var(--focus-color);
-  outline-offset: 2px;
-}
-
 /* Accessibility: reduced motion */
 @media (prefers-reduced-motion: reduce) {
   .policy-section,

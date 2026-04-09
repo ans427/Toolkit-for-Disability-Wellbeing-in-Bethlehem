@@ -29,7 +29,7 @@ function Header({
   const currentLanguage = languages.find((l) => l.code === language) ?? languages[0]
 
   return (
-    <header className="site-header" role="banner">
+    <header id="site-header" className="site-header" role="banner">
       <a href="#main-content" className="skip-link">
         {t(language, 'skipToMain')}
       </a>
