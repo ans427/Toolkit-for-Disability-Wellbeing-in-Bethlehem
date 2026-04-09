@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState, useMemo } from 'react'
 import { MapContainer, TileLayer, Marker, Popup, useMap, useMapEvents } from 'react-leaflet'
 import { sanity } from './sanityClient'
 import Breadcrumb from './Breadcrumb'
@@ -107,16 +107,38 @@ const geocodeCache = new Map()
 
 // Simple geocoding function using Nominatim (OpenStreetMap)
 async function geocodeAddress(address) {
-  const fullAddress = `${address.street}, ${address.city}, ${address.state} ${address.zipCode}`
+  const parts = [address.street, address.city, address.state, address.zipCode].filter(Boolean)
+  const fullAddress = parts.join(', ')
   const cacheKey = fullAddress.toLowerCase().trim()
 
   if (geocodeCache.has(cacheKey)) {
+    console.log('Geocode cache hit for:', fullAddress, geocodeCache.get(cacheKey))
     return geocodeCache.get(cacheKey)
   }
 
+  if (!address.street || !address.city) {
+    console.warn('Skipping geocoding for incomplete address:', address)
+    return null // Skip incomplete addresses
+  }
+
+  // Clean the address: remove PO Box prefix or take part before first comma
+  let cleanedStreet = address.street
+  if (cleanedStreet.toLowerCase().startsWith('po box')) {
+    cleanedStreet = cleanedStreet.replace(/^po box[^,]+,\s*/i, '')
+  } else {
+    const commaIndex = cleanedStreet.indexOf(',')
+    if (commaIndex > 0) {
+      cleanedStreet = cleanedStreet.substring(0, commaIndex).trim()
+    }
+  }
+  const cleanedParts = [cleanedStreet, address.city, address.state, address.zipCode].filter(Boolean)
+  const cleanedAddress = cleanedParts.join(', ')
+
+  console.log('Trying geocoding for:', fullAddress, 'cleaned to:', cleanedAddress)
+
   try {
     const response = await fetch(
-      `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(fullAddress)}&limit=1`,
+      `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(cleanedAddress)}&countrycodes=US&limit=1`,
       {
         headers: {
           'User-Agent': 'Bethlehem Disability Toolkit'
@@ -127,20 +149,44 @@ async function geocodeAddress(address) {
 
     if (data && data.length > 0) {
       const coords = [parseFloat(data[0].lat), parseFloat(data[0].lon)]
+      console.log('Geocoded:', cleanedAddress, 'to', coords)
       geocodeCache.set(cacheKey, coords)
       return coords
+    } else {
+      console.warn('No geocoding results for cleaned address:', cleanedAddress)
+      // Try geocoding just city, state
+      const cityState = [address.city, address.state].filter(Boolean).join(', ')
+      console.log('Trying city/state:', cityState)
+      const cityResponse = await fetch(
+        `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(cityState)}&countrycodes=US&limit=1`,
+        {
+          headers: {
+            'User-Agent': 'Bethlehem Disability Toolkit'
+          }
+        }
+      )
+      const cityData = await cityResponse.json()
+      if (cityData && cityData.length > 0) {
+        const coords = [parseFloat(cityData[0].lat), parseFloat(cityData[0].lon)]
+        console.log('Geocoded city/state:', cityState, 'to', coords)
+        geocodeCache.set(cacheKey, coords)
+        return coords
+      } else {
+        console.warn('No geocoding results for city/state:', cityState)
+      }
     }
   } catch (error) {
-    console.error('Geocoding error:', error)
+    console.error('Geocoding error for:', cleanedAddress, error)
   }
 
-  // Fallback: return Bethlehem center with small random offset
+  // Fallback: place at Bethlehem with small spread
   const baseLat = 40.6259
   const baseLng = -75.3705
-  const offset = 0.005 // ~500 meters
+  const offset = 0.01 // ~1km spread
   const lat = baseLat + (Math.random() - 0.5) * offset
   const lng = baseLng + (Math.random() - 0.5) * offset
   const coords = [lat, lng]
+  console.warn('Using approximate coords for:', fullAddress, coords)
   geocodeCache.set(cacheKey, coords)
   return coords
 }
@@ -181,6 +227,19 @@ function normalizeCoordinates(coords) {
     if (Number.isFinite(lat) && Number.isFinite(lng)) return [lat, lng]
     return null
   }
+  return null
+}
+
+function FitBounds({ coordinates }) {
+  const map = useMap()
+
+  useEffect(() => {
+    if (!coordinates || coordinates.length === 0) return
+
+    const bounds = L.latLngBounds(coordinates)
+    map.fitBounds(bounds, { padding: [20, 20] })
+  }, [map, coordinates])
+
   return null
 }
 
@@ -287,10 +346,11 @@ function AccessibilityMap() {
       const geocoded = await Promise.all(
         resources.map(async (resource) => {
           const coords = await geocodeAddress(resource.address)
-          return { ...resource, coordinates: coords }
+          return coords ? { ...resource, coordinates: coords } : null
         })
       )
-      setGeocodedResources(geocoded)
+      const validGeocoded = geocoded.filter(r => r !== null)
+      setGeocodedResources(validGeocoded)
     }
 
     geocodeResources()
@@ -328,6 +388,13 @@ function AccessibilityMap() {
   const defaultCenter = [40.6259, -75.3705]
   const selectedResource = geocodedResources.find((resource) => resource._id === selectedResourceId)
   const selectedResourceCenter = selectedResource?.coordinates ?? null
+
+  const allCoords = useMemo(() => {
+    const coords = []
+    geocodedResources.forEach(r => { if (r.coordinates && Array.isArray(r.coordinates)) coords.push(r.coordinates) })
+    geocodedReports.forEach(r => { if (r.coordinates && Array.isArray(r.coordinates)) coords.push(r.coordinates) })
+    return coords
+  }, [geocodedResources, geocodedReports])
 
   useEffect(() => {
     if (!selectedResourceId || !resourcesSectionRef.current || loading) return
@@ -496,8 +563,6 @@ function AccessibilityMap() {
       ) : (
         <>
           <section className="inaccessible-locations-section">
-            <h2>{t(lang, 'pages.accessibilityMap.inaccessibleLocationsTitle')}</h2>
-            <p>{t(lang, 'pages.accessibilityMap.inaccessibleLocationsDescription')}</p>
             <div className="map-container">
               <div className="map-controls" style={{ marginBottom: '8px' }}>
                 <label style={{ marginRight: '12px' }}>
@@ -506,7 +571,6 @@ function AccessibilityMap() {
                 <label>
                   <input type="checkbox" checked={showResources} onChange={() => setShowResources(s => !s)} /> Show resources
                 </label>
-                <div style={{ marginTop: '6px', fontSize: '0.9em', color: '#444' }}>When reporting, choose location mode <strong>Pin</strong> then click the map to place the pin.</div>
               </div>
 
               <MapContainer
@@ -799,8 +863,6 @@ function AccessibilityMap() {
           </section>
 
           <section className="resources-section" ref={resourcesSectionRef}>
-            <h2>{t(lang, 'pages.accessibilityMap.accessibleResourcesTitle')}</h2>
-            <p>{t(lang, 'pages.accessibilityMap.accessibleResourcesDescription')}</p>
             {selectedResource && (
               <p className="map-selected-resource-note" role="status" aria-live="polite">
                 {tFormat(lang, 'pages.accessibilityMap.showingResource', {
@@ -811,9 +873,7 @@ function AccessibilityMap() {
                 </Link>
               </p>
             )}
-              <div className="map-container">
-                <p className="map-hint">Map is shown above — use the layer toggles to view reports and resources together.</p>
-              </div>
+              
           </section>
         </>
       )}
