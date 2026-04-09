@@ -33,6 +33,9 @@ export const uiStrings = {
         submitBody: 'Share a resource or community story for review.',
         aboutTitle: 'About the Toolkit',
         aboutBody: 'Learn about the project and collaborators.',
+        accessibilityStatementTitle: 'Accessibility Statement',
+        accessibilityStatementBody:
+          'Read how this site supports accessibility and aligns with WCAG guidelines.',
       },
       cta: {
         text: "Know something we don't? This toolkit grows through community contribution.",
@@ -367,6 +370,9 @@ export const uiStrings = {
         submitBody: 'Comparte un recurso o una historia para revisión.',
         aboutTitle: 'Acerca del kit',
         aboutBody: 'Conoce el proyecto y sus colaboradores.',
+        accessibilityStatementTitle: 'Declaracion de accesibilidad',
+        accessibilityStatementBody:
+          'Conoce como este sitio apoya la accesibilidad y se alinea con las pautas WCAG.',
       },
       cta: {
         text:

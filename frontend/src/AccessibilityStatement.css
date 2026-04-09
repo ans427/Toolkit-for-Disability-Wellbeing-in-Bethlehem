@@ -34,6 +34,16 @@
   margin-bottom: 0;
 }
 
+.statement-section ul {
+  margin: 0;
+  padding-left: 1.4rem;
+}
+
+.statement-section li {
+  margin-bottom: 0.6rem;
+  color: var(--color-text-muted);
+}
+
 .statement-section a {
   color: #0056b3;
   text-decoration: none;

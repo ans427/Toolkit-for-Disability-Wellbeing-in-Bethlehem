@@ -121,6 +121,16 @@ function HomePage() {
             <p>{t(lang, 'home.cards.aboutBody')}</p>
           </div>
         </Link>
+
+        <Link
+          to="/accessibility-statement"
+          style={{ textDecoration: 'none', color: 'inherit' }}
+        >
+          <div className="nav-card">
+            <h2>{t(lang, 'home.cards.accessibilityStatementTitle')}</h2>
+            <p>{t(lang, 'home.cards.accessibilityStatementBody')}</p>
+          </div>
+        </Link>
       </section>
 
       <section className="cta-band">

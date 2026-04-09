@@ -7,6 +7,7 @@ import policyGap from './policyGap'
 import policyGapsPage from './policyGapsPage'
 import disabilityActivismPage from './disabilityActivismPage'
 import aboutPage from './aboutPage'
+import accessibilityStatementPage from './accessibilityStatementPage'
 import localizedString from './localizedString'
 import localizedText from './localizedText'
 import accessibilityReport from './accessibilityReport'
@@ -24,6 +25,7 @@ export const schemaTypes = [
   policyGapsPage,
   disabilityActivismPage,
   aboutPage,
+  accessibilityStatementPage,
   accessibilityReport,
   siteIssueReport,
 ]

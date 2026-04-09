@@ -1,62 +1,116 @@
+import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import Breadcrumb from './Breadcrumb'
+import { sanity } from './sanityClient'
+import { useLanguage } from './languageContext'
+import { pickI18n } from './i18nUtils'
+import { t } from './uiStrings'
 import './AccessibilityStatement.css'
 
+const ACCESSIBILITY_STATEMENT_QUERY = `*[_type == "accessibilityStatementPage" && _id == "accessibilityStatementPage"][0]{
+  pageTitle,
+  pageTitleI18n,
+  intro,
+  introI18n,
+  sections[]{
+    heading,
+    headingI18n,
+    body,
+    bodyI18n,
+    listItems[]{
+      text,
+      textI18n
+    }
+  },
+  contactEmail,
+  contactEmailLabel,
+  contactEmailLabelI18n
+}`
+
 function AccessibilityStatement() {
-  return (
-    <>
-      <Breadcrumb />
+  const lang = useLanguage()
+  const [content, setContent] = useState(null)
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    const load = async () => {
+      try {
+        const data = await sanity.fetch(ACCESSIBILITY_STATEMENT_QUERY)
+        setContent(data || null)
+      } catch (err) {
+        console.error('Failed to load Accessibility Statement content from Sanity:', err)
+      } finally {
+        setLoading(false)
+      }
+    }
+    load()
+  }, [])
+
+  const title = pickI18n(content?.pageTitleI18n, lang, content?.pageTitle) || t(lang, 'breadcrumb.accessibilityStatement')
+  const intro = pickI18n(content?.introI18n, lang, content?.intro)
+  const sections = Array.isArray(content?.sections) ? content.sections : []
+  const contactEmail = content?.contactEmail || ''
+  const contactEmailLabel =
+    pickI18n(content?.contactEmailLabelI18n, lang, content?.contactEmailLabel) || 'Email'
+
+  if (loading) {
+    return (
       <main className="container">
-        <div className="accessibility-statement">
-          <header className="accessibility-statement-header">
-            <Link to="/" className="back-link">← Back Home</Link>
-            <h1>Accessibility Statement</h1>
-          </header>
-
-          <section className="statement-section">
-            <h2>Section One</h2>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-          </section>
-
-          <section className="statement-section">
-            <h2>Section Two</h2>
-            <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-            <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis.</p>
-          </section>
-
-          <section className="statement-section">
-            <h2>Section Three</h2>
-            <p>Et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.</p>
-            <p>Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.</p>
-          </section>
-
-          <section className="statement-section">
-            <h2>Section Four</h2>
-            <p>Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut quid ex ea commodi consequatur quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur.</p>
-          </section>
-
-          <section className="statement-section">
-            <h2>Section Five</h2>
-            <p>Vel illum qui dolorem eum fugiat quo voluptas nulla pariatur at vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident.</p>
-          </section>
-
-          <section className="statement-section">
-            <h2>Section Six</h2>
-            <p>Similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae itaque earum rerum hic tenetur.</p>
-          </section>
-
-          <section className="statement-section">
-            <h2>Section Seven</h2>
-            <p>A sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat sequi nesciunt neque porro quisquam est, qui dolorem ipsum quia dolor sit amet consectetur.</p>
-          </section>
-
-          <section className="statement-section">
-            <h2>Section Eight</h2>
-            <p>Adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem ut enim ad minima veniam quis nostrum exercitationem ullam corporis suscipit laboriosam.</p>
-          </section>
-        </div>
+        <Breadcrumb />
+        <p aria-live="polite">Loading accessibility statement...</p>
       </main>
-    </>
+    )
+  }
+
+  return (
+    <main className="container">
+      <Breadcrumb />
+      <div className="accessibility-statement">
+        <header className="accessibility-statement-header">
+          <Link to="/" className="back-link">{t(lang, 'pages.reportIssue.backHome')}</Link>
+          <h1>{title}</h1>
+          {intro && <p className="subtitle">{intro}</p>}
+        </header>
+
+        {sections.map((section, idx) => {
+          const heading = pickI18n(section?.headingI18n, lang, section?.heading)
+          const body = pickI18n(section?.bodyI18n, lang, section?.body)
+          const listItems = (section?.listItems || [])
+            .map((item) => pickI18n(item?.textI18n, lang, item?.text))
+            .filter(Boolean)
+
+          return (
+            <section className="statement-section" key={idx}>
+              {heading && <h2>{heading}</h2>}
+              {body && body.split(/\n\s*\n/g).map((paragraph, pIdx) => (
+                <p key={pIdx}>{paragraph.trim()}</p>
+              ))}
+              {listItems.length > 0 && (
+                <ul>
+                  {listItems.map((item, itemIdx) => (
+                    <li key={itemIdx}>{item}</li>
+                  ))}
+                </ul>
+              )}
+            </section>
+          )
+        })}
+
+        {contactEmail && (
+          <section className="statement-section">
+            <p>
+              {contactEmailLabel}: <a href={`mailto:${contactEmail}`}>{contactEmail}</a>
+            </p>
+          </section>
+        )}
+
+        {sections.length === 0 && (
+          <section className="statement-section">
+            <p>Accessibility Statement content has not been configured in Sanity yet.</p>
+          </section>
+        )}
+      </div>
+    </main>
   )
 }
 

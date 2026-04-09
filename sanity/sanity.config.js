@@ -43,6 +43,13 @@ export default defineConfig({
                           .schemaType('aboutPage')
                           .documentId('aboutPage')
                       ),
+                    S.listItem()
+                      .title('Accessibility Statement Page')
+                      .child(
+                        S.document()
+                          .schemaType('accessibilityStatementPage')
+                          .documentId('accessibilityStatementPage')
+                      ),
                   ])
               ),
             S.listItem()
