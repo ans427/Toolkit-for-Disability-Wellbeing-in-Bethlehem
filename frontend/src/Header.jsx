@@ -42,7 +42,6 @@ function Header({
       <a href="#site-footer" className="skip-link skip-link-footer">
         {t(language, 'skipToFooter')}
       </a>
-
       <div className="header-inner">
         <Link to="/" className="site-title">
           {t(language, 'appTitle')}
