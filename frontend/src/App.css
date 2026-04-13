@@ -289,18 +289,31 @@ a {
 }
 
 /* CTA band – warm terracotta */
+.cta-band-group {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.5rem;
+  margin-top: 3rem;
+}
+
 .cta-band {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
   gap: 1.5rem;
-  margin-top: 3rem;
+  margin-top: 0;
   padding: 2rem 2.5rem;
   background: var(--color-surface);
   border-radius: 14px;
   border: 1.5px solid var(--color-border);
   box-shadow: 0 4px 16px color-mix(in srgb, var(--color-shadow) 35%, transparent);
+}
+
+@media (max-width: 900px) {
+  .cta-band-group {
+    grid-template-columns: 1fr;
+  }
 }
 
 .cta-band-text {

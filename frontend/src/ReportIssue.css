@@ -2,6 +2,42 @@
   margin-bottom: 1.5rem;
 }
 
+.report-location-redirect {
+  margin-bottom: 1.25rem;
+  padding: 1rem 1.25rem;
+  border: 1px solid var(--color-card-border);
+  border-radius: 12px;
+  background: var(--color-card-bg);
+}
+
+.report-location-redirect-title {
+  margin: 0 0 0.35rem;
+  font-weight: 700;
+}
+
+.report-location-redirect-text {
+  margin: 0 0 0.85rem;
+}
+
+.report-location-redirect-button {
+  display: inline-block;
+  padding: 0.65rem 1rem;
+  border-radius: 10px;
+  background: var(--color-forest-green);
+  color: #fff !important;
+  text-decoration: none !important;
+  font-weight: 600;
+}
+
+.report-location-redirect-button:hover {
+  background: var(--color-forest-green-hover);
+}
+
+.report-location-redirect-button:focus-visible {
+  outline: 2px dashed var(--focus-color);
+  outline-offset: 2px;
+}
+
 .report-form-page {
   background: var(--color-card-bg);
   border: 1px solid var(--color-card-border);

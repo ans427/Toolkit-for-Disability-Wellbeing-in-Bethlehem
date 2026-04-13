@@ -248,6 +248,7 @@ function AccessibilityMap() {
   const [searchParams] = useSearchParams()
   // Support both new and legacy query param names.
   const selectedResourceId = searchParams.get('selectedResourceId') || searchParams.get('resourceId')
+  const shouldOpenReportForm = searchParams.get('openReportForm') === '1'
   const selectedMarkerRef = useRef(null)
   const mapSectionRef = useRef(null)
   const [resources, setResources] = useState([])
@@ -401,6 +402,11 @@ function AccessibilityMap() {
     if (!selectedResourceId || !mapSectionRef.current || loading) return
     mapSectionRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' })
   }, [selectedResourceId, loading])
+
+  useEffect(() => {
+    if (!shouldOpenReportForm) return
+    setShowForm(true)
+  }, [shouldOpenReportForm])
 
   useEffect(() => {
     if (!selectedResourceId || !selectedResource || !selectedMarkerRef.current) return

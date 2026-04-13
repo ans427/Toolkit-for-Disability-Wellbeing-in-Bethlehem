@@ -93,16 +93,6 @@ function HomePage() {
         </Link>
 
         <Link
-          to="/report-issue"
-          style={{ textDecoration: 'none', color: 'inherit' }}
-        >
-          <div className="nav-card">
-            <h2>{t(lang, 'home.cards.reportTitle')}</h2>
-            <p>{t(lang, 'home.cards.reportBody')}</p>
-          </div>
-        </Link>
-
-        <Link
           to="/submit"
           style={{ textDecoration: 'none', color: 'inherit' }}
         >
@@ -131,13 +121,32 @@ function HomePage() {
             <p>{t(lang, 'home.cards.accessibilityStatementBody')}</p>
           </div>
         </Link>
+
+        <Link
+          to="/report-issue"
+          style={{ textDecoration: 'none', color: 'inherit' }}
+        >
+          <div className="nav-card">
+            <h2>{t(lang, 'home.cards.reportTitle')}</h2>
+            <p>{t(lang, 'home.cards.reportBody')}</p>
+          </div>
+        </Link>
       </section>
 
-      <section className="cta-band">
-        <p className="cta-band-text">{t(lang, 'home.cta.text')}</p>
-        <Link to="/submit" className="cta-band-button">
-          {t(lang, 'home.cta.button')}
-        </Link>
+      <section className="cta-band-group">
+        <section className="cta-band">
+          <p className="cta-band-text">{t(lang, 'home.cta.text')}</p>
+          <Link to="/submit" className="cta-band-button">
+            {t(lang, 'home.cta.button')}
+          </Link>
+        </section>
+
+        <section className="cta-band">
+          <p className="cta-band-text">{t(lang, 'home.reportCta.text')}</p>
+          <Link to="/map?openReportForm=1" className="cta-band-button">
+            {t(lang, 'home.reportCta.button')}
+          </Link>
+        </section>
       </section>
 
       {/* <footer>

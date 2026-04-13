@@ -75,6 +75,14 @@ function ReportIssue() {
         <p className="subtitle">{t(lang, 'pages.reportIssue.subtitle')}</p>
       </header>
 
+      <section className="report-location-redirect" aria-label={t(lang, 'pages.reportIssue.locationRedirectTitle')}>
+        <p className="report-location-redirect-title">{t(lang, 'pages.reportIssue.locationRedirectTitle')}</p>
+        <p className="report-location-redirect-text">{t(lang, 'pages.reportIssue.locationRedirectBody')}</p>
+        <Link to="/map" className="report-location-redirect-button">
+          {t(lang, 'pages.reportIssue.locationRedirectButton')}
+        </Link>
+      </section>
+
       <form className="report-form-page" onSubmit={handleSubmit}>
         <label className="report-label" htmlFor="subject">
           {t(lang, 'pages.reportIssue.subjectLabel')}

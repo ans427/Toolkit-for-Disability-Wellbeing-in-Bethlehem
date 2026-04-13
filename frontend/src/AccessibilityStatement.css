@@ -58,6 +58,26 @@
   outline-offset: 2px;
 }
 
+.statement-feedback-button {
+  display: inline-block;
+  padding: 0.7rem 1.1rem;
+  border-radius: 10px;
+  background: var(--color-forest-green);
+  color: #fff !important;
+  text-decoration: none !important;
+  font-weight: 600;
+}
+
+.statement-feedback-button:hover {
+  background: var(--color-forest-green-hover);
+  text-decoration: none;
+}
+
+.statement-feedback-button:focus-visible {
+  outline: 2px dashed var(--focus-color);
+  outline-offset: 2px;
+}
+
 @media (max-width: 600px) {
   .accessibility-statement-header h1 {
     font-size: 1.75rem;
@@ -85,4 +105,10 @@ html.a11y-high-contrast .statement-section p {
 html.a11y-high-contrast .statement-section a {
   color: #ff0 !important;
   text-decoration: underline !important;
+}
+
+html.a11y-high-contrast .statement-feedback-button {
+  background: #ff0 !important;
+  color: #000 !important;
+  text-decoration: none !important;
 }

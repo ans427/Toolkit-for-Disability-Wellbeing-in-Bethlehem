@@ -104,6 +104,13 @@ function AccessibilityStatement() {
           </section>
         )}
 
+        <section className="statement-section">
+          <p>{t(lang, 'pages.accessibilityStatement.feedbackText')}</p>
+          <Link to="/report-issue" className="statement-feedback-button">
+            {t(lang, 'pages.accessibilityStatement.feedbackLinkLabel')}
+          </Link>
+        </section>
+
         {sections.length === 0 && (
           <section className="statement-section">
             <p>Accessibility Statement content has not been configured in Sanity yet.</p>
