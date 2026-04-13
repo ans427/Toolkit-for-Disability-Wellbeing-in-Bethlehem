@@ -82,6 +82,11 @@
   flex-shrink: 0;
 }
 
+/* Anchor dropdowns to their wrappers so absolute dropdowns align under their buttons */
+.lang-wrapper {
+  position: relative;
+}
+
 @media (max-width: 900px) {
   .header-inner {
     flex-wrap: wrap;
