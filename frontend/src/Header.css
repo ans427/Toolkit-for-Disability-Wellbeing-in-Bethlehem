@@ -228,6 +228,16 @@
   transform: rotate(180deg) translateY(-0.02em);
 }
 
+@media (max-width: 1200px) {
+  .site-nav ul {
+    display: none; /* hide desktop nav when items start wrapping */
+  }
+
+  .menu-toggle {
+    display: block; /* show hamburger when nav wraps */
+  }
+}
+
 @media (max-width: 768px) {
   .header-inner {
     flex-direction: column;
@@ -238,14 +248,6 @@
 
   .header-top {
     justify-content: space-between;
-  }
-
-  .site-nav ul {
-    display: none; /* hide desktop nav on mobile */
-  }
-
-  .menu-toggle {
-    display: block; /* show hamburger on mobile */
   }
 
   .header-controls {
