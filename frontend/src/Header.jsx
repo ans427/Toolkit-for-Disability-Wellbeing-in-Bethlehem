@@ -99,7 +99,7 @@ function Header({
               <li><Link to="/resources" onClick={handleMenuLinkClick}>{t(language, 'nav.resources')}</Link></li>
               <li><Link to="/community-stories" onClick={handleMenuLinkClick}>{t(language, 'nav.stories')}</Link></li>
               <li><Link to="/map" onClick={handleMenuLinkClick}>{t(language, 'nav.map')}</Link></li>
-              <li><Link to="/policy-gaps" onClick={handleMenuLinkClick}>{t(language, 'nav.advocacy')}</Link></li>
+              <li><Link to="/disability-activism" onClick={handleMenuLinkClick}>{t(language, 'nav.advocacy')}</Link></li>
             </ul>
           </nav>
         </div>
@@ -163,7 +163,7 @@ function Header({
               <li><Link to="/resources" onClick={handleMenuLinkClick}>{t(language, 'nav.resources')}</Link></li>
               <li><Link to="/community-stories" onClick={handleMenuLinkClick}>{t(language, 'nav.stories')}</Link></li>
               <li><Link to="/map" onClick={handleMenuLinkClick}>{t(language, 'nav.map')}</Link></li>
-              <li><Link to="/policy-gaps" onClick={handleMenuLinkClick}>{t(language, 'nav.advocacy')}</Link></li>
+              <li><Link to="/disability-activism" onClick={handleMenuLinkClick}>{t(language, 'nav.advocacy')}</Link></li>
             </ul>
           </nav>
         </div>
