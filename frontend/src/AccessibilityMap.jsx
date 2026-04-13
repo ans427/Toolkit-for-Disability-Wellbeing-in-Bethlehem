@@ -567,10 +567,10 @@ function AccessibilityMap() {
             <div className="map-container">
               <div className="map-controls" style={{ marginBottom: '8px' }}>
                 <label style={{ marginRight: '12px' }}>
-                  <input type="checkbox" checked={showReports} onChange={() => setShowReports(s => !s)} /> Show reports
+                  <input type="checkbox" checked={showReports} onChange={() => setShowReports(s => !s)} /> Show inaccessible location reports
                 </label>
                 <label>
-                  <input type="checkbox" checked={showResources} onChange={() => setShowResources(s => !s)} /> Show resources
+                  <input type="checkbox" checked={showResources} onChange={() => setShowResources(s => !s)} /> Show immediate resources
                 </label>
               </div>
 
