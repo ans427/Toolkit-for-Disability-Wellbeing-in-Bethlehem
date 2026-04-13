@@ -246,7 +246,8 @@ function FitBounds({ coordinates }) {
 function AccessibilityMap() {
   const lang = useLanguage()
   const [searchParams] = useSearchParams()
-  const selectedResourceId = searchParams.get('resourceId')
+  // Support both new and legacy query param names.
+  const selectedResourceId = searchParams.get('selectedResourceId') || searchParams.get('resourceId')
   const selectedMarkerRef = useRef(null)
   const resourcesSectionRef = useRef(null)
   const [resources, setResources] = useState([])

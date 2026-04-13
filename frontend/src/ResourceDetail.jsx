@@ -312,7 +312,7 @@ function ResourceDetail() {
                 )}
                 {resource.address?.street && (
                   <Link
-                    to={`/map?resourceId=${encodeURIComponent(resourceId)}`}
+                    to={`/map?selectedResourceId=${encodeURIComponent(resourceId)}`}
                     className="resource-map-link"
                   >
                     {t(lang, 'pages.resourceDetail.viewOnMap')}
