@@ -249,7 +249,7 @@ function AccessibilityMap() {
   // Support both new and legacy query param names.
   const selectedResourceId = searchParams.get('selectedResourceId') || searchParams.get('resourceId')
   const selectedMarkerRef = useRef(null)
-  const resourcesSectionRef = useRef(null)
+  const mapSectionRef = useRef(null)
   const [resources, setResources] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
@@ -398,8 +398,8 @@ function AccessibilityMap() {
   }, [geocodedResources, geocodedReports])
 
   useEffect(() => {
-    if (!selectedResourceId || !resourcesSectionRef.current || loading) return
-    resourcesSectionRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    if (!selectedResourceId || !mapSectionRef.current || loading) return
+    mapSectionRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' })
   }, [selectedResourceId, loading])
 
   useEffect(() => {
@@ -563,7 +563,7 @@ function AccessibilityMap() {
         <p className="map-error">{error}</p>
       ) : (
         <>
-          <section className="inaccessible-locations-section">
+          <section className="inaccessible-locations-section" ref={mapSectionRef}>
             <div className="map-container">
               <div className="map-controls" style={{ marginBottom: '8px' }}>
                 <label style={{ marginRight: '12px' }}>
@@ -863,7 +863,7 @@ function AccessibilityMap() {
             )}
           </section>
 
-          <section className="resources-section" ref={resourcesSectionRef}>
+          <section className="resources-section">
             {selectedResource && (
               <p className="map-selected-resource-note" role="status" aria-live="polite">
                 {tFormat(lang, 'pages.accessibilityMap.showingResource', {
