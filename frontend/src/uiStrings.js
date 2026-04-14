@@ -82,7 +82,7 @@ export const uiStrings = {
           'Lived experiences from disabled residents and their communities in Bethlehem.',
         backHome: '← Back to Home',
         loading: 'Loading stories...',
-        empty: 'No stories have been added yet. Check back soon.',
+        empty: 'Community stories are coming soon. Check back soon.',
         readFull: 'Read Full Story →',
       },
       policyGaps: {
@@ -431,7 +431,7 @@ export const uiStrings = {
           'Experiencias vividas de residentes con discapacidad y sus comunidades en Bethlehem.',
         backHome: '← Volver al inicio',
         loading: 'Cargando historias...',
-        empty: 'Aún no hay historias. Vuelve pronto.',
+        empty: 'Las historias de la comunidad llegarán pronto. Vuelve pronto.',
         readFull: 'Leer historia completa →',
       },
       policyGaps: {
