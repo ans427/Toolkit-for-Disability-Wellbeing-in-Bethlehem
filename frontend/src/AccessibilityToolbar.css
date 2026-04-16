@@ -243,9 +243,18 @@ html.a11y-high-contrast .panel-reset-btn {
 
 /* Dyslexia-friendly mode – adds letter and word spacing for better readability */
 html.a11y-dyslexia-font {
+  --font-base: 'Lexend', 'Atkinson Hyperlegible', 'Inter', Verdana, Arial, sans-serif;
+  --font-heading: 'Lexend', 'Atkinson Hyperlegible', 'Inter', Verdana, Arial, sans-serif;
   letter-spacing: 0.05em !important;
   word-spacing: 0.2em !important;
   line-height: 1.7 !important;
+}
+
+html.a11y-dyslexia-font input,
+html.a11y-dyslexia-font textarea,
+html.a11y-dyslexia-font select,
+html.a11y-dyslexia-font button {
+  font-family: var(--font-base) !important;
 }
 
 /* Reduce animations */
