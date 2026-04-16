@@ -334,6 +334,7 @@ function AccessibilityMap() {
   const shouldOpenReportForm = searchParams.get('openReportForm') === '1'
   const selectedMarkerRef = useRef(null)
   const mapSectionRef = useRef(null)
+  const reportFormRef = useRef(null)
   const [resources, setResources] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
@@ -502,6 +503,11 @@ function AccessibilityMap() {
     if (!shouldOpenReportForm) return
     setShowForm(true)
   }, [shouldOpenReportForm])
+
+  useEffect(() => {
+    if (!shouldOpenReportForm || !showForm || loading || !reportFormRef.current) return
+    reportFormRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  }, [shouldOpenReportForm, showForm, loading])
 
   useEffect(() => {
     if (!selectedResourceId || !selectedResource || !selectedMarkerRef.current) return
@@ -819,7 +825,7 @@ function AccessibilityMap() {
               </p>
             )}
             {showForm && (
-              <form onSubmit={handleSubmitReport} className="report-form">
+              <form onSubmit={handleSubmitReport} className="report-form" ref={reportFormRef}>
                 <fieldset>
                   <legend>{t(lang, 'pages.accessibilityMap.reportDetails')}</legend>
                   <label>

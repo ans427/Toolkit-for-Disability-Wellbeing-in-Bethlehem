@@ -78,7 +78,7 @@ function ReportIssue() {
       <section className="report-location-redirect" aria-label={t(lang, 'pages.reportIssue.locationRedirectTitle')}>
         <p className="report-location-redirect-title">{t(lang, 'pages.reportIssue.locationRedirectTitle')}</p>
         <p className="report-location-redirect-text">{t(lang, 'pages.reportIssue.locationRedirectBody')}</p>
-        <Link to="/map" className="report-location-redirect-button">
+        <Link to="/map?openReportForm=1" className="report-location-redirect-button">
           {t(lang, 'pages.reportIssue.locationRedirectButton')}
         </Link>
       </section>
