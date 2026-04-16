@@ -93,6 +93,23 @@ export default {
       ]
     },
     {
+      name: 'coordinates',
+      title: 'Coordinates (auto-generated from address)',
+      type: 'object',
+      fields: [
+        {
+          name: 'lat',
+          title: 'Latitude',
+          type: 'number'
+        },
+        {
+          name: 'lng',
+          title: 'Longitude',
+          type: 'number'
+        }
+      ]
+    },
+    {
       name: 'image',
       type: 'image',
       title: 'Image (legacy – used for cards)',

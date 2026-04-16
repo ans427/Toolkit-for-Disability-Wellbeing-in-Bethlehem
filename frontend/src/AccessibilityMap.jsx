@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, useMemo } from 'react'
+import { useEffect, useRef, useState, useMemo, useCallback } from 'react'
 import { MapContainer, TileLayer, Marker, Popup, useMap, useMapEvents } from 'react-leaflet'
 import { sanity } from './sanityClient'
 import Breadcrumb from './Breadcrumb'
@@ -105,8 +105,8 @@ const STATE_ABBREVS = {
 // Simple geocoding cache
 const geocodeCache = new Map()
 
-// Simple geocoding function using Nominatim (OpenStreetMap)
-async function geocodeAddress(address) {
+// Simple geocoding function using US Census Bureau Geocoder (free, no API key needed)
+async function geocodeAddress(address, retries = 2) {
   const parts = [address.street, address.city, address.state, address.zipCode].filter(Boolean)
   const fullAddress = parts.join(', ')
   const cacheKey = fullAddress.toLowerCase().trim()
@@ -131,12 +131,43 @@ async function geocodeAddress(address) {
       cleanedStreet = cleanedStreet.substring(0, commaIndex).trim()
     }
   }
-  const cleanedParts = [cleanedStreet, address.city, address.state, address.zipCode].filter(Boolean)
-  const cleanedAddress = cleanedParts.join(', ')
 
-  console.log('Trying geocoding for:', fullAddress, 'cleaned to:', cleanedAddress)
+  console.log('Trying geocoding for:', fullAddress, 'cleaned street:', cleanedStreet)
 
+  for (let attempt = 0; attempt <= retries; attempt++) {
+    try {
+      // Try ArcGIS Geocoding API (free, reliable)
+      const singleLine = [cleanedStreet, address.city, STATE_ABBREVS[address.state] || address.state, address.zipCode].filter(Boolean).join(', ')
+      const arcgisUrl = `https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates?SingleLine=${encodeURIComponent(singleLine)}&f=json&maxLocations=1`
+      console.log('ArcGIS API request:', arcgisUrl)
+      const response = await fetch(arcgisUrl)
+      console.log('ArcGIS API response status:', response.status)
+      const data = await response.json()
+      console.log('ArcGIS API response data:', data)
+
+      if (data?.candidates && data.candidates.length > 0) {
+        const candidate = data.candidates[0]
+        const coords = [candidate.location.y, candidate.location.x]
+        console.log('Geocoded with ArcGIS:', singleLine, 'to', coords)
+        geocodeCache.set(cacheKey, coords)
+        return coords
+      } else {
+        console.warn('No geocoding results from ArcGIS for:', singleLine)
+      }
+    } catch (error) {
+      console.error('ArcGIS geocoding error for:', cleanedStreet, error)
+      if (attempt < retries) {
+        console.log(`Retrying geocoding in ${1000 * (attempt + 1)}ms...`)
+        await new Promise(resolve => setTimeout(resolve, 1000 * (attempt + 1)))
+      }
+    }
+  }
+
+  // Fallback: try Nominatim as backup
+  console.log('Trying Nominatim fallback for:', fullAddress)
   try {
+    const cleanedParts = [cleanedStreet, address.city, address.state, address.zipCode].filter(Boolean)
+    const cleanedAddress = cleanedParts.join(', ')
     const response = await fetch(
       `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(cleanedAddress)}&countrycodes=US&limit=1`,
       {
@@ -149,37 +180,15 @@ async function geocodeAddress(address) {
 
     if (data && data.length > 0) {
       const coords = [parseFloat(data[0].lat), parseFloat(data[0].lon)]
-      console.log('Geocoded:', cleanedAddress, 'to', coords)
+      console.log('Geocoded with Nominatim fallback:', cleanedAddress, 'to', coords)
       geocodeCache.set(cacheKey, coords)
       return coords
-    } else {
-      console.warn('No geocoding results for cleaned address:', cleanedAddress)
-      // Try geocoding just city, state
-      const cityState = [address.city, address.state].filter(Boolean).join(', ')
-      console.log('Trying city/state:', cityState)
-      const cityResponse = await fetch(
-        `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(cityState)}&countrycodes=US&limit=1`,
-        {
-          headers: {
-            'User-Agent': 'Bethlehem Disability Toolkit'
-          }
-        }
-      )
-      const cityData = await cityResponse.json()
-      if (cityData && cityData.length > 0) {
-        const coords = [parseFloat(cityData[0].lat), parseFloat(cityData[0].lon)]
-        console.log('Geocoded city/state:', cityState, 'to', coords)
-        geocodeCache.set(cacheKey, coords)
-        return coords
-      } else {
-        console.warn('No geocoding results for city/state:', cityState)
-      }
     }
   } catch (error) {
-    console.error('Geocoding error for:', cleanedAddress, error)
+    console.error('Nominatim fallback error:', error)
   }
 
-  // Fallback: place at Bethlehem with small spread
+  // Final fallback: place at Bethlehem with small spread
   const baseLat = 40.6259
   const baseLng = -75.3705
   const offset = 0.01 // ~1km spread
@@ -230,15 +239,89 @@ function normalizeCoordinates(coords) {
   return null
 }
 
-function FitBounds({ coordinates }) {
+function MarkersManager({ geocodedResources, geocodedReports, showResources, showReports, selectedResourceId, selectedMarkerRef, setSelectedMapResource, setSelectedReportMarker, lang, t, pickI18n }) {
   const map = useMap()
+  const markersRef = useRef([])
+
+  const renderMarkers = useCallback(() => {
+    if (!map) return
+
+    // Get current bounds
+    const bounds = map.getBounds()
+
+    // Remove old markers
+    markersRef.current.forEach(marker => map.removeLayer(marker))
+    markersRef.current = []
+
+    // Add visible report markers
+    if (showReports) {
+      geocodedReports.forEach(report => {
+        const pos = normalizeCoordinates(report.coordinates)
+        if (!pos || !bounds.contains(pos)) return
+
+        const marker = L.marker(pos, { icon: reportIcon })
+        marker.addTo(map)
+        markersRef.current.push(marker)
+
+        marker.on('click', () => setSelectedReportMarker(report))
+
+        const popupContent = `
+          <div class="map-popup">
+            <h3>${report.subject}</h3>
+            ${report.image?.asset?.url ? `<div class="map-popup-image-wrapper"><img src="${report.image.asset.url}" alt="${report.image.alt || `${report.subject} - accessibility issue`}" class="map-popup-image" /></div>` : ''}
+            <p class="map-popup-description">${report.details}</p>
+          </div>
+        `
+        marker.bindPopup(popupContent)
+      })
+    }
+
+    // Add visible resource markers
+    if (showResources) {
+      geocodedResources.forEach(resource => {
+        const pos = normalizeCoordinates(resource.coordinates)
+        if (!pos || !bounds.contains(pos)) return
+
+        const marker = L.marker(pos, { icon: resourceIcon })
+        marker.addTo(map)
+        markersRef.current.push(marker)
+
+        marker.on('click', () => setSelectedMapResource(resource))
+
+        const address = resource.address || {}
+        const fullAddress = `${address.street || ''}${address.city ? `, ${address.city}` : ''}${address.state ? `, ${address.state}` : ''}${address.zipCode ? ` ${address.zipCode}` : ''}`
+        const popupContent = `
+          <div class="map-popup">
+            <h3>${pickI18n(resource.titleI18n, lang, resource.title)}</h3>
+            <p class="map-popup-category">${resource.category || ''}</p>
+            <p class="map-popup-address">${fullAddress}</p>
+            <p class="map-popup-description">${pickI18n(resource.descriptionI18n, lang, resource.description)}</p>
+            <a href="/resources/${resource._id}" class="map-popup-link">${t(lang, 'pages.accessibilityMap.viewDetails')}</a>
+          </div>
+        `
+        marker.bindPopup(popupContent)
+
+        // Handle selected marker
+        if (resource._id === selectedResourceId) {
+          selectedMarkerRef.current = marker
+          marker.openPopup()
+        }
+      })
+    }
+  }, [map, geocodedResources, geocodedReports, showResources, showReports, selectedResourceId, selectedMarkerRef, setSelectedMapResource, setSelectedReportMarker, lang, t, pickI18n])
 
   useEffect(() => {
-    if (!coordinates || coordinates.length === 0) return
+    renderMarkers()
+    map.on('moveend', renderMarkers)
+    map.on('zoomend', renderMarkers)
 
-    const bounds = L.latLngBounds(coordinates)
-    map.fitBounds(bounds, { padding: [20, 20] })
-  }, [map, coordinates])
+    return () => {
+      map.off('moveend', renderMarkers)
+      map.off('zoomend', renderMarkers)
+      markersRef.current.forEach(marker => map.removeLayer(marker))
+      markersRef.current = []
+    }
+  }, [map, renderMarkers])
 
   return null
 }
@@ -291,6 +374,10 @@ function AccessibilityMap() {
               city,
               state,
               zipCode
+            },
+            coordinates{
+              lat,
+              lng
             }
           }`
         )
@@ -347,8 +434,16 @@ function AccessibilityMap() {
 
       const geocoded = await Promise.all(
         resources.map(async (resource) => {
-          const coords = await geocodeAddress(resource.address)
-          return coords ? { ...resource, coordinates: coords } : null
+          if (resource.coordinates && resource.coordinates.lat && resource.coordinates.lng) {
+            // Use stored coordinates
+            return { ...resource, coordinates: [resource.coordinates.lat, resource.coordinates.lng] }
+          } else if (resource.address?.street) {
+            // Geocode the address
+            const coords = await geocodeAddress(resource.address)
+            return coords ? { ...resource, coordinates: coords } : null
+          } else {
+            return null
+          }
         })
       )
       const validGeocoded = geocoded.filter(r => r !== null)
@@ -518,7 +613,15 @@ function AccessibilityMap() {
       }
 
       if (formData.locationType === 'address') {
-        doc.address = formData.address
+        // Geocode the address and store coordinates
+        const coords = await geocodeAddress(formData.address)
+        if (coords) {
+          doc.coordinates = { lat: coords[0], lng: coords[1] }
+          doc.locationType = 'coordinates' // Change to coordinates since we geocoded it
+        } else {
+          // If geocoding failed, still store the address for manual review
+          doc.address = formData.address
+        }
       } else {
         doc.coordinates = formData.coordinates
       }
@@ -591,6 +694,20 @@ function AccessibilityMap() {
                   attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                 />
                 <FocusSelectedResource coordinates={selectedResourceCenter} />
+
+                {/* <MarkersManager
+                  geocodedResources={geocodedResources}
+                  geocodedReports={geocodedReports}
+                  showResources={showResources}
+                  showReports={showReports}
+                  selectedResourceId={selectedResourceId}
+                  selectedMarkerRef={selectedMarkerRef}
+                  setSelectedMapResource={setSelectedMapResource}
+                  setSelectedReportMarker={setSelectedReportMarker}
+                  lang={lang}
+                  t={t}
+                  pickI18n={pickI18n}
+                /> */}
 
                 <MapClickHandler
                   enabled={showForm && formData.locationType === 'pin'}
