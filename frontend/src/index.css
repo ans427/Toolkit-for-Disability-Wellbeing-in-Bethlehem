@@ -1,25 +1,27 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Atkinson+Hyperlegible:wght@400;700&family=Lexend:wght@400;500;600;700&display=swap');
 
-/* Theme tokens (accessible defaults) */
+/* Theme tokens (pastel + navy) */
 :root {
   --font-base: 'Inter', 'Atkinson Hyperlegible', Verdana, Arial, Calibri, sans-serif;
   --font-heading: 'Inter', 'Atkinson Hyperlegible', Verdana, Arial, Calibri, sans-serif;
-  /* Active theme: White + Navy (WCAG-friendly contrast) */
   --color-forest-green: #1e3a5f;
-  --color-forest-green-hover: #16314f;
-  --color-cream: #ffffff;
-  --color-cream-alt: #f8fafc;
+  --color-forest-green-hover: #102844;
+  --color-cream: #f6f7f9;
+  --color-cream-alt: #eef2f7;
+  --color-pastel-blue: #eaf1f9;
+  --color-pastel-yellow: #fdf8e9;
+  --color-pastel-pink: #fcf1ed;
   --color-terracotta: #0f766e;
   --color-terracotta-hover: #115e59;
   --color-brown: #5c4033;
   --color-brown-hover: #4a3529;
-  --color-text: #1e3a5f;
-  --color-text-muted: #2b4158;
-  --color-surface: #ffffff;
-  --color-surface-soft: #ffffff;
-  --color-card-bg: #eaf1f9;
-  --color-card-border: #9fb1c3;
-  --color-border: #cfd8e3;
+  --color-text: #1b3557;
+  --color-text-muted: #2c4766;
+  --color-surface: #fdfdfe;
+  --color-surface-soft: #f4f7fb;
+  --color-card-bg: var(--color-pastel-blue);
+  --color-card-border: #a8b8c8;
+  --color-border: #c7d2df;
   --color-shadow: rgba(20, 35, 54, 0.14);
   --focus-color: #0b63ce;
   --color-link: var(--color-forest-green);

@@ -233,6 +233,24 @@ footer {
   box-shadow: 0 1px 5px color-mix(in srgb, var(--color-shadow) 22%, transparent);
 }
 
+.homepage-grid > a:nth-child(9n + 1) .nav-card,
+.homepage-grid > a:nth-child(9n + 5) .nav-card,
+.homepage-grid > a:nth-child(9n + 9) .nav-card {
+  background: var(--color-card-bg);
+}
+
+.homepage-grid > a:nth-child(9n + 2) .nav-card,
+.homepage-grid > a:nth-child(9n + 6) .nav-card,
+.homepage-grid > a:nth-child(9n + 7) .nav-card {
+  background: var(--color-pastel-yellow);
+}
+
+.homepage-grid > a:nth-child(9n + 3) .nav-card,
+.homepage-grid > a:nth-child(9n + 4) .nav-card,
+.homepage-grid > a:nth-child(9n + 8) .nav-card {
+  background: var(--color-pastel-pink);
+}
+
 @media (max-width: 600px) {
   .nav-card {
     padding: 1.25rem 1rem;
@@ -244,6 +262,16 @@ footer {
   background: var(--color-forest-green-hover);
   transform: translateY(-3px);
   box-shadow: 0 5px 12px color-mix(in srgb, var(--color-shadow) 30%, transparent);
+  border-color: color-mix(in srgb, var(--color-forest-green-hover) 80%, white 20%);
+}
+
+.nav-card:hover h2,
+.nav-card:hover p {
+  color: #ffffff;
+}
+
+.homepage-grid a:hover .nav-card {
+  background: var(--color-forest-green-hover);
   border-color: color-mix(in srgb, var(--color-forest-green-hover) 80%, white 20%);
 }
 
@@ -287,6 +315,11 @@ a {
   outline: 2px dashed var(--focus-color);
   outline-offset: 2px;
   border-color: var(--focus-color);
+}
+
+.homepage-grid a:focus-visible .nav-card h2,
+.homepage-grid a:focus-visible .nav-card p {
+  color: #ffffff;
 }
 
 /* CTA band – warm terracotta */

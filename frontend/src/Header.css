@@ -46,8 +46,8 @@
   top: 0;
   z-index: 10000;
   width: 100%;
-  background: var(--color-cream);
-  border-bottom: 1px solid rgba(45, 42, 38, 0.1);
+  background: var(--color-cream-alt);
+  border-bottom: 1px solid var(--color-border);
   padding: 1rem 0;
   align-self: stretch;
 }
@@ -167,9 +167,9 @@
 
 .menu-toggle {
   display: none;
-  background: white;
+  background: var(--color-surface);
   color: var(--color-forest-green);
-  border: none;
+  border: 1px solid var(--color-card-border);
   border-radius: 50px;
   font-size: 1.25rem;
   font-weight: 700;
@@ -300,15 +300,15 @@
   left: 0;
   width: 100%;
   margin-top: 0.25rem;
-  background: white;
-  border: 1px solid #ccc;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   z-index: 10001;
 }
 
 .mobile-nav {
-  background: white;
+  background: var(--color-surface-soft);
   width: 100%;
   display: block;
   padding: 0.5rem 0;
@@ -338,7 +338,7 @@
 
 .mobile-nav a:hover,
 .mobile-nav a:focus {
-  background: rgba(30, 61, 50, 0.08);
+  background: color-mix(in srgb, var(--color-pastel-blue) 70%, var(--color-surface) 30%);
 }
 
 /* Accessibility button – pill style, forest green */
@@ -450,8 +450,8 @@ html.a11y-high-contrast .mobile-nav a:focus {
   top: 100%;
   left: 0;
   margin-top: 0.25rem;
-  background: white;
-  border: 1px solid #ccc;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
   border-radius: 8px;
   padding: 0.25rem 0;
   min-width: 120px;
@@ -478,13 +478,13 @@ html.a11y-high-contrast .mobile-nav a:focus {
 }
 
 .language-dropdown button:hover {
-  background: rgba(30, 61, 50, 0.06);
+  background: color-mix(in srgb, var(--color-pastel-yellow) 70%, var(--color-surface) 30%);
 }
 
 .language-dropdown button:focus-visible {
   outline: 2px dashed var(--focus-color);
   outline-offset: 2px;
-  background: rgba(30, 61, 50, 0.08);
+  background: color-mix(in srgb, var(--color-pastel-pink) 70%, var(--color-surface) 30%);
 }
 
 /* Prevent body scroll when menu is open */

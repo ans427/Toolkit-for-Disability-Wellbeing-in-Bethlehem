@@ -40,6 +40,34 @@ const ABOUT_PAGE_QUERY = `*[_type == "aboutPage" && _id == "aboutPage"][0]{
   }
 }`
 
+const CONTRIBUTORS = {
+  faculty: [
+    'Christina Chi Zhang, Assistant Professor, Department of Art, Architecture & Design',
+    'Austin Duncan, Assistant Professor, Department of Community & Global Health',
+    'Jiin Jung, Assistant Professor, Department of Psychology',
+    'Jenny Kowalski, Assistant Professor, Department of Art, Architecture & Design',
+    'Thomas Micklas, Adjunct Professor, Computer Science Capstone',
+  ],
+  students: {
+    researchAndWriting: [
+      'Demi Benard',
+      'Corinn Brewer',
+      'Allison Bronson',
+      'Karleigh Groves',
+      'Hannah Letzer',
+      'Julie Wright',
+      'Kyra Zimmerman',
+    ],
+    translationSupport: ['Naomi Barragan'],
+    designAndDevelopment: [
+      'Angelina Le',
+      'Melina Sawyers',
+      'Anna Seftenberg',
+      'Ellee Segal',
+    ],
+  },
+}
+
 function About() {
   const lang = useLanguage()
   const [content, setContent] = useState(null)
@@ -112,6 +140,35 @@ function About() {
             <p>About content has not been configured in Sanity yet.</p>
           </section>
         )}
+
+        <section className="about-section">
+          <h2>Team</h2>
+          <h3>Faculty</h3>
+          <ul>
+            {CONTRIBUTORS.faculty.map((facultyMember) => (
+              <li key={facultyMember}>{facultyMember}</li>
+            ))}
+          </ul>
+          <h3>Students</h3>
+          <h4>Research and Writing</h4>
+          <ul>
+            {CONTRIBUTORS.students.researchAndWriting.map((student) => (
+              <li key={student}>{student}</li>
+            ))}
+          </ul>
+          <h4>Translation Support</h4>
+          <ul>
+            {CONTRIBUTORS.students.translationSupport.map((student) => (
+              <li key={student}>{student}</li>
+            ))}
+          </ul>
+          <h4>Design and Development</h4>
+          <ul>
+            {CONTRIBUTORS.students.designAndDevelopment.map((student) => (
+              <li key={student}>{student}</li>
+            ))}
+          </ul>
+        </section>
 
         {getInvolved && (
           <section className="about-section">

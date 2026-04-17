@@ -1,7 +1,7 @@
-/* Footer Styles – deep forest green */
+/* Footer Styles – navy with pastel accents */
 .site-footer {
   background: var(--color-forest-green);
-  border-top: none;
+  border-top: 4px solid var(--color-pastel-pink);
   margin-top: 6rem;
   padding: 3rem 0 2rem;
   color: rgba(255, 255, 255, 0.9);
@@ -75,7 +75,7 @@
 }
 
 .footer-bottom {
-  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  border-top: 1px solid color-mix(in srgb, var(--color-pastel-blue) 35%, white 65%);
   padding-top: 1.5rem;
   text-align: center;
   margin: 0 5rem;
