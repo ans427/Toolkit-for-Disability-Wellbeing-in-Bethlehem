@@ -100,6 +100,10 @@
   .header-inner {
     padding: 0 1rem;
   }
+
+  .menu-label {
+    display: none;
+  }
 }
 
 .site-title {
@@ -175,6 +179,8 @@
   align-items: center;
   gap: 0.5rem;
   justify-content: center;
+  line-height: 1;
+  white-space: nowrap;
 }
 
 .menu-toggle:focus-visible {
@@ -191,31 +197,34 @@
   font-size: 1.5em;
 }
 
-.menu-chevron {
-  line-height: 1;
+.menu-icon {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  vertical-align: middle;
 }
 
-.menu-chevron svg,
-.lang-chevron svg {
-  width: 1em;
-  height: 1em;
+.menu-hamburger {
   display: block;
-  /* nudge down slightly so chevrons vertically align with text */
-  transform: translateY(0.22em);
-  transition: transform 280ms ease;
 }
 
-.menu-toggle.open .menu-chevron svg {
-  transform: rotate(180deg) translateY(-0.22em);
+.menu-close {
+  display: none;
+}
+
+.menu-toggle.open .menu-hamburger {
+  display: none;
+}
+
+.menu-toggle.open .menu-close {
+  display: block;
 }
 
 .menu-label {
   margin-left: 0.3rem;
   font-size: 1rem;
   font-weight: 700;
+  vertical-align: middle;
 }
 
 .lang-chevron svg {
@@ -277,6 +286,10 @@
     width: 100%;
     left: 0;
     right: 0;
+  }
+
+  .menu-label {
+    display: none;
   }
 }
 

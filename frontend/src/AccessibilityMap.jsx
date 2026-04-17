@@ -682,10 +682,10 @@ function AccessibilityMap() {
             <div className="map-container">
               <div className="map-controls" style={{ marginBottom: '8px' }}>
                 <label style={{ marginRight: '12px' }}>
-                  <input type="checkbox" checked={showReports} onChange={() => setShowReports(s => !s)} /> Show inaccessible location reports
+                  <input type="checkbox" checked={showReports} onChange={() => setShowReports(s => !s)} /> {t(lang, 'pages.accessibilityMap.showReports')}
                 </label>
                 <label>
-                  <input type="checkbox" checked={showResources} onChange={() => setShowResources(s => !s)} /> Show immediate resources
+                  <input type="checkbox" checked={showResources} onChange={() => setShowResources(s => !s)} /> {t(lang, 'pages.accessibilityMap.showResources')}
                 </label>
               </div>
 
@@ -828,8 +828,8 @@ function AccessibilityMap() {
               <form onSubmit={handleSubmitReport} className="report-form" ref={reportFormRef}>
                 <fieldset>
                   <legend>{t(lang, 'pages.accessibilityMap.reportDetails')}</legend>
-                  <label>
-                    {t(lang, 'pages.accessibilityMap.subjectLabel')}
+                  <label className="report-field-label">
+                    <span>{t(lang, 'pages.accessibilityMap.subjectLabel')}</span>
                     <input
                       type="text"
                       name="subject"
@@ -838,8 +838,8 @@ function AccessibilityMap() {
                       required
                     />
                   </label>
-                  <label>
-                    {t(lang, 'pages.accessibilityMap.detailsLabel')}
+                  <label className="report-field-label">
+                    <span>{t(lang, 'pages.accessibilityMap.detailsLabel')}</span>
                     <textarea
                       name="details"
                       value={formData.details}
@@ -847,8 +847,8 @@ function AccessibilityMap() {
                       required
                     />
                   </label>
-                  <label>
-                    {t(lang, 'pages.accessibilityMap.photoLabel')}
+                  <label className="report-field-label">
+                    <span>{t(lang, 'pages.accessibilityMap.photoLabel')}</span>
                     <input
                       type="file"
                       name="image"
@@ -887,7 +887,7 @@ function AccessibilityMap() {
                       checked={formData.locationType === 'pin'}
                       onChange={handleFormChange}
                     />
-                    Place pin on map
+                    {t(lang, 'pages.accessibilityMap.placePinOnMap')}
                   </label>
                   {formData.locationType === 'address' ? (
                     <>
@@ -949,9 +949,16 @@ function AccessibilityMap() {
                       ) : (
                         // pin mode
                         <div className="pin-instructions">
-                          <p>Click the map above to place a pin. You can drag the pin to fine-tune its location.</p>
-                          {currentLocationDisplay?.addressLabel && (
-                            <p>Nearby address: {currentLocationDisplay.addressLabel}</p>
+                          <p>{t(lang, 'pages.accessibilityMap.pinInstructions')}</p>
+                          {currentLocationDisplay?.coordinates?.lat != null && (
+                            <div className="current-location-details">
+                              <p>
+                                {t(lang, 'pages.accessibilityMap.coordinatesFound')} {currentLocationDisplay.coordinates.lat.toFixed(6)}, {currentLocationDisplay.coordinates.lng.toFixed(6)}
+                              </p>
+                              {currentLocationDisplay.addressLabel && (
+                                <p>{t(lang, 'pages.accessibilityMap.nearbyAddress')} {currentLocationDisplay.addressLabel}</p>
+                              )}
+                            </div>
                           )}
                         </div>
                       )}

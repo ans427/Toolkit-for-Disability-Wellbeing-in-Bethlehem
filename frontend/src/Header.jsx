@@ -87,10 +87,17 @@ function Header({
               aria-label={menuOpen ? 'Close menu' : 'Open menu'}
               onClick={handleMenuToggle}
             >
-              <span aria-hidden="true" className="menu-chevron">
-                <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-                  <path d="M6 9l6 6 6-6" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
+              <span aria-hidden="true" className="menu-icon">
+                <span className="menu-hamburger">
+                  <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                    <path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" />
+                  </svg>
+                </span>
+                <span className="menu-close">
+                  <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                    <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                </span>
               </span>
               <span className="menu-label">Menu</span>
             </button>
