@@ -29,6 +29,16 @@ const reportIcon = new L.Icon({
   shadowSize: [41, 41]
 })
 
+const reportIconSelected = new L.Icon({
+  iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png',
+  iconRetinaUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png',
+  shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
+  iconSize: [32, 53],
+  iconAnchor: [16, 53],
+  popupAnchor: [1, -42],
+  shadowSize: [41, 41]
+})
+
 const resourceIcon = new L.Icon({
   iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-green.png',
   iconRetinaUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png',
@@ -36,6 +46,16 @@ const resourceIcon = new L.Icon({
   iconSize: [25, 41],
   iconAnchor: [12, 41],
   popupAnchor: [1, -34],
+  shadowSize: [41, 41]
+})
+
+const resourceIconSelected = new L.Icon({
+  iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png',
+  iconRetinaUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png',
+  shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
+  iconSize: [32, 53],
+  iconAnchor: [16, 53],
+  popupAnchor: [1, -42],
   shadowSize: [41, 41]
 })
 
@@ -221,6 +241,16 @@ function MapClickHandler({ enabled, onClick }) {
   return null
 }
 
+function MapBackgroundClickHandler({ onBackgroundClick }) {
+  useMapEvents({
+    click(e) {
+      if (e.target && e.target.tagName === 'IMG') return // Clicked on marker
+      onBackgroundClick()
+    }
+  })
+  return null
+}
+
 // Ensure coordinates are numeric [lat, lng]
 function normalizeCoordinates(coords) {
   if (!coords) return null
@@ -356,6 +386,11 @@ function AccessibilityMap() {
   const [currentLocationDisplay, setCurrentLocationDisplay] = useState(null)
   const [showReports, setShowReports] = useState(true)
   const [showResources, setShowResources] = useState(true)
+  const [selectedMapResource, setSelectedMapResource] = useState(null)
+  const [selectedReportMarker, setSelectedReportMarker] = useState(null)
+  const [searchQuery, setSearchQuery] = useState('')
+  const [isMapFullscreen, setIsMapFullscreen] = useState(false)
+  const [isPanelOpen, setIsPanelOpen] = useState(false)
 
   useEffect(() => {
     const fetchResources = async () => {
@@ -493,6 +528,29 @@ function AccessibilityMap() {
     geocodedReports.forEach(r => { if (r.coordinates && Array.isArray(r.coordinates)) coords.push(r.coordinates) })
     return coords
   }, [geocodedResources, geocodedReports])
+
+  // Filter resources and reports based on search query
+  // When search is empty, show all results; when searching, filter by query
+  const filteredResources = useMemo(() => {
+    const query = searchQuery.toLowerCase().trim()
+    if (!query) return geocodedResources
+    return geocodedResources.filter(r => 
+      pickI18n(r.titleI18n, lang, r.title).toLowerCase().includes(query) ||
+      pickI18n(r.descriptionI18n, lang, r.description).toLowerCase().includes(query) ||
+      (r.category && r.category.toLowerCase().includes(query))
+    )
+  }, [geocodedResources, searchQuery, lang])
+
+  const filteredReports = useMemo(() => {
+    const query = searchQuery.toLowerCase().trim()
+    if (!query) return geocodedReports
+    return geocodedReports.filter(r =>
+      r.subject.toLowerCase().includes(query) ||
+      r.details.toLowerCase().includes(query)
+    )
+  }, [geocodedReports, searchQuery])
+
+  const currentSelected = selectedMapResource || selectedReportMarker
 
   useEffect(() => {
     if (!selectedResourceId || !mapSectionRef.current || loading) return
@@ -678,340 +736,537 @@ function AccessibilityMap() {
         <p className="map-error">{error}</p>
       ) : (
         <>
-          <section className="inaccessible-locations-section" ref={mapSectionRef}>
-            <div className="map-container">
-              <div className="map-controls" style={{ marginBottom: '8px' }}>
-                <label style={{ marginRight: '12px' }}>
-                  <input type="checkbox" checked={showReports} onChange={() => setShowReports(s => !s)} /> {t(lang, 'pages.accessibilityMap.showReports')}
-                </label>
-                <label>
-                  <input type="checkbox" checked={showResources} onChange={() => setShowResources(s => !s)} /> {t(lang, 'pages.accessibilityMap.showResources')}
-                </label>
-              </div>
+          {/* Controls above everything */}
+          <div className="map-controls-top" style={{ marginBottom: '1rem' }}>
+            <label>
+              <input type="checkbox" checked={showReports} onChange={() => setShowReports(s => !s)} /> 
+              {t(lang, 'pages.accessibilityMap.showReports')}
+            </label>
+            <label>
+              <input type="checkbox" checked={showResources} onChange={() => setShowResources(s => !s)} /> 
+              {t(lang, 'pages.accessibilityMap.showResources')}
+            </label>
+          </div>
 
-              <MapContainer
-                center={selectedResourceCenter || defaultCenter}
-                zoom={13}
-                style={{ height: '420px', width: '100%' }}
-                aria-label={t(lang, 'pages.accessibilityMap.mapAriaLabel')}
-              >
-                <TileLayer
-                  url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                  attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                />
-                <FocusSelectedResource coordinates={selectedResourceCenter} />
-
-                {/* <MarkersManager
-                  geocodedResources={geocodedResources}
-                  geocodedReports={geocodedReports}
-                  showResources={showResources}
-                  showReports={showReports}
-                  selectedResourceId={selectedResourceId}
-                  selectedMarkerRef={selectedMarkerRef}
-                  setSelectedMapResource={setSelectedMapResource}
-                  setSelectedReportMarker={setSelectedReportMarker}
-                  lang={lang}
-                  t={t}
-                  pickI18n={pickI18n}
-                /> */}
-
-                <MapClickHandler
-                  enabled={showForm && formData.locationType === 'pin'}
-                  onClick={async (latlng) => {
-                    const lat = latlng.lat
-                    const lng = latlng.lng
-                    setFormData(prev => ({ ...prev, locationType: 'pin', coordinates: { lat, lng } }))
-                    const addressLabel = await reverseGeocodeCoordinates(lat, lng)
-                    setCurrentLocationDisplay({ coordinates: { lat, lng }, addressLabel })
-                  }}
-                />
-
-                {showReports && geocodedReports.map((report) => {
-                  const pos = normalizeCoordinates(report.coordinates)
-                  if (!pos) return null
-                  return (
-                    <Marker
-                      key={`report-${report._id}`}
-                      position={pos}
-                      icon={reportIcon}
-                      eventHandlers={{
-                        click: (e) => {
-                          console.log('report marker clicked', report._id, e)
-                          setSelectedReportMarker(report)
-                        }
-                      }}
-                    >
-                      <Popup>
-                        <div className="map-popup">
-                          <h3>{report.subject}</h3>
-                          {report.image?.asset?.url && (
-                            <div className="map-popup-image-wrapper">
-                              <img
-                                src={report.image.asset.url}
-                                alt={report.image.alt || `${report.subject} - accessibility issue`}
-                                className="map-popup-image"
-                              />
-                            </div>
-                          )}
-                          <p className="map-popup-description">{report.details}</p>
-                        </div>
-                      </Popup>
-                    </Marker>
-                  )
-                })}
-
-                {showResources && geocodedResources.map((resource) => {
-                  const pos = normalizeCoordinates(resource.coordinates)
-                  if (!pos) return null
-                  const address = resource.address || {}
-                  const fullAddress = `${address.street || ''}${address.city ? `, ${address.city}` : ''}${address.state ? `, ${address.state}` : ''}${address.zipCode ? ` ${address.zipCode}` : ''}`
-                  return (
-                    <Marker
-                      key={`res-${resource._id}`}
-                      position={pos}
-                      icon={resourceIcon}
-                      eventHandlers={{
-                        click: (e) => {
-                          console.log('resource marker clicked', resource._id, e)
-                          setSelectedMapResource(resource)
-                        }
-                      }}
-                      ref={resource._id === selectedResourceId ? selectedMarkerRef : null}
-                    >
-                      <Popup>
-                        <div className="map-popup">
-                          <h3>{pickI18n(resource.titleI18n, lang, resource.title)}</h3>
-                          <p className="map-popup-category">{typeof getCategoryLabel !== 'undefined' ? getCategoryLabel(resource.category || 'general', lang) : (resource.category || '')}</p>
-                          <p className="map-popup-address">{fullAddress}</p>
-                          <p className="map-popup-description">{pickI18n(resource.descriptionI18n, lang, resource.description)}</p>
-                          <Link to={`/resources/${resource._id}`} className="map-popup-link">{t(lang, 'pages.accessibilityMap.viewDetails')}</Link>
-                        </div>
-                      </Popup>
-                    </Marker>
-                  )
-                })}
-
-                {formData.locationType === 'pin' && formData.coordinates?.lat != null && (
-                  <Marker
-                    position={[formData.coordinates.lat, formData.coordinates.lng]}
-                    icon={pinIcon}
-                    draggable={true}
-                    eventHandlers={{
-                      dragend: async (e) => {
-                        const { lat, lng } = e.target.getLatLng()
-                        setFormData(prev => ({ ...prev, coordinates: { lat, lng } }))
-                        const addressLabel = await reverseGeocodeCoordinates(lat, lng)
-                        setCurrentLocationDisplay({ coordinates: { lat, lng }, addressLabel })
-                      }
-                    }}
-                  />
-                )}
-              </MapContainer>
-            </div>
-            <button
-              type="button"
-              className="submit-report-button"
-              onClick={() => setShowForm((prev) => !prev)}
+          <div className={`map-layout ${isMapFullscreen ? 'fullscreen' : ''}`}>
+          {/* Left Panel */}
+          <div className={`map-side-panel ${isPanelOpen ? 'open' : 'closed'}`}>
+            <button 
+              className="panel-toggle-btn" 
+              onClick={() => setIsPanelOpen(!isPanelOpen)}
+              aria-label={isPanelOpen ? 'Close panel' : 'Open panel'}
             >
-              {formStatus === 'success'
-                ? t(lang, 'pages.accessibilityMap.reportAnother')
-                : showForm
-                ? t(lang, 'pages.accessibilityMap.cancel')
-                : t(lang, 'pages.accessibilityMap.reportInaccessibleLocation')}
+              {isPanelOpen ? '✕' : '☰'}
             </button>
-            {formStatus === 'success' && !showForm && (
-              <p className="report-success-message">
-                {t(lang, 'pages.accessibilityMap.successMessage')}
-              </p>
-            )}
-            {showForm && (
-              <form onSubmit={handleSubmitReport} className="report-form" ref={reportFormRef}>
-                <fieldset>
-                  <legend>{t(lang, 'pages.accessibilityMap.reportDetails')}</legend>
-                  <label className="report-field-label">
-                    <span>{t(lang, 'pages.accessibilityMap.subjectLabel')}</span>
+
+            {isPanelOpen && (
+              <div className="panel-content">
+                <div className="panel-header">
+                  <h2>Search</h2>
+                  <button
+                    className="panel-close-btn"
+                    onClick={() => setIsPanelOpen(false)}
+                    aria-label="Close panel"
+                  >
+                    ✕
+                  </button>
+                </div>
+                
+                {/* Search Bar with suggestions */}
+                <div className="search-bar-container">
+                  <div className="search-input-wrapper">
+                    <svg className="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <circle cx="11" cy="11" r="8"></circle>
+                      <path d="m21 21-4.35-4.35"></path>
+                    </svg>
                     <input
                       type="text"
-                      name="subject"
-                      value={formData.subject}
-                      onChange={handleFormChange}
-                      required
+                      placeholder="Search resources and reports..."
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                      className="search-input"
+                      aria-label="Search resources and reports"
                     />
-                  </label>
-                  <label className="report-field-label">
-                    <span>{t(lang, 'pages.accessibilityMap.detailsLabel')}</span>
-                    <textarea
-                      name="details"
-                      value={formData.details}
-                      onChange={handleFormChange}
-                      required
-                    />
-                  </label>
-                  <label className="report-field-label">
-                    <span>{t(lang, 'pages.accessibilityMap.photoLabel')}</span>
-                    <input
-                      type="file"
-                      name="image"
-                      accept="image/*"
-                      onChange={handleFormChange}
-                    />
-                  </label>
-                </fieldset>
-                <fieldset>
-                  <legend>{t(lang, 'pages.accessibilityMap.locationLegend')}</legend>
-                  <label>
-                    <input
-                      type="radio"
-                      name="locationType"
-                      value="address"
-                      checked={formData.locationType === 'address'}
-                      onChange={handleFormChange}
-                    />
-                    {t(lang, 'pages.accessibilityMap.enterAddress')}
-                  </label>
-                  <label>
-                    <input
-                      type="radio"
-                      name="locationType"
-                      value="coordinates"
-                      checked={formData.locationType === 'coordinates'}
-                      onChange={handleFormChange}
-                    />
-                    {t(lang, 'pages.accessibilityMap.useCurrentLocation')}
-                  </label>
-                  <label>
-                    <input
-                      type="radio"
-                      name="locationType"
-                      value="pin"
-                      checked={formData.locationType === 'pin'}
-                      onChange={handleFormChange}
-                    />
-                    {t(lang, 'pages.accessibilityMap.placePinOnMap')}
-                  </label>
-                  {formData.locationType === 'address' ? (
-                    <>
-                      <label>
-                        {t(lang, 'pages.accessibilityMap.streetLabel')}:
-                        <input
-                          type="text"
-                          name="address.street"
-                          value={formData.address.street}
-                          onChange={handleFormChange}
-                        />
-                      </label>
-                      <label>
-                        {t(lang, 'pages.accessibilityMap.cityLabel')}:
-                        <input
-                          type="text"
-                          name="address.city"
-                          value={formData.address.city}
-                          onChange={handleFormChange}
-                        />
-                      </label>
-                      <label>
-                        {t(lang, 'pages.accessibilityMap.stateLabel')}:
-                        <input
-                          type="text"
-                          name="address.state"
-                          value={formData.address.state}
-                          onChange={handleFormChange}
-                        />
-                      </label>
-                      <label>
-                        {t(lang, 'pages.accessibilityMap.zipCodeLabel')}:
-                        <input
-                          type="text"
-                          name="address.zipCode"
-                          value={formData.address.zipCode}
-                          onChange={handleFormChange}
-                        />
-                      </label>
-                    </>
-                  ) : (
-                    <>
-                      {formData.locationType === 'coordinates' ? (
+                    {searchQuery && (
+                      <button
+                        className="search-clear-btn"
+                        onClick={() => setSearchQuery('')}
+                        aria-label="Clear search"
+                      >
+                        ✕
+                      </button>
+                    )}
+                  </div>
+
+                  {/* Search suggestions dropdown */}
+                  {searchQuery.trim() && (
+                    <div className="search-suggestions">
+                      {filteredResources.length > 0 && (
                         <>
-                          <button type="button" onClick={getCurrentLocation}>
-                            {t(lang, 'pages.accessibilityMap.getCurrentLocation')}
-                          </button>
-                          {currentLocationDisplay?.coordinates?.lat != null && (
-                            <div className="current-location-details">
-                              <p>
-                                {t(lang, 'pages.accessibilityMap.coordinatesFound')} {currentLocationDisplay.coordinates.lat.toFixed(6)}, {currentLocationDisplay.coordinates.lng.toFixed(6)}
-                              </p>
-                              {currentLocationDisplay.addressLabel && (
-                                <p>{t(lang, 'pages.accessibilityMap.nearbyAddress')} {currentLocationDisplay.addressLabel}</p>
-                              )}
-                            </div>
-                          )}
+                          <div className="suggestions-category">
+                            <span className="category-label">Resources</span>
+                            {filteredResources.slice(0, 3).map(resource => (
+                              <button
+                                key={`suggest-res-${resource._id}`}
+                                className="suggestion-item"
+                                onClick={() => {
+                                  setSelectedMapResource(resource)
+                                  setSelectedReportMarker(null)
+                                }}
+                              >
+                                <span className="suggestion-title">
+                                  {pickI18n(resource.titleI18n, lang, resource.title)}
+                                </span>
+                                {resource.category && (
+                                  <span className="suggestion-category">{resource.category}</span>
+                                )}
+                              </button>
+                            ))}
+                          </div>
                         </>
-                      ) : (
-                        // pin mode
-                        <div className="pin-instructions">
-                          <p>{t(lang, 'pages.accessibilityMap.pinInstructions')}</p>
-                          {currentLocationDisplay?.coordinates?.lat != null && (
-                            <div className="current-location-details">
-                              <p>
-                                {t(lang, 'pages.accessibilityMap.coordinatesFound')} {currentLocationDisplay.coordinates.lat.toFixed(6)}, {currentLocationDisplay.coordinates.lng.toFixed(6)}
-                              </p>
-                              {currentLocationDisplay.addressLabel && (
-                                <p>{t(lang, 'pages.accessibilityMap.nearbyAddress')} {currentLocationDisplay.addressLabel}</p>
-                              )}
-                            </div>
-                          )}
+                      )}
+                      {showReports && filteredReports.length > 0 && (
+                        <>
+                          <div className="suggestions-category">
+                            <span className="category-label">Reports</span>
+                            {filteredReports.slice(0, 3).map(report => (
+                              <button
+                                key={`suggest-report-${report._id}`}
+                                className="suggestion-item"
+                                onClick={() => {
+                                  setSelectedReportMarker(report)
+                                  setSelectedMapResource(null)
+                                }}
+                              >
+                                <span className="suggestion-title">{report.subject}</span>
+                              </button>
+                            ))}
+                          </div>
+                        </>
+                      )}
+                      {filteredResources.length === 0 && filteredReports.length === 0 && (
+                        <div className="no-suggestions">
+                          <p>No results found</p>
                         </div>
                       )}
+                    </div>
+                  )}
+                </div>
+
+                {/* Selected Item Details */}
+                {currentSelected && (
+                  <div className="selected-item-details">
+                    <h3>
+                      {currentSelected.title ? pickI18n(currentSelected.titleI18n, lang, currentSelected.title) : currentSelected.subject}
+                    </h3>
+                    
+                    {currentSelected.title && (
+                      <>
+                        {currentSelected.category && (
+                          <p className="item-category">{currentSelected.category}</p>
+                        )}
+                        {currentSelected.address && (
+                          <p className="item-address">
+                            {`${currentSelected.address.street || ''}${currentSelected.address.city ? `, ${currentSelected.address.city}` : ''}${currentSelected.address.state ? `, ${currentSelected.address.state}` : ''}${currentSelected.address.zipCode ? ` ${currentSelected.address.zipCode}` : ''}`}
+                          </p>
+                        )}
+                        <p className="item-description">
+                          {pickI18n(currentSelected.descriptionI18n, lang, currentSelected.description)}
+                        </p>
+                        <Link to={`/resources/${currentSelected._id}`} className="details-link">
+                          {t(lang, 'pages.accessibilityMap.viewDetails')}
+                        </Link>
+                      </>
+                    )}
+
+                    {currentSelected.subject && (
+                      <>
+                        <p className="item-description">{currentSelected.details}</p>
+                        {currentSelected.image?.asset?.url && (
+                          <img
+                            src={currentSelected.image.asset.url}
+                            alt={currentSelected.image.alt || `${currentSelected.subject} - accessibility issue`}
+                            className="selected-item-image"
+                          />
+                        )}
+                      </>
+                    )}
+
+                    <button
+                      onClick={() => {
+                        setSelectedMapResource(null)
+                        setSelectedReportMarker(null)
+                      }}
+                      className="clear-selection-btn"
+                    >
+                      Clear Selection
+                    </button>
+                  </div>
+                )}
+
+                {/* Search Results List */}
+                <div className="search-results-container">
+                  {filteredResources.length > 0 && (
+                    <>
+                      <h3>Resources ({filteredResources.length})</h3>
+                      <ul className="items-list">
+                        {filteredResources.map(resource => (
+                          <li key={`res-list-${resource._id}`}>
+                            <button
+                              className={`list-item-btn ${selectedMapResource?._id === resource._id ? 'selected' : ''}`}
+                              onClick={() => {
+                                setSelectedMapResource(resource)
+                                setSelectedReportMarker(null)
+                              }}
+                            >
+                              <strong>{pickI18n(resource.titleI18n, lang, resource.title)}</strong>
+                              {resource.category && <span className="item-category-badge">{resource.category}</span>}
+                            </button>
+                          </li>
+                        ))}
+                      </ul>
                     </>
                   )}
-                </fieldset>
-                <fieldset>
-                  <legend>{t(lang, 'pages.accessibilityMap.contactLegend')}</legend>
-                  <label>
-                    {t(lang, 'pages.accessibilityMap.nameLabel')}
-                    <input
-                      type="text"
-                      name="submitterName"
-                      value={formData.submitterName}
-                      onChange={handleFormChange}
-                    />
-                  </label>
-                  <label>
-                    {t(lang, 'pages.accessibilityMap.emailLabel')}
-                    <input
-                      type="email"
-                      name="submitterEmail"
-                      value={formData.submitterEmail}
-                      onChange={handleFormChange}
-                    />
-                  </label>
-                </fieldset>
-                <button type="submit" disabled={formStatus === 'submitting'}>
-                  {formStatus === 'submitting' ? t(lang, 'pages.accessibilityMap.submitting') : t(lang, 'pages.accessibilityMap.submitReport')}
-                </button>
-                {formStatus === 'success' && (
-                  <p className="report-success-message">
-                    {t(lang, 'pages.accessibilityMap.successMessage')}
-                  </p>
-                )}
-                {formStatus === 'error' && <p className="report-error-message">{t(lang, 'pages.accessibilityMap.errorMessage')}</p>}
-              </form>
-            )}
-          </section>
 
-          <section className="resources-section">
-            {selectedResource && (
-              <p className="map-selected-resource-note" role="status" aria-live="polite">
-                {tFormat(lang, 'pages.accessibilityMap.showingResource', {
-                  title: pickI18n(selectedResource.titleI18n, lang, selectedResource.title),
-                })}{' '}
-                <Link to="/map" className="map-selected-resource-clear">
-                  {t(lang, 'pages.accessibilityMap.clearSelection')}
-                </Link>
-              </p>
+                  {showReports && filteredReports.length > 0 && (
+                    <>
+                      <h3>Accessibility Reports ({filteredReports.length})</h3>
+                      <ul className="items-list">
+                        {filteredReports.map(report => (
+                          <li key={`report-list-${report._id}`}>
+                            <button
+                              className={`list-item-btn ${selectedReportMarker?._id === report._id ? 'selected' : ''}`}
+                              onClick={() => {
+                                setSelectedReportMarker(report)
+                                setSelectedMapResource(null)
+                              }}
+                            >
+                              <strong>{report.subject}</strong>
+                              <span className="item-type-badge">Report</span>
+                            </button>
+                          </li>
+                        ))}
+                      </ul>
+                    </>
+                  )}
+
+                  {filteredResources.length === 0 && filteredReports.length === 0 && searchQuery.trim() && (
+                    <p className="no-results">No results found</p>
+                  )}
+                </div>
+              </div>
             )}
-              
-          </section>
+          </div>
+
+          {/* Map Section */}
+          <div className="map-main-content">
+            <section className="inaccessible-locations-section" ref={mapSectionRef}>
+              <div className="map-container-wrapper">
+                <button
+                  className="map-fullscreen-btn"
+                  onClick={() => setIsMapFullscreen(!isMapFullscreen)}
+                  title={isMapFullscreen ? 'Exit fullscreen' : 'Enter fullscreen'}
+                >
+                  {isMapFullscreen ? '⛶' : '⛶'}
+                </button>
+
+                <MapContainer
+                  center={selectedResourceCenter || defaultCenter}
+                  zoom={13}
+                  style={{ height: '100%', width: '100%' }}
+                  aria-label={t(lang, 'pages.accessibilityMap.mapAriaLabel')}
+                >
+                  <TileLayer
+                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                    attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                  />
+                  <FocusSelectedResource coordinates={selectedResourceCenter} />
+
+                  <MapClickHandler
+                    enabled={showForm && formData.locationType === 'pin'}
+                    onClick={async (latlng) => {
+                      const lat = latlng.lat
+                      const lng = latlng.lng
+                      setFormData(prev => ({ ...prev, locationType: 'pin', coordinates: { lat, lng } }))
+                      const addressLabel = await reverseGeocodeCoordinates(lat, lng)
+                      setCurrentLocationDisplay({ coordinates: { lat, lng }, addressLabel })
+                    }}
+                  />
+
+                  <MapBackgroundClickHandler
+                    onBackgroundClick={() => setIsPanelOpen(false)}
+                  />
+
+                  {showReports && geocodedReports.map((report) => {
+                    const pos = normalizeCoordinates(report.coordinates)
+                    if (!pos) return null
+                    const isSelected = selectedReportMarker?._id === report._id
+                    return (
+                      <Marker
+                        key={`report-${report._id}`}
+                        position={pos}
+                        icon={isSelected ? reportIconSelected : reportIcon}
+                        eventHandlers={{
+                          click: (e) => {
+                            setSearchQuery(report.subject)
+                            setSelectedReportMarker(report)
+                            setSelectedMapResource(null)
+                            setIsPanelOpen(true)
+                          }
+                        }}
+                      >
+                      </Marker>
+                    )
+                  })}
+
+                  {showResources && geocodedResources.map((resource) => {
+                    const pos = normalizeCoordinates(resource.coordinates)
+                    if (!pos) return null
+                    const isSelected = selectedMapResource?._id === resource._id
+                    return (
+                      <Marker
+                        key={`res-${resource._id}`}
+                        position={pos}
+                        icon={isSelected ? resourceIconSelected : resourceIcon}
+                        eventHandlers={{
+                          click: (e) => {
+                            setSearchQuery(pickI18n(resource.titleI18n, lang, resource.title))
+                            setSelectedMapResource(resource)
+                            setSelectedReportMarker(null)
+                            setIsPanelOpen(true)
+                          }
+                        }}
+                        ref={resource._id === selectedResourceId ? selectedMarkerRef : null}
+                      >
+                      </Marker>
+                    )
+                  })}
+
+                  {formData.locationType === 'pin' && formData.coordinates?.lat != null && (
+                    <Marker
+                      position={[formData.coordinates.lat, formData.coordinates.lng]}
+                      icon={pinIcon}
+                      draggable={true}
+                      eventHandlers={{
+                        dragend: async (e) => {
+                          const { lat, lng } = e.target.getLatLng()
+                          setFormData(prev => ({ ...prev, coordinates: { lat, lng } }))
+                          const addressLabel = await reverseGeocodeCoordinates(lat, lng)
+                          setCurrentLocationDisplay({ coordinates: { lat, lng }, addressLabel })
+                        }
+                      }}
+                    />
+                  )}
+                </MapContainer>
+              </div>
+
+              <div className="map-action-buttons">
+                <button
+                  type="button"
+                  className="submit-report-button"
+                  onClick={() => setShowForm((prev) => !prev)}
+                >
+                  {formStatus === 'success'
+                    ? t(lang, 'pages.accessibilityMap.reportAnother')
+                    : showForm
+                    ? t(lang, 'pages.accessibilityMap.cancel')
+                    : t(lang, 'pages.accessibilityMap.reportInaccessibleLocation')}
+                </button>
+              </div>
+
+              <button
+                type="button"
+                className="map-search-button"
+                onClick={() => setIsPanelOpen(true)}
+                title="Search"
+                aria-label="Open search panel"
+              >
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <circle cx="11" cy="11" r="8"></circle>
+                  <path d="m21 21-4.35-4.35"></path>
+                </svg>
+              </button>
+              {formStatus === 'success' && !showForm && (
+                <p className="report-success-message">
+                  {t(lang, 'pages.accessibilityMap.successMessage')}
+                </p>
+              )}
+              {showForm && (
+                <form onSubmit={handleSubmitReport} className="report-form" ref={reportFormRef}>
+                  <fieldset>
+                    <legend>{t(lang, 'pages.accessibilityMap.reportDetails')}</legend>
+                    <label className="report-field-label">
+                      <span>{t(lang, 'pages.accessibilityMap.subjectLabel')}</span>
+                      <input
+                        type="text"
+                        name="subject"
+                        value={formData.subject}
+                        onChange={handleFormChange}
+                        required
+                      />
+                    </label>
+                    <label className="report-field-label">
+                      <span>{t(lang, 'pages.accessibilityMap.detailsLabel')}</span>
+                      <textarea
+                        name="details"
+                        value={formData.details}
+                        onChange={handleFormChange}
+                        required
+                      />
+                    </label>
+                    <label className="report-field-label">
+                      <span>{t(lang, 'pages.accessibilityMap.photoLabel')}</span>
+                      <input
+                        type="file"
+                        name="image"
+                        accept="image/*"
+                        onChange={handleFormChange}
+                      />
+                    </label>
+                  </fieldset>
+                  <fieldset>
+                    <legend>{t(lang, 'pages.accessibilityMap.locationLegend')}</legend>
+                    <label>
+                      <input
+                        type="radio"
+                        name="locationType"
+                        value="address"
+                        checked={formData.locationType === 'address'}
+                        onChange={handleFormChange}
+                      />
+                      {t(lang, 'pages.accessibilityMap.enterAddress')}
+                    </label>
+                    <label>
+                      <input
+                        type="radio"
+                        name="locationType"
+                        value="coordinates"
+                        checked={formData.locationType === 'coordinates'}
+                        onChange={handleFormChange}
+                      />
+                      {t(lang, 'pages.accessibilityMap.useCurrentLocation')}
+                    </label>
+                    <label>
+                      <input
+                        type="radio"
+                        name="locationType"
+                        value="pin"
+                        checked={formData.locationType === 'pin'}
+                        onChange={handleFormChange}
+                      />
+                      {t(lang, 'pages.accessibilityMap.placePinOnMap')}
+                    </label>
+                    {formData.locationType === 'address' ? (
+                      <>
+                        <label>
+                          {t(lang, 'pages.accessibilityMap.streetLabel')}:
+                          <input
+                            type="text"
+                            name="address.street"
+                            value={formData.address.street}
+                            onChange={handleFormChange}
+                          />
+                        </label>
+                        <label>
+                          {t(lang, 'pages.accessibilityMap.cityLabel')}:
+                          <input
+                            type="text"
+                            name="address.city"
+                            value={formData.address.city}
+                            onChange={handleFormChange}
+                          />
+                        </label>
+                        <label>
+                          {t(lang, 'pages.accessibilityMap.stateLabel')}:
+                          <input
+                            type="text"
+                            name="address.state"
+                            value={formData.address.state}
+                            onChange={handleFormChange}
+                          />
+                        </label>
+                        <label>
+                          {t(lang, 'pages.accessibilityMap.zipCodeLabel')}:
+                          <input
+                            type="text"
+                            name="address.zipCode"
+                            value={formData.address.zipCode}
+                            onChange={handleFormChange}
+                          />
+                        </label>
+                      </>
+                    ) : (
+                      <>
+                        {formData.locationType === 'coordinates' ? (
+                          <>
+                            <button type="button" onClick={getCurrentLocation}>
+                              {t(lang, 'pages.accessibilityMap.getCurrentLocation')}
+                            </button>
+                            {currentLocationDisplay?.coordinates?.lat != null && (
+                              <div className="current-location-details">
+                                <p>
+                                  {t(lang, 'pages.accessibilityMap.coordinatesFound')} {currentLocationDisplay.coordinates.lat.toFixed(6)}, {currentLocationDisplay.coordinates.lng.toFixed(6)}
+                                </p>
+                                {currentLocationDisplay.addressLabel && (
+                                  <p>{t(lang, 'pages.accessibilityMap.nearbyAddress')} {currentLocationDisplay.addressLabel}</p>
+                                )}
+                              </div>
+                            )}
+                          </>
+                        ) : (
+                          // pin mode
+                          <div className="pin-instructions">
+                            <p>{t(lang, 'pages.accessibilityMap.pinInstructions')}</p>
+                            {currentLocationDisplay?.coordinates?.lat != null && (
+                              <div className="current-location-details">
+                                <p>
+                                  {t(lang, 'pages.accessibilityMap.coordinatesFound')} {currentLocationDisplay.coordinates.lat.toFixed(6)}, {currentLocationDisplay.coordinates.lng.toFixed(6)}
+                                </p>
+                                {currentLocationDisplay.addressLabel && (
+                                  <p>{t(lang, 'pages.accessibilityMap.nearbyAddress')} {currentLocationDisplay.addressLabel}</p>
+                                )}
+                              </div>
+                            )}
+                          </div>
+                        )}
+                      </>
+                    )}
+                  </fieldset>
+                  <fieldset>
+                    <legend>{t(lang, 'pages.accessibilityMap.contactLegend')}</legend>
+                    <label>
+                      {t(lang, 'pages.accessibilityMap.nameLabel')}
+                      <input
+                        type="text"
+                        name="submitterName"
+                        value={formData.submitterName}
+                        onChange={handleFormChange}
+                      />
+                    </label>
+                    <label>
+                      {t(lang, 'pages.accessibilityMap.emailLabel')}
+                      <input
+                        type="email"
+                        name="submitterEmail"
+                        value={formData.submitterEmail}
+                        onChange={handleFormChange}
+                      />
+                    </label>
+                  </fieldset>
+                  <button type="submit" disabled={formStatus === 'submitting'}>
+                    {formStatus === 'submitting' ? t(lang, 'pages.accessibilityMap.submitting') : t(lang, 'pages.accessibilityMap.submitReport')}
+                  </button>
+                  {formStatus === 'success' && (
+                    <p className="report-success-message">
+                      {t(lang, 'pages.accessibilityMap.successMessage')}
+                    </p>
+                  )}
+                  {formStatus === 'error' && <p className="report-error-message">{t(lang, 'pages.accessibilityMap.errorMessage')}</p>}
+                </form>
+              )}
+            </section>
+          </div>
+        </div>
         </>
       )}
     </main>
