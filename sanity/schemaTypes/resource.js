@@ -140,17 +140,17 @@ export default {
       name: 'helpfulCount',
       type: 'number',
       title: 'Helpful count',
-      description: 'Number of people who found this resource helpful (updated automatically)',
-      initialValue: 0,
-      readOnly: true
+      description:
+        'Usually updated when visitors vote on the site. You can edit here to reset or correct (e.g. before launch).',
+      initialValue: 0
     },
     {
       name: 'notHelpfulCount',
       type: 'number',
       title: 'Not helpful count',
-      description: 'Number of people who did not find this resource helpful (updated automatically)',
-      initialValue: 0,
-      readOnly: true
+      description:
+        'Usually updated when visitors vote on the site. You can edit here to reset or correct (e.g. before launch).',
+      initialValue: 0
     },
     {
       name: 'gallery',
