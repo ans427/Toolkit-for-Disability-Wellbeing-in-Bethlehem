@@ -7,6 +7,7 @@ function Footer() {
   const lang = useLanguage()
   const currentYear = new Date().getFullYear()
   const contactEmail = 'inclusivebethlehem@gmail.com'
+  const phoneNumber = '(484) 350-4584'
   const gmailComposeLink = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(contactEmail)}`
 
   return (
@@ -43,6 +44,7 @@ function Footer() {
         <div className="footer-section">
           <h3>{t(lang, 'footer.contactUs')}</h3>
           <p>{t(lang, 'footer.emailLabel')}: <a href={gmailComposeLink} target="_blank" rel="noopener noreferrer">{contactEmail}</a></p>
+          <p>{t(lang, 'footer.phoneLabel') || 'Phone'}: <a href={`tel:${phoneNumber.replace(/[^0-9+]/g, '')}`}>{phoneNumber}</a></p>
         </div>
       </div>
 

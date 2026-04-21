@@ -4,6 +4,7 @@ import Breadcrumb from './Breadcrumb'
 import { sanity } from './sanityClient'
 import { useLanguage } from './languageContext'
 import { pickI18n } from './i18nUtils'
+import { t } from './uiStrings'
 import './About.css'
 
 const ABOUT_PAGE_QUERY = `*[_type == "aboutPage" && _id == "aboutPage"][0]{
@@ -35,9 +36,14 @@ const ABOUT_PAGE_QUERY = `*[_type == "aboutPage" && _id == "aboutPage"][0]{
     emailLabel,
     emailLabelI18n,
     email,
+    phoneLabel,
+    phoneLabelI18n,
+    phone,
     body,
     bodyI18n
-  }
+  },
+  funding,
+  fundingI18n
 }`
 
 const CONTRIBUTORS = {
@@ -88,7 +94,8 @@ function About() {
   const sections = Array.isArray(content?.sections) ? content.sections : []
   const getInvolved = content?.getInvolved || null
   const contact = content?.contact || null
-  const contactEmail = contact?.email || ''
+  const contactEmail = contact?.email || 'inclusivebethlehem@gmail.com'
+  const phoneNumber = contact?.phone || ''
   const gmailContactLink = contactEmail
     ? `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(contactEmail)}`
     : ''
@@ -174,6 +181,13 @@ function About() {
           </ul>
         </section>
 
+        { (content?.funding || content?.fundingI18n) && (
+          <section className="about-section">
+            <h2>{t(lang, 'about.fundingHeading') || 'Funding'}</h2>
+            <p>{pickI18n(content?.fundingI18n, lang, content?.funding)}</p>
+          </section>
+        )}
+
         {getInvolved && (
           <section className="about-section">
             <h2>{pickI18n(getInvolved?.headingI18n, lang, getInvolved?.heading) || 'Get Involved'}</h2>
@@ -195,8 +209,16 @@ function About() {
             <h2>{pickI18n(contact?.headingI18n, lang, contact?.heading) || 'Contact Us'}</h2>
             <p>
               {(pickI18n(contact?.emailLabelI18n, lang, contact?.emailLabel) || 'Email')}: {' '}
-              <a href={gmailContactLink} target="_blank" rel="noopener noreferrer">{contact?.email}</a>
+              {contactEmail ? (
+                <a href={gmailContactLink} target="_blank" rel="noopener noreferrer">{contactEmail}</a>
+              ) : <span>—</span>}
             </p>
+            {phoneNumber && (
+              <p>
+                {(pickI18n(contact?.phoneLabelI18n, lang, contact?.phoneLabel) || 'Phone')}: {' '}
+                <a href={`tel:${phoneNumber.replace(/[^0-9+]/g, '')}`}>{phoneNumber}</a>
+              </p>
+            )}
             {(pickI18n(contact?.bodyI18n, lang, contact?.body) || '')
               .split(/\n\s*\n/g)
               .map((p) => p.trim())

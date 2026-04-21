@@ -122,9 +122,23 @@ export default {
         { name: 'emailLabel', title: 'Email Label', type: 'string', initialValue: 'Email' },
         { name: 'emailLabelI18n', title: 'Email Label (translations)', type: 'localizedString' },
         { name: 'email', title: 'Email Address', type: 'string', initialValue: 'inclusivebethlehem@gmail.com' },
+        { name: 'phoneLabel', title: 'Phone Label', type: 'string', initialValue: 'Phone' },
+        { name: 'phoneLabelI18n', title: 'Phone Label (translations)', type: 'localizedString' },
+        { name: 'phone', title: 'Phone Number', type: 'string' },
         { name: 'body', title: 'Body', type: 'text', rows: 3 },
         { name: 'bodyI18n', title: 'Body (translations)', type: 'localizedText' },
       ],
+    },
+    {
+      name: 'funding',
+      title: 'Funding Statement',
+      type: 'text',
+      description: 'A short funding/acknowledgement statement shown on the About page.',
+    },
+    {
+      name: 'fundingI18n',
+      title: 'Funding Statement (translations)',
+      type: 'localizedText',
     },
   ],
   preview: {

@@ -272,6 +272,9 @@ export const uiStrings = {
       sitemap: 'Site Map',
       disclaimers: 'Disclaimers',
     },
+    about: {
+      fundingHeading: 'Funding',
+    },
     wasThisHelpful: {
       question: 'Was this helpful?',
       yes: 'Yes',
@@ -614,6 +617,9 @@ export const uiStrings = {
       privacyPolicy: 'Política de privacidad',
       sitemap: 'Mapa del sitio',
       disclaimers: 'Avisos',
+    },
+    about: {
+      fundingHeading: 'Fondos',
     },
     wasThisHelpful: {
       question: '¿Te resultó útil?',

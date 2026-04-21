@@ -12,8 +12,8 @@ function Header({
   const [langOpen, setLangOpen] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
   const languages = [
-    { code: 'en', label: 'English', flag: '🇺🇸' },
-    { code: 'es', label: 'Español', flag: '🇪🇸' },
+    { code: 'en', label: 'English', flag: '🌐' },
+    { code: 'es', label: 'Español', flag: '🌐' },
   ]
 
   // close dropdown when clicking outside
