@@ -389,8 +389,28 @@ function AccessibilityMap() {
   const [selectedMapResource, setSelectedMapResource] = useState(null)
   const [selectedReportMarker, setSelectedReportMarker] = useState(null)
   const [searchQuery, setSearchQuery] = useState('')
+  const [isTyping, setIsTyping] = useState(false)
   const [isMapFullscreen, setIsMapFullscreen] = useState(false)
   const [isPanelOpen, setIsPanelOpen] = useState(false)
+  const searchBarRef = useRef(null)
+  const [panelWidth, setPanelWidth] = useState(null)
+
+  useEffect(() => {
+    const updateWidth = () => {
+      if (isPanelOpen && searchBarRef.current) {
+        // make panel a bit wider than the input for visual breathing room
+        setPanelWidth(`${searchBarRef.current.offsetWidth + 16}px`)
+      }
+    }
+
+    updateWidth()
+    window.addEventListener('resize', updateWidth)
+    return () => window.removeEventListener('resize', updateWidth)
+  }, [isPanelOpen])
+
+  useEffect(() => {
+    if (!isPanelOpen) setPanelWidth(null)
+  }, [isPanelOpen])
 
   useEffect(() => {
     const fetchResources = async () => {
@@ -737,7 +757,90 @@ function AccessibilityMap() {
       ) : (
         <>
           {/* Controls above everything */}
-          <div className="map-controls-top" style={{ marginBottom: '1rem' }}>
+          <div className="map-controls-top" style={{ marginBottom: '1rem', display: 'flex', gap: '12px', alignItems: 'center' }}>
+            <div className="search-bar-container">
+                <div className="search-input-wrapper">
+                  <svg className="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <path d="m21 21-4.35-4.35"></path>
+                  </svg>
+                  <input
+                    ref={searchBarRef}
+                    type="text"
+                    placeholder="Search resources and reports..."
+                    value={searchQuery}
+                    onChange={(e) => { setSearchQuery(e.target.value); setIsTyping(true) }}
+                    onFocus={() => {
+                      setIsTyping(true)
+                      setIsPanelOpen(true)
+                      // set panel width to match input
+                      if (searchBarRef.current) {
+                        setPanelWidth(`${searchBarRef.current.offsetWidth}px`)
+                      }
+                    }}
+                    onClick={() => {
+                      setIsPanelOpen(true)
+                      if (searchBarRef.current) {
+                        setPanelWidth(`${searchBarRef.current.offsetWidth}px`)
+                      }
+                    }}
+                    className="search-input"
+                    aria-label="Search resources and reports"
+                  />
+                  <button
+                    className="search-clear-btn"
+                    onClick={() => {
+                      // Clear search text (if any) and always collapse the panel
+                      setSearchQuery('')
+                      setIsTyping(false)
+                      setIsPanelOpen(false)
+                    }}
+                    aria-label="Clear search and close panel"
+                  >
+                    ✕
+                  </button>
+                </div>
+
+                {/* Suggestions shown only when user is typing */}
+                {isTyping && searchQuery.trim() && (
+                  (() => {
+                    const suggestions = [
+                      ...filteredResources.map(r => ({ type: 'resource', id: r._id, label: pickI18n(r.titleI18n, lang, r.title), item: r })),
+                      ...filteredReports.map(r => ({ type: 'report', id: r._id, label: r.subject, item: r })),
+                    ].slice(0, 6)
+
+                    return (
+                      <div className="search-suggestions">
+                        {suggestions.length > 0 ? (
+                          suggestions.map(s => (
+                            <button
+                              key={`suggest-${s.type}-${s.id}`}
+                              className="suggestion-item"
+                              onClick={() => {
+                                if (s.type === 'resource') {
+                                  setSelectedMapResource(s.item)
+                                  setSelectedReportMarker(null)
+                                } else {
+                                  setSelectedReportMarker(s.item)
+                                  setSelectedMapResource(null)
+                                }
+                                setIsTyping(false)
+                                setSearchQuery(s.label)
+                                setIsPanelOpen(true)
+                              }}
+                            >
+                              <span className="suggestion-title">{s.label}</span>
+                            </button>
+                          ))
+                        ) : (
+                          <div className="no-suggestions"><p>No results found</p></div>
+                        )}
+                      </div>
+                    )
+                  })()
+                )}
+              </div>
+
             <label>
               <input type="checkbox" checked={showReports} onChange={() => setShowReports(s => !s)} /> 
               {t(lang, 'pages.accessibilityMap.showReports')}
@@ -751,107 +854,9 @@ function AccessibilityMap() {
           <div className={`map-layout ${isMapFullscreen ? 'fullscreen' : ''}`}>
           {/* Left Panel */}
           <div className={`map-side-panel ${isPanelOpen ? 'open' : 'closed'}`}>
-            <button 
-              className="panel-toggle-btn" 
-              onClick={() => setIsPanelOpen(!isPanelOpen)}
-              aria-label={isPanelOpen ? 'Close panel' : 'Open panel'}
-            >
-              {isPanelOpen ? '✕' : '☰'}
-            </button>
-
             {isPanelOpen && (
               <div className="panel-content">
-                <div className="panel-header">
-                  <h2>Search</h2>
-                  <button
-                    className="panel-close-btn"
-                    onClick={() => setIsPanelOpen(false)}
-                    aria-label="Close panel"
-                  >
-                    ✕
-                  </button>
-                </div>
-                
-                {/* Search Bar with suggestions */}
-                <div className="search-bar-container">
-                  <div className="search-input-wrapper">
-                    <svg className="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                      <circle cx="11" cy="11" r="8"></circle>
-                      <path d="m21 21-4.35-4.35"></path>
-                    </svg>
-                    <input
-                      type="text"
-                      placeholder="Search resources and reports..."
-                      value={searchQuery}
-                      onChange={(e) => setSearchQuery(e.target.value)}
-                      className="search-input"
-                      aria-label="Search resources and reports"
-                    />
-                    {searchQuery && (
-                      <button
-                        className="search-clear-btn"
-                        onClick={() => setSearchQuery('')}
-                        aria-label="Clear search"
-                      >
-                        ✕
-                      </button>
-                    )}
-                  </div>
-
-                  {/* Search suggestions dropdown */}
-                  {searchQuery.trim() && (
-                    <div className="search-suggestions">
-                      {filteredResources.length > 0 && (
-                        <>
-                          <div className="suggestions-category">
-                            <span className="category-label">Resources</span>
-                            {filteredResources.slice(0, 3).map(resource => (
-                              <button
-                                key={`suggest-res-${resource._id}`}
-                                className="suggestion-item"
-                                onClick={() => {
-                                  setSelectedMapResource(resource)
-                                  setSelectedReportMarker(null)
-                                }}
-                              >
-                                <span className="suggestion-title">
-                                  {pickI18n(resource.titleI18n, lang, resource.title)}
-                                </span>
-                                {resource.category && (
-                                  <span className="suggestion-category">{resource.category}</span>
-                                )}
-                              </button>
-                            ))}
-                          </div>
-                        </>
-                      )}
-                      {showReports && filteredReports.length > 0 && (
-                        <>
-                          <div className="suggestions-category">
-                            <span className="category-label">Reports</span>
-                            {filteredReports.slice(0, 3).map(report => (
-                              <button
-                                key={`suggest-report-${report._id}`}
-                                className="suggestion-item"
-                                onClick={() => {
-                                  setSelectedReportMarker(report)
-                                  setSelectedMapResource(null)
-                                }}
-                              >
-                                <span className="suggestion-title">{report.subject}</span>
-                              </button>
-                            ))}
-                          </div>
-                        </>
-                      )}
-                      {filteredResources.length === 0 && filteredReports.length === 0 && (
-                        <div className="no-suggestions">
-                          <p>No results found</p>
-                        </div>
-                      )}
-                    </div>
-                  )}
-                </div>
+                {/* Panel header removed; search bar controls live in top controls */}
 
                 {/* Selected Item Details */}
                 {currentSelected && (
@@ -1008,10 +1013,12 @@ function AccessibilityMap() {
                         icon={isSelected ? reportIconSelected : reportIcon}
                         eventHandlers={{
                           click: (e) => {
-                            setSearchQuery(report.subject)
-                            setSelectedReportMarker(report)
-                            setSelectedMapResource(null)
-                            setIsPanelOpen(true)
+                                setSelectedReportMarker(report)
+                                setSelectedMapResource(null)
+                                // show report subject in search bar but don't show suggestions
+                                setSearchQuery(report.subject)
+                                setIsTyping(false)
+                                setIsPanelOpen(true)
                           }
                         }}
                       >
@@ -1030,9 +1037,11 @@ function AccessibilityMap() {
                         icon={isSelected ? resourceIconSelected : resourceIcon}
                         eventHandlers={{
                           click: (e) => {
-                            setSearchQuery(pickI18n(resource.titleI18n, lang, resource.title))
                             setSelectedMapResource(resource)
                             setSelectedReportMarker(null)
+                            // show resource title in search bar but don't trigger suggestions
+                            setSearchQuery(pickI18n(resource.titleI18n, lang, resource.title))
+                            setIsTyping(false)
                             setIsPanelOpen(true)
                           }
                         }}
@@ -1074,18 +1083,7 @@ function AccessibilityMap() {
                 </button>
               </div>
 
-              <button
-                type="button"
-                className="map-search-button"
-                onClick={() => setIsPanelOpen(true)}
-                title="Search"
-                aria-label="Open search panel"
-              >
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <circle cx="11" cy="11" r="8"></circle>
-                  <path d="m21 21-4.35-4.35"></path>
-                </svg>
-              </button>
+              {/* search bar now lives at the top controls; removed floating button */}
               {formStatus === 'success' && !showForm && (
                 <p className="report-success-message">
                   {t(lang, 'pages.accessibilityMap.successMessage')}
