@@ -50,6 +50,9 @@ function AccessibilityStatement() {
   const intro = pickI18n(content?.introI18n, lang, content?.intro)
   const sections = Array.isArray(content?.sections) ? content.sections : []
   const contactEmail = content?.contactEmail || ''
+  const gmailContactLink = contactEmail
+    ? `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(contactEmail)}`
+    : ''
   const contactEmailLabel =
     pickI18n(content?.contactEmailLabelI18n, lang, content?.contactEmailLabel) || 'Email'
 
@@ -99,7 +102,7 @@ function AccessibilityStatement() {
         {contactEmail && (
           <section className="statement-section">
             <p>
-              {contactEmailLabel}: <a href={`mailto:${contactEmail}`}>{contactEmail}</a>
+              {contactEmailLabel}: <a href={gmailContactLink} target="_blank" rel="noopener noreferrer">{contactEmail}</a>
             </p>
           </section>
         )}

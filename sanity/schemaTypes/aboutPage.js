@@ -121,7 +121,7 @@ export default {
         { name: 'headingI18n', title: 'Heading (translations)', type: 'localizedString' },
         { name: 'emailLabel', title: 'Email Label', type: 'string', initialValue: 'Email' },
         { name: 'emailLabelI18n', title: 'Email Label (translations)', type: 'localizedString' },
-        { name: 'email', title: 'Email Address', type: 'string', initialValue: 'example@example.org' },
+        { name: 'email', title: 'Email Address', type: 'string', initialValue: 'inclusivebethlehem@gmail.com' },
         { name: 'body', title: 'Body', type: 'text', rows: 3 },
         { name: 'bodyI18n', title: 'Body (translations)', type: 'localizedText' },
       ],
