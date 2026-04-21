@@ -88,6 +88,10 @@ function About() {
   const sections = Array.isArray(content?.sections) ? content.sections : []
   const getInvolved = content?.getInvolved || null
   const contact = content?.contact || null
+  const contactEmail = contact?.email || ''
+  const gmailContactLink = contactEmail
+    ? `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(contactEmail)}`
+    : ''
 
   const renderBodyParagraphs = (section) => {
     const body = pickI18n(section?.bodyI18n, lang, section?.body) || ''
@@ -191,7 +195,7 @@ function About() {
             <h2>{pickI18n(contact?.headingI18n, lang, contact?.heading) || 'Contact Us'}</h2>
             <p>
               {(pickI18n(contact?.emailLabelI18n, lang, contact?.emailLabel) || 'Email')}: {' '}
-              <a href={`mailto:${contact?.email || ''}`}>{contact?.email}</a>
+              <a href={gmailContactLink} target="_blank" rel="noopener noreferrer">{contact?.email}</a>
             </p>
             {(pickI18n(contact?.bodyI18n, lang, contact?.body) || '')
               .split(/\n\s*\n/g)

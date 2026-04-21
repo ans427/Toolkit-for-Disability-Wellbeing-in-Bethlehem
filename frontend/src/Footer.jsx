@@ -6,6 +6,8 @@ import './Footer.css'
 function Footer() {
   const lang = useLanguage()
   const currentYear = new Date().getFullYear()
+  const contactEmail = 'inclusivebethlehem@gmail.com'
+  const gmailComposeLink = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(contactEmail)}`
 
   return (
     <footer id="site-footer" className="site-footer">
@@ -33,16 +35,14 @@ function Footer() {
         </div>
 
         <div className="footer-section">
-          <h3>{t(lang, 'footer.contactUs')}</h3>
-          <p>{t(lang, 'footer.emailLabel')}: <a href="mailto:example@example.org">example@example.org</a></p>
-          <p>{t(lang, 'footer.phoneLabel')}: (123) 456-7890</p>
-          <p>{t(lang, 'footer.addressLabel')}: Bethlehem, PA 18015</p>
-        </div>
-
-        <div className="footer-section">
           <h3>{t(lang, 'breadcrumb.about')}</h3>
           <p>{t(lang, 'footer.aboutBody')}</p>
           <p><Link to="/about">{t(lang, 'footer.learnMore')}</Link></p>
+        </div>
+
+        <div className="footer-section">
+          <h3>{t(lang, 'footer.contactUs')}</h3>
+          <p>{t(lang, 'footer.emailLabel')}: <a href={gmailComposeLink} target="_blank" rel="noopener noreferrer">{contactEmail}</a></p>
         </div>
       </div>
 
