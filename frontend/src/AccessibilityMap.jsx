@@ -1093,6 +1093,9 @@ function AccessibilityMap() {
                     ? t(lang, 'pages.accessibilityMap.cancel')
                     : t(lang, 'pages.accessibilityMap.reportInaccessibleLocation')}
                 </button>
+                <Link to="/submit" className="cta-band-button map-add-resource-button">
+                  {t(lang, 'pages.immediateResources.addResourceButton')}
+                </Link>
               </div>
 
               {/* search bar now lives at the top controls; removed floating button */}

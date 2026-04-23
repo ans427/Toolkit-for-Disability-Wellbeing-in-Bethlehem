@@ -230,6 +230,10 @@
   margin-bottom: 1rem;
 }
 
+.map-add-resource-button {
+  width: fit-content;
+}
+
 /* Search Button - positioned in top left near zoom controls */
 .map-search-button {
   position: absolute;
