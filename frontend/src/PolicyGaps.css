@@ -56,6 +56,13 @@
   outline-offset: 2px;
 }
 
+/* Ensure in-page jump targets clear the sticky header */
+#toc-heading,
+#action,
+.policy-section[id] {
+  scroll-margin-top: 5.5rem;
+}
+
 /* Policy content grid - card layout like ImmediateResources */
 .policy-content {
   display: flex;

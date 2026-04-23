@@ -467,6 +467,21 @@ function ImmediateResources() {
             </Link>
           ))}
           </div>
+
+          <section className="cta-band-group resource-page-cta-group" aria-label={t(lang, 'pages.immediateResources.ctaAriaLabel')}>
+            <section className="cta-band">
+              <p className="cta-band-text">{t(lang, 'pages.immediateResources.addResourceDescription')}</p>
+              <Link to="/submit" className="cta-band-button">
+                {t(lang, 'pages.immediateResources.addResourceButton')}
+              </Link>
+            </section>
+            <section className="cta-band">
+              <p className="cta-band-text">{t(lang, 'pages.immediateResources.viewMapDescription')}</p>
+              <Link to="/map" className="cta-band-button">
+                {t(lang, 'pages.immediateResources.viewMapButton')}
+              </Link>
+            </section>
+          </section>
         </>
       )}
     </main>

@@ -380,6 +380,10 @@ a {
   outline-offset: 2px;
 }
 
+.resource-page-cta-group {
+  margin-top: 2rem;
+}
+
 /* high contrast adjustments for CTA band */
 html.a11y-high-contrast .cta-band {
   background: #000;

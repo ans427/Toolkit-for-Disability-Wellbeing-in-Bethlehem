@@ -376,6 +376,20 @@ function ResourceDetail() {
         />
         <ResourceComments resourceId={resourceId} />
       </article>
+      <section className="cta-band-group resource-page-cta-group" aria-label={t(lang, 'pages.resourceDetail.ctaAriaLabel')}>
+        <section className="cta-band">
+          <p className="cta-band-text">{t(lang, 'pages.resourceDetail.addResourceDescription')}</p>
+          <Link to="/submit" className="cta-band-button">
+            {t(lang, 'pages.resourceDetail.addResourceButton')}
+          </Link>
+        </section>
+        <section className="cta-band">
+          <p className="cta-band-text">{t(lang, 'pages.resourceDetail.viewMapDescription')}</p>
+          <Link to="/map" className="cta-band-button">
+            {t(lang, 'pages.resourceDetail.viewMapButton')}
+          </Link>
+        </section>
+      </section>
     </main>
   )
 }

@@ -21,6 +21,13 @@
   text-decoration: underline;
 }
 
+/* Ensure in-page skip targets land with consistent viewport offset */
+#resource-search,
+#resource-filter-chip-list,
+#resource-results {
+  scroll-margin-top: 2rem;
+}
+
 .resource-filter-controls {
   display: flex;
   flex-wrap: wrap;
@@ -155,6 +162,10 @@
 .resource-header {
   margin-bottom: 3rem;
   text-align: left;
+}
+
+.resource-page-cta {
+  margin-top: 2rem;
 }
 
 .resource-error {

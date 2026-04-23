@@ -592,6 +592,18 @@ function AccessibilityMap() {
     selectedMarkerRef.current.openPopup()
   }, [selectedResourceId, selectedResource, geocodedResources])
 
+  useEffect(() => {
+    if (!selectedResourceId || !selectedResource) return
+
+    // When arriving from "View on map", hydrate full selection UI state.
+    setShowResources(true)
+    setSelectedMapResource(selectedResource)
+    setSelectedReportMarker(null)
+    setSearchQuery(pickI18n(selectedResource.titleI18n, lang, selectedResource.title))
+    setIsTyping(false)
+    setIsPanelOpen(true)
+  }, [selectedResourceId, selectedResource, lang])
+
   const handleFormChange = (e) => {
     const { name, value, type, files } = e.target
     if (name.startsWith('address.')) {
