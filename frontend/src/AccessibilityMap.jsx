@@ -1081,22 +1081,28 @@ function AccessibilityMap() {
                 </MapContainer>
               </div>
 
-              <div className="map-action-buttons">
-                <button
-                  type="button"
-                  className="submit-report-button"
-                  onClick={() => setShowForm((prev) => !prev)}
-                >
-                  {formStatus === 'success'
-                    ? t(lang, 'pages.accessibilityMap.reportAnother')
-                    : showForm
-                    ? t(lang, 'pages.accessibilityMap.cancel')
-                    : t(lang, 'pages.accessibilityMap.reportInaccessibleLocation')}
-                </button>
-                <Link to="/submit" className="cta-band-button map-add-resource-button">
-                  {t(lang, 'pages.immediateResources.addResourceButton')}
-                </Link>
-              </div>
+              <section className="cta-band-group resource-page-cta-group map-cta-group" aria-label={t(lang, 'pages.immediateResources.ctaAriaLabel')}>
+                <section className="cta-band">
+                  <p className="cta-band-text">{t(lang, 'home.cta.text')}</p>
+                  <Link to="/submit" className="cta-band-button">
+                    {t(lang, 'home.cta.button')}
+                  </Link>
+                </section>
+                <section className="cta-band">
+                  <p className="cta-band-text">{t(lang, 'home.reportCta.text')}</p>
+                  <button
+                    type="button"
+                    className="cta-band-button"
+                    onClick={() => setShowForm((prev) => !prev)}
+                  >
+                    {formStatus === 'success'
+                      ? t(lang, 'pages.accessibilityMap.reportAnother')
+                      : showForm
+                      ? t(lang, 'pages.accessibilityMap.cancel')
+                      : t(lang, 'home.reportCta.button')}
+                  </button>
+                </section>
+              </section>
 
               {/* search bar now lives at the top controls; removed floating button */}
               {formStatus === 'success' && !showForm && (
