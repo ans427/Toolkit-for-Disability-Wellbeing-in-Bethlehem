@@ -768,6 +768,10 @@ function AccessibilityMap() {
         <p className="map-error">{error}</p>
       ) : (
         <>
+          <nav className="map-skip-links" aria-label={t(lang, 'pages.accessibilityMap.skipNavAria')}>
+            <a href="#map-quick-actions">{t(lang, 'pages.accessibilityMap.skipToQuickActions')}</a>
+          </nav>
+
           {/* Controls above everything */}
           <div className="map-controls-top" style={{ marginBottom: '1rem', display: 'flex', gap: '12px', alignItems: 'center' }}>
             <div className="search-bar-container">
@@ -1081,7 +1085,7 @@ function AccessibilityMap() {
                 </MapContainer>
               </div>
 
-              <section className="cta-band-group resource-page-cta-group map-cta-group" aria-label={t(lang, 'pages.immediateResources.ctaAriaLabel')}>
+              <section id="map-quick-actions" className="cta-band-group resource-page-cta-group map-cta-group" aria-label={t(lang, 'pages.immediateResources.ctaAriaLabel')}>
                 <section className="cta-band">
                   <p className="cta-band-text">{t(lang, 'home.cta.text')}</p>
                   <Link to="/submit" className="cta-band-button">

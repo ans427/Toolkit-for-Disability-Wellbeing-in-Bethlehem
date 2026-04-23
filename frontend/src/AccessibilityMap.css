@@ -9,6 +9,23 @@
   font-size: 1.1rem;
 }
 
+.map-skip-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.map-skip-links a {
+  font-size: 0.9rem;
+  color: var(--color-link);
+  text-decoration: underline;
+}
+
+#map-quick-actions {
+  scroll-margin-top: 2rem;
+}
+
 .map-container {
   border-radius: 8px;
   overflow: hidden;
