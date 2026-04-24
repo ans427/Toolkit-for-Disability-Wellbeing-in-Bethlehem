@@ -364,6 +364,7 @@ function AccessibilityMap() {
   const shouldOpenReportForm = searchParams.get('openReportForm') === '1'
   const selectedMarkerRef = useRef(null)
   const mapSectionRef = useRef(null)
+  const mapContainerRef = useRef(null)
   const reportFormRef = useRef(null)
   const [resources, setResources] = useState([])
   const [loading, setLoading] = useState(true)
@@ -573,8 +574,8 @@ function AccessibilityMap() {
   const currentSelected = selectedMapResource || selectedReportMarker
 
   useEffect(() => {
-    if (!selectedResourceId || !mapSectionRef.current || loading) return
-    mapSectionRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    if (!selectedResourceId || !mapContainerRef.current || loading) return
+    mapContainerRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' })
   }, [selectedResourceId, loading])
 
   useEffect(() => {
@@ -982,7 +983,7 @@ function AccessibilityMap() {
           {/* Map Section */}
           <div className="map-main-content">
             <section className="inaccessible-locations-section" ref={mapSectionRef}>
-              <div className="map-container-wrapper">
+              <div className="map-container-wrapper" ref={mapContainerRef}>
                 <button
                   className="map-fullscreen-btn"
                   onClick={() => setIsMapFullscreen(!isMapFullscreen)}

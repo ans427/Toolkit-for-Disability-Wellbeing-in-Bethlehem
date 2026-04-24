@@ -245,6 +245,25 @@
   margin-bottom: 1rem;
 }
 
+.map-cta-group .cta-band-button {
+  width: 240px;
+  min-height: 48px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  box-sizing: border-box;
+  line-height: 1.2;
+  font-weight: 700;
+}
+
+.map-cta-group button.cta-band-button {
+  border: none;
+  appearance: none;
+  -webkit-appearance: none;
+  cursor: pointer;
+}
+
 /* Search Button - positioned in top left near zoom controls */
 .map-search-button {
   position: absolute;
