@@ -247,6 +247,43 @@
   .menu-toggle {
     display: block; /* show hamburger when nav wraps */
   }
+
+  /* Mobile menu dropdown - appears below navbar */
+  .site-nav ul.menu-open {
+    display: block;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    max-width: 300px;
+    margin-top: 0.25rem;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    z-index: 10001;
+    padding: 0.5rem 0;
+  }
+
+  .site-nav ul.menu-open li {
+    margin: 0.25rem 0;
+  }
+
+  .site-nav ul.menu-open a {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--color-text);
+    text-decoration: none;
+    display: block;
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+  }
+
+  .site-nav ul.menu-open a:hover,
+  .site-nav ul.menu-open a:focus {
+    background: color-mix(in srgb, var(--color-pastel-blue) 70%, var(--color-surface) 30%);
+  }
 }
 
 @media (max-width: 768px) {
@@ -485,11 +522,6 @@ html.a11y-high-contrast .mobile-nav a:focus {
   outline: 2px dashed var(--focus-color);
   outline-offset: 2px;
   background: color-mix(in srgb, var(--color-pastel-pink) 70%, var(--color-surface) 30%);
-}
-
-/* Prevent body scroll when menu is open */
-.menu-open-body {
-  overflow: hidden;
 }
 
 @media (min-width: 769px) {

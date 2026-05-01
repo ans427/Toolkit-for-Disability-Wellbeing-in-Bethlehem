@@ -609,6 +609,11 @@
   border: 1px solid var(--color-border);
 }
 
+/* Mobile panel header with drag handle and close button */
+.mobile-panel-header {
+  display: none;
+}
+
 /* Left Side Panel */
 .map-side-panel {
   flex-shrink: 0;
@@ -1116,7 +1121,7 @@
     left: 0;
     right: 0;
     width: 100% !important;
-    max-height: calc(100vh - 200px);
+    max-height: calc(100vh - 120px);
     border-radius: 16px 16px 0 0;
     border: 1px solid var(--color-border);
     border-bottom: none;
@@ -1130,8 +1135,63 @@
   }
 
   .map-side-panel.open {
-    transform: translateY(0);
-    max-height: calc(100vh - 200px);
+    transform: translateY(calc(100vh - 100vh + 80px));
+    max-height: calc(100vh - 120px);
+  }
+
+  /* Mobile panel header with drag handle and close button */
+  .mobile-panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid var(--color-border);
+    background: var(--color-background-primary);
+    border-radius: 16px 16px 0 0;
+  }
+
+  /* Drag handle bar */
+  .panel-drag-handle {
+    width: 40px;
+    height: 4px;
+    background: white;
+    border-radius: 2px;
+    cursor: grab;
+    transition: background 0.2s ease;
+  }
+
+  .panel-drag-handle:hover {
+    background: var(--color-text-secondary);
+  }
+
+  .panel-drag-handle:active {
+    cursor: grabbing;
+  }
+
+  /* Close button (X) */
+  .panel-close-btn-mobile {
+    background: none;
+    border: none;
+    font-size: 1.25rem;
+    cursor: pointer;
+    color: var(--color-text-secondary);
+    padding: 4px 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+    line-height: 1;
+  }
+
+  .panel-close-btn-mobile:hover {
+    background: var(--color-background-secondary);
+    color: var(--color-text);
+  }
+
+  .panel-close-btn-mobile:focus-visible {
+    outline: 2px solid var(--color-forest-green);
+    outline-offset: 2px;
   }
 
   .panel-toggle-btn {

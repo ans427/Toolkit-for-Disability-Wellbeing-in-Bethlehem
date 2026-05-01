@@ -413,6 +413,36 @@ function AccessibilityMap() {
     if (!isPanelOpen) setPanelWidth(null)
   }, [isPanelOpen])
 
+  // Close panel when clicking outside (for mobile) - only on map area, not when opening
+  useEffect(() => {
+    if (!isPanelOpen) return
+
+    const handleBackgroundClick = (e) => {
+      const panel = document.querySelector('.map-side-panel')
+      const searchBar = document.querySelector('.search-bar-container')
+      const mapContainer = document.querySelector('.map-container-wrapper')
+      const controls = document.querySelector('.map-controls-top')
+      
+      // Only close if clicking on the map itself (not when trying to open the panel)
+      if (mapContainer && mapContainer.contains(e.target) && 
+          !panel?.contains(e.target) && 
+          !searchBar?.contains(e.target) &&
+          !controls?.contains(e.target)) {
+        setIsPanelOpen(false)
+      }
+    }
+
+    // Use a small delay to prevent immediate closing when opening
+    const timer = setTimeout(() => {
+      document.addEventListener('click', handleBackgroundClick)
+    }, 100)
+
+    return () => {
+      clearTimeout(timer)
+      document.removeEventListener('click', handleBackgroundClick)
+    }
+  }, [isPanelOpen])
+
   useEffect(() => {
     const fetchResources = async () => {
       try {
@@ -872,111 +902,124 @@ function AccessibilityMap() {
           {/* Left Panel */}
           <div className={`map-side-panel ${isPanelOpen ? 'open' : 'closed'}`}>
             {isPanelOpen && (
-              <div className="panel-content">
-                {/* Panel header removed; search bar controls live in top controls */}
-
-                {/* Selected Item Details */}
-                {currentSelected && (
-                  <div className="selected-item-details">
-                    <h3>
-                      {currentSelected.title ? pickI18n(currentSelected.titleI18n, lang, currentSelected.title) : currentSelected.subject}
-                    </h3>
-                    
-                    {currentSelected.title && (
-                      <>
-                        {currentSelected.category && (
-                          <p className="item-category">{currentSelected.category}</p>
-                        )}
-                        {currentSelected.address && (
-                          <p className="item-address">
-                            {`${currentSelected.address.street || ''}${currentSelected.address.city ? `, ${currentSelected.address.city}` : ''}${currentSelected.address.state ? `, ${currentSelected.address.state}` : ''}${currentSelected.address.zipCode ? ` ${currentSelected.address.zipCode}` : ''}`}
-                          </p>
-                        )}
-                        <p className="item-description">
-                          {pickI18n(currentSelected.descriptionI18n, lang, currentSelected.description)}
-                        </p>
-                        <Link to={`/resources/${currentSelected._id}`} className="details-link">
-                          {t(lang, 'pages.accessibilityMap.viewDetails')}
-                        </Link>
-                      </>
-                    )}
-
-                    {currentSelected.subject && (
-                      <>
-                        <p className="item-description">{currentSelected.details}</p>
-                        {currentSelected.image?.asset?.url && (
-                          <img
-                            src={currentSelected.image.asset.url}
-                            alt={currentSelected.image.alt || `${currentSelected.subject} - accessibility issue`}
-                            className="selected-item-image"
-                          />
-                        )}
-                      </>
-                    )}
-
-                    <button
-                      onClick={() => {
-                        setSelectedMapResource(null)
-                        setSelectedReportMarker(null)
-                      }}
-                      className="clear-selection-btn"
-                    >
-                      Clear Selection
-                    </button>
-                  </div>
-                )}
-
-                {/* Search Results List */}
-                <div className="search-results-container">
-                  {filteredResources.length > 0 && (
-                    <>
-                      <h3>Resources ({filteredResources.length})</h3>
-                      <ul className="items-list">
-                        {filteredResources.map(resource => (
-                          <li key={`res-list-${resource._id}`}>
-                            <button
-                              className={`list-item-btn ${selectedMapResource?._id === resource._id ? 'selected' : ''}`}
-                              onClick={() => {
-                                setSelectedMapResource(resource)
-                                setSelectedReportMarker(null)
-                              }}
-                            >
-                              <strong>{pickI18n(resource.titleI18n, lang, resource.title)}</strong>
-                              {resource.category && <span className="item-category-badge">{resource.category}</span>}
-                            </button>
-                          </li>
-                        ))}
-                      </ul>
-                    </>
-                  )}
-
-                  {showReports && filteredReports.length > 0 && (
-                    <>
-                      <h3>Accessibility Reports ({filteredReports.length})</h3>
-                      <ul className="items-list">
-                        {filteredReports.map(report => (
-                          <li key={`report-list-${report._id}`}>
-                            <button
-                              className={`list-item-btn ${selectedReportMarker?._id === report._id ? 'selected' : ''}`}
-                              onClick={() => {
-                                setSelectedReportMarker(report)
-                                setSelectedMapResource(null)
-                              }}
-                            >
-                              <strong>{report.subject}</strong>
-                              <span className="item-type-badge">Report</span>
-                            </button>
-                          </li>
-                        ))}
-                      </ul>
-                    </>
-                  )}
-
-                  {filteredResources.length === 0 && filteredReports.length === 0 && searchQuery.trim() && (
-                    <p className="no-results">No results found</p>
-                  )}
+              <>
+                {/* Mobile-only drag handle + close button */}
+                <div className="mobile-panel-header">
+                  <div className="panel-drag-handle" aria-hidden="true" />
+                  <button
+                    className="panel-close-btn-mobile"
+                    onClick={() => setIsPanelOpen(false)}
+                    aria-label="Close panel"
+                  >
+                    ✕
+                  </button>
                 </div>
-              </div>
+                <div className="panel-content">
+                  {/* Panel header removed; search bar controls live in top controls */}
+
+                  {/* Selected Item Details */}
+                  {currentSelected && (
+                    <div className="selected-item-details">
+                      <h3>
+                        {currentSelected.title ? pickI18n(currentSelected.titleI18n, lang, currentSelected.title) : currentSelected.subject}
+                      </h3>
+                      
+                      {currentSelected.title && (
+                        <>
+                          {currentSelected.category && (
+                            <p className="item-category">{currentSelected.category}</p>
+                          )}
+                          {currentSelected.address && (
+                            <p className="item-address">
+                              {`${currentSelected.address.street || ''}${currentSelected.address.city ? `, ${currentSelected.address.city}` : ''}${currentSelected.address.state ? `, ${currentSelected.address.state}` : ''}${currentSelected.address.zipCode ? ` ${currentSelected.address.zipCode}` : ''}`}
+                            </p>
+                          )}
+                          <p className="item-description">
+                            {pickI18n(currentSelected.descriptionI18n, lang, currentSelected.description)}
+                          </p>
+                          <Link to={`/resources/${currentSelected._id}`} className="details-link">
+                            {t(lang, 'pages.accessibilityMap.viewDetails')}
+                          </Link>
+                        </>
+                      )}
+
+                      {currentSelected.subject && (
+                        <>
+                          <p className="item-description">{currentSelected.details}</p>
+                          {currentSelected.image?.asset?.url && (
+                            <img
+                              src={currentSelected.image.asset.url}
+                              alt={currentSelected.image.alt || `${currentSelected.subject} - accessibility issue`}
+                              className="selected-item-image"
+                            />
+                          )}
+                        </>
+                      )}
+
+                      <button
+                        onClick={() => {
+                          setSelectedMapResource(null)
+                          setSelectedReportMarker(null)
+                        }}
+                        className="clear-selection-btn"
+                      >
+                        Clear Selection
+                      </button>
+                    </div>
+                  )}
+
+                  {/* Search Results List */}
+                  <div className="search-results-container">
+                    {filteredResources.length > 0 && (
+                      <>
+                        <h3>Resources ({filteredResources.length})</h3>
+                        <ul className="items-list">
+                          {filteredResources.map(resource => (
+                            <li key={`res-list-${resource._id}`}>
+                              <button
+                                className={`list-item-btn ${selectedMapResource?._id === resource._id ? 'selected' : ''}`}
+                                onClick={() => {
+                                  setSelectedMapResource(resource)
+                                  setSelectedReportMarker(null)
+                                }}
+                              >
+                                <strong>{pickI18n(resource.titleI18n, lang, resource.title)}</strong>
+                                {resource.category && <span className="item-category-badge">{resource.category}</span>}
+                              </button>
+                            </li>
+                          ))}
+                        </ul>
+                      </>
+                    )}
+
+                    {showReports && filteredReports.length > 0 && (
+                      <>
+                        <h3>Accessibility Reports ({filteredReports.length})</h3>
+                        <ul className="items-list">
+                          {filteredReports.map(report => (
+                            <li key={`report-list-${report._id}`}>
+                              <button
+                                className={`list-item-btn ${selectedReportMarker?._id === report._id ? 'selected' : ''}`}
+                                onClick={() => {
+                                  setSelectedReportMarker(report)
+                                  setSelectedMapResource(null)
+                                }}
+                              >
+                                <strong>{report.subject}</strong>
+                                <span className="item-type-badge">Report</span>
+                              </button>
+                            </li>
+                          ))}
+                        </ul>
+                      </>
+                    )}
+
+                    {filteredResources.length === 0 && filteredReports.length === 0 && searchQuery.trim() && (
+                      <p className="no-results">No results found</p>
+                    )}
+                  </div>
+                </div>
+              </>
             )}
           </div>
 
@@ -984,14 +1027,6 @@ function AccessibilityMap() {
           <div className="map-main-content">
             <section className="inaccessible-locations-section" ref={mapSectionRef}>
               <div className="map-container-wrapper" ref={mapContainerRef}>
-                <button
-                  className="map-fullscreen-btn"
-                  onClick={() => setIsMapFullscreen(!isMapFullscreen)}
-                  title={isMapFullscreen ? 'Exit fullscreen' : 'Enter fullscreen'}
-                >
-                  {isMapFullscreen ? '⛶' : '⛶'}
-                </button>
-
                 <MapContainer
                   center={selectedResourceCenter || defaultCenter}
                   zoom={13}
