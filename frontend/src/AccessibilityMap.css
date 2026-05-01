@@ -246,7 +246,7 @@
 }
 
 .map-cta-group .cta-band-button {
-  width: 240px;
+  width: 100%;
   min-height: 48px;
   display: inline-flex;
   align-items: center;
@@ -254,7 +254,8 @@
   text-align: center;
   box-sizing: border-box;
   line-height: 1.2;
-  font-weight: 700;
+  font-weight: 600;
+  font-size: 0.875rem;
 }
 
 .map-cta-group button.cta-band-button {
