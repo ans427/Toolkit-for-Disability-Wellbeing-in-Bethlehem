@@ -29,9 +29,9 @@ function Footer() {
           <ul>
             <li><Link to="/about">{t(lang, 'breadcrumb.about')}</Link></li>
             <li><Link to="/sitemap">{t(lang, 'breadcrumb.sitemap')}</Link></li>
-            <li><Link to="/disclaimers">{t(lang, 'breadcrumb.disclaimers')}</Link></li>
+            {/* <li><Link to="/disclaimers">{t(lang, 'breadcrumb.disclaimers')}</Link></li> */}
             <li><Link to="/accessibility-statement">{t(lang, 'breadcrumb.accessibilityStatement')}</Link></li>
-            <li><Link to="/privacy-policy">{t(lang, 'breadcrumb.privacyPolicy')}</Link></li>
+            {/* <li><Link to="/privacy-policy">{t(lang, 'breadcrumb.privacyPolicy')}</Link></li> */}
           </ul>
         </div>
 
