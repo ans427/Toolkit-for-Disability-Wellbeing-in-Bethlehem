@@ -241,10 +241,12 @@ function MapClickHandler({ enabled, onClick }) {
   return null
 }
 
-function MapBackgroundClickHandler({ onBackgroundClick }) {
+function MapBackgroundClickHandler({ onBackgroundClick, markerClickedRef }) {
   useMapEvents({
-    click(e) {
-      if (e.target && e.target.tagName === 'IMG') return // Clicked on marker
+    click() {
+      if (markerClickedRef.current) {
+        return
+      }
       onBackgroundClick()
     }
   })
@@ -362,6 +364,7 @@ function AccessibilityMap() {
   // Support both new and legacy query param names.
   const selectedResourceId = searchParams.get('selectedResourceId') || searchParams.get('resourceId')
   const shouldOpenReportForm = searchParams.get('openReportForm') === '1'
+  const markerClickedRef = useRef(false)
   const selectedMarkerRef = useRef(null)
   const mapSectionRef = useRef(null)
   const mapContainerRef = useRef(null)
@@ -418,12 +421,17 @@ function AccessibilityMap() {
     if (!isPanelOpen) return
 
     const handleBackgroundClick = (e) => {
+      // If a marker was just clicked, don't close — the Leaflet handler already consumed the flag
+      if (markerClickedRef.current) {
+        markerClickedRef.current = false
+        return
+      }
+
       const panel = document.querySelector('.map-side-panel')
       const searchBar = document.querySelector('.search-bar-container')
       const mapContainer = document.querySelector('.map-container-wrapper')
       const controls = document.querySelector('.map-controls-top')
       
-      // Only close if clicking on the map itself (not when trying to open the panel)
       if (mapContainer && mapContainer.contains(e.target) && 
           !panel?.contains(e.target) && 
           !searchBar?.contains(e.target) &&
@@ -432,7 +440,6 @@ function AccessibilityMap() {
       }
     }
 
-    // Use a small delay to prevent immediate closing when opening
     const timer = setTimeout(() => {
       document.addEventListener('click', handleBackgroundClick)
     }, 100)
@@ -441,7 +448,7 @@ function AccessibilityMap() {
       clearTimeout(timer)
       document.removeEventListener('click', handleBackgroundClick)
     }
-  }, [isPanelOpen])
+  }, [isPanelOpen, markerClickedRef])
 
   useEffect(() => {
     const fetchResources = async () => {
@@ -1052,6 +1059,7 @@ function AccessibilityMap() {
 
                   <MapBackgroundClickHandler
                     onBackgroundClick={() => setIsPanelOpen(false)}
+                    markerClickedRef={markerClickedRef}
                   />
 
                   {showReports && geocodedReports.map((report) => {
@@ -1065,6 +1073,7 @@ function AccessibilityMap() {
                         icon={isSelected ? reportIconSelected : reportIcon}
                         eventHandlers={{
                           click: (e) => {
+                                markerClickedRef.current = true
                                 setSelectedReportMarker(report)
                                 setSelectedMapResource(null)
                                 // show report subject in search bar but don't show suggestions
@@ -1089,6 +1098,7 @@ function AccessibilityMap() {
                         icon={isSelected ? resourceIconSelected : resourceIcon}
                         eventHandlers={{
                           click: (e) => {
+                            markerClickedRef.current = true
                             setSelectedMapResource(resource)
                             setSelectedReportMarker(null)
                             // show resource title in search bar but don't trigger suggestions
