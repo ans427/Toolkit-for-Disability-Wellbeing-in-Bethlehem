@@ -2,6 +2,18 @@ export default {
   name: 'accessibilityReport',
   title: 'Accessibility Report',
   type: 'document',
+  preview: {
+    select: {
+      title: 'subject',
+      subtitle: 'status',
+    },
+    prepare({ title, subtitle }) {
+      return {
+        title: title || 'Accessibility report',
+        subtitle: subtitle ? subtitle.charAt(0).toUpperCase() + subtitle.slice(1) : 'No status set',
+      }
+    },
+  },
   fields: [
     {
       name: 'status',

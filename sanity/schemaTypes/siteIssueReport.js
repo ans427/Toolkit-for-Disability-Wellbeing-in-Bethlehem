@@ -2,6 +2,18 @@ export default {
   name: 'siteIssueReport',
   title: 'Site Issue Report',
   type: 'document',
+  preview: {
+    select: {
+      title: 'subject',
+      subtitle: 'status',
+    },
+    prepare({ title, subtitle }) {
+      return {
+        title: title || 'Site issue report',
+        subtitle: subtitle ? subtitle.charAt(0).toUpperCase() + subtitle.slice(1) : 'No status set',
+      }
+    },
+  },
   fields: [
     {
       name: 'status',
