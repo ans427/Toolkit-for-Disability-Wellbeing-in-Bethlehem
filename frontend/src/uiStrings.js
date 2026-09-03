@@ -142,6 +142,17 @@ export const uiStrings = {
         feedbackText: 'Need feedback or support with this website accessibility?',
         feedbackLinkLabel: 'Report a Website Issue',
       },
+      notFound: {
+        eyebrow: 'Page not found',
+        title: 'We couldn’t find that page.',
+        subtitle:
+          'The link may be outdated, the page may have moved, or the URL may be incorrect. Try going back home or use the sitemap to find what you need.',
+        home: 'Return home',
+        sitemap: 'Open sitemap',
+        helpBefore: 'If you believe this is a broken link, please',
+        helpLink: 'report it',
+        helpAfter: 'so we can fix it.',
+      },
       submitForm: {
         backHome: '← Back to Home',
         title: 'Submit a Resource or Community Story',
@@ -499,6 +510,17 @@ export const uiStrings = {
       accessibilityStatement: {
         feedbackText: '¿Necesitas enviar comentarios o recibir apoyo sobre la accesibilidad de este sitio web?',
         feedbackLinkLabel: 'Reportar un problema del sitio web',
+      },
+      notFound: {
+        eyebrow: 'Página no encontrada',
+        title: 'No pudimos encontrar esa página.',
+        subtitle:
+          'El enlace puede estar desactualizado, la página puede haber cambiado de ubicación o la URL puede ser incorrecta. Vuelve al inicio o usa el mapa del sitio para encontrar lo que buscas.',
+        home: 'Volver al inicio',
+        sitemap: 'Abrir mapa del sitio',
+        helpBefore: 'Si crees que este es un enlace roto, por favor',
+        helpLink: 'repórtalo',
+        helpAfter: 'para que podamos corregirlo.',
       },
       submitForm: {
         backHome: '← Volver al inicio',

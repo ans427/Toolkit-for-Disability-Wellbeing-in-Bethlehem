@@ -31,6 +31,32 @@ function ScrollToTop() {
   return null
 }
 
+function NotFoundPage() {
+  const lang = useLanguage()
+
+  return (
+    <main className="container not-found-page" aria-labelledby="not-found-title">
+      <header>
+        <p className="not-found-eyebrow">{t(lang, 'pages.notFound.eyebrow')}</p>
+        <h1 id="not-found-title">{t(lang, 'pages.notFound.title')}</h1>
+      </header>
+
+      <p className="subtitle">{t(lang, 'pages.notFound.subtitle')}</p>
+
+      <div className="not-found-actions">
+        <Link to="/" className="cta-band-button">{t(lang, 'pages.notFound.home')}</Link>
+        <Link to="/sitemap" className="secondary-link">{t(lang, 'pages.notFound.sitemap')}</Link>
+      </div>
+
+      <p className="not-found-help">
+        {t(lang, 'pages.notFound.helpBefore')}{' '}
+        <Link to="/report-issue">{t(lang, 'pages.notFound.helpLink')}</Link>
+        {` ${t(lang, 'pages.notFound.helpAfter')}`}
+      </p>
+    </main>
+  )
+}
+
 function HomePage() {
   const lang = useLanguage()
   return (
@@ -424,6 +450,7 @@ function App() {
           <Route path="/accessibility-statement" element={<AccessibilityStatement />} />
           <Route path="/about" element={<About />} />
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+          <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </div>
         <div className="container global-back-to-top">
