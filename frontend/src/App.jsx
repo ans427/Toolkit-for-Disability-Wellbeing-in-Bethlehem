@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { BrowserRouter, Routes, Route, Link, useLocation } from 'react-router-dom'
 import Header from './Header'
 import ImmediateResources from './ImmediateResources'
@@ -194,7 +194,11 @@ function AccessibilityToolbar({
   increaseSpacing, setIncreaseSpacing,
   onReset, open, onToggle,
   lang,
+  triggerRef,
 }) {
+  const panelRef = useRef(null)
+  const closeButtonRef = useRef(null)
+
   const sizes = [
     { id: 'smaller', label: t(lang, 'accessibilityPanel.textSizeSmaller'), description: t(lang, 'accessibilityPanel.textSizeSmaller') },
     { id: 'normal', label: t(lang, 'accessibilityPanel.textSizeDefault'), description: t(lang, 'accessibilityPanel.textSizeDefault') },
@@ -214,12 +218,45 @@ function AccessibilityToolbar({
 
   useEffect(() => {
     if (!open) return
+
     const handleEscape = (e) => {
-      if (e.key === 'Escape') onToggle()
+      if (e.key === 'Escape') {
+        e.preventDefault()
+        onToggle()
+      }
     }
+
+    const handleFocusTrap = (e) => {
+      if (e.key !== 'Tab' || !panelRef.current) return
+
+      const focusable = [...panelRef.current.querySelectorAll(
+        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+      )].filter((element) => !element.hasAttribute('disabled'))
+
+      if (!focusable.length) return
+
+      const first = focusable[0]
+      const last = focusable[focusable.length - 1]
+
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault()
+        last.focus()
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault()
+        first.focus()
+      }
+    }
+
     document.addEventListener('keydown', handleEscape)
-    return () => document.removeEventListener('keydown', handleEscape)
-  }, [open, onToggle])
+    document.addEventListener('keydown', handleFocusTrap)
+    closeButtonRef.current?.focus()
+
+    return () => {
+      document.removeEventListener('keydown', handleEscape)
+      document.removeEventListener('keydown', handleFocusTrap)
+      triggerRef?.current?.focus()
+    }
+  }, [open, onToggle, triggerRef])
 
   return (
     <>
@@ -228,14 +265,17 @@ function AccessibilityToolbar({
           <div className="accessibility-overlay" onClick={onToggle} aria-hidden="true" />
           <aside
             id="accessibility-panel"
+            ref={panelRef}
             className="accessibility-panel"
             role="dialog"
             aria-modal="true"
+            aria-labelledby="accessibility-panel-title"
             aria-label={t(lang, 'accessibilityPanel.title')}
           >
             <div className="panel-header">
-              <h2 className="panel-title">{t(lang, 'accessibilityPanel.title')}</h2>
+              <h2 id="accessibility-panel-title" className="panel-title">{t(lang, 'accessibilityPanel.title')}</h2>
               <button
+                ref={closeButtonRef}
                 type="button"
                 className="panel-close"
                 onClick={onToggle}
@@ -397,21 +437,33 @@ function App() {
 
   const [a11yOpen, setA11yOpen] = useState(false)
   const [language, setLanguage] = useState(() => localStorage.getItem('lang') || 'en')
+  const accessibilityButtonRef = useRef(null)
 
   useEffect(() => {
     localStorage.setItem('lang', language)
     document.documentElement.lang = language
   }, [language])
 
+  const handleAccessibilityToggle = () => {
+    setA11yOpen((v) => {
+      const next = !v
+      if (!next) {
+        setTimeout(() => accessibilityButtonRef.current?.focus(), 0)
+      }
+      return next
+    })
+  }
+
   return (
     <BrowserRouter>
       <ScrollToTop />
       <div id="top-of-page" tabIndex="-1" />
       <Header
-        onAccessibilityClick={() => setA11yOpen(v => !v)}
+        onAccessibilityClick={handleAccessibilityToggle}
         accessibilityOpen={a11yOpen}
         language={language}
         onLanguageChange={setLanguage}
+        accessibilityButtonRef={accessibilityButtonRef}
       />
       <AccessibilityToolbar
         textSize={textSize}
@@ -428,8 +480,9 @@ function App() {
         setIncreaseSpacing={setIncreaseSpacing}
         onReset={handleResetAccessibility}
         open={a11yOpen}
-        onToggle={() => setA11yOpen(v => !v)}
+        onToggle={handleAccessibilityToggle}
         lang={language}
+        triggerRef={accessibilityButtonRef}
       />
       <LanguageProvider value={language}>
         <div id="main-content" className="page-content">

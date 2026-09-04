@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { t } from './uiStrings'
 import './Header.css'
 
@@ -8,9 +8,14 @@ function Header({
   accessibilityOpen,
   language,
   onLanguageChange,
+  accessibilityButtonRef,
 }) {
   const [langOpen, setLangOpen] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
+  const langButtonRef = useRef(null)
+  const langMenuRef = useRef(null)
+  const mobileNavRef = useRef(null)
+  const menuButtonRef = useRef(null)
   const languages = [
     { code: 'en', label: 'English', flag: '🌐' },
     { code: 'es', label: 'Español', flag: '🌐' },
@@ -41,12 +46,113 @@ function Header({
   const currentLanguage = languages.find((l) => l.code === language) ?? languages[0]
 
   const handleMenuToggle = () => {
-    setMenuOpen(!menuOpen)
+    setMenuOpen((open) => !open)
   }
 
   const handleMenuLinkClick = () => {
     setMenuOpen(false)
+    setTimeout(() => menuButtonRef.current?.focus(), 0)
   }
+
+  useEffect(() => {
+    if (!langOpen) return
+
+    const focusableItems = langMenuRef.current?.querySelectorAll('button') ?? []
+    if (focusableItems.length > 0) focusableItems[0].focus()
+
+    const handleLangKeyDown = (e) => {
+      if (!langMenuRef.current) return
+
+      const buttons = [...langMenuRef.current.querySelectorAll('button')]
+      const currentIndex = buttons.findIndex((button) => button === document.activeElement)
+
+      if (e.key === 'Escape') {
+        e.preventDefault()
+        setLangOpen(false)
+        langButtonRef.current?.focus()
+      }
+
+      if (['ArrowDown', 'ArrowRight'].includes(e.key)) {
+        e.preventDefault()
+        const nextIndex = currentIndex >= 0 ? (currentIndex + 1) % buttons.length : 0
+        buttons[nextIndex]?.focus()
+      }
+
+      if (['ArrowUp', 'ArrowLeft'].includes(e.key)) {
+        e.preventDefault()
+        const prevIndex = currentIndex >= 0 ? (currentIndex - 1 + buttons.length) % buttons.length : buttons.length - 1
+        buttons[prevIndex]?.focus()
+      }
+
+      if (e.key === 'Home') {
+        e.preventDefault()
+        buttons[0]?.focus()
+      }
+
+      if (e.key === 'End') {
+        e.preventDefault()
+        buttons[buttons.length - 1]?.focus()
+      }
+
+      if (e.key === 'Tab') {
+        e.preventDefault()
+        setLangOpen(false)
+        const nextFocusable = langButtonRef.current?.closest('.header-controls')?.nextElementSibling
+          || langButtonRef.current?.closest('.header-controls')?.querySelector('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])')
+          || langButtonRef.current?.nextElementSibling
+        if (nextFocusable) nextFocusable.focus()
+        else langButtonRef.current?.focus()
+      }
+    }
+
+    document.addEventListener('keydown', handleLangKeyDown)
+    return () => document.removeEventListener('keydown', handleLangKeyDown)
+  }, [langOpen])
+
+  useEffect(() => {
+    if (!menuOpen) return
+
+    const firstLink = mobileNavRef.current?.querySelector('a')
+    firstLink?.focus()
+
+    const handleMenuKeyDown = (e) => {
+      if (e.key === 'Escape') {
+        e.preventDefault()
+        setMenuOpen(false)
+        menuButtonRef.current?.focus()
+      }
+    }
+
+    document.addEventListener('keydown', handleMenuKeyDown)
+
+    const handleMenuFocusTrap = (e) => {
+      if (e.key !== 'Tab' || !mobileNavRef.current) return
+
+      const focusable = [...mobileNavRef.current.querySelectorAll(
+        'a, button, [tabindex]:not([tabindex="-1"])'
+      )].filter((element) => !element.hasAttribute('disabled'))
+
+      if (!focusable.length) return
+
+      const first = focusable[0]
+      const last = focusable[focusable.length - 1]
+
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault()
+        last.focus()
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault()
+        first.focus()
+      }
+    }
+
+    document.addEventListener('keydown', handleMenuFocusTrap)
+    return () => {
+      document.removeEventListener('keydown', handleMenuKeyDown)
+      document.removeEventListener('keydown', handleMenuFocusTrap)
+      menuButtonRef.current?.focus()
+    }
+  }, [menuOpen])
 
   // prevent body scroll when menu open
   useEffect(() => {
@@ -57,6 +163,20 @@ function Header({
     }
     return () => document.body.classList.remove('menu-open-body')
   }, [menuOpen])
+
+  useEffect(() => {
+    if (!langOpen) return
+
+    const handleFocusOut = (e) => {
+      if (!langMenuRef.current) return
+      if (!langMenuRef.current.contains(e.relatedTarget)) {
+        setLangOpen(false)
+      }
+    }
+
+    document.addEventListener('focusin', handleFocusOut)
+    return () => document.removeEventListener('focusin', handleFocusOut)
+  }, [langOpen])
 
   return (
     <header id="site-header" className="site-header" role="banner">
@@ -80,6 +200,7 @@ function Header({
 
           <nav id="site-navigation" className="site-nav" role="navigation" aria-label="Main navigation">
             <button
+              ref={menuButtonRef}
               type="button"
               className={`menu-toggle ${menuOpen ? 'open' : ''}`}
               aria-expanded={menuOpen}
@@ -114,9 +235,10 @@ function Header({
         <div className="header-controls">
           <div className="lang-wrapper">
             <button
+              ref={langButtonRef}
               type="button"
               className={`header-lang-btn ${langOpen ? 'open' : ''}`}
-              aria-haspopup="true"
+              aria-haspopup="menu"
               aria-expanded={langOpen}
               onClick={() => setLangOpen((v) => !v)}
               title="Select language"
@@ -130,7 +252,7 @@ function Header({
               </span>
             </button>
             {langOpen && (
-              <div className="language-dropdown" role="menu">
+              <div ref={langMenuRef} className="language-dropdown" role="menu" aria-label="Language menu">
                 {languages.map((lang) => (
                   <button
                     key={lang.code}
@@ -139,6 +261,7 @@ function Header({
                     onClick={() => {
                       onLanguageChange?.(lang.code)
                       setLangOpen(false)
+                      langButtonRef.current?.focus()
                     }}
                   >
                     <span aria-hidden="true" className="lang-flag">{lang.flag}</span>
@@ -150,6 +273,7 @@ function Header({
           </div>
 
           <button
+            ref={accessibilityButtonRef}
             type="button"
             className="header-accessibility-btn"
             aria-expanded={accessibilityOpen}
@@ -164,7 +288,7 @@ function Header({
       </div>
       {menuOpen && (
         <div className="menu-overlay">
-          <nav className="mobile-nav" role="navigation" aria-label="Mobile navigation">
+          <nav ref={mobileNavRef} className="mobile-nav" role="navigation" aria-label="Mobile navigation">
             <ul>
               <li><Link to="/about" onClick={handleMenuLinkClick}>{t(language, 'nav.about')}</Link></li>
               <li><Link to="/resources" onClick={handleMenuLinkClick}>{t(language, 'nav.resources')}</Link></li>
