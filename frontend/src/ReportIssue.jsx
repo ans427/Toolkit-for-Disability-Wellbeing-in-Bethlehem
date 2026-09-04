@@ -20,6 +20,7 @@ function ReportIssue() {
   const lang = useLanguage()
   const [formData, setFormData] = useState(initialFormState)
   const [status, setStatus] = useState('idle')
+  const [formError, setFormError] = useState('')
 
   const handleChange = (e) => {
     const { name, value, type, files } = e.target
@@ -32,6 +33,16 @@ function ReportIssue() {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+
+    if (!formData.subject || !formData.details) {
+      setFormError(t(lang, 'pages.reportIssue.requiredFieldsError'))
+      setStatus('error')
+      const firstMissing = !formData.subject ? document.getElementById('subject') : document.getElementById('details')
+      firstMissing?.focus()
+      return
+    }
+
+    setFormError('')
     setStatus('submitting')
 
     try {
@@ -86,12 +97,30 @@ function ReportIssue() {
       <form className="report-form-page" onSubmit={handleSubmit}>
         <label className="report-label" htmlFor="subject">
           {t(lang, 'pages.reportIssue.subjectLabel')}
-          <input id="subject" name="subject" type="text" required value={formData.subject} onChange={handleChange} />
+          <input
+            id="subject"
+            name="subject"
+            type="text"
+            required
+            aria-invalid={formError && !formData.subject ? 'true' : 'false'}
+            aria-describedby={formError && !formData.subject ? 'report-form-error' : undefined}
+            value={formData.subject}
+            onChange={handleChange}
+          />
         </label>
 
         <label className="report-label" htmlFor="details">
           {t(lang, 'pages.reportIssue.detailsLabel')}
-          <textarea id="details" name="details" rows={5} required value={formData.details} onChange={handleChange} />
+          <textarea
+            id="details"
+            name="details"
+            rows={5}
+            required
+            aria-invalid={formError && !formData.details ? 'true' : 'false'}
+            aria-describedby={formError && !formData.details ? 'report-form-error' : undefined}
+            value={formData.details}
+            onChange={handleChange}
+          />
         </label>
 
         <label className="report-label" htmlFor="image">
@@ -123,8 +152,12 @@ function ReportIssue() {
           {status === 'submitting' ? t(lang, 'pages.reportIssue.submitting') : t(lang, 'pages.reportIssue.submitButton')}
         </button>
 
-        {status === 'success' && <p className="report-status success">{t(lang, 'pages.reportIssue.successMessage')}</p>}
-        {status === 'error' && <p className="report-status error">{t(lang, 'pages.reportIssue.errorMessage')}</p>}
+        {status === 'success' && <p className="report-status success" role="status" aria-live="polite">{t(lang, 'pages.reportIssue.successMessage')}</p>}
+        {(status === 'error' || formError) && (
+          <p id="report-form-error" className="report-status error" role="alert" aria-live="assertive" aria-atomic="true">
+            {formError || t(lang, 'pages.reportIssue.errorMessage')}
+          </p>
+        )}
       </form>
     </main>
   )

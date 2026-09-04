@@ -33,6 +33,7 @@ function SubmitForm() {
   const [formData, setFormData] = useState(initialFormState)
   const [status, setStatus] = useState('idle')
   const [categoryError, setCategoryError] = useState(false)
+  const [formError, setFormError] = useState('')
   const resourceCategoryRef = useRef(null)
 
   const categoryOptions = [
@@ -78,12 +79,47 @@ function SubmitForm() {
   const handleSubmit = async (e) => {
     e.preventDefault()
 
-    if (type === 'resource' && !formData.resourceCategory) {
-      setCategoryError(true)
-      resourceCategoryRef.current?.focus()
+    const requiredMissing = []
+
+    if (type === 'resource') {
+      if (!formData.resourceCategory) {
+        setCategoryError(true)
+        requiredMissing.push('category')
+      }
+      if (!formData.resourceTitle) {
+        requiredMissing.push('resourceTitle')
+      }
+      if (!formData.resourceDescription) {
+        requiredMissing.push('resourceDescription')
+      }
+    }
+
+    if (type === 'communityStory') {
+      if (!formData.storyTitle) {
+        requiredMissing.push('storyTitle')
+      }
+      if (!formData.storyBody) {
+        requiredMissing.push('storyBody')
+      }
+    }
+
+    if (requiredMissing.length > 0) {
+      setFormError(t(lang, 'pages.submitForm.requiredFieldsError'))
+      setStatus('error')
+
+      const firstMissing = requiredMissing[0]
+      const firstFieldMap = {
+        category: resourceCategoryRef,
+        resourceTitle: document.getElementById('resourceTitle'),
+        resourceDescription: document.getElementById('resourceDescription'),
+        storyTitle: document.getElementById('storyTitle'),
+        storyBody: document.getElementById('storyBody'),
+      }
+      firstFieldMap[firstMissing]?.current?.focus?.() || firstFieldMap[firstMissing]?.focus?.()
       return
     }
 
+    setFormError('')
     setStatus('submitting')
 
     try {
@@ -222,6 +258,8 @@ function SubmitForm() {
                   type="text"
                   name="resourceTitle"
                   required
+                  aria-invalid={formError && !formData.resourceTitle ? 'true' : 'false'}
+                  aria-describedby={formError && !formData.resourceTitle ? 'submit-form-error' : undefined}
                   value={formData.resourceTitle}
                   onChange={handleChange}
                 />
@@ -282,6 +320,8 @@ function SubmitForm() {
                   name="resourceDescription"
                   rows={4}
                   required
+                  aria-invalid={formError && !formData.resourceDescription ? 'true' : 'false'}
+                  aria-describedby={formError && !formData.resourceDescription ? 'submit-form-error' : undefined}
                   value={formData.resourceDescription}
                   onChange={handleChange}
                 />
@@ -366,6 +406,8 @@ function SubmitForm() {
                   type="text"
                   name="storyTitle"
                   required
+                  aria-invalid={formError && !formData.storyTitle ? 'true' : 'false'}
+                  aria-describedby={formError && !formData.storyTitle ? 'submit-form-error' : undefined}
                   value={formData.storyTitle}
                   onChange={handleChange}
                 />
@@ -411,6 +453,8 @@ function SubmitForm() {
                   name="storyBody"
                   rows={6}
                   required
+                  aria-invalid={formError && !formData.storyBody ? 'true' : 'false'}
+                  aria-describedby={formError && !formData.storyBody ? 'submit-form-error' : undefined}
                   value={formData.storyBody}
                   onChange={handleChange}
                 />
@@ -428,9 +472,9 @@ function SubmitForm() {
             </p>
           )}
 
-          {status === 'error' && (
-            <p className="submit-message error" role="alert" aria-live="assertive">
-              {t(lang, 'pages.submitForm.errorMessage')}
+          {(status === 'error' || formError) && (
+            <p id="submit-form-error" className="submit-message error" role="alert" aria-live="assertive" aria-atomic="true">
+              {formError || t(lang, 'pages.submitForm.errorMessage')}
             </p>
           )}
         </form>

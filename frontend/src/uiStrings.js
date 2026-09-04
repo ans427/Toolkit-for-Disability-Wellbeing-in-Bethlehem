@@ -137,6 +137,7 @@ export const uiStrings = {
         submitting: 'Submitting...',
         successMessage: 'Thank you. Your report was submitted for review.',
         errorMessage: 'Could not submit the report. Please try again.',
+        requiredFieldsError: 'Please complete the required fields before submitting your report.',
       },
       accessibilityStatement: {
         feedbackText: 'Need feedback or support with this website accessibility?',
@@ -182,6 +183,7 @@ export const uiStrings = {
         categoryKeyboardHelpText:
           'Keyboard tip: when focused on Category, use Arrow keys to move options. Press Enter or Space to open the list in supported browsers.',
         categoryRequiredError: 'Please choose a category before sending.',
+        requiredFieldsError: 'Please complete the required fields before sending.',
         categories: {
           legalAid: 'Legal Aid',
           communityOrganizations: 'Community Organizations',
@@ -506,6 +508,7 @@ export const uiStrings = {
         submitting: 'Enviando...',
         successMessage: 'Gracias. Tu reporte fue enviado para revisión.',
         errorMessage: 'No se pudo enviar el reporte. Inténtalo de nuevo.',
+        requiredFieldsError: 'Completa los campos obligatorios antes de enviar tu reporte.',
       },
       accessibilityStatement: {
         feedbackText: '¿Necesitas enviar comentarios o recibir apoyo sobre la accesibilidad de este sitio web?',
@@ -551,6 +554,7 @@ export const uiStrings = {
         categoryKeyboardHelpText:
           'Consejo de teclado: cuando el foco esté en Categoría, usa las flechas para recorrer opciones. Presiona Enter o Espacio para abrir la lista en navegadores compatibles.',
         categoryRequiredError: 'Elige una categoría antes de enviar.',
+        requiredFieldsError: 'Completa los campos obligatorios antes de enviar.',
         categories: {
           legalAid: 'Asistencia legal',
           communityOrganizations: 'Organizaciones comunitarias',
