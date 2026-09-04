@@ -63,8 +63,15 @@
   text-decoration: underline;
 }
 
+/* Override global a:focus navy text — low contrast on footer */
+.footer-section a:focus,
 .footer-section a:focus-visible {
-  outline: 2px dashed var(--focus-color);
+  color: white;
+  text-decoration: underline;
+}
+
+.footer-section a:focus-visible {
+  outline: 2px dashed var(--color-pastel-yellow);
   outline-offset: 2px;
 }
 
@@ -103,6 +110,10 @@ html.a11y-high-contrast .footer-section h3 {
 html.a11y-high-contrast .footer-section a {
   color: #ff0 !important;
   text-decoration: underline !important;
+}
+
+html.a11y-high-contrast .footer-section a:focus-visible {
+  outline-color: #ff0 !important;
 }
 
 html.a11y-high-contrast .footer-bottom {
