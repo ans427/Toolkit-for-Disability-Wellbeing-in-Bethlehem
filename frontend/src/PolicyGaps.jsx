@@ -63,6 +63,7 @@ export default function PolicyGaps() {
   const [pageConfig, setPageConfig] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
+  const [jumpAnnouncement, setJumpAnnouncement] = useState('')
 
   useEffect(() => {
     const fetchData = async () => {
@@ -115,6 +116,15 @@ export default function PolicyGaps() {
     lang === 'es' ? 'Avanzando: De la observación a la acción' : 'Moving Forward: From Observation to Action'
   const overlappingThemesHeading = lang === 'es' ? 'Temas superpuestos' : 'Overlapping Themes'
 
+  const handleJumpToSection = (event, targetId) => {
+    const target = targetId ? document.getElementById(targetId) : null
+    if (!target) return
+
+    event.preventDefault()
+    target.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    setJumpAnnouncement(target.textContent.replace(/\s+/g, ' ').trim())
+  }
+
   return (
     <main className="container" id="main-content">
       <Breadcrumb />
@@ -129,12 +139,33 @@ export default function PolicyGaps() {
         <ul className="toc-list">
           {policyData.map((item) => (
             <li key={`toc-${item._id}`}>
-              <a href={`#${item.slug || item._id}`}>{pickI18n(item.titleI18n, lang, item.title)}</a>
+              <a
+                href={`#${item.slug || item._id}`}
+                onClick={(event) => handleJumpToSection(event, item.slug || item._id)}
+              >
+                <span>{pickI18n(item.titleI18n, lang, item.title)}</span>
+                <span className="toc-arrow" aria-hidden="true">↓</span>
+              </a>
             </li>
           ))}
-          <li><a href="#action">{actionHeading}</a></li>
+          <li>
+            <a href="#action" onClick={(event) => handleJumpToSection(event, 'action')}>
+              <span>{actionHeading}</span>
+              <span className="toc-arrow" aria-hidden="true">↓</span>
+            </a>
+          </li>
         </ul>
       </nav>
+
+      <div className="sr-only" role="status" aria-live="polite" aria-atomic="true">
+        {jumpAnnouncement}
+      </div>
+
+      {policyData.length > 0 && (
+        <a className="content-entry-link" href={`#${policyData[0].slug || policyData[0]._id}`}>
+          {lang === 'es' ? 'Continuar al contenido' : 'Continue to page content'}
+        </a>
+      )}
 
       <div className="policy-content">
         {policyData.map((area) => (
@@ -143,6 +174,7 @@ export default function PolicyGaps() {
             id={area.slug || area._id}
             className="policy-section"
             aria-labelledby={`heading-${area.slug || area._id}`}
+            tabIndex={-1}
           >
             <h2 id={`heading-${area.slug || area._id}`}>{pickI18n(area.titleI18n, lang, area.title)}</h2>
 
@@ -197,7 +229,7 @@ export default function PolicyGaps() {
           </article>
         ))}
 
-        <article id="action" className="policy-section" aria-labelledby="heading-action">
+        <article id="action" className="policy-section" aria-labelledby="heading-action" tabIndex={-1}>
           <h2 id="heading-action">{actionHeading}</h2>
 
           {overlappingThemes.length > 0 && (

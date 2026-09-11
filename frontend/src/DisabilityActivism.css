@@ -86,7 +86,7 @@
 }
 
 .disability-activism-section {
-  background: var(--color-card-bg);
+  background: #eaf1f9;
   border: 1.5px solid var(--color-card-border);
   border-radius: 12px;
   overflow: hidden;
@@ -104,13 +104,13 @@
   margin: 0 0 1.25rem 0;
   padding: 0;
   border-bottom: none;
-  color: var(--color-text);
+  color: #213554;
 }
 
 .section-content p {
   margin: 0 0 1rem 0;
   font-size: 1rem;
-  color: var(--color-text);
+  color: #213554;
   line-height: 1.7;
 }
 
@@ -120,8 +120,8 @@
 
 /* Ten Principles */
 .principles-section {
-  background: var(--color-card-bg);
-  border-left: 5px solid var(--color-forest-green);
+  background: #eaf1f9;
+  border-left: 5px solid #234d75;
   border-top: 1.5px solid var(--color-card-border);
   border-right: 1.5px solid var(--color-card-border);
   border-bottom: 1.5px solid var(--color-card-border);
@@ -130,7 +130,7 @@
 .principles-intro {
   max-width: 70ch;
   font-size: 1.05rem;
-  color: var(--color-text);
+  color: #213554;
   margin: 0 0 1.2rem 0;
   line-height: 1.7;
 }
@@ -145,13 +145,13 @@
 .principle-item {
   margin-bottom: 1.25rem;
   font-size: 1.06rem;
-  color: var(--color-text);
+  color: #213554;
   line-height: 1.75;
 }
 
 .principle-item strong {
   display: block;
-  color: var(--color-forest-green);
+  color: #213554;
   margin-bottom: 0.3rem;
   font-size: 1.1em;
   line-height: 1.4;
@@ -160,7 +160,7 @@
 .principle-desc {
   display: block;
   padding-left: 0;
-  color: var(--color-text);
+  color: #213554;
   max-width: 70ch;
 }
 
@@ -264,4 +264,95 @@
     transform: none;
     box-shadow: none;
   }
+}
+
+/* Pale blue article cards in the default theme; preserve high-contrast settings. */
+html:not(.a11y-high-contrast) .disability-activism-section {
+  background: #eaf1f9;
+  border-color: var(--color-card-border);
+}
+
+/* Compact section navigation with a row-by-row reading and keyboard order. */
+.disability-activism-toc {
+  max-width: 100%;
+  padding: 1.25rem 1.5rem;
+}
+html:not(.a11y-high-contrast) .disability-activism-toc {
+  background: #1e3a5f;
+  border-color: #1e3a5f;
+}
+.disability-activism-toc h2 {
+  font-size: 1.25rem;
+  margin-bottom: .75rem;
+}
+.disability-activism .toc-list {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0 1.5rem;
+}
+.disability-activism .toc-list li {
+  display: flex;
+  border-bottom: 1px solid var(--color-card-border);
+}
+.disability-activism .toc-list a {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: .75rem;
+  width: 100%;
+  min-height: 48px;
+  box-sizing: border-box;
+  padding: .75rem .25rem;
+  line-height: 1.5;
+  text-decoration: none;
+  overflow-wrap: anywhere;
+}
+.disability-activism .toc-list a:hover {
+  text-decoration: underline;
+  text-underline-offset: .2em;
+  outline: none;
+}
+.disability-activism .toc-list a:focus-visible {
+  background: #fff;
+  color: #234d75;
+  border-radius: 0;
+  box-shadow: 0 0 0 2px #234d75, 0 0 0 4px rgba(35, 77, 117, 0.12);
+  outline: 2px dashed #234d75;
+  outline-offset: 3px;
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
+}
+.disability-activism-section { scroll-margin-top: 8rem; }
+@media (max-width: 900px) {
+  .disability-activism .toc-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 600px) {
+  .disability-activism-toc { padding: 1rem; }
+  .disability-activism .toc-list { grid-template-columns: 1fr; }
+}
+
+.disability-activism .toc-arrow { flex-shrink: 0; }
+html:not(.a11y-high-contrast) .disability-activism-toc h2,
+html:not(.a11y-high-contrast) .disability-activism-toc .toc-list a {
+  color: #fff;
+}
+html:not(.a11y-high-contrast) .disability-activism-toc .toc-list a:focus-visible {
+  color: #234d75;
+  outline: none;
+}
+
+/* Match the site's black/yellow high-contrast theme, including reading cards. */
+html.a11y-high-contrast .disability-activism-toc,
+html.a11y-high-contrast .disability-activism-section {
+  background: #000;
+  color: #ff0;
+  border: 2px solid #ff0;
+  box-shadow: none;
+}
+html.a11y-high-contrast .disability-activism-toc .toc-list li {
+  border-color: #ff0;
+}
+html.a11y-high-contrast .disability-activism-toc .toc-list a:focus-visible {
+  outline: 3px solid #ff0 !important;
+  outline-offset: 3px;
 }
