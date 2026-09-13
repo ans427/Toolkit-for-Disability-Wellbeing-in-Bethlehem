@@ -79,7 +79,7 @@ export default function DisabilityActivism() {
     return (
       <main className="container" id="main-content">
         <Breadcrumb />
-        <p aria-live="polite">{t(lang, 'pages.disabilityActivism.loading')}</p>
+        <p role="status" aria-live="polite" aria-atomic="true">{t(lang, 'pages.disabilityActivism.loading')}</p>
       </main>
     )
   }

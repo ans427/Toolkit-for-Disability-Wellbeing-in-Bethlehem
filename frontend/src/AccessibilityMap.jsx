@@ -369,6 +369,7 @@ function AccessibilityMap() {
   const mapSectionRef = useRef(null)
   const mapContainerRef = useRef(null)
   const reportFormRef = useRef(null)
+  const reportStatusRef = useRef(null)
   const [resources, setResources] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
@@ -388,11 +389,13 @@ function AccessibilityMap() {
   })
   const [formStatus, setFormStatus] = useState('idle')
   const [currentLocationDisplay, setCurrentLocationDisplay] = useState(null)
+  const [geoLocationError, setGeoLocationError] = useState('')
   const [showReports, setShowReports] = useState(true)
   const [showResources, setShowResources] = useState(true)
   const [selectedMapResource, setSelectedMapResource] = useState(null)
   const [selectedReportMarker, setSelectedReportMarker] = useState(null)
   const [searchQuery, setSearchQuery] = useState('')
+  const [suggestionIndex, setSuggestionIndex] = useState(-1)
   const [isTyping, setIsTyping] = useState(false)
   const [isMapFullscreen, setIsMapFullscreen] = useState(false)
   const [isPanelOpen, setIsPanelOpen] = useState(false)
@@ -608,7 +611,52 @@ function AccessibilityMap() {
     )
   }, [geocodedReports, searchQuery])
 
+  const suggestions = useMemo(() => {
+    return [
+      ...filteredResources.map(r => ({ type: 'resource', id: r._id, label: pickI18n(r.titleI18n, lang, r.title), item: r })),
+      ...filteredReports.map(r => ({ type: 'report', id: r._id, label: r.subject, item: r })),
+    ].slice(0, 6)
+  }, [filteredResources, filteredReports, lang])
+
+  const selectResult = useCallback((result) => {
+    if (result.type === 'resource') {
+      setSelectedMapResource(result.item)
+      setSelectedReportMarker(null)
+    } else {
+      setSelectedReportMarker(result.item)
+      setSelectedMapResource(null)
+    }
+    setIsTyping(false)
+    setSearchQuery(result.label)
+    setIsPanelOpen(true)
+    setSuggestionIndex(-1)
+  }, [])
+
   const currentSelected = selectedMapResource || selectedReportMarker
+
+  const visibleResourceCount = showResources ? filteredResources.length : 0
+  const visibleReportCount = showReports ? filteredReports.length : 0
+  const visibleResultsCount = visibleResourceCount + visibleReportCount
+
+  const mapStatusMessage = useMemo(() => {
+    if (currentSelected) {
+      const selectedLabel = currentSelected.title
+        ? pickI18n(currentSelected.titleI18n, lang, currentSelected.title)
+        : currentSelected.subject
+
+      return `${selectedLabel} selected. ${visibleResultsCount} results shown. ${visibleResourceCount} resources and ${visibleReportCount} accessibility reports.`
+    }
+
+    if (searchQuery.trim()) {
+      if (visibleResultsCount === 0) {
+        return `No results found for “${searchQuery.trim()}”.`
+      }
+
+      return `${visibleResultsCount} results found for “${searchQuery.trim()}”. ${visibleResourceCount} resources and ${visibleReportCount} accessibility reports.`
+    }
+
+    return `${visibleResourceCount} resources and ${visibleReportCount} accessibility reports are currently shown on the map.`
+  }, [currentSelected, visibleResultsCount, visibleResourceCount, visibleReportCount, searchQuery, lang])
 
   useEffect(() => {
     if (!selectedResourceId || !mapContainerRef.current || loading) return
@@ -641,6 +689,11 @@ function AccessibilityMap() {
     setIsTyping(false)
     setIsPanelOpen(true)
   }, [selectedResourceId, selectedResource, lang])
+
+  useEffect(() => {
+    if (formStatus === 'idle') return
+    reportStatusRef.current?.focus()
+  }, [formStatus])
 
   const handleFormChange = (e) => {
     const { name, value, type, files } = e.target
@@ -698,6 +751,8 @@ function AccessibilityMap() {
   }
 
   const getCurrentLocation = () => {
+    setGeoLocationError('')
+
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         async (position) => {
@@ -717,11 +772,11 @@ function AccessibilityMap() {
         },
         (error) => {
           console.error('Error getting location:', error)
-          alert('Unable to get your current location. Please enter address manually.')
+          setGeoLocationError('Unable to get your current location. Please enter your address manually.')
         }
       )
     } else {
-      alert('Geolocation is not supported by this browser.')
+      setGeoLocationError('Geolocation is not supported by this browser. Please enter your address manually.')
     }
   }
 
@@ -801,7 +856,7 @@ function AccessibilityMap() {
       </header>
 
       {loading ? (
-        <p>{t(lang, 'pages.accessibilityMap.loading')}</p>
+        <p role="status" aria-live="polite">{t(lang, 'pages.accessibilityMap.loading')}</p>
       ) : error ? (
         <p className="map-error">{error}</p>
       ) : (
@@ -809,6 +864,10 @@ function AccessibilityMap() {
           <nav className="map-skip-links" aria-label={t(lang, 'pages.accessibilityMap.skipNavAria')}>
             <a href="#map-quick-actions">{t(lang, 'pages.accessibilityMap.skipToQuickActions')}</a>
           </nav>
+
+          <div id="map-live-status" className="sr-only" role="status" aria-live="polite" aria-atomic="true">
+            {mapStatusMessage}
+          </div>
 
           {/* Controls above everything */}
           <div className="map-controls-top" style={{ marginBottom: '1rem', display: 'flex', gap: '12px', alignItems: 'center' }}>
@@ -823,7 +882,7 @@ function AccessibilityMap() {
                     type="text"
                     placeholder="Search resources and reports..."
                     value={searchQuery}
-                    onChange={(e) => { setSearchQuery(e.target.value); setIsTyping(true) }}
+                    onChange={(e) => { setSearchQuery(e.target.value); setIsTyping(true); setSuggestionIndex(-1) }}
                     onFocus={() => {
                       setIsTyping(true)
                       setIsPanelOpen(true)
@@ -838,8 +897,33 @@ function AccessibilityMap() {
                         setPanelWidth(`${searchBarRef.current.offsetWidth}px`)
                       }
                     }}
+                    onKeyDown={(e) => {
+                      if (!suggestions.length) return
+
+                      if (e.key === 'ArrowDown') {
+                        e.preventDefault()
+                        setSuggestionIndex((prev) => (prev + 1) % suggestions.length)
+                      }
+
+                      if (e.key === 'ArrowUp') {
+                        e.preventDefault()
+                        setSuggestionIndex((prev) => (prev <= 0 ? suggestions.length - 1 : prev - 1))
+                      }
+
+                      if (e.key === 'Enter' && suggestionIndex >= 0) {
+                        e.preventDefault()
+                        selectResult(suggestions[suggestionIndex])
+                      }
+
+                      if (e.key === 'Escape') {
+                        setIsTyping(false)
+                        setSuggestionIndex(-1)
+                      }
+                    }}
                     className="search-input"
                     aria-label="Search resources and reports"
+                    aria-controls="map-side-panel"
+                    aria-expanded={isPanelOpen}
                   />
                   <button
                     className="search-clear-btn"
@@ -857,41 +941,23 @@ function AccessibilityMap() {
 
                 {/* Suggestions shown only when user is typing */}
                 {isTyping && searchQuery.trim() && (
-                  (() => {
-                    const suggestions = [
-                      ...filteredResources.map(r => ({ type: 'resource', id: r._id, label: pickI18n(r.titleI18n, lang, r.title), item: r })),
-                      ...filteredReports.map(r => ({ type: 'report', id: r._id, label: r.subject, item: r })),
-                    ].slice(0, 6)
-
-                    return (
-                      <div className="search-suggestions">
-                        {suggestions.length > 0 ? (
-                          suggestions.map(s => (
-                            <button
-                              key={`suggest-${s.type}-${s.id}`}
-                              className="suggestion-item"
-                              onClick={() => {
-                                if (s.type === 'resource') {
-                                  setSelectedMapResource(s.item)
-                                  setSelectedReportMarker(null)
-                                } else {
-                                  setSelectedReportMarker(s.item)
-                                  setSelectedMapResource(null)
-                                }
-                                setIsTyping(false)
-                                setSearchQuery(s.label)
-                                setIsPanelOpen(true)
-                              }}
-                            >
-                              <span className="suggestion-title">{s.label}</span>
-                            </button>
-                          ))
-                        ) : (
-                          <div className="no-suggestions"><p>No results found</p></div>
-                        )}
-                      </div>
-                    )
-                  })()
+                  <div className="search-suggestions" role="listbox" aria-label="Search suggestions">
+                    {suggestions.length > 0 ? (
+                      suggestions.map((s, index) => (
+                        <button
+                          key={`suggest-${s.type}-${s.id}`}
+                          className="suggestion-item"
+                          role="option"
+                          aria-selected={suggestionIndex === index}
+                          onClick={() => selectResult(s)}
+                        >
+                          <span className="suggestion-title">{s.label}</span>
+                        </button>
+                      ))
+                    ) : (
+                      <div className="no-suggestions"><p>No results found</p></div>
+                    )}
+                  </div>
                 )}
               </div>
 
@@ -907,7 +973,12 @@ function AccessibilityMap() {
 
           <div className={`map-layout ${isMapFullscreen ? 'fullscreen' : ''}`}>
           {/* Left Panel */}
-          <div className={`map-side-panel ${isPanelOpen ? 'open' : 'closed'}`}>
+          <div
+            id="map-side-panel"
+            className={`map-side-panel ${isPanelOpen ? 'open' : 'closed'}`}
+            role="complementary"
+            aria-label="Map results panel"
+          >
             {isPanelOpen && (
               <>
                 {/* Mobile-only drag handle + close button */}
@@ -1271,6 +1342,9 @@ function AccessibilityMap() {
                             <button type="button" onClick={getCurrentLocation}>
                               {t(lang, 'pages.accessibilityMap.getCurrentLocation')}
                             </button>
+                            {geoLocationError && (
+                              <p className="report-error-message" role="alert" aria-live="assertive">{geoLocationError}</p>
+                            )}
                             {currentLocationDisplay?.coordinates?.lat != null && (
                               <div className="current-location-details">
                                 <p>
@@ -1286,6 +1360,9 @@ function AccessibilityMap() {
                           // pin mode
                           <div className="pin-instructions">
                             <p>{t(lang, 'pages.accessibilityMap.pinInstructions')}</p>
+                            {geoLocationError && (
+                              <p className="report-error-message" role="alert" aria-live="assertive">{geoLocationError}</p>
+                            )}
                             {currentLocationDisplay?.coordinates?.lat != null && (
                               <div className="current-location-details">
                                 <p>
@@ -1325,12 +1402,16 @@ function AccessibilityMap() {
                   <button type="submit" disabled={formStatus === 'submitting'}>
                     {formStatus === 'submitting' ? t(lang, 'pages.accessibilityMap.submitting') : t(lang, 'pages.accessibilityMap.submitReport')}
                   </button>
-                  {formStatus === 'success' && (
-                    <p className="report-success-message">
+                      {formStatus === 'success' && (
+                    <p ref={reportStatusRef} tabIndex={-1} className="report-success-message" role="status" aria-live="polite">
                       {t(lang, 'pages.accessibilityMap.successMessage')}
                     </p>
                   )}
-                  {formStatus === 'error' && <p className="report-error-message">{t(lang, 'pages.accessibilityMap.errorMessage')}</p>}
+                  {formStatus === 'error' && (
+                    <p ref={reportStatusRef} tabIndex={-1} className="report-error-message" role="alert" aria-live="assertive">
+                      {t(lang, 'pages.accessibilityMap.errorMessage')}
+                    </p>
+                  )}
                 </form>
               )}
             </section>

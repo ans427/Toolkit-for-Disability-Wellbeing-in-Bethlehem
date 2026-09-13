@@ -299,7 +299,7 @@ function ImmediateResources() {
       </nav>
 
       {loading ? (
-        <p>{t(lang, 'pages.immediateResources.loading')}</p>
+        <p role="status" aria-live="polite" aria-atomic="true">{t(lang, 'pages.immediateResources.loading')}</p>
       ) : error ? (
         <p className="resource-error">
           {error}

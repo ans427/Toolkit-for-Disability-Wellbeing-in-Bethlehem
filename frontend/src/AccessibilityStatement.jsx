@@ -60,7 +60,7 @@ function AccessibilityStatement() {
     return (
       <main className="container">
         <Breadcrumb />
-        <p aria-live="polite">Loading accessibility statement...</p>
+        <p role="status" aria-live="polite" aria-atomic="true">Loading accessibility statement...</p>
       </main>
     )
   }

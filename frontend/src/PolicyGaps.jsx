@@ -89,7 +89,7 @@ export default function PolicyGaps() {
     return (
       <main className="container" id="main-content">
         <Breadcrumb />
-        <p aria-live="polite">{t(lang, 'pages.policyGaps.loading')}</p>
+        <p role="status" aria-live="polite" aria-atomic="true">{t(lang, 'pages.policyGaps.loading')}</p>
       </main>
     )
   }

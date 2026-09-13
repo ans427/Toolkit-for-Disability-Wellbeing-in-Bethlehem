@@ -148,7 +148,7 @@ function ResourceDetail() {
     return (
       <main className="container">
         <Breadcrumb />
-        <p>Loading resource...</p>
+        <p role="status" aria-live="polite" aria-atomic="true">Loading resource...</p>
       </main>
     )
   }
