@@ -1,0 +1,39 @@
+/* Keyboard controls and linked cards have one clear, consistent focus ring. */
+html body :focus-visible,
+html body [data-reading-card]:focus,
+html body [data-jump-focus]:focus,
+html body [data-jump-card]:has([data-jump-focus]:focus) {
+  outline: 3px solid var(--focus-color) !important;
+  outline-offset: 4px !important;
+  box-shadow: 0 0 0 4px #fff !important;
+  scroll-margin-block: 8rem;
+}
+
+/* A section jump outlines the whole card, without a second ring on its heading.
+   Keep each card's original text and background colors together. */
+html body [data-jump-card] [data-jump-focus]:focus {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+html body .homepage-grid a:focus-visible .nav-card {
+  outline: none;
+}
+
+html.a11y-high-contrast body :focus-visible,
+html.a11y-high-contrast body [data-reading-card]:focus,
+html.a11y-high-contrast body [data-jump-focus]:focus,
+html.a11y-high-contrast body [data-jump-card]:has([data-jump-focus]:focus) {
+  outline-color: #ffbf47 !important;
+  box-shadow: 0 0 0 4px #000 !important;
+}
+
+@media (forced-colors: active) {
+  html body :focus-visible,
+html body [data-reading-card]:focus,
+  html body [data-jump-focus]:focus,
+  html body [data-jump-card]:has([data-jump-focus]:focus) {
+    outline-color: Highlight !important;
+    box-shadow: none !important;
+  }
+}

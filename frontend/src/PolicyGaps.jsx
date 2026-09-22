@@ -63,7 +63,6 @@ export default function PolicyGaps() {
   const [pageConfig, setPageConfig] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
-  const [jumpAnnouncement, setJumpAnnouncement] = useState('')
 
   useEffect(() => {
     const fetchData = async () => {
@@ -116,14 +115,6 @@ export default function PolicyGaps() {
     lang === 'es' ? 'Avanzando: De la observación a la acción' : 'Moving Forward: From Observation to Action'
   const overlappingThemesHeading = lang === 'es' ? 'Temas superpuestos' : 'Overlapping Themes'
 
-  const handleJumpToSection = (event, targetId) => {
-    const target = targetId ? document.getElementById(targetId) : null
-    if (!target) return
-
-    event.preventDefault()
-    target.scrollIntoView({ behavior: 'smooth', block: 'start' })
-    setJumpAnnouncement(target.textContent.replace(/\s+/g, ' ').trim())
-  }
 
   return (
     <main className="container" id="main-content">
@@ -134,6 +125,12 @@ export default function PolicyGaps() {
         <p className="subtitle">{subtitle}</p>
       </header>
 
+      {policyData.length > 0 && (
+        <a className="content-entry-link" href={`#${policyData[0].slug || policyData[0]._id}`}>
+          {lang === 'es' ? 'Continuar al contenido' : 'Continue to page content'}
+        </a>
+      )}
+
       <nav className="policy-toc" aria-labelledby="toc-heading">
         <h2 id="toc-heading">{tocHeading}</h2>
         <ul className="toc-list">
@@ -141,7 +138,6 @@ export default function PolicyGaps() {
             <li key={`toc-${item._id}`}>
               <a
                 href={`#${item.slug || item._id}`}
-                onClick={(event) => handleJumpToSection(event, item.slug || item._id)}
               >
                 <span>{pickI18n(item.titleI18n, lang, item.title)}</span>
                 <span className="toc-arrow" aria-hidden="true">↓</span>
@@ -149,23 +145,13 @@ export default function PolicyGaps() {
             </li>
           ))}
           <li>
-            <a href="#action" onClick={(event) => handleJumpToSection(event, 'action')}>
+            <a href="#action">
               <span>{actionHeading}</span>
               <span className="toc-arrow" aria-hidden="true">↓</span>
             </a>
           </li>
         </ul>
       </nav>
-
-      <div className="sr-only" role="status" aria-live="polite" aria-atomic="true">
-        {jumpAnnouncement}
-      </div>
-
-      {policyData.length > 0 && (
-        <a className="content-entry-link" href={`#${policyData[0].slug || policyData[0]._id}`}>
-          {lang === 'es' ? 'Continuar al contenido' : 'Continue to page content'}
-        </a>
-      )}
 
       <div className="policy-content">
         {policyData.map((area) => (

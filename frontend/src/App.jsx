@@ -16,6 +16,7 @@ import AccessibilityStatement from './AccessibilityStatement'
 import About from './About'
 import PrivacyPolicy from './PrivacyPolicy'
 import Footer from './Footer'
+import SectionNavigation from './SectionNavigation'
 import { LanguageProvider } from './languageContext'
 import { t } from './uiStrings'
 import { useLanguage } from './languageContext'
@@ -487,6 +488,7 @@ function App() {
       <LanguageProvider value={language}>
         <div id="main-content" className="page-content">
           <div id="page-content-start" tabIndex="-1" />
+          <SectionNavigation>
           <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/resources/:resourceId" element={<ResourceDetail />} />
@@ -505,6 +507,7 @@ function App() {
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
           <Route path="*" element={<NotFoundPage />} />
           </Routes>
+          </SectionNavigation>
         </div>
         <div className="container global-back-to-top">
           <a href="#top-of-page" className="global-back-to-top-link">

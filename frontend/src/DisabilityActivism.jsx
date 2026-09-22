@@ -57,7 +57,6 @@ export default function DisabilityActivism() {
   const [data, setData] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
-  const [jumpAnnouncement, setJumpAnnouncement] = useState('')
 
   useEffect(() => {
     const fetchData = async () => {
@@ -119,14 +118,6 @@ export default function DisabilityActivism() {
     ...(sources.length > 0 ? [{ title: 'Sources', slug: 'sources' }] : []),
   ]
 
-  const handleJumpToSection = (event, targetId) => {
-    const target = targetId ? document.getElementById(targetId) : null
-    if (!target) return
-
-    event.preventDefault()
-    target.scrollIntoView({ behavior: 'smooth', block: 'start' })
-    setJumpAnnouncement(target.textContent.replace(/\s+/g, ' ').trim())
-  }
 
   return (
     <main className="container disability-activism" id="main-content">
@@ -145,12 +136,18 @@ export default function DisabilityActivism() {
       </header>
 
       {tocItems.length > 0 && (
+        <a className="content-entry-link" href={`#${tocItems[0].slug}`}>
+          Continue to page content
+        </a>
+      )}
+
+      {tocItems.length > 0 && (
         <nav className="disability-activism-toc" aria-labelledby="toc-heading">
           <h2 id="toc-heading">Jump to a Section</h2>
           <ul className="toc-list">
             {tocItems.map((item) => (
               <li key={item.slug}>
-                <a href={`#${item.slug}`} onClick={(event) => handleJumpToSection(event, item.slug)}>
+                <a href={`#${item.slug}`}>
                   <span>{item.title}</span>
                   <span className="toc-arrow" aria-hidden="true">↓</span>
                 </a>
@@ -158,16 +155,6 @@ export default function DisabilityActivism() {
             ))}
           </ul>
         </nav>
-      )}
-
-      <div className="sr-only" role="status" aria-live="polite" aria-atomic="true">
-        {jumpAnnouncement}
-      </div>
-
-      {tocItems.length > 0 && (
-        <a className="content-entry-link" href={`#${tocItems[0].slug}`}>
-          Continue to page content
-        </a>
       )}
 
       <div className="disability-activism-content">
