@@ -30,9 +30,9 @@ function Sitemap() {
           <ul>
             <li><Link to="/about">About</Link></li>
             <li><Link to="/sitemap">Site Map</Link></li>
-            <li><Link to="/disclaimers">Disclaimers</Link></li>
+            {/* <li><Link to="/disclaimers">Disclaimers</Link></li> */}
             <li><Link to="/accessibility-statement">Accessibility Statement</Link></li>
-            <li><Link to="/privacy-policy">Privacy Policy</Link></li>
+            {/* <li><Link to="/privacy-policy">Privacy Policy</Link></li> */}
           </ul>
         </section>
 
