@@ -91,6 +91,10 @@
   text-align: center;
 }
 
+html.a11y-high-contrast .resource-filter-legend {
+  color: #ff0 !important;
+}
+
 .resource-filter-chips {
   display: flex;
   flex-direction: column;

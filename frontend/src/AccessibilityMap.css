@@ -1270,3 +1270,90 @@
 .a11y-high-contrast .view-btn.active {
   border: 2px solid;
 }
+
+html.a11y-high-contrast .map-cta-group .cta-band-button,
+html.a11y-high-contrast .submit-report-button {
+  background: #000 !important;
+  border: 2px solid #ff0 !important;
+  color: #ff0 !important;
+  text-decoration: underline !important;
+}
+
+html.a11y-high-contrast .map-cta-group button.cta-band-button {
+  text-decoration: none !important;
+}
+
+html.a11y-high-contrast .search-input-wrapper {
+  background: #000 !important;
+  border: 2px solid #ff0 !important;
+  box-shadow: none !important;
+}
+
+html.a11y-high-contrast .search-input,
+html.a11y-high-contrast .search-icon,
+html.a11y-high-contrast .search-clear-btn {
+  color: #ff0 !important;
+}
+
+html.a11y-high-contrast .map-controls-top > label {
+  background: #000 !important;
+  border: 1px solid #ff0 !important;
+  color: #ff0 !important;
+}
+
+html.a11y-high-contrast .map-controls-top input[type="checkbox"] {
+  accent-color: #ff0 !important;
+}
+
+html.a11y-high-contrast .map-side-panel.open,
+html.a11y-high-contrast .map-side-panel .panel-content {
+  background: #000 !important;
+  border-color: #ff0 !important;
+  color: #ff0 !important;
+}
+
+html.a11y-high-contrast .search-suggestions,
+html.a11y-high-contrast .selected-item-details {
+  background: #000 !important;
+  border: 1px solid #ff0 !important;
+  color: #ff0 !important;
+}
+
+html.a11y-high-contrast .search-results-container {
+  background: #000 !important;
+  color: #ff0 !important;
+}
+
+html.a11y-high-contrast .suggestion-item,
+html.a11y-high-contrast .list-item-btn,
+html.a11y-high-contrast .list-item-btn:hover,
+html.a11y-high-contrast .list-item-btn.selected {
+  background: #000 !important;
+  border: 1px solid #ff0 !important;
+  color: #ff0 !important;
+}
+
+html.a11y-high-contrast .suggestion-item *,
+html.a11y-high-contrast .list-item-btn *,
+html.a11y-high-contrast .search-results-container h3,
+html.a11y-high-contrast .selected-item-details *,
+html.a11y-high-contrast .no-results {
+  color: #ff0 !important;
+}
+
+html.a11y-high-contrast .item-category-badge,
+html.a11y-high-contrast .item-type-badge {
+  background: #000 !important;
+  border: 1px solid #ff0 !important;
+  color: #ff0 !important;
+}
+
+html.a11y-high-contrast .details-link {
+  background: #000 !important;
+  border: 2px solid #ff0 !important;
+  color: #ff0 !important;
+}
+
+html.a11y-high-contrast .clear-selection-btn {
+  text-decoration: underline !important;
+}

@@ -421,3 +421,11 @@ html.a11y-high-contrast .policy-toc .toc-list a:focus-visible {
     break-after: avoid;
   }
 }
+
+html.a11y-high-contrast .highlight-block ul li::before {
+  color: #fff !important;
+}
+
+html.a11y-high-contrast #action ul li strong {
+  color: #ff0 !important;
+}

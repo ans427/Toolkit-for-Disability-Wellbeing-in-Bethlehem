@@ -108,7 +108,8 @@ html.a11y-high-contrast .statement-section a {
 }
 
 html.a11y-high-contrast .statement-feedback-button {
-  background: #ff0 !important;
-  color: #000 !important;
-  text-decoration: none !important;
+  background: #000 !important;
+  border: 2px solid #ff0 !important;
+  color: #ff0 !important;
+  text-decoration: underline !important;
 }

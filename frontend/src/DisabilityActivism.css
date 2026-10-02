@@ -356,3 +356,8 @@ html.a11y-high-contrast .disability-activism-toc .toc-list a:focus-visible {
   outline: 3px solid #ff0 !important;
   outline-offset: 3px;
 }
+
+html.a11y-high-contrast .principles-section,
+html.a11y-high-contrast .principles-section * {
+  color: #ff0 !important;
+}

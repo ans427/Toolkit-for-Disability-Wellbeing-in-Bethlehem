@@ -99,6 +99,12 @@
   border-left: 4px solid var(--color-forest-green);
 }
 
+html.a11y-high-contrast .about-section {
+  background-color: #000 !important;
+  border: 2px solid #ff0 !important;
+  color: #ff0 !important;
+}
+
 @media (max-width: 600px) {
   .about-header h1 {
     font-size: 2rem;
