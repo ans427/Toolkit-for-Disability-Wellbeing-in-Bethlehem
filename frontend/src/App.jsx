@@ -199,6 +199,11 @@ function AccessibilityToolbar({
 }) {
   const panelRef = useRef(null)
   const closeButtonRef = useRef(null)
+  const [panelMounted, setPanelMounted] = useState(open)
+
+  useEffect(() => {
+    if (open) setPanelMounted(true)
+  }, [open])
 
   const sizes = [
     { id: 'smaller', label: t(lang, 'accessibilityPanel.textSizeSmaller'), description: t(lang, 'accessibilityPanel.textSizeSmaller') },
@@ -261,17 +266,24 @@ function AccessibilityToolbar({
 
   return (
     <>
-      {open && (
+      {(open || panelMounted) && (
         <>
-          <div className="accessibility-overlay" onClick={onToggle} aria-hidden="true" />
+          {open && <div className="accessibility-overlay" onClick={onToggle} aria-hidden="true" />}
           <aside
             id="accessibility-panel"
             ref={panelRef}
-            className="accessibility-panel"
+            className={`accessibility-panel ${open ? '' : 'is-closing'}`}
             role="dialog"
             aria-modal="true"
+            aria-hidden={!open}
+            inert={!open}
             aria-labelledby="accessibility-panel-title"
             aria-label={t(lang, 'accessibilityPanel.title')}
+            onAnimationEnd={(event) => {
+              if (!open && event.target === event.currentTarget && event.animationName === 'accessibility-panel-exit') {
+                setPanelMounted(false)
+              }
+            }}
           >
             <div className="panel-header">
               <h2 id="accessibility-panel-title" className="panel-title">{t(lang, 'accessibilityPanel.title')}</h2>

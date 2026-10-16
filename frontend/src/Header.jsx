@@ -1,6 +1,8 @@
 import { Link } from 'react-router-dom'
 import { useState, useEffect, useRef } from 'react'
 import { t } from './uiStrings'
+import accessibilityIcon from './assets/accessibility-icon.svg'
+import worldIcon from './assets/world-icon.svg'
 import './Header.css'
 
 function Header({
@@ -11,15 +13,26 @@ function Header({
   accessibilityButtonRef,
 }) {
   const [langOpen, setLangOpen] = useState(false)
+  const [langMenuMounted, setLangMenuMounted] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
+  const [menuMounted, setMenuMounted] = useState(false)
+  const [menuTop, setMenuTop] = useState(0)
   const langButtonRef = useRef(null)
   const langMenuRef = useRef(null)
   const mobileNavRef = useRef(null)
   const menuButtonRef = useRef(null)
   const languages = [
-    { code: 'en', label: 'English', flag: '🌐' },
-    { code: 'es', label: 'Español', flag: '🌐' },
+    { code: 'en', label: 'English' },
+    { code: 'es', label: 'Español' },
   ]
+
+  useEffect(() => {
+    if (langOpen) setLangMenuMounted(true)
+  }, [langOpen])
+
+  useEffect(() => {
+    if (menuOpen) setMenuMounted(true)
+  }, [menuOpen])
 
   // close dropdown when clicking outside
   useEffect(() => {
@@ -46,8 +59,43 @@ function Header({
   const currentLanguage = languages.find((l) => l.code === language) ?? languages[0]
 
   const handleMenuToggle = () => {
-    setMenuOpen((open) => !open)
+    const nextOpen = !menuOpen
+    if (nextOpen) {
+      setLangOpen(false)
+      if (accessibilityOpen) onAccessibilityClick?.()
+      setMenuTop(menuButtonRef.current?.getBoundingClientRect().bottom ?? 0)
+    }
+    setMenuOpen(nextOpen)
   }
+
+  const handleLanguageToggle = () => {
+    const nextOpen = !langOpen
+    if (nextOpen) {
+      setMenuOpen(false)
+      if (accessibilityOpen) onAccessibilityClick?.()
+    }
+    setLangOpen(nextOpen)
+  }
+
+  const handleAccessibilityButtonClick = () => {
+    if (!accessibilityOpen) {
+      setLangOpen(false)
+      setMenuOpen(false)
+    }
+    onAccessibilityClick?.()
+  }
+
+  useEffect(() => {
+    if (!menuOpen) return
+
+    const updateMenuTop = () => {
+      const menuButton = menuButtonRef.current
+      if (menuButton) setMenuTop(menuButton.getBoundingClientRect().bottom)
+    }
+
+    window.addEventListener('resize', updateMenuTop)
+    return () => window.removeEventListener('resize', updateMenuTop)
+  }, [menuOpen])
 
   const handleMenuLinkClick = () => {
     setMenuOpen(false)
@@ -222,13 +270,37 @@ function Header({
               </span>
               <span className="menu-label">Menu</span>
             </button>
-            <ul id="menu-list" className={menuOpen ? 'menu-open' : ''}>
+            <ul id="desktop-menu-list">
               <li><Link to="/about" onClick={handleMenuLinkClick}>{t(language, 'nav.about')}</Link></li>
               <li><Link to="/resources" onClick={handleMenuLinkClick}>{t(language, 'nav.resources')}</Link></li>
               <li><Link to="/community-stories" onClick={handleMenuLinkClick}>{t(language, 'nav.stories')}</Link></li>
               <li><Link to="/map" onClick={handleMenuLinkClick}>{t(language, 'nav.map')}</Link></li>
               <li><Link to="/disability-activism" onClick={handleMenuLinkClick}>{t(language, 'nav.advocacy')}</Link></li>
             </ul>
+            {(menuOpen || menuMounted) && (
+              <div
+                id="menu-list"
+                className={`menu-overlay ${menuOpen ? '' : 'is-closing'}`}
+                style={{ '--menu-overlay-top': `${menuTop}px` }}
+                aria-hidden={!menuOpen}
+                inert={!menuOpen}
+                onAnimationEnd={(event) => {
+                  if (!menuOpen && event.target === event.currentTarget && event.animationName === 'menu-overlay-exit') {
+                    setMenuMounted(false)
+                  }
+                }}
+              >
+                <nav ref={mobileNavRef} className="mobile-nav" role="navigation" aria-label="Mobile navigation">
+                  <ul>
+                    <li><Link to="/about" onClick={handleMenuLinkClick}>{t(language, 'nav.about')}</Link></li>
+                    <li><Link to="/resources" onClick={handleMenuLinkClick}>{t(language, 'nav.resources')}</Link></li>
+                    <li><Link to="/community-stories" onClick={handleMenuLinkClick}>{t(language, 'nav.stories')}</Link></li>
+                    <li><Link to="/map" onClick={handleMenuLinkClick}>{t(language, 'nav.map')}</Link></li>
+                    <li><Link to="/disability-activism" onClick={handleMenuLinkClick}>{t(language, 'nav.advocacy')}</Link></li>
+                  </ul>
+                </nav>
+              </div>
+            )}
           </nav>
         </div>
 
@@ -237,13 +309,13 @@ function Header({
             <button
               ref={langButtonRef}
               type="button"
-              className={`header-lang-btn ${langOpen ? 'open' : ''}`}
+              className={`header-lang-btn ${langOpen ? 'open' : ''} ${langOpen || langMenuMounted ? 'menu-active' : ''}`}
               aria-haspopup="menu"
               aria-expanded={langOpen}
-              onClick={() => setLangOpen((v) => !v)}
+              onClick={handleLanguageToggle}
               title="Select language"
             >
-              <span aria-hidden="true" className="lang-flag">{currentLanguage.flag}</span>
+              <img aria-hidden="true" className="lang-flag" src={worldIcon} alt="" />
               <span>{currentLanguage.label}</span>
               <span aria-hidden="true" className="lang-chevron">
                 <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
@@ -251,8 +323,20 @@ function Header({
                 </svg>
               </span>
             </button>
-            {langOpen && (
-              <div ref={langMenuRef} className="language-dropdown" role="menu" aria-label="Language menu">
+            {(langOpen || langMenuMounted) && (
+              <div
+                ref={langMenuRef}
+                className={`language-dropdown ${langOpen ? '' : 'is-closing'}`}
+                role="menu"
+                aria-label="Language menu"
+                aria-hidden={!langOpen}
+                inert={!langOpen}
+                onAnimationEnd={(event) => {
+                  if (!langOpen && event.target === event.currentTarget && event.animationName === 'language-dropdown-exit') {
+                    setLangMenuMounted(false)
+                  }
+                }}
+              >
                 {languages.map((lang) => (
                   <button
                     key={lang.code}
@@ -264,7 +348,7 @@ function Header({
                       langButtonRef.current?.focus()
                     }}
                   >
-                    <span aria-hidden="true" className="lang-flag">{lang.flag}</span>
+                    <span aria-hidden="true" className="lang-flag language-option-icon" />
                     <span>{lang.label}</span>
                   </button>
                 ))}
@@ -278,27 +362,14 @@ function Header({
             className="header-accessibility-btn"
             aria-expanded={accessibilityOpen}
             aria-controls="accessibility-panel"
-            onClick={onAccessibilityClick}
+            onClick={handleAccessibilityButtonClick}
             title="Accessibility options"
           >
-            <span className="header-accessibility-icon" aria-hidden="true">♿</span>
+            <img className="header-accessibility-icon" src={accessibilityIcon} alt="" aria-hidden="true" />
             {t(language, 'accessibility')}
           </button>
         </div>
       </div>
-      {menuOpen && (
-        <div className="menu-overlay">
-          <nav ref={mobileNavRef} className="mobile-nav" role="navigation" aria-label="Mobile navigation">
-            <ul>
-              <li><Link to="/about" onClick={handleMenuLinkClick}>{t(language, 'nav.about')}</Link></li>
-              <li><Link to="/resources" onClick={handleMenuLinkClick}>{t(language, 'nav.resources')}</Link></li>
-              <li><Link to="/community-stories" onClick={handleMenuLinkClick}>{t(language, 'nav.stories')}</Link></li>
-              <li><Link to="/map" onClick={handleMenuLinkClick}>{t(language, 'nav.map')}</Link></li>
-              <li><Link to="/disability-activism" onClick={handleMenuLinkClick}>{t(language, 'nav.advocacy')}</Link></li>
-            </ul>
-          </nav>
-        </div>
-      )}
     </header>
   )
 }

@@ -57,6 +57,58 @@
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  animation: accessibility-panel-enter 500ms cubic-bezier(0.2, 0.75, 0.25, 1) both;
+}
+
+.accessibility-panel.is-closing {
+  animation: accessibility-panel-exit 500ms cubic-bezier(0.4, 0, 1, 1) both;
+  pointer-events: none;
+}
+
+@keyframes accessibility-panel-enter {
+  from {
+    transform: translateX(100%);
+  }
+
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes accessibility-panel-exit {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes accessibility-panel-enter-from-top {
+  from {
+    transform: translateY(-100%);
+  }
+
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes accessibility-panel-exit-to-top {
+  from {
+    transform: translateY(0);
+  }
+
+  to {
+    transform: translateY(-100%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .accessibility-panel {
+    animation-duration: 0.01ms;
+  }
 }
 
 .panel-header {
@@ -279,7 +331,6 @@ html.a11y-high-contrast .menu-toggle:hover {
   background: #ff0 !important;
   color: #000 !important;
   border-color: #fff !important;
-  box-shadow: 0 0 0 2px #fff !important;
 }
 
 html.a11y-high-contrast .panel-option-btn.active {
@@ -719,6 +770,11 @@ html.a11y-high-contrast .radio-option-selected:focus-within {
     right: 0;
     width: 100%;
     max-width: none;
+    animation-name: accessibility-panel-enter-from-top;
+  }
+
+  .accessibility-panel.is-closing {
+    animation-name: accessibility-panel-exit-to-top;
   }
 }
 
