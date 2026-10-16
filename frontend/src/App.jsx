@@ -26,8 +26,35 @@ import './AccessibilityToolbar.css'
 
 function ScrollToTop() {
   const { pathname } = useLocation()
+  const previousPathname = useRef(pathname)
+
   useEffect(() => {
     window.scrollTo(0, 0)
+
+    const routeChanged = previousPathname.current !== pathname
+    previousPathname.current = pathname
+    if (!routeChanged) return
+
+    const pageContent = document.querySelector('.page-content')
+    if (!pageContent) return
+
+    const focusPageHeading = () => {
+      const heading = pageContent.querySelector('main h1')
+      if (!heading) return false
+
+      if (!heading.hasAttribute('tabindex')) heading.setAttribute('tabindex', '-1')
+      heading.focus({ preventScroll: true })
+      return true
+    }
+
+    if (focusPageHeading()) return
+
+    const observer = new MutationObserver(() => {
+      if (focusPageHeading()) observer.disconnect()
+    })
+    observer.observe(pageContent, { childList: true, subtree: true })
+
+    return () => observer.disconnect()
   }, [pathname])
   return null
 }

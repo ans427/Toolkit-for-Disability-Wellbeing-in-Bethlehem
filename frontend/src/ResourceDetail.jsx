@@ -51,7 +51,6 @@ function ResourceDetail() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
   const [lightboxIndex, setLightboxIndex] = useState(null)
-  const heroTitleRef = useRef(null)
 
   const openLightbox = useCallback((index) => setLightboxIndex(index), [])
   const closeLightbox = useCallback(() => setLightboxIndex(null), [])
@@ -113,13 +112,6 @@ function ResourceDetail() {
 
     fetchResource()
   }, [resourceId])
-
-  useEffect(() => {
-    if (!loading && resource && heroTitleRef.current) {
-      // Move screen-reader focus to the resource heading after route/data load.
-      heroTitleRef.current.focus()
-    }
-  }, [loading, resource, resourceId])
 
   useEffect(() => {
     const handleKey = (e) => {
@@ -223,7 +215,6 @@ function ResourceDetail() {
             </div>
             <h1
               id="resource-title"
-              ref={heroTitleRef}
               tabIndex={-1}
               className="resource-hero-title"
             >
