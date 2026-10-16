@@ -306,6 +306,17 @@
 
   .header-top {
     justify-content: space-between;
+    gap: 0.75rem;
+  }
+
+  .site-title {
+    flex: 1 1 auto;
+    min-width: 0;
+    margin-right: 0;
+    font-size: 0.875rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .header-controls {
@@ -335,6 +346,12 @@
     right: 0;
   }
 
+}
+
+@media (max-width: 360px) {
+  .site-title {
+    font-size: 0.75rem;
+  }
 }
 
 /* Menu overlay below navbar */
