@@ -37,3 +37,17 @@ html body [data-reading-card]:focus,
     box-shadow: none !important;
   }
 }
+
+/* Resource headings receive programmatic focus for screen readers, not as controls. */
+html body .resource-hero-title:focus-visible,
+html.a11y-high-contrast body .resource-hero-title:focus-visible {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+@media (forced-colors: active) {
+  html body .resource-hero-title:focus-visible {
+    outline: none !important;
+    box-shadow: none !important;
+  }
+}

@@ -137,7 +137,7 @@ export default function DisabilityActivism() {
 
       {tocItems.length > 0 && (
         <a className="content-entry-link" href={`#${tocItems[0].slug}`}>
-          Continue to page content
+          {lang === 'es' ? 'Continuar al contenido' : 'Continue to page content'}
         </a>
       )}
 
@@ -230,6 +230,12 @@ export default function DisabilityActivism() {
               ))}
             </ul>
           </article>
+        )}
+
+        {sources.length > 0 && (
+          <a className="content-entry-link" href="#site-footer">
+            {lang === 'es' ? 'Omitir fuentes e ir al pie de página' : 'Skip sources and go to footer'}
+          </a>
         )}
 
         {sources.length > 0 && (
