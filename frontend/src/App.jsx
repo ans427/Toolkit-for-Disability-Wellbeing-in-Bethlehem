@@ -32,6 +32,90 @@ function ScrollToTop() {
   return null
 }
 
+const seoPages = [
+  {
+    matches: (pathname) => pathname === '/',
+    title: 'Disability Wellbeing Toolkit in Bethlehem, PA',
+    description: 'Find disability resources, accessibility information, community stories, and advocacy support in Bethlehem, Pennsylvania with the Toolkit for Disability Wellbeing.',
+  },
+  {
+    matches: (pathname) => pathname === '/resources',
+    title: 'Disability Resources in Bethlehem, PA',
+    description: 'Search local healthcare, legal, housing, and community resources for disabled people and families in Bethlehem, Pennsylvania.',
+  },
+  {
+    matches: (pathname) => pathname.startsWith('/resources/'),
+    title: 'Local Disability Resource Details in Bethlehem, PA',
+    description: 'View details and contact information for a local disability support resource in Bethlehem, Pennsylvania.',
+  },
+  {
+    matches: (pathname) => pathname === '/map',
+    title: 'Accessibility Map of Bethlehem, PA',
+    description: 'Explore and report accessible locations and barriers across Bethlehem, Pennsylvania with the community accessibility map.',
+  },
+  {
+    matches: (pathname) => pathname === '/community-stories' || pathname.startsWith('/community-stories/'),
+    title: 'Disability Community Stories in Bethlehem',
+    description: 'Read lived experiences from disabled residents and their communities in Bethlehem, Pennsylvania.',
+  },
+  {
+    matches: (pathname) => pathname === '/policy-gaps',
+    title: 'Disability Policy and Service Gaps in Bethlehem',
+    description: 'Learn about local disability access challenges, policy gaps, and recommendations for Bethlehem, Pennsylvania.',
+  },
+  {
+    matches: (pathname) => pathname === '/disability-activism',
+    title: 'Disability Advocacy in Bethlehem, PA',
+    description: 'Explore disability rights, advocacy, and community-led work connected to Bethlehem, Pennsylvania.',
+  },
+  {
+    matches: (pathname) => pathname === '/about',
+    title: 'About the Disability Wellbeing Toolkit',
+    description: 'Learn about the community-driven Toolkit for Disability Wellbeing and its work supporting disabled residents in Bethlehem, Pennsylvania.',
+  },
+  {
+    matches: (pathname) => pathname === '/accessibility-statement',
+    title: 'Accessibility Statement',
+    description: 'Read the accessibility commitments and features of the Toolkit for Disability Wellbeing in Bethlehem.',
+  },
+]
+
+function PageMetadata() {
+  const { pathname } = useLocation()
+
+  useEffect(() => {
+    const page = seoPages.find(({ matches }) => matches(pathname)) ?? {
+      title: 'Toolkit for Disability Wellbeing in Bethlehem',
+      description: 'Local disability resources, accessibility information, community stories, and advocacy in Bethlehem, Pennsylvania.',
+    }
+    const canonicalPath = pathname === '/' ? '/' : pathname.replace(/\/+$/, '')
+    const canonicalUrl = new URL(canonicalPath, 'https://www.inclusivebethlehem.org').href
+
+    document.title = page.title
+
+    const updateMeta = (selector, attribute, value, content) => {
+      let element = document.head.querySelector(selector)
+      if (!element) {
+        element = document.createElement('meta')
+        element.setAttribute(attribute, value)
+        document.head.appendChild(element)
+      }
+      element.setAttribute('content', content)
+    }
+
+    updateMeta('meta[name="description"]', 'name', 'description', page.description)
+    updateMeta('meta[property="og:title"]', 'property', 'og:title', page.title)
+    updateMeta('meta[property="og:description"]', 'property', 'og:description', page.description)
+    updateMeta('meta[property="og:url"]', 'property', 'og:url', canonicalUrl)
+    updateMeta('meta[name="twitter:title"]', 'name', 'twitter:title', page.title)
+    updateMeta('meta[name="twitter:description"]', 'name', 'twitter:description', page.description)
+
+    document.querySelector('link[rel="canonical"]')?.setAttribute('href', canonicalUrl)
+  }, [pathname])
+
+  return null
+}
+
 function NotFoundPage() {
   const lang = useLanguage()
 
@@ -470,6 +554,7 @@ function App() {
   return (
     <BrowserRouter>
       <ScrollToTop />
+      <PageMetadata />
       <div id="top-of-page" tabIndex="-1" />
       <Header
         onAccessibilityClick={handleAccessibilityToggle}
