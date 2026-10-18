@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+import { Link, NavLink } from 'react-router-dom'
 import { useState, useEffect, useRef } from 'react'
 import { t } from './uiStrings'
 import accessibilityIcon from './assets/accessibility-icon.svg'
@@ -8,6 +8,7 @@ import './Header.css'
 function Header({
   onAccessibilityClick,
   accessibilityOpen,
+  reduceAnimations,
   language,
   onLanguageChange,
   accessibilityButtonRef,
@@ -28,7 +29,8 @@ function Header({
 
   useEffect(() => {
     if (langOpen) setLangMenuMounted(true)
-  }, [langOpen])
+    else if (reduceAnimations) setLangMenuMounted(false)
+  }, [langOpen, reduceAnimations])
 
   useEffect(() => {
     if (menuOpen) setMenuMounted(true)
@@ -259,7 +261,7 @@ function Header({
               <span aria-hidden="true" className="menu-icon">
                 <span className="menu-hamburger">
                   <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-                    <path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" />
+                    <path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" strokeWidth="2.5" fill="none" strokeLinecap="round" />
                   </svg>
                 </span>
                 <span className="menu-close">
@@ -271,11 +273,11 @@ function Header({
               <span className="menu-label">Menu</span>
             </button>
             <ul id="desktop-menu-list">
-              <li><Link to="/about" onClick={handleMenuLinkClick}>{t(language, 'nav.about')}</Link></li>
-              <li><Link to="/resources" onClick={handleMenuLinkClick}>{t(language, 'nav.resources')}</Link></li>
-              <li><Link to="/community-stories" onClick={handleMenuLinkClick}>{t(language, 'nav.stories')}</Link></li>
-              <li><Link to="/map" onClick={handleMenuLinkClick}>{t(language, 'nav.map')}</Link></li>
-              <li><Link to="/disability-activism" onClick={handleMenuLinkClick}>{t(language, 'nav.advocacy')}</Link></li>
+              <li><NavLink to="/about" onClick={handleMenuLinkClick}>{t(language, 'nav.about')}</NavLink></li>
+              <li><NavLink to="/resources" onClick={handleMenuLinkClick}>{t(language, 'nav.resources')}</NavLink></li>
+              <li><NavLink to="/community-stories" onClick={handleMenuLinkClick}>{t(language, 'nav.stories')}</NavLink></li>
+              <li><NavLink to="/map" onClick={handleMenuLinkClick}>{t(language, 'nav.map')}</NavLink></li>
+              <li><NavLink to="/disability-activism" onClick={handleMenuLinkClick}>{t(language, 'nav.advocacy')}</NavLink></li>
             </ul>
             {(menuOpen || menuMounted) && (
               <div
@@ -292,11 +294,11 @@ function Header({
               >
                 <nav ref={mobileNavRef} className="mobile-nav" role="navigation" aria-label="Mobile navigation">
                   <ul>
-                    <li><Link to="/about" onClick={handleMenuLinkClick}>{t(language, 'nav.about')}</Link></li>
-                    <li><Link to="/resources" onClick={handleMenuLinkClick}>{t(language, 'nav.resources')}</Link></li>
-                    <li><Link to="/community-stories" onClick={handleMenuLinkClick}>{t(language, 'nav.stories')}</Link></li>
-                    <li><Link to="/map" onClick={handleMenuLinkClick}>{t(language, 'nav.map')}</Link></li>
-                    <li><Link to="/disability-activism" onClick={handleMenuLinkClick}>{t(language, 'nav.advocacy')}</Link></li>
+                    <li><NavLink to="/about" onClick={handleMenuLinkClick}><span>{t(language, 'nav.about')}</span></NavLink></li>
+                    <li><NavLink to="/resources" onClick={handleMenuLinkClick}><span>{t(language, 'nav.resources')}</span></NavLink></li>
+                    <li><NavLink to="/community-stories" onClick={handleMenuLinkClick}><span>{t(language, 'nav.stories')}</span></NavLink></li>
+                    <li><NavLink to="/map" onClick={handleMenuLinkClick}><span>{t(language, 'nav.map')}</span></NavLink></li>
+                    <li><NavLink to="/disability-activism" onClick={handleMenuLinkClick}><span>{t(language, 'nav.advocacy')}</span></NavLink></li>
                   </ul>
                 </nav>
               </div>
@@ -323,7 +325,7 @@ function Header({
                 </svg>
               </span>
             </button>
-            {(langOpen || langMenuMounted) && (
+            {(langOpen || (langMenuMounted && !reduceAnimations)) && (
               <div
                 ref={langMenuRef}
                 className={`language-dropdown ${langOpen ? '' : 'is-closing'}`}

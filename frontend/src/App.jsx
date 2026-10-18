@@ -62,7 +62,7 @@ function ScrollToTop() {
 const seoPages = [
   {
     matches: (pathname) => pathname === '/',
-    title: 'Disability Wellbeing Toolkit in Bethlehem, PA',
+    title: 'Toolkit for Disability Wellbeing in Bethlehem',
     description: 'Find disability resources, accessibility information, community stories, and advocacy support in Bethlehem, Pennsylvania with the Toolkit for Disability Wellbeing.',
   },
   {
@@ -97,7 +97,7 @@ const seoPages = [
   },
   {
     matches: (pathname) => pathname === '/about',
-    title: 'About the Disability Wellbeing Toolkit',
+    title: 'About the Toolkit for Disability Wellbeing in Bethlehem',
     description: 'Learn about the community-driven Toolkit for Disability Wellbeing and its work supporting disabled residents in Bethlehem, Pennsylvania.',
   },
   {
@@ -586,6 +586,7 @@ function App() {
       <Header
         onAccessibilityClick={handleAccessibilityToggle}
         accessibilityOpen={a11yOpen}
+        reduceAnimations={reduceAnimations}
         language={language}
         onLanguageChange={setLanguage}
         accessibilityButtonRef={accessibilityButtonRef}
