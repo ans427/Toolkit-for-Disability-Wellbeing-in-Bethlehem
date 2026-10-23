@@ -379,11 +379,13 @@ html.a11y-reduce-motion *::after {
 /* Increase spacing */
 html.a11y-increase-spacing body {
   line-height: 1.95 !important;
-  word-spacing: 0.12em !important;
 }
 
-html.a11y-increase-spacing p,
-html.a11y-increase-spacing li {
+html.a11y-increase-spacing main p,
+html.a11y-increase-spacing main li,
+html.a11y-increase-spacing .story-body,
+html.a11y-increase-spacing .resource-description {
+  word-spacing: 0.12em !important;
   margin-bottom: 1.25rem !important;
 }
 
@@ -407,7 +409,7 @@ html.a11y-increase-spacing .resource-card p {
 html.a11y-increase-spacing .nav-card,
 html.a11y-increase-spacing .resource-card,
 html.a11y-increase-spacing .story-card {
-  padding: 2.35rem !important;
+  padding: clamp(1rem, 3vw, 2rem) !important;
 }
 
 html.a11y-increase-spacing .submit-label,
@@ -423,7 +425,7 @@ html.a11y-increase-spacing button {
 }
 
 html.a11y-increase-spacing .container {
-  padding: 2.5rem 5rem !important;
+  padding: 2.5rem clamp(1rem, 4vw, 2.5rem) !important;
 }
 
 /* Universal focus styles for all interactive elements */
