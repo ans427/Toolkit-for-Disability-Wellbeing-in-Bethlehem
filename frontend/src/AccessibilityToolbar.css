@@ -322,6 +322,13 @@ html.a11y-high-contrast .panel-toggle-row:focus-within {
   box-shadow: 0 0 0 1px #ff0 !important;
 }
 
+html.a11y-high-contrast .accessibility-panel .panel-toggle-row input[type="checkbox"] {
+  color-scheme: dark;
+  accent-color: #ff0;
+  background: #000 !important;
+  border-color: #fff !important;
+}
+
 html.a11y-high-contrast .accessibility-toggle-button:hover {
   background: #000 !important;
   box-shadow: 0 0 0 2px #ff0 !important;
@@ -779,5 +786,4 @@ html.a11y-high-contrast .radio-option-selected:focus-within {
     animation-name: accessibility-panel-exit-to-top;
   }
 }
-
 

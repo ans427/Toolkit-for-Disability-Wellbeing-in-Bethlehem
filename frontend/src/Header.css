@@ -548,9 +548,23 @@ html.a11y-high-contrast .mobile-nav a {
 }
 
 html.a11y-high-contrast .mobile-nav a:hover,
-html.a11y-high-contrast .mobile-nav a:focus {
+html.a11y-high-contrast .mobile-nav a:focus-visible {
   background: #222 !important;
   border: 2px solid #ff0 !important;
+}
+html.a11y-high-contrast .mobile-nav a[aria-current="page"],
+html.a11y-high-contrast .mobile-nav a[aria-current="page"]:hover,
+html.a11y-high-contrast .mobile-nav a[aria-current="page"]:focus {
+  background: #000 !important;
+  color: #ff0 !important;
+}
+html.a11y-high-contrast .mobile-nav a:focus:not(:hover) {
+  background: #000 !important;
+  color: #ff0 !important;
+  border: none !important;
+}
+html.a11y-high-contrast .menu-toggle:hover .menu-close {
+  color: #000 !important;
 }
 /* language selector matching accessibility button */
 .header-lang-btn {
