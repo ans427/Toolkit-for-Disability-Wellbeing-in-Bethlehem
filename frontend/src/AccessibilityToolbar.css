@@ -312,14 +312,14 @@ html.a11y-high-contrast .panel-option-btn {
 html.a11y-high-contrast .panel-option-btn:hover {
   background: #ff0 !important;
   color: #000 !important;
-  box-shadow: 0 0 0 2px #fff !important;
+  box-shadow: none !important;
 }
 
 html.a11y-high-contrast .panel-toggle-row:hover,
 html.a11y-high-contrast .panel-toggle-row:focus-within {
   background: #222 !important;
   border-color: #ff0 !important;
-  box-shadow: 0 0 0 1px #ff0 !important;
+  box-shadow: none !important;
 }
 
 html.a11y-high-contrast .accessibility-panel .panel-toggle-row input[type="checkbox"] {
@@ -331,13 +331,13 @@ html.a11y-high-contrast .accessibility-panel .panel-toggle-row input[type="check
 
 html.a11y-high-contrast .accessibility-toggle-button:hover {
   background: #000 !important;
-  box-shadow: 0 0 0 2px #ff0 !important;
+  box-shadow: none !important;
 }
 
 html.a11y-high-contrast .menu-toggle:hover {
   background: #ff0 !important;
   color: #000 !important;
-  border-color: #fff !important;
+  border-color: #ff0 !important;
 }
 
 html.a11y-high-contrast .panel-option-btn.active {
@@ -348,7 +348,7 @@ html.a11y-high-contrast .panel-option-btn.active {
 html.a11y-high-contrast .panel-option-btn.active:hover {
   background: #000 !important;
   color: #ff0 !important;
-  box-shadow: 0 0 0 2px #fff !important;
+  box-shadow: none !important;
 }
 
 html.a11y-high-contrast .panel-reset-btn {
@@ -507,13 +507,16 @@ input[type="checkbox"]:focus-visible {
 /* Improve nav card focus ring in high-contrast */
 html.a11y-high-contrast a:focus-visible .nav-card,
 html.a11y-high-contrast .nav-card-link:focus-visible .nav-card {
-  border: 2px dashed var(--focus-color) !important;
+  border: 2px solid #ff0 !important;
   box-shadow: none !important;
+}
+html.a11y-high-contrast .story-card-link:focus-visible .story-card {
+  border: 2px solid #ff0 !important;
 }
 
 /* High-contrast mode nav cards and homepage links focus */
 html.a11y-high-contrast .homepage-grid a:focus-visible .nav-card {
-  border: 2px dashed var(--focus-color) !important;
+  border: 2px solid #ff0 !important;
   outline-offset: 2px;
 }
 
@@ -735,7 +738,7 @@ html.a11y-high-contrast .radio-option-card {
 
 /* Focused radio option should keep the orange dashed border */
 html.a11y-high-contrast .radio-option-card:focus-within {
-  border: 2px dashed var(--focus-color) !important;
+  border: 2px solid #ff0 !important;
 }
 
 /* Make sure the radio-options wrapper does not get its own border in high-contrast */
@@ -763,7 +766,6 @@ html.a11y-high-contrast .radio-option-card:focus-within {
   outline: 2px dashed var(--focus-color) !important;
   outline-offset: 2px;
   box-shadow: none !important;
-  border: 2px dashed var(--focus-color) !important;
 }
 
 /* Ensure radio-option-selected still uses dashed border when focused */
@@ -786,4 +788,3 @@ html.a11y-high-contrast .radio-option-selected:focus-within {
     animation-name: accessibility-panel-exit-to-top;
   }
 }
-

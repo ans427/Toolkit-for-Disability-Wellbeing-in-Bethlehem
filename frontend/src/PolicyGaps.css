@@ -147,8 +147,11 @@ html.a11y-high-contrast .policy-toc .toc-list li {
 }
 
 html.a11y-high-contrast .policy-toc .toc-list a:focus-visible {
-  outline: 3px solid #ff0 !important;
-  outline-offset: 3px;
+  background: #000 !important;
+  color: #ff0 !important;
+  outline: 2px dashed #ffbf47 !important;
+  outline-offset: 3px !important;
+  box-shadow: none !important;
 }
 
 /* Ensure in-page jump targets clear the sticky header */

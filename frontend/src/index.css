@@ -28,6 +28,12 @@
   --color-link-hover: var(--color-forest-green-hover);
 }
 
+html.a11y-high-contrast {
+  --focus-color: #ffbf47;
+  --color-link-hover: #ff0;
+  --color-forest-green-hover: #ff0;
+}
+
 .sr-only {
   position: absolute;
   width: 1px;
