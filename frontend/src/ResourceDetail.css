@@ -8,10 +8,6 @@
   text-align: left;
 }
 
-.resource-page-cta {
-  margin-top: 2rem;
-}
-
 .resource-detail {
   max-width: 100%;
   width: 100%;
@@ -20,26 +16,6 @@
   position: relative;
 }
 
-.resource-back-link {
-  display: block; /* force full-width so parent text-align:center doesn't affect it */
-  text-align: left; /* link text should be left-aligned */
-  color: var(--color-text-muted);
-  text-decoration: none;
-  font-size: 0.95rem;
-  font-weight: 500;
-  margin-bottom: 1rem;
-  transition: color 0.2s;
-}
-
-.resource-back-link:hover {
-  color: var(--color-text);
-  text-decoration: underline;
-}
-
-.resource-back-link:focus-visible {
-  outline: 2px dashed var(--focus-color);
-  outline-offset: 2px;
-}
 /* Hero */
 .resource-hero {
   position: relative;

@@ -4,7 +4,7 @@ import { sanity } from './sanityClient'
 import Breadcrumb from './Breadcrumb'
 import { useLanguage } from './languageContext'
 import { pickI18n } from './i18nUtils'
-import { t, tFormat } from './uiStrings'
+import { t } from './uiStrings'
 import { Link, useSearchParams } from 'react-router-dom'
 import 'leaflet/dist/leaflet.css'
 import './AccessibilityMap.css'
@@ -397,27 +397,7 @@ function AccessibilityMap() {
   const [searchQuery, setSearchQuery] = useState('')
   const [suggestionIndex, setSuggestionIndex] = useState(-1)
   const [isTyping, setIsTyping] = useState(false)
-  const [isMapFullscreen, setIsMapFullscreen] = useState(false)
   const [isPanelOpen, setIsPanelOpen] = useState(false)
-  const searchBarRef = useRef(null)
-  const [panelWidth, setPanelWidth] = useState(null)
-
-  useEffect(() => {
-    const updateWidth = () => {
-      if (isPanelOpen && searchBarRef.current) {
-        // make panel a bit wider than the input for visual breathing room
-        setPanelWidth(`${searchBarRef.current.offsetWidth + 16}px`)
-      }
-    }
-
-    updateWidth()
-    window.addEventListener('resize', updateWidth)
-    return () => window.removeEventListener('resize', updateWidth)
-  }, [isPanelOpen])
-
-  useEffect(() => {
-    if (!isPanelOpen) setPanelWidth(null)
-  }, [isPanelOpen])
 
   // Close panel when clicking outside (for mobile) - only on map area, not when opening
   useEffect(() => {
@@ -582,13 +562,6 @@ function AccessibilityMap() {
   const defaultCenter = [40.6259, -75.3705]
   const selectedResource = geocodedResources.find((resource) => resource._id === selectedResourceId)
   const selectedResourceCenter = selectedResource?.coordinates ?? null
-
-  const allCoords = useMemo(() => {
-    const coords = []
-    geocodedResources.forEach(r => { if (r.coordinates && Array.isArray(r.coordinates)) coords.push(r.coordinates) })
-    geocodedReports.forEach(r => { if (r.coordinates && Array.isArray(r.coordinates)) coords.push(r.coordinates) })
-    return coords
-  }, [geocodedResources, geocodedReports])
 
   // Filter resources and reports based on search query
   // When search is empty, show all results; when searching, filter by query
@@ -878,7 +851,6 @@ function AccessibilityMap() {
                     <path d="m21 21-4.35-4.35"></path>
                   </svg>
                   <input
-                    ref={searchBarRef}
                     type="text"
                     placeholder="Search resources and reports..."
                     value={searchQuery}
@@ -886,16 +858,9 @@ function AccessibilityMap() {
                     onFocus={() => {
                       setIsTyping(true)
                       setIsPanelOpen(true)
-                      // set panel width to match input
-                      if (searchBarRef.current) {
-                        setPanelWidth(`${searchBarRef.current.offsetWidth}px`)
-                      }
                     }}
                     onClick={() => {
                       setIsPanelOpen(true)
-                      if (searchBarRef.current) {
-                        setPanelWidth(`${searchBarRef.current.offsetWidth}px`)
-                      }
                     }}
                     onKeyDown={(e) => {
                       if (!suggestions.length) return
@@ -971,7 +936,7 @@ function AccessibilityMap() {
             </label>
           </div>
 
-          <div className={`map-layout ${isMapFullscreen ? 'fullscreen' : ''}`}>
+          <div className="map-layout">
           {/* Left Panel */}
           <div
             id="map-side-panel"
@@ -1143,7 +1108,7 @@ function AccessibilityMap() {
                         position={pos}
                         icon={isSelected ? reportIconSelected : reportIcon}
                         eventHandlers={{
-                          click: (e) => {
+                          click: () => {
                                 markerClickedRef.current = true
                                 setSelectedReportMarker(report)
                                 setSelectedMapResource(null)
@@ -1168,7 +1133,7 @@ function AccessibilityMap() {
                         position={pos}
                         icon={isSelected ? resourceIconSelected : resourceIcon}
                         eventHandlers={{
-                          click: (e) => {
+                          click: () => {
                             markerClickedRef.current = true
                             setSelectedMapResource(resource)
                             setSelectedReportMarker(null)

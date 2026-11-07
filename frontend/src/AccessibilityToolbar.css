@@ -1,36 +1,3 @@
-/* Accessibility toolbar styles */
-.accessibility-toggle-button {
-  position: fixed;
-  top: 20px;
-  /* align with container's right padding (container uses max-width 1200px and padding-right 5rem)
-     this keeps the button lined up with the end of content for wide layouts */
-  right: calc((100% - 1200px) / 2 + 5rem);
-  z-index: 1200;
-  background: var(--color-forest-green);
-  color: #fff;
-  border: none;
-  border-radius: 50px;
-  box-shadow: 0 2px 8px rgba(30, 61, 50, 0.25);
-  font-size: 15px;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px 14px;
-  cursor: pointer;
-  transition: background-color 150ms ease, box-shadow 150ms ease, transform 150ms ease;
-}
-
-.accessibility-toggle-button:hover {
-  background: var(--color-forest-green-hover, #173d31);
-  box-shadow: 0 4px 12px rgba(30, 61, 50, 0.35);
-  transform: translateY(-1px);
-}
-
-.accessibility-toggle-button:focus-visible {
-  outline: 2px dashed var(--focus-color);
-  outline-offset: 2px;
-}
-
 /* Overlay when panel is open */
 .accessibility-overlay {
   position: fixed;
@@ -262,21 +229,6 @@
   text-decoration: underline;
 }
 
-/* Legacy button class for other components */
-.text-size-button {
-  padding: 6px 8px;
-  border: 1px solid #ccc;
-  background: #f7f7f7;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.text-size-button.active {
-  background: var(--color-forest-green);
-  color: #fff;
-  border-color: var(--color-forest-green);
-}
-
 /* High contrast mode */
 .a11y-high-contrast, .a11y-high-contrast body, .a11y-high-contrast :root {
   background: #000 !important;
@@ -284,7 +236,6 @@
 }
 .a11y-high-contrast a { color: #ffff00 !important; }
 .a11y-high-contrast .nav-card { background: #000 !important; border-color: #444 !important }
-.a11y-high-contrast .accessibility-toggle-button { background: #222 !important; color: #fff !important }
 .a11y-high-contrast .accessibility-panel,
 html.a11y-high-contrast .accessibility-panel {
   background: #111 !important;
@@ -327,11 +278,6 @@ html.a11y-high-contrast .accessibility-panel .panel-toggle-row input[type="check
   accent-color: #ff0;
   background: #000 !important;
   border-color: #fff !important;
-}
-
-html.a11y-high-contrast .accessibility-toggle-button:hover {
-  background: #000 !important;
-  box-shadow: none !important;
 }
 
 html.a11y-high-contrast .menu-toggle:hover {
@@ -455,8 +401,6 @@ button:focus-visible,
 input:focus-visible,
 select:focus-visible,
 textarea:focus-visible,
-.text-size-button:focus-visible,
-.accessibility-toggle-button:focus-visible,
 .story-card-link:focus-visible {
   outline: 2px dashed var(--focus-color);
   outline-offset: 2px;
@@ -521,13 +465,8 @@ html.a11y-high-contrast .homepage-grid a:focus-visible .nav-card {
 }
 
 /* small-screen adjustment */
-@media (max-width: 1200px) {
-  .accessibility-toggle-button { right: 5rem; }
-}
-
 @media (max-width: 600px) {
   .accessibility-panel { right: 8px; left: 8px; width: auto; }
-  .accessibility-toggle-button { right: 1rem; top: 18px; }
 }
 
 /* High contrast detailed styling */
@@ -613,34 +552,11 @@ html.a11y-high-contrast .story-card-footer {
 }
 html.a11y-high-contrast .story-summary { background: #000 !important; border-left: 4px solid #ff0 !important }
 
-/* Inline comments & comment panels */
-/* Inline comment panel should be high-contrast, but individual comment items should NOT have a border */
-html.a11y-high-contrast .inline-bubble,
-html.a11y-high-contrast .inline-comment-panel,
-html.a11y-high-contrast .inline-comment-form,
-html.a11y-high-contrast .selected-text-context {
-  background: #000 !important;
-  color: #ff0 !important;
-  border: 2px solid #ff0 !important;
-}
-
-/* Individual inline comments: no border, black background, yellow text */
-html.a11y-high-contrast .inline-comment-item,
-html.a11y-high-contrast .comment-item,
-html.a11y-high-contrast .inline-comment-quote,
-html.a11y-high-contrast .inline-comment-text {
+html.a11y-high-contrast .comment-item {
   background: #000 !important;
   color: #ff0 !important;
   border: none !important;
 }
-html.a11y-high-contrast .inline-comment-header h4,
-html.a11y-high-contrast .inline-comment-text,
-html.a11y-high-contrast .inline-comment-quote {
-  color: #ff0 !important;
-}
-html.a11y-high-contrast .inline-comment-date,
-html.a11y-high-contrast .inline-comment-author,
-html.a11y-high-contrast .inline-comment-meta small,
 html.a11y-high-contrast .no-comments {
   color: #fff !important; /* secondary/smaller text in white */
 }
@@ -760,8 +676,6 @@ html.a11y-high-contrast a:focus-visible,
 html.a11y-high-contrast input:focus-visible,
 html.a11y-high-contrast select:focus-visible,
 html.a11y-high-contrast textarea:focus-visible,
-html.a11y-high-contrast .text-size-button:focus-visible,
-html.a11y-high-contrast .accessibility-toggle-button:focus-visible,
 html.a11y-high-contrast .radio-option-card:focus-within {
   outline: 2px dashed var(--focus-color) !important;
   outline-offset: 2px;

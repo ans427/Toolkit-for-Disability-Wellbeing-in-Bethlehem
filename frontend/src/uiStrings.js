@@ -323,13 +323,11 @@ export const uiStrings = {
       commentLabelStory: 'Add a comment about this story',
       placeholderResource: 'Share your experience with this resource, ask questions, or help others… (anonymous)',
       placeholderStory: 'Share your thoughts... (anonymous)',
-      placeholderInline: 'Add a comment...',
       charCount: '{{count}} of {{max}} characters',
       postComment: 'Post Comment',
       posting: 'Posting...',
       loading: 'Loading comments...',
       noComments: 'No comments yet. Be the first to share your thoughts!',
-      noCommentsInline: 'Be the first to comment',
       anonymous: 'Anonymous',
       flag: 'Flag comment',
       flagged: 'Comment flagged',
@@ -344,13 +342,7 @@ export const uiStrings = {
       flagSuccess: 'Comment flagged. Thank you for helping keep the community safe.',
       rateLimitExceeded: 'You can submit at most {{max}} comments per minute. Please wait before posting again.',
       flagLimitExceeded: 'You have reached your daily flag limit. Please try again tomorrow.',
-      commentsOnPassage: 'Comments on this passage',
-      closeComments: 'Close comments',
-      commentOnParagraph: 'Comment on this paragraph',
-      paragraph: 'Paragraph:',
       post: 'Post',
-      inlineCommentsAria: '{{count}} inline comments',
-      addInlineCommentAria: 'Add inline comment',
     },
     footer: {
       navigation: 'Navigation',
@@ -695,13 +687,11 @@ export const uiStrings = {
       placeholderResource:
         'Comparte tu experiencia con este recurso, haz preguntas o ayuda a otros… (anónimo)',
       placeholderStory: 'Comparte tus pensamientos... (anónimo)',
-      placeholderInline: 'Agregar un comentario...',
       charCount: '{{count}} de {{max}} caracteres',
       postComment: 'Publicar comentario',
       posting: 'Publicando...',
       loading: 'Cargando comentarios...',
       noComments: 'Aún no hay comentarios. ¡Sé el primero en compartir!',
-      noCommentsInline: 'Sé el primero en comentar',
       anonymous: 'Anónimo',
       flag: 'Reportar comentario',
       flagged: 'Comentario reportado',
@@ -717,13 +707,7 @@ export const uiStrings = {
       rateLimitExceeded:
         'Puedes enviar como máximo {{max}} comentarios por minuto. Espera antes de publicar de nuevo.',
       flagLimitExceeded: 'Has alcanzado el límite diario de reportes. Intenta mañana.',
-      commentsOnPassage: 'Comentarios sobre este párrafo',
-      closeComments: 'Cerrar comentarios',
-      commentOnParagraph: 'Comentar sobre este párrafo',
-      paragraph: 'Párrafo:',
       post: 'Publicar',
-      inlineCommentsAria: '{{count}} comentarios en línea',
-      addInlineCommentAria: 'Agregar comentario en línea',
     },
     footer: {
       navigation: 'Navegación',
@@ -754,4 +738,3 @@ export function tFormat(lang, key, vars = {}) {
     return value == null ? '' : String(value)
   })
 }
-
